@@ -1,1 +1,19 @@
 
+*~
+\#*
+.#*
+*.egg-info/
+*.exp
+*.lib
+*.obj
+*.pyc
+*.pyd.manifest
+*.pyo
+.cache
+.DS_Store
+.idea
+.project
+.pydevproject
+/.settings
+RELEASE-VERSION
+build/

@@ -157,6 +157,7 @@ class instrument_components:
                     SNs= sorted(self.instrument_blocks[elem_type]['specific'][key])        
             output={'    model':key,'description':description,'specified_serial_numbers':SNs}
             print(yaml.dump(output,indent=10,width=80))
+            print(f'{key}: description="{description}",'specified_serial_numbers={SNs}')
             
     def verify_individuals(self):
         """ Verify that all "specific" instruments have a generic counterpart

@@ -2,7 +2,7 @@
 # Make data process scripts
 # This is a first try, to imagine the console_script needed to do so:
 
-network_file='../Information_Files/campaigns/MYCAMPAIGN/MYCAMPAIGN.INSU-IPGP.network.yaml'
+network_file='../../Information_Files/campaigns/MYCAMPAIGN/MYCAMPAIGN.INSU-IPGP.network.yaml'
 destination_folder='./process_scripts'
 
 station_data_path='/Volumes/PARC_OBS_Wayne/DATA_EXPERIMENTS/2017-18.AlpArray/2017-18.AlpArray'

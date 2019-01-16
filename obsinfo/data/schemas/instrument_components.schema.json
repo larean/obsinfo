@@ -1,0 +1,283 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"title": "Instrument Components",
+	"description": "OBS facility instrument components",
+	"type": "object",
+	"required": [ "format_version","instrument_components"],
+	"properties": {
+	    "format_version" :       {"$ref" : "definitions.schema.json#/format_version"},
+	    "revision" :             {"$ref" : "definitions.schema.json#/revision"},
+		"instrument_components": { "$ref" : "#/definitions/instrument_components" },
+        "yaml_anchors" :         {"$ref" : "definitions.schema.json#/yaml_anchors"	},
+	    "notes" :                {"$ref" : "definitions.schema.json#/comments"},
+	    "extras" :               {"$ref" : "definitions.schema.json#/extras"}
+	},
+    "additionalProperties" : false,
+	"definitions": {
+		"instrument_components": { 
+			"type": "object",
+			"required": [
+				"instrument_blocks"
+			],
+			"properties": {
+                "notes":             {"$ref" : "definitions.schema.json#/comments" },
+				"instrument_blocks": {"$ref" : "#/definitions/instrument_blocks" },
+	            "extras":            {"$ref" : "definitions.schema.json#/extras"}
+			},
+            "additionalProperties": false
+		},
+        "instrument_blocks": {
+            "type": "object",
+            "description": "StationaXML instrument blocks",
+            "required": ["datalogger","sensor"],
+            "properties": {
+                "datalogger" :   {"$ref": "#/definitions/ib_datalogger" },
+                "preamplifier" : {"$ref": "#/definitions/ib_preamplifier" },
+                "sensor" :       {"$ref": "#/definitions/ib_sensor" }
+            },
+            "additionalProperties": false
+        },
+        "ib_datalogger" : {
+            "description" : "Datalogger specifications",
+            "required" : ["generic"],
+            "properties" : {
+                "generic" :  { "$ref": "#/definitions/dataloggers_generic" },
+                "specific" : { "$ref": "#/definitions/dataloggers_specific" }
+            },
+            "additionalProperties": false
+        },
+        "ib_preamplifier" : {
+            "description" : "Preamplifier specifications",
+            "required" : ["generic"],
+            "properties" : {
+                "generic" :  { "$ref": "#/definitions/preamplifiers_generic" },
+                "specific" : { "$ref": "#/definitions/preamplifiers_specific" }
+            },
+            "additionalProperties": false
+        },
+        "ib_sensor" : {
+            "description" : "Sensor specifications",
+            "required" : ["generic"],
+            "properties" : {
+                "generic" :   { "$ref": "#/definitions/sensors_generic" },
+                "specific"  : { "$ref": "#/definitions/sensors_specific" }
+            },
+            "additionalProperties": false
+        },
+        "sensors_generic" : { 
+            "patternProperties" : {
+                "^[A-Za-z0-9_-]+$": {
+                    "required" : ["equipment","response_stages","seed_codes"],
+                    "properties": {
+                        "notes" :           { "$ref": "definitions.schema.json#/comments" },
+                        "equipment" :       { "$ref": "#/definitions/equipmentType" },
+                        "seed_codes" :      { "$ref": "#/definitions/seed_codes" },
+                        "response_stages" : { "$ref": "#/definitions/response_stage_list" }
+                    },
+                    "additionalProperties": false
+                }
+            }
+        },
+        "sensors_specific"  : { 
+            "description" : "Specific sensor description and (optionally) associated responses",
+            "patternProperties" : {
+                "^[A-Za-z0-9_-]+$": {
+                    "description" : "reference codes",
+                    "patternProperties" : {
+                        "^[A-Za-z0-9_-]+$": {
+                            "description" : "serial numbers",
+                            "properties": {
+                                "equipment" :       { "$ref": "#/definitions/equipmentType_noRequired" },
+                                "response_stages" : { "$ref": "#/definitions/response_stage_list" }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "dataloggers_generic" : {
+            "description" : "Non-specific descriptions of dataloggers",
+            "patternProperties" : {
+                "^[A-Za-z0-9_-]+$": {
+                    "description" : "reference codes",
+                    "required" : ["equipment","response_stages"],
+                    "properties": {
+                        "equipment" :                { "$ref": "#/definitions/equipmentType" },
+                        "delay_correction_samples" : { "$ref": "#/definitions/delay_correction_samples" },
+                        "response_stages" :          { "$ref": "#/definitions/response_stage_list" }
+                    }
+                }
+            }
+        },
+        "dataloggers_specific" : { 
+            "description" : "Specific datalogger description and associated responses",
+            "patternProperties" : {
+                "^[A-Za-z0-9_-]+$": {
+                    "description" : "reference codes",
+                    "patternProperties" : {
+                        "^[A-Za-z0-9_-]+$": {
+                            "description" : "serial numbers",
+                            "properties": {
+                                "equipment" :       { "$ref": "#/definitions/equipmentType_noRequired" },
+                                "response_stages" : { "$ref": "#/definitions/response_stage_list" }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "preamplifiers_generic" : {
+            "description" : "Standard properties",
+            "patternProperties" : {
+                "^[A-Za-z0-9_-]+$": {
+                    "description" : "reference codes",
+                    "required" : ["equipment"],
+                    "properties": {
+                        "equipment" :       { "$ref": "#/definitions/equipmentType" },
+                        "response_stages" : { "$ref": "#/definitions/response_stage_list" }
+                    }
+                }
+            }
+        },
+        "preamplifiers_specific" : {
+            "description" : "Specific preamplifier description and (optionally) associated responses",
+            "patternProperties" : {
+                "^[A-Za-z0-9_-]+$": {
+                    "description" : "reference codes",
+                    "patternProperties" : {
+                        "^[A-Za-z0-9_-]+$": {
+                            "description" : "serial numbers",
+                            "properties": {
+                                "equipment" :       { "$ref": "#/definitions/equipmentType_noRequired" },
+                                "response_stages" : { "$ref": "#/definitions/response_stage_list" }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+		"equipmentType": {
+			"type": "object",
+			"required": ["type", "description", "manufacturer", "vendor",
+				"model", "serial_number", "calibration_date"
+			],
+			"properties": {
+                "type":             { "type": ["string","null"] },
+                "description":      { "type": ["string","null"] },
+                "manufacturer":     { "type": ["string","null"] },
+                "vendor":           { "type": ["string","null"] },
+                "model":            { "type": ["string","null"] },
+                "serial_number":    { "type": ["string","null"] },
+                "calibration_date": { "$ref" : "definitions.schema.json#/date-time-Z"}
+			},
+			"additionalProperties" : false
+		},
+		"equipmentType_noRequired": {
+			"type": "object",
+			"properties": {
+                "type":             { "type": ["string","null"] },
+                "description":      { "type": ["string","null"] },
+                "manufacturer":     { "type": ["string","null"] },
+                "vendor":           { "type": ["string","null"] },
+                "model":            { "type": "string" },
+                "serial_number":    { "type": ["string","null"] },
+                "calibration_date": { "$ref" : "definitions.schema.json#/date-time-Z"}
+			}
+		},
+        "response_stage_list" : {
+            "type" : "array",
+            "description": "list of response-stage files#keys in JSON Pointers format",
+            "items" : { "$ref": "definitions.schema.json#/URI_ref" }
+        },
+        "seed_codes" : {
+            "description": "Seed codes, azimuths and dips associated with a sensor",
+            "type" : "object",
+            "required" : [
+                "band_base",
+                "instrument",
+                "orientation"
+            ],
+            "properties" :  {
+                "band_base" :   {"$ref": "#/definitions/seed_band_base" },
+                "instrument" :  {"$ref": "#/definitions/seed_instrument_code" },
+                "orientation" : {"$ref": "#/definitions/seed_orientation" }
+            }
+        },
+        "seed_band_base" : {
+            "type" : "string",
+            "description" : "B for corner period >= 10s, S for <10s (output band code will be adjusted to the sample rate)",
+            "enum" : ["B","S"]
+        },
+        "seed_instrument_code" : {
+            "description" : "SEED instrument code",
+            "type" : "string",
+            "pattern" : "^[A-Z]$"
+        },
+        "seed_orientation" : {
+            "description" : "permitted orientation codes and their azimuth and dip",
+            "type" : "object",
+            "patternProperties" : {
+                "^[A-Z0-9]$" : {
+                    "type" : "object",
+                    "required" : ["azimuth.deg","dip.deg"],
+                    "properties": {
+                        "azimuth.deg" : { "$ref": "#/definitions/azimuthType" },
+                        "dip.deg" :     { "$ref": "#/definitions/dipType" }
+                    }
+                }
+            }
+        },
+        "azimuthType" : { 
+            "type" : "array",
+            "minItems": 2 ,
+            "maxItems": 2 ,
+            "items": [
+                {
+                    "description": "azimuth value (degrees)",
+                    "type" : "number",
+                    "minimum" : 0,
+                    "maximum" : 360
+                },
+                {
+                    "description": "azimuth error (degrees)",
+                    "type" : "number",
+                    "minimum" : 0,
+                    "maximum" : 180
+                }
+            ]
+        },
+        "dipType" : { 
+            "type" : "array",
+            "minItems": 2 ,
+            "maxItems": 2 ,
+            "items": [
+                {
+                    "description": "dip value (degrees)",
+                    "type" : "number",
+                    "minimum" : -90,
+                    "maximum" : 90
+                },
+                {
+                    "description": "dip error (degrees)",
+                    "type" : "number",
+                    "minimum" : 0,
+                    "maximum" : 90
+                }
+            ]
+        },
+		"delay_correction_samples" : { 
+		    "type" : "number",
+		    "title": "Datalogger delay correction in samples",
+		    "description": "Number of samples by which the datalogger shifted the timebase to account for filter delays.  The value will be converted to seconds and added to the decimation:correction value in the channel's last stage"
+		},
+        "response_file_dict": {
+            "type": "object",
+			"patternProperties" : {
+				"^[A-Za-z0-9_-]+$": {
+					"type" : "string",
+					"description" : "response file path"
+				}
+			}
+        }
+	}
+}

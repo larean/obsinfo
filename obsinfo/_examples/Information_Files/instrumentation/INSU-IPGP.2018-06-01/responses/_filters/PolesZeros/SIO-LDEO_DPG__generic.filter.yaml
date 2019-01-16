@@ -1,0 +1,14 @@
+---
+format_version: "0.104"
+filter:
+    type: "PolesZeros"
+    units: "rad/s"
+    zeros : 
+        - [0.0, 0.0]
+        - [0.0, 0.0]
+    poles :
+        - [-0.0182, 0.000]
+        - [-0.0500, 0.000]
+notes:
+    - " Adapted from 2007 DPG 5004 calibration on logger 21"
+    -  "Second pole is 2Mohms * 10 microFarads on card"

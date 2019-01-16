@@ -1,0 +1,27 @@
+---
+format_version: "0.104"
+filter:
+    type: "PolesZeros"
+    units: "rad/s"
+    zeros :
+        -     [0.0,  0.0]
+        -     [0.0,  0.0]
+        -   [-72.5,  0.0]
+        -  [-159.3,  0.0]
+        -  [-251,    0.0]
+        - [-3270.0,  0.0]
+    poles :
+        -    [-0.017699,    0.017604]
+        -    [-0.017699,   -0.017604]
+        -   [-85.3,         0.0]
+        -  [-155.4,       210.8]
+        -  [-155.4,      -210.8]
+        -  [-713,           0]
+        - [-1140,          -0]
+        - [-4300,          -0]
+        - [-5800,          -0]
+        - [-4300,        4400]
+        - [-4300,       -4400]
+notes:
+    - poles et zeros d'un Trillium T240 no de serie 400+
+    - d'apres le fichier Trillium240_UserGuide_15672R7.pdf de Nanometrics.

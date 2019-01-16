@@ -1,0 +1,265 @@
+---
+# Network files should be completed by OBS facilities involved in a campaign
+format_version: "0.104"
+notes:
+    - "Notes are associated with information but not put in final metadata"
+yaml_anchors:
+    obs_clock_correction_linear_defaults: &LINEAR_CLOCK_DEFAULTS
+        time_base: "Seascan MCXO, ~1e-8 nominal drift"
+        reference: "GPS"
+        start_sync_instrument: 0
+    location_defaults: &LOC_DEFAULTS
+        depth.m: 0
+        geology: "unknown"
+        vault: "Sea floor"                    
+    location_buc_direct: &LOC_BUC_DIRECT
+        <<: *LOC_DEFAULTS
+        uncertainties.m: [5, 5, 10]
+        localisation_method: "Short baseline transponder, seafloor release"
+    location_buc_drop: &LOC_BUC_DROP
+        <<: *LOC_DEFAULTS
+        uncertainties.m: [20, 20, 20]
+        localisation_method: "Short baseline transponder, near-seafloor release"
+    location_surface_drop: &LOC_SURFACE_DROP
+        <<: *LOC_DEFAULTS
+        uncertainties.m: [200, 200, 20]
+        localisation_method: "Position is the sea-surface release point"
+    location_acoustic: &LOC_ACOUSTIC
+        <<: *LOC_DEFAULTS
+        uncertainties.m: [5, 5, 10]
+        localisation_method: "Acoustic survey"
+    location_airgun: &LOC_AIRGUN
+        <<: *LOC_DEFAULTS
+        uncertainties.m: [40, 40, 20]
+        localisation_method: "Airgun survey"
+    spobs2_125: &SPOBS2_125
+        reference_code: "SPOBS2"
+        channel_locations:
+            "HDH_00" : {sample_rate: 125, datalogger_config: "125"}
+            "EHZ_00" : {sample_rate: 125, datalogger_config: "125"}
+            "EH1_00" : {sample_rate: 125, datalogger_config: "125"}
+            "EH2_00" : {sample_rate: 125, datalogger_config: "125"}
+    spobs2_62: &SPOBS2_62
+        reference_code: "SPOBS2"
+        channel_locations:
+            "BDH_00" : {sample_rate: 62.5, datalogger_config: "62"}
+            "SHZ_00" : {sample_rate: 62.5, datalogger_config: "62"}
+            "SH1_00" : {sample_rate: 62.5, datalogger_config: "62"}
+            "SH2_00" : {sample_rate: 62.5, datalogger_config: "62"}
+    
+
+revision:
+    authors:
+        -
+            first_name : "Wayne"
+            last_name : "Crawford"
+            email: "crawford@ipgp.fr"
+    date: "2017-10-04"
+network:
+    facility_reference_name: "INSU-IPGP"
+    campaign_reference_name: "MYCAMPAIGN"
+    general_information:
+        code: "4G"
+        start_date: "2007-07-01"
+        end_date: "2025-12-31"
+        description: "EMSO-MOMAR"
+        comments: 
+            - "Lucky Strike Volcano, North Mid-Atlantic Ridge"
+    instrumentation:
+        $ref: "../../instrumentation/INSU-IPGP.2018-06-01/instrumentation.yaml"
+    stations:
+        "LSVW":
+            site: "Lucky Strike Volcano West"
+            start_date: "2015-04-22T12:00:00Z"
+            end_date: "2016-05-28T21:01:00Z"
+            location_code: "00"
+            instrument:
+                <<: *SPOBS2_125
+                serial_number: "20"
+            locations:
+                "00":
+                    <<: *LOC_SURFACE_DROP
+                    position: [-32.32504, 37.29744, -2030]
+            clock_corrections:
+                linear_drift:
+                    <<: *LINEAR_CLOCK_DEFAULTS
+                    start_sync_reference: "2015-04-21T21:06:00Z"
+                    end_sync_reference: "2016-05-28T20:59:00.32Z"
+                    end_sync_instrument: "2016-05-28T20:59:03Z"
+        "LSVE":
+            site: "Lucky Strike Volcano East"
+            start_date: "2015-04-22T12:00:00Z"
+            end_date: "2016-05-28T21:01:00Z"
+            location_code: "00"
+            instrument:
+                <<: *SPOBS2_125
+                serial_number: "12"
+            locations:
+                "00":
+                    <<: *LOC_SURFACE_DROP
+                    position: [-32.02504, 37.25744, -2130]
+            clock_corrections:
+                linear_drift:
+                    <<: *LINEAR_CLOCK_DEFAULTS
+                    start_sync_reference: "2015-04-21T21:06:00Z"
+                    end_sync_reference: "2016-05-28T20:59:00.32Z"
+                    end_sync_instrument: "2016-05-28T20:59:01Z"
+        "SP_1":
+            # EXAMPLE: SPOBS CONFIGURATION 1 (TWO CHANNELS)
+            comments:
+                - "Hydrophone did not work"
+            site: "Lucky Strike Volcano North"
+            start_date: "2015-04-23T10:00:00Z"
+            end_date: "2016-05-26T23:00:00Z"
+            location_code: "00"
+            instrument:
+                reference_code: "SPOBS1"
+                serial_number: "13"
+                channel_locations:
+                    "BDH_00" : {sample_rate: 62.5, datalogger_config: "62"}
+                    "SHZ_00" : {sample_rate: 62.5, datalogger_config: "62"}
+            locations:
+                "00":
+                    <<: *LOC_ACOUSTIC
+                    position: [-32.27909, 37.31960, -1798]
+            clock_corrections:
+                linear_drift:
+                    <<: *LINEAR_CLOCK_DEFAULTS
+                    start_sync_reference: "2015-04-22T09:21:00Z"
+                    end_sync_reference: "2016-05-28T22:59:00.1843Z"
+                    end_sync_instrument: "2016-05-28T22:59:02Z"
+            supplements:
+                initial_name: "I1"
+        "BB_2":
+            # EXAMPLE: CHANGE BBOBS SENSOR
+            site: "Lucky Strike Volcano Fake BBOBS"
+            start_date: "2015-04-23T10:00:00Z"
+            end_date: "2016-05-28T15:37:00Z"
+            location_code: "00"
+            instrument:
+                reference_code: "BBOBS1_2"
+                serial_number: "07"
+                channel_locations:
+                    "BDH_00": {sample_rate: 62.5, datalogger_config: "62", sensor: {serial_number : "IP007"}}
+                    "BH1_00": {sample_rate: 62.5, datalogger_config: "62", sensor: {serial_number : "Sphere06"}}
+                    "BH2_00": {sample_rate: 62.5, datalogger_config: "62", sensor: {serial_number : "Sphere06"}}
+                    "BHZ_00": {sample_rate: 62.5, datalogger_config: "62", sensor: {serial_number : "Sphere06"}}
+            locations:
+                "00":
+                    <<: *LOC_BUC_DROP
+                    position: [-32.29756, 37.26049, -1887]
+            clock_corrections:
+                linear_drift:
+                    <<: *LINEAR_CLOCK_DEFAULTS
+                    start_sync_reference: "2015-04-22T12:24:00Z"
+                    end_sync_reference: "2016-05-28T15:35:00.3660Z"
+                    end_sync_instrument: "2016-05-28T15:35:02Z"
+        "BB_1":
+            # EXAMPLE: BBOBS CONFIGURATION 1
+            site: "Lucky Strike Volcano Fake BBOBS"
+            start_date: "2015-04-23T10:00:00Z"
+            end_date: "2016-05-28T15:37:00Z"
+            location_code: "00"
+            instrument:
+                reference_code: "BBOBS1_1"
+                serial_number: "02"
+                channel_locations:
+                    "BDH_00" : {sample_rate: 62.5, datalogger_config: "62"}
+                    "BHZ_00" : {sample_rate: 62.5, datalogger_config: "62"}
+                    "BH1_00" : {sample_rate: 62.5, datalogger_config: "62"}
+                    "BH2_00" : {sample_rate: 62.5, datalogger_config: "62"}
+            locations:
+                "00":
+                    <<: *LOC_BUC_DROP
+                    position: [-32.29756, 37.26049, -1887]
+            clock_corrections:
+                linear_drift:
+                    <<: *LINEAR_CLOCK_DEFAULTS
+                    start_sync_reference: "2015-04-22T12:24:00Z"
+                    end_sync_reference: "2016-05-28T15:35:00.3660Z"
+                    end_sync_instrument: "2016-05-28T15:35:02Z"
+        "HOCT":
+            # EXAMPLE: HYDROCTOPUS, MULTIPLE SENSORS WITH SAME CHANNEL CODE
+            site: "Lucky Strike Volcano Fake HydroOctopus"
+            start_date: "2015-04-23T10:00:00Z"
+            end_date: "2016-05-28T15:37:00Z"
+            location_code: "00"
+            instrument:
+                reference_code: "HydroOctopus"
+                serial_number: "01"
+                channel_locations:
+                    "BDH_00":
+                        sample_rate: 62.5
+                        datalogger_config: "62"
+                        das_component: "1"
+                        sensor: 
+                            reference_code : "HITECH_HTI04-PLC-ULF"
+                            serial_number : "4500"
+                    "BDH_01":
+                        sample_rate: 62.5
+                        datalogger_config: "62"
+                        das_component: "2"
+                        sensor: 
+                            reference_code : "HITECH_HTI04-PLC-ULF"
+                            serial_number : "4501"
+                    "BDH_02":
+                        sample_rate: 62.5
+                        datalogger_config: "62"
+                        das_component: "3"
+                        sensor: 
+                            reference_code : "HITECH_HTI04-PLC-ULF"
+                            serial_number : "4502"
+                    "BDH_03":
+                        sample_rate: 62.5
+                        datalogger_config: "62"
+                        das_component: "4"
+                        sensor:
+                            reference_code : "HITECH_HTI90U"
+                            serial_number : "9601"
+            locations:
+                "00":
+                    <<: *LOC_BUC_DIRECT
+                    position: [-32.29756, 37.26049, -1887]
+                "01":
+                    <<: *LOC_BUC_DIRECT
+                    position: [-32.29756, 37.26051, -1885]
+                "02":
+                    <<: *LOC_BUC_DIRECT
+                    position: [-32.29758, 37.26049, -1889]
+                "03":
+                    <<: *LOC_BUC_DIRECT
+                    position: [-32.29756, 37.26047, -1877]
+            clock_corrections:
+                linear_drift:
+                    <<: *LINEAR_CLOCK_DEFAULTS
+                    start_sync_reference: "2015-04-22T12:24:00Z"
+                    end_sync_reference: "2016-05-28T15:35:00.3660Z"
+                    end_sync_instrument: "2016-05-28T15:35:02Z"
+        "LPSCD":
+            # EXAMPLE: LEAPSECOND DURING DEPLOYMENT
+            site: "Lucky Strike Volcano Center"
+            start_date: "2016-07-01T12:00:00Z"
+            end_date: ~
+            location_code: "00"
+            instrument:
+                <<: *SPOBS2_62
+                serial_number: "Station01"
+            locations:
+                "00":
+                    <<: *LOC_BUC_DIRECT
+                    position: [-32.280, 37.290, -1760]
+            clock_corrections:
+                linear_drift:
+                    <<: *LINEAR_CLOCK_DEFAULTS
+                    start_sync_reference: "2016-07-01T16:00:00Z"
+                    end_sync_reference:   "2017-07-01T15:35:00.555Z"
+                    end_sync_instrument:  "2017-07-01T15:35:00Z"
+                leapseconds:
+                    -
+                        time: "2016-12-31T23:59:60Z"
+                        type: "+"
+                        description: "Positive leapsecond (a 61-second minute)"
+                        corrected_in_basic_miniseed: No
+                        corrected_in_end_sync: Yes
+            supplements:
+                initial_name: "LSJ4"

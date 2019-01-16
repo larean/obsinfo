@@ -1,0 +1,25 @@
+---
+format_version: "0.104"
+filter:
+    type: "PolesZeros"
+    units: "rad/s"
+    zeros:
+        - [0.0, 0.0]
+    poles:
+        - [0.546,  0.191]
+        - [4.40e4, 0.000]
+notes:
+    - "poles et zeros des HiTech HTI-90U dans OBS LCHEAPO current-mode preamplifier, 0.05-2500 Hz"
+    - "Hydrophone+preamp response measured from 250-1000 Hz"
+    - "preamp gain measured from .05-7500 Hz"
+    - "Poles-zeros are those best fitting the following list of sensitivities:"
+    - "    FREQ(Hz)    AMP     phase"
+    - "      0.050    0.56    "
+    - "      0.075    0.73"
+    - "      1        1"
+    - "     10        0.97    -179"
+    - "    100        0.97     179"
+    - "   1000        0.96     172"
+    - "   5000        0.82     143"
+    - "   7500        0.69     129"
+    - " Comes out to a HP pole at 11s, LP pole at 7000 Hz"

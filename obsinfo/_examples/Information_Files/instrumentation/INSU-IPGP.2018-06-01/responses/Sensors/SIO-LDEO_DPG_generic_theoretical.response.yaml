@@ -1,0 +1,17 @@
+---
+notes:
+    - "Copied from DPG 5004 calibration"
+format_version: "0.104"
+response:
+    stages:
+        -
+          description : "SENSOR - GENERIC DPG" # optionel
+          input_units :  {name: "PA", description: "PRESSURE"}
+          output_units : {name: "V", description: "VOLTS"}
+          gain : 
+            value: 4.25e-4
+            frequency: 1.
+          filter:
+            $ref: "../_filters/PolesZeros//SIO-LDEO_DPG__generic.filter.yaml#filter"
+          extras:
+            DBIRD_response_type : "THEORETICAL" # optionel

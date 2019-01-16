@@ -155,8 +155,8 @@ class instrument_components:
             if 'specific' in self.instrument_blocks[elem_type]:
                 if key in self.instrument_blocks[elem_type]['specific']:
                     SNs= sorted(self.instrument_blocks[elem_type]['specific'][key])        
-            output={'    model':key,'description':description,'specified_serial_numbers':SNs}
-            print(yaml.dump(output,indent=10,width=80))
+            #output={'    model':key,'description':description,'specified_serial_numbers':SNs}
+            #print(yaml.dump(output,indent=10,width=80))
             print(f'{key}: description="{description}", specified_SNs={SNs}')
             
     def verify_individuals(self):

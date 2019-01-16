@@ -56,7 +56,7 @@ def _print_summary_instrumentation(instrumentation):
     print(f"FACILITY: {instrumentation.facility['reference_name']}")
     print(f'REVISION: {instrumentation.revision}')
     # PRINT INSTRUMENTS
-    print('\n' + 20*'=')
+    print(20*'=')
     print('INSTRUMENTS:')
     instrumentation.print_elements()
 
@@ -66,7 +66,7 @@ def _print_summary_instrumentation(instrumentation):
         print('All instruments have a generic counterpart')
 
     # VERIFY THAT REFERRED TO FILES EXIST
-    print('\n' + 20*'=')
+    print(20*'=')
     print('Checking dependencies on instrument_components_file')
     file_exists,n_components,n_found,n_cites = instrumentation.check_dependencies(print_names=True)
     if not file_exists :

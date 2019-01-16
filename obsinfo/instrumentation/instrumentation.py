@@ -96,8 +96,9 @@ class instrumentation:
             if 'specific' in self.instruments:
                 if key in self.instruments['specific']:
                     SNs= sorted(self.instruments['specific'][key])        
-            output={' model':key,'description':description,'specified_serial_numbers':SNs}
-            print(yaml.dump(output,width=76))
+            #output={' model':key,'description':description,'specified_serial_numbers':SNs}
+            #print(yaml.dump(output,width=76))
+            print(f'{key}: description="{description}", specified_SNs={SNs}')
             
     def verify_individuals(self):
         """ Verify that all "specific" instruments have a generic counterpart

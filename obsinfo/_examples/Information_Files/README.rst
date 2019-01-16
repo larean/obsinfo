@@ -1,4 +1,5 @@
-This directory contains:
+This directory contains sample information files in two directories:
+
 * the ``/campaigns`` directory, which has subdirectories for each data collection
   campaign. Each subdirectory contains: 
   

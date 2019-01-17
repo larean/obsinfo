@@ -25,6 +25,6 @@ for the basic principals behind these files.
   consultable online), the specific one would apply for custom
   sensors or specific calibrations
   
--  **Allow files/references to be URLs**.  Linguistically it is already there,
+- **Allow files/references to be URLs**.  Linguistically it is already there,
   but the code is not.  This way, one could use a remove instrumentation catalog
   rather than having to carry it with you.

@@ -7,7 +7,7 @@ Basic principals of information files
 ======================================
 
 - They are in JSON or YAML
-- All the information that obsinfo will read is in a base level field with the same name as the information file type ("network", "instrumentation", ...)
+- All the information that obsinfo will read is in a base level field with the same name as the information file type (``"network"``, ``"instrumentation"``, ...)
 - The base level can also have the following fields:
 
   - ``format_version`` (REQUIRED): version of the information file format
@@ -16,11 +16,11 @@ Basic principals of information files
   - ``yaml_anchors``: used to define the YAML anchors (a section of data that
     can be named an inserted elsewhere, allowing the user to avoid typing redundancy/errors
     and make the YAML files smaller and more readable.
-  - ``extras``: Is this a good idea?
+  - ``extras``: Is this a good idea at the base level?
      
-- Within a given version, new fields are put within the open-form ``extras`` field.
+- Within a given format_version, new fields go in the open-form ``extras`` field.
 
-- Other files are referenced using "$ref" and the JSON Pointers syntax, but we do NOT
+- External files are referenced using "$ref" and the JSON Pointers syntax, but we do NOT
   use JSON pointers, allowing us only partially read files downstream and to use YAML in
   addition to JSON
   

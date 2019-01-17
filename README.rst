@@ -3,15 +3,15 @@ obsinfo
 ===================
 
 A system for for creating FDSN-standard data and metadata for ocean bottom
-seismometers using the simplest possible, standardized information files 
+seismometers using standardized, easy-to-read information files 
 
 Current goal
 ======================
 
 To come out with a first version (v1.x) schema for the information files.  We
 would like input from seismologists and ocean bottom seismometer
-manufacturers/facilities about what information/capabilities are missing.  Specific
-questions can be found/modified in QUESTIONS_infofiles.rst
+manufacturers/facilities about what information/capabilities are missing.  
+Existing questions can be found/modified in QUESTIONS_infofiles.rst
 
 Information files
 ======================
@@ -23,7 +23,7 @@ redundancy and simplify input as much as possible.
 There are 4 main file types:
 
 +---------------------------+-----------------------+-----------------+---------------+
-|    Name                   |    Description        |     Filled by   | Filled when   |
+|    Name                   |    Description        |     Filled by   | When filled   |
 +===========================+=======================+=================+===============+
 | **campaign**              | Lists of stations     |                 |               |
 |                           | facilities and        |                 |               |
@@ -48,14 +48,13 @@ There are 4 main file types:
 There can also be **response** and **filter** files to simplify the input of
 repeated elements in **instrument_components** files.
 
-Conceptually, only the **campaign** and **network** files are OBS-specific.
+Only the **campaign** and **network** files are OBS-specific.
 The **instrumentation** files and their subfiles could be replaced by existing
-standards such as RESP files or the NRL (Nominal Response Library).  However,
-the obsinfo instrumentation file tree provides a
-simpler and more standards-compliant way to specify the components, and 
-obsinfo automatically calculates the response sensitivities 
-(using obsPy).  These files could also be used to make RESP-files and
-NRL directories, if so desired. 
+standards such as RESP files or the NRL (Nominal Response Library), but obsinfo provides 
+a simpler and more standards-compliant way to specify the components, and 
+it can automatically calculate response sensitivities based on gains and filter
+characteristics (using obsPy).  obsinfo instrumentation files could also be used to
+make RESP-files and NRL directories, if so desired. 
 
 Python code
 ======================

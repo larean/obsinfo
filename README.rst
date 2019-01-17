@@ -50,11 +50,11 @@ repeated elements in **instrument_components** files.
 
 Conceptually, only the **campaign** and **network** files are OBS-specific.
 The **instrumentation** files and their subfiles could be replaced by existing
-standards such as RESP files or the NRL (Nominal Response Library).  The
-advantage of the obsinfo instrumentation file tree is that 1) it provides a
-simpler(?) and more standards-compliant way to specify the components and 
-2) obsinfo can automatically calculate the sensitivities from these files
-(using obsPy).  These files could easily be used to make RESP-files and
+standards such as RESP files or the NRL (Nominal Response Library).  However,
+the obsinfo instrumentation file tree provides a
+simpler and more standards-compliant way to specify the components, and 
+obsinfo automatically calculates the response sensitivities 
+(using obsPy).  These files could also be used to make RESP-files and
 NRL directories, if so desired. 
 
 Python code

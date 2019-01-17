@@ -7,19 +7,17 @@ Basic principals of information files
 ======================================
 
 - They are in JSON or YAML
-- The base level for each type of file has the same fields, except the one containing all of the information that obsinfo will import:
+- All the information that obsinfo will read is in a base level field with the same name as the information file type ("network", "instrumentation", ...)
+- The base level can also have the following fields:
 
-  - ``format_version``: version of the information file format
-  - ``revision``: Who made the file and when
+  - ``format_version`` (REQUIRED): version of the information file format
+  - ``revision`` (REQUIRED): Who made the file and when
   - ``notes``: Notes about the contents that will not be saved/transferred elsewhere
   - ``yaml_anchors``: used to define the YAML anchors (a section of data that
     can be named an inserted elsewhere, allowing the user to avoid typing redundancy/errors
-    and make the YAML files smaller and more readable
+    and make the YAML files smaller and more readable.
   - ``extras``: Is this a good idea?
-  - ``{TYPE}``, where ``{TYPE}`` is one of the information file types and is the last
-    field in the filename.  This is where all of the information that obsinfo will
-    read is stored
-    
+     
 - Within a given version, new fields are put within the open-form ``extras`` field.
 
 - Other files are referenced using "$ref" and the JSON Pointers syntax, but we do NOT

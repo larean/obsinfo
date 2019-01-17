@@ -10,7 +10,8 @@ Current goal
 
 To come out with a first version (v1.x) schema for the information files.  We
 would like input from seismologists and ocean bottom seismometer
-manufacturers/facilities about what information/capabilities are missing.
+manufacturers/facilities about what information/capabilities are missing.  Specific
+questions can be found/modified in QUESTIONS_infofiles.rst
 
 Information files
 ======================

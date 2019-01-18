@@ -4,7 +4,7 @@ TO DO
 Minor
 ______
 
-Change "supplements" to 'extras' in ``network:stations:{Station_code}``
+Rename ``supplements`` to ``extras`` in ``network:stations:{Station_code}``?
 
 Major
 ______

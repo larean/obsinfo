@@ -1,6 +1,14 @@
 TO DO
 ======================
 
+Minor
+______
+
+Change "supplements" to 'extras' in ``network:stations:{Station_code}``
+
+Major
+______
+
 Define a "field separation" character?
 ------------------------------------------------------------
 

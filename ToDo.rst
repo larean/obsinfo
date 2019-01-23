@@ -6,6 +6,8 @@ ______
 
 Rename ``supplements`` to ``extras`` in ``network:stations:{Station_code}``?
 
+Rename "location_code" to ``instrument:station_location`` in network file
+
 Major
 ______
 

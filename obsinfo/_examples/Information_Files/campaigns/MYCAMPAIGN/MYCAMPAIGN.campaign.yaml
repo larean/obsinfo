@@ -13,10 +13,10 @@ revision:
 campaign:
     reference_name: "MYCAMPAIGN"
     reference_scientist:
-        first_name: "Albert"
-        last_name: "Einstein"
-        institution: "Institut de Physique du Globe de Paris"
-        email: "einstein@ipgp.fr"
+        first_name: "Ima"
+        last_name: "Genie"
+        institution: "Institut de Petits Genies de Paris"
+        email: "genie@ipgp.fr"
         telephone: ~
     OBS_facilities:
         # Use facility_reference_names: e.g. "INSU-IPGP","Geoazur","DEPAS"

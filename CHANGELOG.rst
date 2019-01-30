@@ -23,7 +23,7 @@ v0.104
 v0.103
 ------
 
-* Added ``response`` field to ``*.response.yaml`` (consistent with other information file types)
+* Added top-level ``response`` field to ``*.response.yaml`` (consistent with other information file types)
 * Make ``instrument-components.yaml`` file have internal key instrument-components (not instrument_components)     
 * changed top-level ``definitions`` keyword to ``yaml_anchors``
   

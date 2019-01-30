@@ -1,6 +1,8 @@
 v0.105
 ------
 
+Change all information file schemas to allow information files to speficy either the current format_version or the last one in which that information file type was modified.
+
 Changes to ``network`` file, station level:
 
 * Renamed ``location_code`` to ``instrument:station_location``

@@ -7,7 +7,7 @@
 	"properties": {
 	    "format_version" : {"$ref" : "definitions.schema.json#/format_version"},
 	    "revision" :       {"$ref" : "definitions.schema.json#/revision"},
-		"network":         {"$ref" : "#/definitions/network"},
+	    "network":         {"$ref" : "#/definitions/network"},
 	    "yaml_anchors" :   {"$ref" : "definitions.schema.json#/yaml_anchors"},
 	    "notes" :          {"$ref" : "definitions.schema.json#/comments"},
 	    "extras" :         {"$ref" : "definitions.schema.json#/extras"}

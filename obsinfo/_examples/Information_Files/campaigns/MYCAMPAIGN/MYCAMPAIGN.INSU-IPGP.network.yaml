@@ -128,8 +128,8 @@ network:
                     start_sync_reference: "2015-04-22T09:21:00Z"
                     end_sync_reference: "2016-05-28T22:59:00.1843Z"
                     end_sync_instrument: "2016-05-28T22:59:02Z"
-            supplements:
-                initial_name: "I1"
+            notes:
+                - "initial_name = I1"
         "BB_2":
             # EXAMPLE: CHANGE BBOBS SENSOR
             site: "Lucky Strike Volcano Fake BBOBS"
@@ -261,5 +261,5 @@ network:
                         description: "Positive leapsecond (a 61-second minute)"
                         corrected_in_basic_miniseed: No
                         corrected_in_end_sync: Yes
-            supplements:
-                initial_name: "LSJ4"
+            notes:
+                 - "initial_name = LSJ4"

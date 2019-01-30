@@ -5,14 +5,20 @@
 	"type": "object",
 	"required": [ "format_version","network" ],
 	"properties": {
-	    "format_version" : {"$ref" : "definitions.schema.json#/format_version"},
+	    "format_version" : {"$ref" : "#/definitions/format_version"},
 	    "revision" :       {"$ref" : "definitions.schema.json#/revision"},
-		"network":         {"$ref" : "#/definitions/network"},
+	    "network":         {"$ref" : "#/definitions/network"},
 	    "yaml_anchors" :   {"$ref" : "definitions.schema.json#/yaml_anchors"},
 	    "notes" :          {"$ref" : "definitions.schema.json#/comments"},
 	    "extras" :         {"$ref" : "definitions.schema.json#/extras"}
 	},
 	"definitions" : {
+	    "format_version" : {
+	        "anyOf": [
+	            {"$ref" : "definitions.schema.json#/format_version"},
+	            {"type": "string","pattern": "^0\\.105$","comment":"version of last change to this schema"}
+            ]
+	    },
 		"network": {
 			"type": "object",
 			"required": [
@@ -66,7 +72,6 @@
                 "site",
                 "start_date",
                 "end_date",
-                "location_code",
                 "instrument",
                 "locations",
                 "clock_corrections"
@@ -77,19 +82,13 @@
                 "site" :                {"type" : "string", "minLength" : 1 },
                 "start_date" :          {"$ref" : "definitions.schema.json#/date-time-Z" },
                 "end_date" :            {"$ref" : "definitions.schema.json#/date-time-Z" },
-                "location_code" :       {"$ref" : "#/definitions/location_code"},
                 "instrument" :          {"$ref" : "#/definitions/instrument" },
                 "locations" :           {"$ref" : "#/definitions/locations" },
                 "clock_corrections" :   {"$ref" : "#/definitions/clock_corrections"},
-                "supplements" :         {"$ref" : "#/definitions/supplements"},
+	            "extras" :              {"$ref" : "definitions.schema.json#/extras"},
                 "sensors":              {"$ref" : "#/definitions/sensors"}
             },
             "additionalProperties": false
-        },
-        "location_code" : {
-            "type" : "string",
-            "description" : "location code to use for station position",
-            "pattern" : "^[0-9]{2}$"
         },
         "locations" : {
             "type" : "object",
@@ -211,16 +210,6 @@
             "type" : "boolean",
             "description" : "Was basic miniseed data corrected for the leap second?"
         },
-        "supplements": {
-            "type": "object",
-            "description": "information with no corresponding value in StationXML: convert to comments for now",
-            "properties": {
-                "initial_name" : {
-                    "type" : "string",
-                    "description" : "original station name (if different from official one)"
-                }
-            }
-        },
         "sensors" : {
             "type" : "object",
             "description" : "Optional specification of sensors by component:location code",
@@ -252,12 +241,14 @@
             "required": [
                 "reference_code", 
                 "serial_number",
-                "channel_locations"
+		        "station_location",
+                "channel_codes_locations"
             ],
             "properties" : {
                 "reference_code":    {"$ref" : "#/definitions/reference_code" },
                 "serial_number":     {"$ref" : "#/definitions/serial_number"},
-                "channel_locations": {
+                "station_location" :       {"$ref" : "#/definitions/location_code"},
+                "channel_codes_locations": {
                     "type" : "object",
                     "description" : "specification by channel_location pairs",
                     "patternProperties": {
@@ -265,6 +256,11 @@
                     }
                 }
             }
+        },
+        "location_code" : {
+            "type" : "string",
+            "description" : "SEED location code",
+            "pattern" : "^[0-9]{2}$"
         },
         "channel_specification" : {
             "type": "object",

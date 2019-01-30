@@ -5,7 +5,7 @@
 	"type": "object",
 	"required": [ "format_version","instrument_components"],
 	"properties": {
-	    "format_version" :       {"$ref" : "definitions.schema.json#/format_version"},
+	    "format_version" :       {"$ref" : "#/definitions/format_version"},
 	    "revision" :             {"$ref" : "definitions.schema.json#/revision"},
 		"instrument_components": { "$ref" : "#/definitions/instrument_components" },
         "yaml_anchors" :         {"$ref" : "definitions.schema.json#/yaml_anchors"	},
@@ -14,6 +14,12 @@
 	},
     "additionalProperties" : false,
 	"definitions": {
+	    "format_version" : {
+	        "anyOf": [
+	            {"$ref" : "definitions.schema.json#/format_version"},
+	            {"type": "string","pattern": "^0\\.104$","comment":"version of last change to this schema"}
+            ]
+	    },
 		"instrument_components": { 
 			"type": "object",
 			"required": [

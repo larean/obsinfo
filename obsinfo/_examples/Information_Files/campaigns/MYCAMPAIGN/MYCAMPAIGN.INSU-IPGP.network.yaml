@@ -259,4 +259,3 @@ network:
                         description: "Positive leapsecond (a 61-second minute)"
                         corrected_in_basic_miniseed: No
                         corrected_in_end_sync: Yes
- 

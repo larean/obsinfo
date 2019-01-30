@@ -30,8 +30,9 @@ class station:
         self.site=station_dict['site']
         self.start_date=station_dict['start_date']
         self.end_date=station_dict['end_date']
-        self.location_code=station_dict['location_code']
+        # self.location_code=station_dict['location_code']
         self.instrument=station_dict['instrument']
+        self.station_location=self.instrument['station_location']
         self.locations=station_dict['locations']
         self.clock_corrections=station_dict.get('clock_corrections',[])
         self.supplements=station_dict.get('supplements',[])
@@ -183,7 +184,7 @@ class station:
             if debug:
                 print(yaml.dump(channel))
         # CREATE STATION
-        station_loc_code=getattr(self,'station_location_code','00')
+        station_loc_code=self.station_location
         if station_loc_code in self.locations:
             sta_loc=self.locations[station_loc_code]
             obspy_lon,obspy_lat = oi_obspy.lon_lats(sta_loc)

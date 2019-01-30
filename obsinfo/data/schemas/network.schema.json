@@ -79,7 +79,7 @@
                 "instrument" :          {"$ref" : "#/definitions/instrument" },
                 "locations" :           {"$ref" : "#/definitions/locations" },
                 "clock_corrections" :   {"$ref" : "#/definitions/clock_corrections"},
-                "supplements" :         {"$ref" : "#/definitions/supplements"},
+	            "extras" :              {"$ref" : "definitions.schema.json#/extras"}
                 "sensors":              {"$ref" : "#/definitions/sensors"}
             },
             "additionalProperties": false
@@ -203,16 +203,6 @@
         "lpsec_corrected_in_basic_miniseed" : {
             "type" : "boolean",
             "description" : "Was basic miniseed data corrected for the leap second?"
-        },
-        "supplements": {
-            "type": "object",
-            "description": "information with no corresponding value in StationXML: convert to comments for now",
-            "properties": {
-                "initial_name" : {
-                    "type" : "string",
-                    "description" : "original station name (if different from official one)"
-                }
-            }
         },
         "sensors" : {
             "type" : "object",

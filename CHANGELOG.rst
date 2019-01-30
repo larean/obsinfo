@@ -1,3 +1,13 @@
+v0.105
+------
+
+Changes to ``network`` file, station level:
+
+* Renamed ``location_code`` to ``instrument:station_location``
+* Renamed ``instrument:channel_locations`` to ``instrument:channel_codes_locations``
+* Removed ``supplements`` (use ``notes`` or ``comments``, depending on whether you want the information to appear in StationXML comments or not)
+* Added ``extras`` (as in other information files/levels) for new/desired fields
+  
 v0.104
 ------
 

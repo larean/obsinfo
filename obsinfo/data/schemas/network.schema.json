@@ -66,7 +66,6 @@
                 "site",
                 "start_date",
                 "end_date",
-                "location_code",
                 "instrument",
                 "locations",
                 "clock_corrections"
@@ -77,7 +76,6 @@
                 "site" :                {"type" : "string", "minLength" : 1 },
                 "start_date" :          {"$ref" : "definitions.schema.json#/date-time-Z" },
                 "end_date" :            {"$ref" : "definitions.schema.json#/date-time-Z" },
-                "location_code" :       {"$ref" : "#/definitions/location_code"},
                 "instrument" :          {"$ref" : "#/definitions/instrument" },
                 "locations" :           {"$ref" : "#/definitions/locations" },
                 "clock_corrections" :   {"$ref" : "#/definitions/clock_corrections"},
@@ -85,11 +83,6 @@
                 "sensors":              {"$ref" : "#/definitions/sensors"}
             },
             "additionalProperties": false
-        },
-        "location_code" : {
-            "type" : "string",
-            "description" : "location code to use for station position",
-            "pattern" : "^[0-9]{2}$"
         },
         "locations" : {
             "type" : "object",
@@ -257,7 +250,8 @@
             "properties" : {
                 "reference_code":    {"$ref" : "#/definitions/reference_code" },
                 "serial_number":     {"$ref" : "#/definitions/serial_number"},
-                "channel_locations": {
+                "station_location" :       {"$ref" : "#/definitions/location_code"},
+                "channel_codes_locations": {
                     "type" : "object",
                     "description" : "specification by channel_location pairs",
                     "patternProperties": {
@@ -265,6 +259,11 @@
                     }
                 }
             }
+        },
+        "location_code" : {
+            "type" : "string",
+            "description" : "SEED location code",
+            "pattern" : "^[0-9]{2}$"
         },
         "channel_specification" : {
             "type": "object",

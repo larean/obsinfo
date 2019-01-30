@@ -113,22 +113,8 @@ class instrument:
                     reference_code,serial_number))
                     
     def __update_das_components(self,station_instrument,debug=False) :
-        # FIRST INCORPORATE STANDARD CHANNEL VALUES
-#         cs=station_instrument['channel_standard']
-#         if not 'sample_rate' in cs:
-#             raise NameError('No sample_rate in channel_standard')
-#         if not 'datalogger_config' in cs:
-#             raise NameError('No datalogger_config in channel_standard')
-#         for key in self.das_components:
-#             if debug:
-#                 print("="*40)
-#                 print(yaml.dump(self.das_components[key]))
-#             self.__update_das_component(key,cs)
-#             if debug:
-#                 print(yaml.dump(self.das_components[key]))
         # INCORPORATE SPECIFIC CHANNEL VALUES
-#        if 'channel_locations' in station_instrument:
-        for loc_key,value in station_instrument['channel_locations'].items():
+        for loc_key,value in station_instrument['channel_codes_locations'].items():
             das_component=value.get('das_component',None)
             dc_key = self.__find_dc_key(loc_key[2],das_component)
             self.__insert_codes(dc_key,loc_key)
@@ -151,7 +137,7 @@ class instrument:
                     raise NameError('"{}" is a non-unique orientation code '\
                                     'for this instrument\n'\
                                     'You must specify das_component'\
-                                    'in each "channel_locations" declaration'\
+                                    'in each "channel_codes_locations" declaration'\
                                     ''.format(orientation_code))
                 if das_component:
                     if das_component==key:

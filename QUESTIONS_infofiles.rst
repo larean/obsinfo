@@ -11,14 +11,18 @@ for the basic principals behind these files.
 - **Separate obs-specific from "standard" (StationXML-compliant) information?**
   Some of the fields under ``station`` correspond to nothing in a StationXML
   file.  They are used for processing and are currently included as comments
-  in StationXML files.  Putting them into an ``extras`` or ``addons`` field
+  in StationXML files.  Putting them into the ``extras`` field
   would have the following pros and cons:
   
   - PRO: might make obsinfo more attractive to non-obs users
-  - CON: might make it LESS attractive to other seafloor users (such as OBM)
-    and some of these features could even be useful for "standard" data
+  - CON: 
+  
+    - might make it LESS attractive to other seafloor users (such as OBM)
+    - some of these features could even be useful for "standard" data
+    - would have to also put the information into the comments so that it appears
+      in StationXML comments (or create an ``extras_commented`` field?)
     
-- Define and use a standard naming system for response files
+- **Define and use a standard naming system for response files**
 
 - **Allow a generic and a specific instrument_components file?**  The
   generic version could become a standard library (downloadable or

@@ -85,7 +85,7 @@
                 "instrument" :          {"$ref" : "#/definitions/instrument" },
                 "locations" :           {"$ref" : "#/definitions/locations" },
                 "clock_corrections" :   {"$ref" : "#/definitions/clock_corrections"},
-	            "extras" :              {"$ref" : "definitions.schema.json#/extras"}
+	            "extras" :              {"$ref" : "definitions.schema.json#/extras"},
                 "sensors":              {"$ref" : "#/definitions/sensors"}
             },
             "additionalProperties": false

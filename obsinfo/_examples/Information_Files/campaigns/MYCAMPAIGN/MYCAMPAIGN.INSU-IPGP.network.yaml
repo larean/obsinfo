@@ -1,6 +1,6 @@
 ---
 # Network files should be completed by OBS facilities involved in a campaign
-format_version: "0.104"
+format_version: "0.105"
 notes:
     - "Notes are associated with information but not put in final metadata"
 yaml_anchors:
@@ -34,14 +34,16 @@ yaml_anchors:
         localisation_method: "Airgun survey"
     spobs2_125: &SPOBS2_125
         reference_code: "SPOBS2"
-        channel_locations:
+        station_location: "00"
+        channel_codes_locations:
             "HDH_00" : {sample_rate: 125, datalogger_config: "125"}
             "EHZ_00" : {sample_rate: 125, datalogger_config: "125"}
             "EH1_00" : {sample_rate: 125, datalogger_config: "125"}
             "EH2_00" : {sample_rate: 125, datalogger_config: "125"}
     spobs2_62: &SPOBS2_62
         reference_code: "SPOBS2"
-        channel_locations:
+        station_location: "00"
+        channel_codes_locations:
             "BDH_00" : {sample_rate: 62.5, datalogger_config: "62"}
             "SHZ_00" : {sample_rate: 62.5, datalogger_config: "62"}
             "SH1_00" : {sample_rate: 62.5, datalogger_config: "62"}
@@ -72,7 +74,6 @@ network:
             site: "Lucky Strike Volcano West"
             start_date: "2015-04-22T12:00:00Z"
             end_date: "2016-05-28T21:01:00Z"
-            location_code: "00"
             instrument:
                 <<: *SPOBS2_125
                 serial_number: "20"
@@ -90,7 +91,6 @@ network:
             site: "Lucky Strike Volcano East"
             start_date: "2015-04-22T12:00:00Z"
             end_date: "2016-05-28T21:01:00Z"
-            location_code: "00"
             instrument:
                 <<: *SPOBS2_125
                 serial_number: "12"
@@ -111,11 +111,11 @@ network:
             site: "Lucky Strike Volcano North"
             start_date: "2015-04-23T10:00:00Z"
             end_date: "2016-05-26T23:00:00Z"
-            location_code: "00"
             instrument:
                 reference_code: "SPOBS1"
                 serial_number: "13"
-                channel_locations:
+                station_location: "00"
+                channel_codes_locations:
                     "BDH_00" : {sample_rate: 62.5, datalogger_config: "62"}
                     "SHZ_00" : {sample_rate: 62.5, datalogger_config: "62"}
             locations:
@@ -135,11 +135,11 @@ network:
             site: "Lucky Strike Volcano Fake BBOBS"
             start_date: "2015-04-23T10:00:00Z"
             end_date: "2016-05-28T15:37:00Z"
-            location_code: "00"
             instrument:
                 reference_code: "BBOBS1_2"
                 serial_number: "07"
-                channel_locations:
+                station_location: "00"
+                channel_codes_locations:
                     "BDH_00": {sample_rate: 62.5, datalogger_config: "62", sensor: {serial_number : "IP007"}}
                     "BH1_00": {sample_rate: 62.5, datalogger_config: "62", sensor: {serial_number : "Sphere06"}}
                     "BH2_00": {sample_rate: 62.5, datalogger_config: "62", sensor: {serial_number : "Sphere06"}}
@@ -159,11 +159,11 @@ network:
             site: "Lucky Strike Volcano Fake BBOBS"
             start_date: "2015-04-23T10:00:00Z"
             end_date: "2016-05-28T15:37:00Z"
-            location_code: "00"
             instrument:
                 reference_code: "BBOBS1_1"
                 serial_number: "02"
-                channel_locations:
+                station_location: "00"
+                channel_codes_locations:
                     "BDH_00" : {sample_rate: 62.5, datalogger_config: "62"}
                     "BHZ_00" : {sample_rate: 62.5, datalogger_config: "62"}
                     "BH1_00" : {sample_rate: 62.5, datalogger_config: "62"}
@@ -183,11 +183,11 @@ network:
             site: "Lucky Strike Volcano Fake HydroOctopus"
             start_date: "2015-04-23T10:00:00Z"
             end_date: "2016-05-28T15:37:00Z"
-            location_code: "00"
             instrument:
                 reference_code: "HydroOctopus"
                 serial_number: "01"
-                channel_locations:
+                station_location: "00"
+                channel_codes_locations:
                     "BDH_00":
                         sample_rate: 62.5
                         datalogger_config: "62"
@@ -240,7 +240,6 @@ network:
             site: "Lucky Strike Volcano Center"
             start_date: "2016-07-01T12:00:00Z"
             end_date: ~
-            location_code: "00"
             instrument:
                 <<: *SPOBS2_62
                 serial_number: "Station01"

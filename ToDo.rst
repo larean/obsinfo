@@ -4,12 +4,6 @@ TO DO
 Minor
 ______
 
-Rename ``supplements`` to ``extras`` in ``network:stations:{Station_code}``?
-
-Rename ``location_code`` to ``instrument:station_location`` in network file
-
-Rename ``instrument:channel_locations`` to ``instrument:channel_code_locations`` in network file?
-or  ``instrument:channel_code-locations`` ?
 
 Major
 ______

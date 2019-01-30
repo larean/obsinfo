@@ -62,7 +62,7 @@
 		    "additionalProperties" : false
         },
         "filter": {
-            "oneOf" : [
+            "anyOf" : [
                 {   "type": "object",
                     "description" : "JSON pointer file reference",
                     "required" :    [ "$ref" ],

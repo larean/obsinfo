@@ -1,13 +1,15 @@
 v0.105
 ------
 
-Change all information file schemas to allow information files to speficy either the current format_version or the last one in which that information file type was modified.
+Change all information file schemas to allow information files to specify either the current format_version or
+the last one in which that information file type was modified.
 
 Changes to ``network`` file, station level:
 
 * Renamed ``location_code`` to ``instrument:station_location``
 * Renamed ``instrument:channel_locations`` to ``instrument:channel_codes_locations``
-* Removed ``supplements`` (use ``notes`` or ``comments``, depending on whether you want the information to appear in StationXML comments or not)
+* Removed ``supplements`` (use ``notes`` or ``comments``, depending on whether you want the information to appear
+  in StationXML comments or not)
 * Added ``extras`` (as in other information files/levels) for new/desired fields
   
 v0.104

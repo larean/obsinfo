@@ -2,7 +2,7 @@
     "format_version": {
         "description": "Version of this file's schema",
         "type": "string",
-        "pattern": "^0\\.104$"
+        "pattern": "^0\\.105$"
     },
     "author" : {
         "type": "object",

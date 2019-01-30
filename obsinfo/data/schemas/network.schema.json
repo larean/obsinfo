@@ -241,7 +241,8 @@
             "required": [
                 "reference_code", 
                 "serial_number",
-                "channel_locations"
+		        "station_location",
+                "channel_codes_locations"
             ],
             "properties" : {
                 "reference_code":    {"$ref" : "#/definitions/reference_code" },

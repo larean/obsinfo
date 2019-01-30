@@ -17,7 +17,7 @@
 	    "format_version" : {
 	        "oneOf": [
 	            {"$ref" : "definitions.schema.json#/format_version"},
-	            {"type": "string","pattern": "^0\\.104$","comment":"version of last change to campaign schema"}
+	            {"type": "string","pattern": "^0\\.104$","comment":"version of last change to this schema"}
             ]
 	    },
 		"instrument_components": { 

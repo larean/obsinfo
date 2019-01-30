@@ -28,3 +28,12 @@ for the basic principals behind these files.
 - **Allow files/references to be URLs**.  Linguistically it is already there,
   but the code is not.  This way, one could use a remove instrumentation catalog
   rather than having to carry it with you.
+  
+- **Explicitly separate configurations for instrument-components**. Currently, datalogger configurations
+  are written as {DATALOGGER}_{CONFIG}, for example ``LC2000_LOGGER_62`` and ``LC2000_LOGGER_125``.  Should we
+  instead use {DATALOGGER}:{CONFIG}?  The same question could be asked for PreAmplifiers (different configs for
+  different gains, for example) and Sensors (different configs for different shunts on geophones, single-sided
+  versus differential on seismometers, etc).  The problem is that we only explicitly specify configurations for
+  dataloggers, and this nomenclature would take extra space, especially for components with only one configuration.
+  And what would be call {CONFIG} for a component with only one configuration?  DEFAULT?
+

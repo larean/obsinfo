@@ -18,19 +18,19 @@ v0.104
 * Change all ``instrument-component/s`` to ``instrument_component/s`` ('-' to '_') 
   (because Python can't have '-' in a module name)
 * 104.1: Added automatic check of information files against schema
-* 104.2: Adding console-scripts to generate SDPCHAIN and LC2MS process scripts
+* 104.2: Added console scripts to generate SDPCHAIN and LC2MS process-scripts
   
 v0.103
 ------
 
-* Added "response" field to ``*.response.yaml`` (consistent with other information file types)
+* Added ``response`` field to ``*.response.yaml`` (consistent with other information file types)
 * Make ``instrument-components.yaml`` file have internal key instrument-components (not instrument_components)     
-* changed top-level "definitions" keyword to "yaml_anchors"
+* changed top-level ``definitions`` keyword to ``yaml_anchors``
   
 v0.102
 ------
 
-* Added "extras" field for all values that don't go into making FDSN-compatible data/metadata
+* Added ``extras`` field for all values that don't go into making FDSN-compatible data/metadata
 * Start adding JSON validator
 * Changed directory structure:
 
@@ -38,24 +38,24 @@ v0.102
   * ``../scripts``: scripts/codes that should directly callable by others
   * ``../exampes``:  Information files and example scripts
   
-* Wrote scripts obs-validate and obs-print
+* Wrote scripts ``obs-validate`` and ``obs-print``
 
 v0.101
 ------
 
-* Added boolean variable "delay_corrected" to response:stages
+* Added boolean variable ``delay_corrected`` to ``response:stages``
 * CORRECTED BUG in constructing response stages
 * Add module to create SDPCHAIN commands
 * Put information and schema files in the distribution directory
-* Allow "linear_drift" OR "linear_drifts" (list of linear_drift-types)
+* Allow ``linear_drift`` OR ``linear_drifts`` (list of linear_drift-types)
       
 v0.100
 ------
 
 * **Changed Python code to use Python package structure**
-* Change "GeoJSON" to "GeoPos" and "GeoJSON_m" to "GeoUncert"
-* Change units in field names from name_units to name.units 
-  (uncertainties_m => uncertainties.m) [or uncertainties!m or uncertainties|m]
+* Changed ``GeoJSON`` to ``GeoPos`` and ``GeoJSON_m`` to ``GeoUncert``
+* Changed units in field names from name_units to name.units 
+  (``uncertainties_m`` => ``uncertainties.m``)
 * Standardized leap_second fields.
                             
 v0.99

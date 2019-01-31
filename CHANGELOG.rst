@@ -4,7 +4,7 @@ v0.105
 Change all information file schemas to allow information files to specify either the current format_version or
 the last one in which that information file type was modified.
 
-Changes to ``network`` information file (station level):
+Changed ``network`` file (station level):
 
 * Renamed ``location_code`` to ``instrument:station_location``
 * Renamed ``instrument:channel_locations`` to ``instrument:channel_codes_locations``
@@ -15,7 +15,7 @@ Changes to ``network`` information file (station level):
 v0.104
 ------
 
-Changed ``instrumentation`` and ``instrument_components`` information files:
+Changed ``instrumentation`` and ``instrument_components`` files:
 
 * Change all ``instrument-component/s`` to ``instrument_component/s`` ('-' to '_') 
   (because Python can't have '-' in a module name)
@@ -35,7 +35,7 @@ v0.103
 v0.102
 ------
 
-Changed all instrument files:
+Changes to all information files:
 
 * Added ``extras`` field for all values that don't go into making FDSN-compatible data/metadata
 

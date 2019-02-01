@@ -218,7 +218,7 @@ def  __clockcorr_steps(in_path,out_path,clock_corrs,
                          of msmod (should be unecessary once lc2ms is upgraded)
     """
     leapseconds=clock_corrs.get('leapseconds',None)
-    s = s + __leap_second_steps(leapseconds,out_path)
+    s = __leap_second_steps(leapseconds,out_path)
     
     # LINEAR CLOCK DRIFT
     s = s + SEPARATOR_LINE

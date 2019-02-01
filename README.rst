@@ -84,6 +84,11 @@ The following command-line executables perform useful tasks:
 - ``obsinfo-makeSTATIONXML``: generates StationXML files from a network +
   instrumentation information files
 
+The following command-line executables make scripts to run specific data conversion software:
+
+- ``obsinfo-make_process_scripts_LC2MS``: Makes scripts to convert LCHEAPO data to miniSEED
+- ``obsinfo-make_process_scripts_SDPCHAIN``: Makes scripts to drift correct miniSEED data and package
+  them for FDSN-compatible data centers
 
 Other subdirectories
 ======================

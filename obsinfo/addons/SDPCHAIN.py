@@ -189,6 +189,10 @@ def  __leap_second_steps(leapseconds,out_path):
             s=s + "# LEAP SECOND AT {} ALREADY CORRECTED IN BASIC MINISEED, DOING NOTHING\n".format(\
                 leap_time)
             return s
+        s = s + 'echo ""\n'
+        s = s + f'echo "{"="*60}"\n'
+        s = s + 'echo "Running LEAPSECOND correction"\n'
+        s = s + f'echo "{"-"*60}"\n'
         if leapsecond['type']=="+":
             s = s + 'sdp-process -c="Shifting one second BACKWARDS after positive leapsecond" '
             s = s + f' --cmd="msmod --timeshift -1 -ts {leap_time} -s -i {out_path}/*.mseed"\n'

@@ -180,12 +180,12 @@ def  __leap_second_commands(leapseconds,out_path):
         if leapsecond['corrected_in_basic_miniseed']:
             s="# ALREADY CORRECTED IN BASIC MINISEED, DOING NOTHING"
             return s
-        if leapsecond['type']="+":
+        if leapsecond['type']=="+":
             s = s + 'sdp-process -c="Shifting one second BACKWARDS after positive leapsecond" '
             s = s + f' --cmd="msmod --timeshift -1 -ts LEAPTIME -s -i {out_path}/*.mseed"\n'
             s = s + 'sdp-process -c="Marking the record containing the positive leapsecond" '
             s = s + f' --cmd="--actflags 4,1 -tsc LEAPTIME -tec LEAPTIME -s -i {out_path}/*.mseed"\n'
-        elif leapsecond['type']="-":
+        elif leapsecond['type']=="-":
             s = s + 'sdp-process -c="Shifting one second FORWARDS after negative leapsecond" '
             s = s + f' --cmd="msmod --timeshift +1 -ts LEAPTIME -s -i {out_path}/*.mseed"\n'
             s = s + 'sdp-process -c="Marking the record containing the negative leapsecond" '

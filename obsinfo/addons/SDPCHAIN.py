@@ -191,7 +191,7 @@ def  __leap_second_commands(leapseconds,out_path):
             s = s + 'sdp-process -c="Marking the record containing the negative leapsecond" '
             s = s + f' --cmd="--actflags 5,1 -tsc LEAPTIME -tec LEAPTIME -s -i {out_path}/*.mseed"\n'
         else:
-            s = s + f'ERROR: leapsecond type "{leapsecond['type']}" is neither "+" nor "-"\n'
+            s = s + 'ERROR: leapsecond type "{}" is neither "+" nor "-"\n'.format(leapsecond['type'])
             sys.exit(2)
         return s
       

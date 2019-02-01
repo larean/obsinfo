@@ -176,10 +176,10 @@ def  __leap_second_commands(leapseconds,out_path):
     Inputs:
         leapseconds: list of dictionaries from network information file
     """
+    s=''
     for leapsecond in leapseconds:
         if leapsecond['corrected_in_basic_miniseed']:
-            s="# ALREADY CORRECTED IN BASIC MINISEED, DOING NOTHING"
-            return s
+            return "# ALREADY CORRECTED IN BASIC MINISEED, DOING NOTHING"
         if leapsecond['type']=="+":
             s = s + 'sdp-process -c="Shifting one second BACKWARDS after positive leapsecond" '
             s = s + f' --cmd="msmod --timeshift -1 -ts LEAPTIME -s -i {out_path}/*.mseed"\n'

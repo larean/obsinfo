@@ -193,12 +193,12 @@ def  __leap_second_steps(leapseconds,out_path):
             s = s + 'sdp-process -c="Shifting one second BACKWARDS after positive leapsecond" '
             s = s + f' --cmd="msmod --timeshift -1 -ts {leap_time} -s -i {out_path}/*.mseed"\n'
             s = s + 'sdp-process -c="Marking the record containing the positive leapsecond" '
-            s = s + f' --cmd="--actflags 4,1 -tsc {leap_time} -tec {leap_time} -s -i {out_path}/*.mseed"\n'
+            s = s + f' --cmd="msmod --actflags 4,1 -tsc {leap_time} -tec {leap_time} -s -i {out_path}/*.mseed"\n'
         elif leapsecond['type']=="-":
             s = s + 'sdp-process -c="Shifting one second FORWARDS after negative leapsecond" '
             s = s + f' --cmd="msmod --timeshift +1 -ts {leap_time} -s -i {out_path}/*.mseed"\n'
             s = s + 'sdp-process -c="Marking the record containing the negative leapsecond" '
-            s = s + f' --cmd="--actflags 5,1 -tsc {leap_time} -tec {leap_time} -s -i {out_path}/*.mseed"\n'
+            s = s + f' --cmd="msmod --actflags 5,1 -tsc {leap_time} -tec {leap_time} -s -i {out_path}/*.mseed"\n'
         else:
             s = s + 'ERROR: leapsecond type "{}" is neither "+" nor "-"\n'.format(leapsecond['type'])
             sys.exit(2)

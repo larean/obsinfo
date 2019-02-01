@@ -4,6 +4,7 @@ Return process steps needed to go from basic miniSEED to data center ready
 import obsinfo
 from obsinfo.network import network as oi_network
 import os.path
+import sys
 
 SEPARATOR_LINE="\n# " + 60 * "=" + "\n"
 
@@ -168,6 +169,33 @@ def __ms2sds_steps(station,in_path,out_path,msmod_path='$MS2SDS_DIR/bin'):
     return s
 
 ############################################################################
+def  __leap_second_commands(leapseconds,out_path):
+    """ 
+    Create leap-second correction text
+    
+    Inputs:
+        leapseconds: list of dictionaries from network information file
+    """
+    for leapsecond in leapseconds:
+        if leapsecond['corrected_in_basic_miniseed']:
+            s="# ALREADY CORRECTED IN BASIC MINISEED, DOING NOTHING"
+            return s
+        if leapsecond['type']="+":
+            s = s + 'sdp-process -c="Shifting one second BACKWARDS after positive leapsecond" '
+            s = s + f' --cmd="msmod --timeshift -1 -ts LEAPTIME -s -i {out_path}/*.mseed"\n'
+            s = s + 'sdp-process -c="Marking the record containing the positive leapsecond" '
+            s = s + f' --cmd="--actflags 4,1 -tsc LEAPTIME -tec LEAPTIME -s -i {out_path}/*.mseed"\n'
+        elif leapsecond['type']="-":
+            s = s + 'sdp-process -c="Shifting one second FORWARDS after negative leapsecond" '
+            s = s + f' --cmd="msmod --timeshift +1 -ts LEAPTIME -s -i {out_path}/*.mseed"\n'
+            s = s + 'sdp-process -c="Marking the record containing the negative leapsecond" '
+            s = s + f' --cmd="--actflags 5,1 -tsc LEAPTIME -tec LEAPTIME -s -i {out_path}/*.mseed"\n'
+        else:
+            s = s + f'ERROR: leapsecond type "{leapsecond['type']}" is neither "+" nor "-"\n'
+            sys.exit(2)
+        return s
+      
+############################################################################
 def  __clockcorr_steps(in_path,out_path,clock_corrs,
                         force_quality_Q=True):
     """ 
@@ -184,10 +212,9 @@ def  __clockcorr_steps(in_path,out_path,clock_corrs,
     s = s + '# - LEAPSECOND CORRECTION(S)\n'
     leapseconds=clock_corrs.get('leapseconds',None)
     if leapseconds:
-        s = s + '# Placeholder\n'
+        s = s + __leap_second_commands(leapseconds,out_path)
     else:
         s = s + '# No leapseconds declared\n'
-    s = s + '# NO LEAPSECOND CORRECTION SCRIPT!\n'
     s = s + "\n"
     
     # LINEAR CLOCK DRIFT

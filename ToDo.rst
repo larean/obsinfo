@@ -6,7 +6,8 @@ ______
 
 - Add ``bad_stations`` field at same level (and with same format) as ``stations``?  This would
   allow one to correctly specify bad stations without the codes trying to make data and
-  stationXML from them
+  stationXML from them.  But it would force the user to specify a start_ and end_date and synchronization,
+  even if there aren't any.
 
 Major
 ______

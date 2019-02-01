@@ -4,6 +4,9 @@ TO DO
 Minor
 ______
 
+- Add ``bad_stations`` field at same level (and same format) as ``stations``?  This would
+  allow one to correctly specify bad stations without the codes trying to make data and
+  stationXML from them
 
 Major
 ______

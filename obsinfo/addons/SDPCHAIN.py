@@ -180,7 +180,7 @@ def  __leap_second_steps(leapseconds,out_path):
     s = s + '# - LEAPSECOND CORRECTION(S)\n'
     
     if not leapseconds:
-        s=s+"No leap seconds declared\n"
+        s=s+"# No leap seconds declared\n"
         return s
     
     for leapsecond in leapseconds:

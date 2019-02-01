@@ -169,27 +169,36 @@ def __ms2sds_steps(station,in_path,out_path,msmod_path='$MS2SDS_DIR/bin'):
     return s
 
 ############################################################################
-def  __leap_second_commands(leapseconds,out_path):
+def  __leap_second_steps(leapseconds,out_path):
     """ 
     Create leap-second correction text
     
     Inputs:
         leapseconds: list of dictionaries from network information file
     """
-    s=''
+    s = SEPARATOR_LINE
+    s = s + '# - LEAPSECOND CORRECTION(S)\n'
+    
+    if not leapseconds:
+        s=s+"No leap seconds declared\n"
+        return s
+    
     for leapsecond in leapseconds:
+        leap_time=leapsecond['time'].rstrip('Z')
         if leapsecond['corrected_in_basic_miniseed']:
-            return "# ALREADY CORRECTED IN BASIC MINISEED, DOING NOTHING"
+            s=s + "# LEAP SECOND AT {} ALREADY CORRECTED IN BASIC MINISEED, DOING NOTHING\n".format(\
+                leap_time)
+            return s
         if leapsecond['type']=="+":
             s = s + 'sdp-process -c="Shifting one second BACKWARDS after positive leapsecond" '
-            s = s + f' --cmd="msmod --timeshift -1 -ts LEAPTIME -s -i {out_path}/*.mseed"\n'
+            s = s + f' --cmd="msmod --timeshift -1 -ts {leap_time} -s -i {out_path}/*.mseed"\n'
             s = s + 'sdp-process -c="Marking the record containing the positive leapsecond" '
-            s = s + f' --cmd="--actflags 4,1 -tsc LEAPTIME -tec LEAPTIME -s -i {out_path}/*.mseed"\n'
+            s = s + f' --cmd="--actflags 4,1 -tsc {leap_time} -tec {leap_time} -s -i {out_path}/*.mseed"\n'
         elif leapsecond['type']=="-":
             s = s + 'sdp-process -c="Shifting one second FORWARDS after negative leapsecond" '
-            s = s + f' --cmd="msmod --timeshift +1 -ts LEAPTIME -s -i {out_path}/*.mseed"\n'
+            s = s + f' --cmd="msmod --timeshift +1 -ts {leap_time} -s -i {out_path}/*.mseed"\n'
             s = s + 'sdp-process -c="Marking the record containing the negative leapsecond" '
-            s = s + f' --cmd="--actflags 5,1 -tsc LEAPTIME -tec LEAPTIME -s -i {out_path}/*.mseed"\n'
+            s = s + f' --cmd="--actflags 5,1 -tsc {leap_time} -tec {leap_time} -s -i {out_path}/*.mseed"\n'
         else:
             s = s + 'ERROR: leapsecond type "{}" is neither "+" nor "-"\n'.format(leapsecond['type'])
             sys.exit(2)
@@ -208,17 +217,11 @@ def  __clockcorr_steps(in_path,out_path,clock_corrs,
         force_quality_Q: Force the data quality to "Q" using a separate call
                          of msmod (should be unecessary once lc2ms is upgraded)
     """
-    s = SEPARATOR_LINE
-    s = s + '# - LEAPSECOND CORRECTION(S)\n'
     leapseconds=clock_corrs.get('leapseconds',None)
-    if leapseconds:
-        s = s + __leap_second_commands(leapseconds,out_path)
-    else:
-        s = s + '# No leapseconds declared\n'
-    s = s + "\n"
+    s = s + __leap_second_steps(leapseconds,out_path)
     
     # LINEAR CLOCK DRIFT
-    s = SEPARATOR_LINE
+    s = s + SEPARATOR_LINE
     s = s + '# - MSDRIFT : CORRECT LINEAR CLOCK DRIFT\n'
     s = s + 'echo ""\n'
     s = s + f'echo "{"="*60}"\n'

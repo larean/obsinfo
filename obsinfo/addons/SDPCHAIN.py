@@ -18,7 +18,9 @@ def process_script(station, station_dir,
                     include_header=True,
                     SDS_uncorr_dir='SDS_uncorrected',
                     SDS_corr_dir=  'SDS_corrected',
-                    msmod_path='$MS2SDS_DIR/bin'):
+                    msmod_path='$MS2SDS_DIR/bin'
+                    make_properties_file=False
+                  ):
     """Writes OBS data processing script using SDPCHAIN software
         
         station: an obsinfo.station object
@@ -38,6 +40,7 @@ def process_script(station, station_dir,
         include_header:   whether or not to include the bash script header
                           ('#!/bin/bash') at the top of the script [True]
         msmod_path:       Path to the msmod executable ['$MS2SDS_DIR/bin']
+        make_properties_file: Create a new properties file
     
         The sequence of commands is:
             1: optional proprietary format steps (proprietary format -> basic miniseed)
@@ -59,14 +62,15 @@ def process_script(station, station_dir,
         s = s + __extra_command_steps(extra_commands)
     # Make SDS from basic miniseed data
     s = s + __ms2sds_steps(station,input_mseed_dir,SDS_uncorr_dir,
-                            msmod_path=msmod_path)
+                            msmod_path=msmod_path,make_properties_file)
     # Correct clock (drift and possibly leapsecond)
     s = s + __clockcorr_steps(input_mseed_dir,
                             output_mseed_dir,
-                            station.clock_corrections)
+                            station.clock_corrections,
+                            make_properties_file)
     # Make SDS from corrected miniseed data
     s = s + __ms2sds_steps(station,output_mseed_dir,SDS_corr_dir,
-                            msmod_path=msmod_path)
+                            msmod_path=msmod_path,make_properties_file)
 
     return s
                     
@@ -111,7 +115,7 @@ def __extra_command_steps(extra_commands):
     return s
 
 ############################################################################
-def __ms2sds_steps(station,in_path,out_path,msmod_path='$MS2SDS_DIR/bin'):
+def __ms2sds_steps(station,in_path,out_path,msmod_path='$MS2SDS_DIR/bin',make_properties_file=False):
 
     """ 
     Writes the ms2sds lines of the script
@@ -127,18 +131,19 @@ def __ms2sds_steps(station,in_path,out_path,msmod_path='$MS2SDS_DIR/bin'):
     s = s + f'echo "{"-"*60}"\n'
     s = s + 'echo "MS2SDS directory = $MS2SDS_DIR"\n'
    
-    s = s + '# - Configure properties file\n'
-    s = s + 'command cd $MS2SDS_DIR/config/\n'
-    s = s + 'rm ms2sds.properties\n'
-    s = s + 'echo "# Text encoding : ISO 8859-1 (Latin 1)" >> ms2sds.properties\n'
-    s = s + 'echo "# binaryDirpath = Path to msmod executable" >> ms2sds.properties\n'
-    s = s + f'echo "binaryDirpath={msmod_path}" >> ms2sds.properties\n'
-    # Path to temporary working directory
-    s = s + 'echo "workingDirpath=$MS2SDS_DIR/working_rep" >> ms2sds.properties\n'
-    # Comment for the application
-    s = s + 'echo "applicationComment=Transform miniSEED files to SeisComp3 Data Structure" >> ms2sds.properties\n'
-    s = s + 'command cd -\n'
-    s = s + '\n'
+    if make_properties_file:
+        s = s + '# - Configure properties file\n'
+        s = s + 'command cd $MS2SDS_DIR/config/\n'
+        s = s + 'rm ms2sds.properties\n'
+        s = s + 'echo "# Text encoding : ISO 8859-1 (Latin 1)" >> ms2sds.properties\n'
+        s = s + 'echo "# binaryDirpath = Path to msmod executable" >> ms2sds.properties\n'
+        s = s + f'echo "binaryDirpath={msmod_path}" >> ms2sds.properties\n'
+        # Path to temporary working directory
+        s = s + 'echo "workingDirpath=$MS2SDS_DIR/working_rep" >> ms2sds.properties\n'
+        # Comment for the application
+        s = s + 'echo "applicationComment=Transform miniSEED files to SeisComp3 Data Structure" >> ms2sds.properties\n'
+        s = s + 'command cd -\n'
+        s = s + '\n'
     
     s = s + '# - Set up environment variables\n'
     s = s + 'InJava_Par=$MS2SDS_DIR/config\n'
@@ -210,7 +215,7 @@ def  __leap_second_steps(leapseconds,out_path):
       
 ############################################################################
 def  __clockcorr_steps(in_path,out_path,clock_corrs,
-                        force_quality_Q=True):
+                        force_quality_Q=True,,make_properties_file=False):
     """ 
     Write leap-second correction and msdrift lines of the script
     
@@ -234,18 +239,19 @@ def  __clockcorr_steps(in_path,out_path,clock_corrs,
     s = s + 'echo "MSDRIFT directory = $MSDRIFT_DIR"\n'
     s = s + '\n'
 
-    s = s + '# - Configure properties file\n'
-    s = s + 'command cd $MSDRIFT_DIR/config\n'
-    s = s + 'rm msdrift.properties\n'
-    s = s + 'echo "# Text encoding : ISO 8859-1 (Latin 1)" >> msdrift.properties\n'
-    # Path to qedit executable" >> msdrift.properties
-    s = s + 'echo "qeditDirpath=/opt/passcal/bin/" >> msdrift.properties\n'
-    # Path to temporary working directory" >> msdrift.properties
-    s = s + 'echo "workingDirpath=$MSDRIFT_DIR/working" >> msdrift.properties\n'
-    # Comment for the application" >> msdrift.properties
-    s = s + 'echo "applicationComment=Applies linear clock drift correction to miniSEED data\n" >> msdrift.properties\n'
-    s = s + 'command cd -\n'
-    s = s + '\n'
+    if make_properties_file:
+        s = s + '# - Configure properties file\n'
+        s = s + 'command cd $MSDRIFT_DIR/config\n'
+        s = s + 'rm msdrift.properties\n'
+        s = s + 'echo "# Text encoding : ISO 8859-1 (Latin 1)" >> msdrift.properties\n'
+        # Path to qedit executable" >> msdrift.properties
+        s = s + 'echo "qeditDirpath=/opt/passcal/bin/" >> msdrift.properties\n'
+        # Path to temporary working directory" >> msdrift.properties
+        s = s + 'echo "workingDirpath=$MSDRIFT_DIR/working" >> msdrift.properties\n'
+        # Comment for the application" >> msdrift.properties
+        s = s + 'echo "applicationComment=Applies linear clock drift correction to miniSEED data\n" >> msdrift.properties\n'
+        s = s + 'command cd -\n'
+        s = s + '\n'
 
     s = s + '# - Set up environment variables\n'
     s = s + 'InJava_Par=$MSDRIFT_DIR/config\n'
@@ -298,9 +304,9 @@ def  __clockcorr_steps(in_path,out_path,clock_corrs,
         s = s + f'sdp-process -c="Forcing data quality to Q" --cmd="msmod --quality Q -i {out_path}/*.mseed"\n'
         s = s + 'command cd -\n'
 
-    s = s + '# - Copy process-steps.json file up to corrected miniseed directory\n'
-    s = s + f'cp $STATION_DIR/process-steps.json $STATION_DIR/{out_path}/\n'
-    s = s + '\n'
+    # s = s + '# - Copy process-steps.json file up to corrected miniseed directory\n'
+    # s = s + f'cp $STATION_DIR/process-steps.json $STATION_DIR/{out_path}/\n'
+    # s = s + '\n'
 
     return s
 

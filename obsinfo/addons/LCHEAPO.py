@@ -14,17 +14,16 @@ def process_script(station,
                     lc2ms_dir,
                     lcheapo_dir='1_proprietary',
                     input_dir='2_miniseed_basic',
-                    extra_commands=None,
-                    include_header=True):
+                    include_header=True
+                  ):
     """Writes script to transform raw OBS data to miniSEED
         
-        station: an obsinfo.station object
+        station:     an obsinfo.station object
         station_dir: base directory for the station data
-        lcheapo_dir:  directory beneath station_dir for LCHEAPO data
-                             data ['1_proprietary']
-        input_dir:  directory beneath station_dir for basic miniseed
-                             data ['2_miniseed_basic']
-            
+        lc2ms_dir:   directory where the lc2ms executable and properties file are found
+        lcheapo_dir: directory beneath station_dir for LCHEAPO data ['1_proprietary']
+        input_dir:   directory beneath station_dir for basic miniseed ['2_miniseed_basic']
+        include_header: include the header that sets up paths (should be done once)
     """   
     s = ''
     if include_header:
@@ -49,7 +48,9 @@ def __setup_variables(lc2ms_dir,station_dir):
     s = s + 'echo "Running LC2MS"\n'
     s = s + f'echo "{"-"*60}"\n'
     s = s + "#  - Set up paths to data and executables\n"
-    s = s + f"LC2MS_DIR={lc2ms_dir}\n"
+    #s = s + f"LC2MS_DIR={lc2ms_dir}\n"
+    s = s + f"exec_dir={lc2ms_dir}\n"
+    s = s + "export PATH=$exec_dir:$PATH\n"
     s = s + f"STATION_DIR={station_dir}\n"
     s = s + '\n'
     return s
@@ -58,29 +59,30 @@ def __setup_variables(lc2ms_dir,station_dir):
 def __configure() :
 
     s = ''
-    s = s + '# - Configure properties file\n'
-    s = s + 'command cd $LC2MS_DIR/config/\n'
-    s = s + 'rm lc2ms.properties\n'
-    s = s + 'echo "# Text encoding : ISO 8859-1 (Latin 1)" >> lc2ms.properties\n'
-    # Path to the lch2mseed executable
-    s = s + 'echo "binaryDirpath=$LC2MS_DIR/bin" >> lc2ms.properties\n'
-    # Path for the temporary working directory
-    s = s + 'echo "workingDirpath=$LC2MS_DIR/working" >> lc2ms.properties\n'
-    # Comment for the application
-    s = s + 'echo "applicationComment=This is a comment" >> lc2ms.properties\n'
-    # Path and filename of the CSV file specifying OBS types/families" >> lc2ms.properties
-    # (ignored if specifiedon the command line)" >> lc2ms.properties
-    # (If relative path, use <binaryDirpath> + <relpath>)" >> lc2ms.properties
-    # (If absent, use <binaryDirpath> + "./obs-config.csv")" >> lc2ms.properties
-    s = s + 'echo "obsConfigFilepath=$LC2MS_DIR/config/obs-config.csv" >> lc2ms.properties\n'
-    s = s + 'command cd -\n'
-    s = s + '\n'
+    # s = s + '# - Configure properties file\n'
+    # s = s + 'command cd $exec_dir\n'
+    # s = s + 'rm lc2ms.properties\n'
+    # s = s + 'echo "# Text encoding : ISO 8859-1 (Latin 1)" >> lc2ms.properties\n'
+    # # Path to the lch2mseed executable
+    # s = s + 'echo "binaryDirpath=$LC2MS_DIR/bin" >> lc2ms.properties\n'
+    # # Path for the temporary working directory
+    # s = s + 'echo "workingDirpath=$LC2MS_DIR/working" >> lc2ms.properties\n'
+    # # Comment for the application
+    # s = s + 'echo "applicationComment=This is a comment" >> lc2ms.properties\n'
+    # # Path and filename of the CSV file specifying OBS types/families" >> lc2ms.properties
+    # # (ignored if specifiedon the command line)" >> lc2ms.properties
+    # # (If relative path, use <binaryDirpath> + <relpath>)" >> lc2ms.properties
+    # # (If absent, use <binaryDirpath> + "./obs-config.csv")" >> lc2ms.properties
+    # s = s + 'echo "obsConfigFilepath=$LC2MS_DIR/config/obs-config.csv" >> lc2ms.properties\n'
+    # s = s + 'command cd -\n'
+    # s = s + '\n'
      
-    s = s + '# - Set up environment variables\n'
-    s = s + 'InJava_Par=$LC2MS_DIR/config/\n'
-    s = s + 'Config_lc2ms_Path=$LC2MS_DIR/config/\n'
-    s = s + 'Execut_dir_lc2ms=$LC2MS_DIR/bin\n'
-    s = s + 'export JAVA_TOOL_OPTIONS=-Djava.util.logging.config.file=$InJava_Par/JULogging.properties\n'
+    # s = s + '# - Set up environment variables\n'
+    # s = s + 'InJava_Par=$LC2MS_DIR/config/\n'
+    # s = s + 'Config_lc2ms_Path=$LC2MS_DIR/config/\n'
+    # s = s + 'Execut_dir_lc2ms=$LC2MS_DIR/bin\n'
+    # s = s + 'export JAVA_TOOL_OPTIONS=-Djava.util.logging.config.file=$InJava_Par/JULogging.properties\n'
+    s = s + 'export JAVA_TOOL_OPTIONS=-Djava.util.logging.config.file=JULogging.properties\n'
     s = s + '\n'
    
     return s
@@ -129,22 +131,23 @@ def __commandline(station, in_path, out_path,
     s = s + f'mkdir $STATION_DIR/{out_path}\n'
     s = s + '\n'
 
-    s = s + '# - Copy process-steps.json file down to station directory\n'
-    s = s + f'cp $STATION_DIR/{in_path}/process-steps.json $STATION_DIR\n'
-    s = s + '\n'
+    # s = s + '# - Copy process-steps.json file down to station directory\n'
+    # s = s + f'cp $STATION_DIR/{in_path}/process-steps.json $STATION_DIR\n'
+    # s = s + '\n'
 
     s = s + "# - Run executable\n"
     s = s + 'echo "Running lc2ms: converts LCHEAPO file(s) to miniSEED"\n'
-    s = s + '(command cd $Execut_dir_lc2ms \n'
-    s = s + f'./lc2ms $lchfile -d "$STATION_DIR" -i "{in_path}" -o "{out_path}" ' 
+    # s = s + '(command cd $Execut_dir_lc2ms \n'
+    # s = s + f'./lc2ms $lchfile -d "$STATION_DIR" -i "{in_path}" -o "{out_path}" ' 
+    s = s + f'lc2ms $lchfile -d "$STATION_DIR" -i "{in_path}" -o "{out_path}" ' 
     s = s + f'-m ":{out_fnames_model}" ' 
     s = s + f'--experiment "{network_code}" ' 
     s = s + f'--sitename "{station_code}" ' 
     s = s + f'--obstype "{obs_type}" ' 
     s = s + f'--sernum "{obs_SN}" ' 
     # s = s + f'--channels "{channel_corresp}"' ' 
-    s = s + '-p $Config_lc2ms_Path/lc2ms.properties \n'
-    s = s + ')\n'
+    s = s + '-p $exec_dir/lc2ms.properties \n'
+    # s = s + ')\n'
     s = s + '\n'
 
     if force_quality_D:
@@ -157,9 +160,9 @@ def __commandline(station, in_path, out_path,
         s = s + 'command cd -\n'
         s = s + '\n'
 
-    s = s + '# - Copy process-steps.json file up to new miniseed directory\n'
-    s = s + f'cp $STATION_DIR/process-steps.json $STATION_DIR/{out_path}\n'
-    s = s + '\n'
+    # s = s + '# - Copy process-steps.json file up to new miniseed directory\n'
+    # s = s + f'cp $STATION_DIR/process-steps.json $STATION_DIR/{out_path}\n'
+    # s = s + '\n'
     
     return s
 
@@ -178,7 +181,7 @@ def _console_script(argv=None):
     parser.add_argument( 'network_file', help='Network information file')
     parser.add_argument( 'station_data_path', help='Base path containing stations data')
     parser.add_argument( 'lc2ms_path', help='Path to lc2ms software')
-    parser.add_argument( '-i', '--input_dir', default='1_proprietary',
+    parser.add_argument( '-i', '--input_dir', default='.',
         help='subdirectory of station_data_path/{STATION}/ containing input *.raw.lch files')
     parser.add_argument( '-o', '--output_dir', default='2_miniseed_basic',
         help='subdirectory of station_data_path/{STATION}/ to put output *.mseed files')

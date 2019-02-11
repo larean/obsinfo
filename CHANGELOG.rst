@@ -11,6 +11,8 @@ Changed ``network`` file (station level):
 * Removed ``supplements`` (use ``notes`` or ``comments``, depending on whether you want the information to appear
   in StationXML comments or not)
 * Added ``extras`` (as in other information files/levels) for new/desired fields
+
+* 0.105.1: Added leap-second handling
   
 v0.104
 ------

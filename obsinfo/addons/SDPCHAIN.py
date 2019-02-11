@@ -5,6 +5,7 @@ import obsinfo
 from obsinfo.network import network as oi_network
 import os.path
 import sys
+from obspy.core import UTCDateTime
 
 SEPARATOR_LINE="\n# " + 60 * "=" + "\n"
 
@@ -189,11 +190,13 @@ def  __leap_second_steps(leapseconds,out_path):
         return s
     
     for leapsecond in leapseconds:
-        leap_time=leapsecond['time'].rstrip('Z')
         if leapsecond['corrected_in_basic_miniseed']:
             s=s + "# LEAP SECOND AT {} ALREADY CORRECTED IN BASIC MINISEED, DOING NOTHING\n".format(\
-                leap_time)
+                leapsecond['time'])
             return s
+        temp=leapsecond['time'].split('T')
+        d=UTCDateTime(temp[0])
+        leap_time=d.strftime('%Y,%j,')+temp[1].rstrip('Z')
         s = s + 'echo ""\n'
         s = s + f'echo "{"="*60}"\n'
         s = s + 'echo "Running LEAPSECOND correction"\n'

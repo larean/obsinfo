@@ -14,8 +14,7 @@ Changed ``network`` file (station level):
 
 Other
 
-* 0.105.1: Added leap-second handling
-* 0.105.2: Simplified process-scripts (lc2ms completely, others partially)
+* 0.105.1: Added leap-second handling and simplified process-scripts (lc2ms completely, others partially)
   
 v0.104
 ------

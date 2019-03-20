@@ -206,7 +206,6 @@ def  __msdrift_script(in_path,out_path,clock_corrs,):
     s =  f'echo "{"-"*60}"\n'
     s += 'echo "Running MSDRIFT: CORRECT LINEAR CLOCK DRIFT"\n'
     s += f'echo "{"-"*60}"\n'
-    s += 'echo "MSDRIFT directory = $MSDRIFT_DIR"\n'
 
     s += f'in_dir={in_path}\n'
     s += f'out_dir={out_path}\n'
@@ -216,9 +215,9 @@ def  __msdrift_script(in_path,out_path,clock_corrs,):
 
     s += '# - Collect input filenames\n'
     s += f'command cd $STATION_DIR/$in_dir\n'
-    s += 'mseedfile=$(ls *.mseed)\n'
+    s += 'mseedfiles=$(ls *.mseed)\n'
     s += 'command cd -\n'
-    s += 'echo "mseedfiles=" $mseedfile\n'
+    s += 'echo "mseedfiles=" $mseedfiles\n'
     
     if 'linear_drift' in clock_corrs:
         lin_corr=clock_corrs['linear_drift']

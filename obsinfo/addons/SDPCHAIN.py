@@ -1,32 +1,33 @@
 """ 
-Return process steps needed to go from basic miniSEED to data center ready
+Generate scripts needed to go from basic miniSEED to data center ready
 """
 import obsinfo
 from obsinfo.network import network as oi_network
 import os.path
 import sys
+from obspy.core import UTCDateTime
 
 SEPARATOR_LINE="\n# " + 60 * "=" + "\n"
 
 
 ################################################################################       
 def process_script(station, station_dir,
-                    msdrift_dir, ms2sds_dir,
-                    input_mseed_dir='2_miniseed_basic',
-                    output_mseed_dir='3_minseed_corrected',
+                    distrib_dir='/opt/sdpchain',
+                    input_dir='miniseed_basic',
+                    corrected_dir='minseed_corrected',
                     extra_commands=None,
                     include_header=True,
                     SDS_uncorr_dir='SDS_uncorrected',
                     SDS_corr_dir=  'SDS_corrected',
-                    msmod_path='$MS2SDS_DIR/bin'):
+                  ):
     """Writes OBS data processing script using SDPCHAIN software
         
-        station: an obsinfo.station object
+        station:          an obsinfo.station object
         station_dir:      base directory for the station data
-        input_mseed_dir:  directory beneath station_dir for input (basic)
-                          miniseed data ['2_miniseed_basic']
-        output_mseed_dir: directory beneath station_dir for output (corrected)
-                          miniseed data ['3_miniseed_corrected']
+        input_dir:        directory beneath station_dir for input (basic)
+                          miniseed data ['miniseed_basic']
+        corrected_dir:    directory beneath station_dir for output (corrected)
+                          miniseed data ['miniseed_corrected']
         SDS_corr_dir:     directory beneath station_dir in which to write
                           SDS structure of corrected data (ideally
                           ../SOMETHING if ms2sds could write all to the
@@ -37,10 +38,10 @@ def process_script(station, station_dir,
                           same directory)
         include_header:   whether or not to include the bash script header
                           ('#!/bin/bash') at the top of the script [True]
-        msmod_path:       Path to the msmod executable ['$MS2SDS_DIR/bin']
+        distrib_dir:      Base directory of sdpchain distribution ['/opt/sdpchain']
     
         The sequence of commands is:
-            1: optional proprietary format steps (proprietary format -> basic miniseed)
+            1: optional proprietary format steps (proprietary format -> basic miniseed, separate)
             2: optional extra_steps (any cleanup needed for the basic
                 miniseed data, should either overwrite the existing data or
                 remove the original files so that subsequent steps only see the
@@ -50,47 +51,46 @@ def process_script(station, station_dir,
             5: msdrift (creates drift-corrected miniseed)
         
     """   
-
+    leap_corr_dir='miniseed_leap_corrected'
+    
     s=''
     if include_header:
-        s = s + __header()
-    s = s + __setup_variables(msdrift_dir,ms2sds_dir,station_dir)
+        s += __header(station.code)
+    s += __setup_variables(distrib_dir,station_dir)
     if extra_commands:
-        s = s + __extra_command_steps(extra_commands)
-    # Make SDS from basic miniseed data
-    s = s + __ms2sds_steps(station,input_mseed_dir,SDS_uncorr_dir,
-                            msmod_path=msmod_path)
-    # Correct clock (drift and possibly leapsecond)
-    s = s + __clockcorr_steps(input_mseed_dir,
-                            output_mseed_dir,
-                            station.clock_corrections)
-    # Make SDS from corrected miniseed data
-    s = s + __ms2sds_steps(station,output_mseed_dir,SDS_corr_dir,
-                            msmod_path=msmod_path)
+        s += __extra_command_steps(extra_commands)
+    s += __ms2sds_script(station,input_dir,SDS_uncorr_dir)
+    t =  __leap_second_script(station.clock_corrections.get('leapseconds',None),
+                            input_dir,leap_corr_dir)
+    if t:
+      s+=t
+      input_dir=leap_corr_dir
+    s += __msdrift_script(input_dir,corrected_dir,station.clock_corrections)
+    s += __force_quality_script(corrected_dir,'Q')
+    s += __ms2sds_script(station,corrected_dir,SDS_corr_dir)
 
     return s
                     
 ############################################################################
-def __header():
+def __header(station_name):
 
-    s = "#!/bin/bash\n"    
+    s =  "#!/bin/bash\n"
+    s += SEPARATOR_LINE + f"Working on station {station_name}" + SEPARATOR_LINE
+
     return s
 
 ############################################################################
-def __setup_variables(msdrift_dir,ms2sds_dir,station_dir):
+def __setup_variables(distrib_dir,station_dir):
 
     s = SEPARATOR_LINE + "# SDPCHAIN STEPS" + SEPARATOR_LINE
-    s = s + "#  This script assumes that you have SDPCHAIN installed\n"
-    s = s + "#  SDPCHAIN includes the executables:\n"
-    s = s + "#           msdrift (applies a drift correction to miniseed data)\n"
-    s = s + "#           ms2sds  (converts miniseed data to sds format)\n"
-    s = s + "#           sdp-process (creates/appends a process-step.json file for any command)\n"
-    s = s + '\n'
-        
-    s = s + "#  - Set up paths to data and executables\n"
-    s = s + f"MSDRIFT_DIR={msdrift_dir}\n"
-    s = s + f"MS2SDS_DIR={ms2sds_dir}\n"
-    s = s + f"STATION_DIR={station_dir}\n"
+    s += "#  - Set up paths\n"
+    s += f"STATION_DIR={station_dir}\n"
+    s += f"MSDRIFT_EXEC={os.path.join(distrib_dir,'bin','msdrift')}\n"
+    s += f"MSDRIFT_CONFIG={os.path.join(distrib_dir,'config','msdrift.properties')}\n"
+    s += f"MS2SDS_EXEC={os.path.join(distrib_dir,'bin','ms2sds')}\n"
+    s += f"MS2SDS_CONFIG={os.path.join(distrib_dir,'config','ms2sds.properties')}\n"
+    s += f"SDP-PROCESS_EXEC={os.path.join(distrib_dir,'bin','sdp-process')}\n"
+    s += "\n"
     
     return s
 
@@ -111,196 +111,149 @@ def __extra_command_steps(extra_commands):
     return s
 
 ############################################################################
-def __ms2sds_steps(station,in_path,out_path,msmod_path='$MS2SDS_DIR/bin'):
+def __ms2sds_script(station,in_path,out_path):
 
     """ 
     Writes the ms2sds lines of the script
     """
-    station_code=station.code
-    network_code=station.network_code
+    sta=station.code
+    net=station.network_code
     
-    s = SEPARATOR_LINE
-    s = s + '# - MS2SDS: TRANSFORM DATA TO SDS FORMAT\n'
-    s = s + 'echo ""\n'
-    s = s + f'echo "{"="*60}"\n'
-    s = s + 'echo "Running MS2SDS"\n'
-    s = s + f'echo "{"-"*60}"\n'
-    s = s + 'echo "MS2SDS directory = $MS2SDS_DIR"\n'
+    s =  f'echo "{"-"*60}"\n'
+    s += 'echo "Running MS2SDS: MAKE SDS ARCHIVE"\n'
+    s += f'echo "{"-"*60}"\n'
    
-    s = s + '# - Configure properties file\n'
-    s = s + 'command cd $MS2SDS_DIR/config/\n'
-    s = s + 'rm ms2sds.properties\n'
-    s = s + 'echo "# Text encoding : ISO 8859-1 (Latin 1)" >> ms2sds.properties\n'
-    s = s + 'echo "# binaryDirpath = Path to msmod executable" >> ms2sds.properties\n'
-    s = s + f'echo "binaryDirpath={msmod_path}" >> ms2sds.properties\n'
-    # Path to temporary working directory
-    s = s + 'echo "workingDirpath=$MS2SDS_DIR/working_rep" >> ms2sds.properties\n'
-    # Comment for the application
-    s = s + 'echo "applicationComment=Transform miniSEED files to SeisComp3 Data Structure" >> ms2sds.properties\n'
-    s = s + 'command cd -\n'
-    s = s + '\n'
+    s += f'in_dir="{in_path}"\n'
+    s += f'out_dir="{out_path}"\n'
     
-    s = s + '# - Set up environment variables\n'
-    s = s + 'InJava_Par=$MS2SDS_DIR/config\n'
-    s = s + 'Config_ms2sds_Path=$MS2SDS_DIR/config\n'
-    s = s + 'Execut_dir_ms2sds=$MS2SDS_DIR\n'
-    s = s + 'export JAVA_TOOL_OPTIONS=-Djava.util.logging.config.file=$InJava_Par/JULogging.properties\n'
-    s = s + '\n'
+    s += '# - Create output directory\n'
+    s += 'mkdir $STATION_DIR/$out_dir\n'
     
-    s = s + '# - Collect input filenames\n'
-    #s = s + 'workDir="/Volumes/PILAB_Donnees/${sitename}"\n'
-    s = s + f'command cd $STATION_DIR/{in_path}\n'
-    s = s + 'mseedfiles=$(ls *.mseed)\n'
-    s = s + 'echo "mseedfiles=" $mseedfiles\n'
-    s = s + 'command cd -\n'
-    s = s + '\n'
+    s += '# - Collect input filenames\n'
+    s += 'command cd $STATION_DIR/$in_dir\n'
+    s += 'mseedfiles=$(ls *.mseed)\n'
+    s += 'command cd -\n'
+    s += 'echo "mseedfiles=" $mseedfiles\n'
     
-    s = s + "# Create output directory, if it doesn't exist\n"
-    s = s + f'mkdir $STATION_DIR/{out_path}\n'
-    s = s + '\n'
-
-    s = s + '# - Run executable\n'
-    s = s + '(command cd $Execut_dir_ms2sds\n'
-    s = s + f'./ms2sds $mseedfiles -d $STATION_DIR -i "{in_path}" -o "{out_path}" '
-    s = s + f'--network "{network_code}" --station "{station_code}" '
-    s = s + '-a SDS -p $Config_ms2sds_Path/ms2sds.properties) '
-    s = s + '#-v\n'
+    s += '# - Run executable\n'
+    s += '$MS2SDS_EXEC $mseedfiles -d $STATION_DIR -i $in_dir -o $out_dir '
+    s += f'--network "{net}" --station "{sta}" -a SDS -p $MS2SDS_CONFIG\n'
+    s += '\n'
     
     return s
 
 ############################################################################
-def  __leap_second_steps(leapseconds,out_path):
+def  __leap_second_script(leapseconds,in_dir,out_dir):
     """ 
     Create leap-second correction text
     
     Inputs:
         leapseconds: list of dictionaries from network information file
     """
-    s = SEPARATOR_LINE
-    s = s + '# - LEAPSECOND CORRECTION(S)\n'
-    
     if not leapseconds:
-        s=s+"# No leap seconds declared\n"
-        return s
+        return ""
+    
+    s =  f'echo "{"-"*60}"\n'
+    s += 'echo "LEAPSECOND CORRECTIONS"\n'
+    s += f'echo "{"-"*60}"\n'
+    
+    s += f'in_dir={in_dir}\n'
+    s += f'out_dir={out_dir}\n'
+    
+    s += '# - Create output directory\n'
+    s += 'mkdir $STATION_DIR/$out_dir\n'
+    
+    s += '# - Copy files to output directory\n'
+    s += 'cp $STATION_DIR/$in_dir/*.mseed $STATION_DIR/$out_dir\n'    
     
     for leapsecond in leapseconds:
-        leap_time=leapsecond['time'].rstrip('Z')
         if leapsecond['corrected_in_basic_miniseed']:
-            s=s + "# LEAP SECOND AT {} ALREADY CORRECTED IN BASIC MINISEED, DOING NOTHING\n".format(\
-                leap_time)
+            s += "# LEAP SECOND AT {} ALREADY CORRECTED IN BASIC MINISEED, DOING NOTHING\n".format(\
+                leapsecond['time'])
             return s
-        s = s + 'echo ""\n'
-        s = s + f'echo "{"="*60}"\n'
-        s = s + 'echo "Running LEAPSECOND correction"\n'
-        s = s + f'echo "{"-"*60}"\n'
+        temp=leapsecond['time'].split('T')
+        d=UTCDateTime(temp[0])
+        leap_time=d.strftime('%Y,%j,')+temp[1].rstrip('Z')
+        s += 'echo ""\n'
+        s += f'echo "{"="*60}"\n'
+        s += 'echo "Running LEAPSECOND correction"\n'
+        s += f'echo "{"-"*60}"\n'
         if leapsecond['type']=="+":
-            s = s + 'sdp-process -c="Shifting one second BACKWARDS after positive leapsecond" '
-            s = s + f' --cmd="msmod --timeshift -1 -ts {leap_time} -s -i {out_path}/*.mseed"\n'
-            s = s + 'sdp-process -c="Marking the record containing the positive leapsecond" '
-            s = s + f' --cmd="msmod --actflags 4,1 -tsc {leap_time} -tec {leap_time} -s -i {out_path}/*.mseed"\n'
+            s += 'sdp-process -d $STATION_DIR -c="Shifting one second BACKWARDS after positive leapsecond" '
+            s += f' --cmd="msmod --timeshift -1 -ts {leap_time} -s -i $out_dir/*.mseed"\n'
+            s += 'sdp-process -c="Marking the record containing the positive leapsecond" '
+            s += f' --cmd="msmod --actflags 4,1 -tsc {leap_time} -tec {leap_dir} -s -i $out_dir/*.mseed"\n'
         elif leapsecond['type']=="-":
-            s = s + 'sdp-process -c="Shifting one second FORWARDS after negative leapsecond" '
-            s = s + f' --cmd="msmod --timeshift +1 -ts {leap_time} -s -i {out_path}/*.mseed"\n'
-            s = s + 'sdp-process -c="Marking the record containing the negative leapsecond" '
-            s = s + f' --cmd="msmod --actflags 5,1 -tsc {leap_time} -tec {leap_time} -s -i {out_path}/*.mseed"\n'
+            s += 'sdp-process -c="Shifting one second FORWARDS after negative leapsecond" '
+            s += f' --cmd="msmod --timeshift +1 -ts {leap_time} -s -i $out_dir/*.mseed"\n'
+            s += 'sdp-process -c="Marking the record containing the negative leapsecond" '
+            s += f' --cmd="msmod --actflags 5,1 -tsc {leap_time} -tec {leap_time} -s -i $out_dir/*.mseed"\n'
         else:
-            s = s + 'ERROR: leapsecond type "{}" is neither "+" nor "-"\n'.format(leapsecond['type'])
+            s += 'ERROR: leapsecond type "{}" is neither "+" nor "-"\n'.format(leapsecond['type'])
             sys.exit(2)
-        return s
+    return s
       
 ############################################################################
-def  __clockcorr_steps(in_path,out_path,clock_corrs,
-                        force_quality_Q=True):
+def  __msdrift_script(in_path,out_path,clock_corrs,):
     """ 
-    Write leap-second correction and msdrift lines of the script
+    Write msdrift lines of the script
     
     Inputs:
         in_path
         out_path
         clock_corrs
-        force_quality_Q: Force the data quality to "Q" using a separate call
-                         of msmod (should be unecessary once lc2ms is upgraded)
     """
-    leapseconds=clock_corrs.get('leapseconds',None)
-    s = __leap_second_steps(leapseconds,out_path)
+    s =  f'echo "{"-"*60}"\n'
+    s += 'echo "Running MSDRIFT: CORRECT LINEAR CLOCK DRIFT"\n'
+    s += f'echo "{"-"*60}"\n'
+
+    s += f'in_dir={in_path}\n'
+    s += f'out_dir={out_path}\n'
     
-    # LINEAR CLOCK DRIFT
-    s = s + SEPARATOR_LINE
-    s = s + '# - MSDRIFT : CORRECT LINEAR CLOCK DRIFT\n'
-    s = s + 'echo ""\n'
-    s = s + f'echo "{"="*60}"\n'
-    s = s + 'echo "Running MSDRIFT"\n'
-    s = s + f'echo "{"-"*60}"\n'
-    s = s + 'echo "MSDRIFT directory = $MSDRIFT_DIR"\n'
-    s = s + '\n'
+    s += "# - Create output directory\n"
+    s += 'mkdir $STATION_DIR/$out_dir\n'
 
-    s = s + '# - Configure properties file\n'
-    s = s + 'command cd $MSDRIFT_DIR/config\n'
-    s = s + 'rm msdrift.properties\n'
-    s = s + 'echo "# Text encoding : ISO 8859-1 (Latin 1)" >> msdrift.properties\n'
-    # Path to qedit executable" >> msdrift.properties
-    s = s + 'echo "qeditDirpath=/opt/passcal/bin/" >> msdrift.properties\n'
-    # Path to temporary working directory" >> msdrift.properties
-    s = s + 'echo "workingDirpath=$MSDRIFT_DIR/working" >> msdrift.properties\n'
-    # Comment for the application" >> msdrift.properties
-    s = s + 'echo "applicationComment=Applies linear clock drift correction to miniSEED data\n" >> msdrift.properties\n'
-    s = s + 'command cd -\n'
-    s = s + '\n'
-
-    s = s + '# - Set up environment variables\n'
-    s = s + 'InJava_Par=$MSDRIFT_DIR/config\n'
-    s = s + 'Config_msdrift_Path=$MSDRIFT_DIR/config\n'
-    s = s + 'Execut_dir_msdrift=$MSDRIFT_DIR\n'
-    s = s + 'export JAVA_TOOL_OPTIONS=-Djava.util.logging.config.file=$InJava_Par/JULogging.properties\n'
-
-    s = s + '# - Collect input filenames\n'
-    s = s + f'command cd $STATION_DIR/{in_path}\n'
-    s = s + 'mseedfile=$(ls *.mseed)\n'
-    s = s + 'command cd -\n'
-    s = s + 'echo "mseedfiles=" $mseedfile\n'
-    s = s + '\n'
+    s += '# - Collect input filenames\n'
+    s += f'command cd $STATION_DIR/$in_dir\n'
+    s += 'mseedfiles=$(ls *.mseed)\n'
+    s += 'command cd -\n'
+    s += 'echo "mseedfiles=" $mseedfiles\n'
     
-    s = s + "# Create output directory if it doesn't exist\n"
-    s = s + f'mkdir $STATION_DIR/{out_path}\n'
-    s = s + '\n'
-
     if 'linear_drift' in clock_corrs:
         lin_corr=clock_corrs['linear_drift']
-        s = s + '# - Run executable\n'
-        s = s + f'START_REFR="{str(lin_corr["start_sync_reference"]).rstrip("Z")}"\n'
-        s = s + f'START_INST="{str(lin_corr["start_sync_instrument"]).rstrip("Z")}"\n'
-        s = s + f'END_REFR="{str(lin_corr["end_sync_reference"]).rstrip("Z")}"\n'
-        s = s + f'END_INST="{str(lin_corr["end_sync_instrument"]).rstrip("Z")}"\n'
-        s = s + 'for mfile in $mseedfile\n'
-        s = s + 'do\n'
-        s = s + '(command cd $Execut_dir_msdrift\n'
-        s = s + f'./msdrift $mfile -d $STATION_DIR -i "{in_path}" -o "{out_path}" '
-        s = s + f'-m "%E.%S.00.%C.%Y.%D.%1_%2.mseed:%E.%S.00.%C.%Y.%D.%1_%2_driftcorr.mseed" '
-        s = s + f'-s "$START_REFR;$START_INST" '
-        s = s + f'-e "$END_REFR;$END_INST" '
-        s = s + f'-c "comment.txt" '
-        s = s + f'-p $Config_msdrift_Path/msdrift.properties) #-v\n'
-        s = s + 'done\n'
+        s += '# - Run executable\n'
+        s += f'START_REFR="{str(lin_corr["start_sync_reference"]).rstrip("Z")}"\n'
+        s += f'START_INST="{str(lin_corr["start_sync_instrument"]).rstrip("Z")}"\n'
+        s += f'END_REFR="{str(lin_corr["end_sync_reference"]).rstrip("Z")}"\n'
+        s += f'END_INST="{str(lin_corr["end_sync_instrument"]).rstrip("Z")}"\n'
+        s += f'$MSDRIFT_EXEC $mseedfiles -d $STATION_DIR -i $in_dir -o $out_dir '
+        s += f'-m "%E.%S.00.%C.%Y.%D.%1_%2.mseed:%E.%S.00.%C.%Y.%D.%1_%2_driftcorr.mseed" '
+        s += f'-s "$START_REFR;$START_INST" '
+        s += f'-e "$END_REFR;$END_INST" '
+        #s += f'-c "comment.txt" '
+        s += f'-p $MSDRIFT_CONFIG\n'
+        s += '\n'
     else :
         while lin_corr in clock_corrs['linear_drifts'] :
-            s = s + SEPARATOR+LINE
-            s = s + 'ERROR, CANT YET APPLY MULTIPLE TIME CORRECTIONS (SHOULD CHANGE\n'
-            s = s + 'MSDRIFT TO ONLY WRITE GIVEN TIME RANGE AND BE ABLE TO APPEND TO EXISTING FILE?)\n'
-            s = s + SEPARATOR+LINE
+            s += + SEPARATOR+LINE
+            s += + 'ERROR, CANT YET APPLY MULTIPLE TIME CORRECTIONS (SHOULD CHANGE\n'
+            s += + 'MSDRIFT TO ONLY WRITE GIVEN TIME RANGE AND BE ABLE TO APPEND TO EXISTING FILE?)\n'
+            s += + SEPARATOR+LINE
+    return s
         
-    if force_quality_Q:
-        s = s + "# -Forcing data quality to Q in miniseed files\n"
-        s = s + 'echo ""\n'
-        s = s + f'echo "{"="*60}"\n'
-        s = s + 'echo "Forcing data quality to Q"\n'
-        s = s + f'echo "{"-"*60}"\n'
-        s = s + 'command cd $STATION_DIR\n'
-        s = s + f'sdp-process -c="Forcing data quality to Q" --cmd="msmod --quality Q -i {out_path}/*.mseed"\n'
-        s = s + 'command cd -\n'
-
-    s = s + '# - Copy process-steps.json file up to corrected miniseed directory\n'
-    s = s + f'cp $STATION_DIR/process-steps.json $STATION_DIR/{out_path}/\n'
-    s = s + '\n'
+############################################################################
+def  __force_quality_script(in_path,quality='Q'):
+    """ 
+    Force data quality to Q
+    
+    Inputs:
+        in_path
+        quality
+    """
+    s =  f'echo "{"-"*60}"\n'
+    s += 'echo "Forcing data quality to Q"\n'
+    s += f'echo "{"-"*60}"\n'
+    s += f'$SDP-PROCESS_EXEC -d $STATION_DIR -c="Forcing data quality to Q" --cmd="msmod --quality Q -i $outdir/*.mseed"\n'
 
     return s
 
@@ -320,32 +273,23 @@ def _console_script(argv=None):
 
     parser = ArgumentParser( prog='obsinfo-make_process_scripts_SDPCHAIN',description=__doc__)
     parser.add_argument( 'network_file', help='Network information file')
-    parser.add_argument( 'station_data_path', help='Base path containing stations data')
-    parser.add_argument( 'sdpchain_path', help='Path to SDPCHAIN software')
-    parser.add_argument( '-i', '--input_dir', default='2_miniseed_basic',
+    parser.add_argument( 'station_data_path', help='Base path containing station data')
+    parser.add_argument( 'distrib_dir', help='Path to SDPCHAIN software',default='/opt/sdpchain')
+    parser.add_argument( '-i', '--input_dir', default='miniseed_basic',
         help='subdirectory of station_data_path/{STATION}/ containing input *.mseed files')
-    parser.add_argument( '-o', '--output_mseed_dir', default='3_miniseed_corr',
+    parser.add_argument( '-o', '--corrected_dir', default='miniseed_corrected',
         help='subdirectory of station_data_path/{STATION}/ to put corrected *.mseed files')
     parser.add_argument( '--SDS_corr_dir', default='SDS_corrected',
         help='subdirectory of station_data_path/{STATION}/ for SDS structure of corrected data')
     parser.add_argument( '--SDS_uncorr_dir', default='SDS_uncorrected',
         help='subdirectory of station_data_path/{STATION}/ for SDS structure of uncorrected data')
-    parser.add_argument( '-d', '--msdrift_dir', default='MSDRIFT',
-        help='subdirectory of sdpchain_path/ containing msdrift program')
-    parser.add_argument( '-s', '--ms2sds_dir', default='MS2SDS',
-        help='subdirectory of sdpchain_path/ containing ms2sds program')
-    parser.add_argument( '-m', '--msmod_path', default='',
-        help='full path to msmod program')
     parser.add_argument( '-v', '--verbose',action="store_true",
         help='increase output verbosiy')
+    parser.add_argument( '--no_header',action="store_true",help='do not include file header')
     parser.add_argument( '-q', '--quiet',action="store_true",
         help='run silently')
     args = parser.parse_args()
-    
-    # CONSTRUCT PATHS
-    msdrift_path=os.path.join(args.sdpchain_path,args.msdrift_dir)
-    ms2sds_path=os.path.join(args.sdpchain_path,args.ms2sds_dir)
-    
+        
     # READ IN NETWORK INFORMATION
     if not args.quiet:
         print(f"Creating SDPCHAIN process scripts, ",end="")
@@ -367,22 +311,20 @@ def _console_script(argv=None):
                     print(f", {name}", end="")
         station_dir=os.path.join(args.station_data_path,name)
         script=process_script(station,station_dir,
-                                msdrift_path,
-                                ms2sds_path,
-                                input_mseed_dir=args.input_dir,
-                                output_mseed_dir=args.output_mseed_dir,
+                                distrib_dir=args.distrib_dir,
+                                input_dir=args.input_dir,
+                                corrected_dir=args.corrected_dir,
                                 SDS_uncorr_dir=args.SDS_uncorr_dir,
                                 SDS_corr_dir=args.SDS_corr_dir,
-                                include_header=False,
-                                msmod_path=args.msmod_path)
+                                include_header=not args.no_header)
         fname='process_'+name+'_SDPCHAIN.sh'
         if args.verbose:
             print(f" ... writing file {fname}")
         with open(fname,'w') as f:
-            f.write(f'#!/bin/bash\n\n')
-            f.write('#'+'='*60 + '\n')
-            f.write(f'echo "Running SDPCHAIN processes on station {name}"\n')
-            f.write('#'+'='*60 + '\n')
+            #f.write(f'#!/bin/bash\n\n')
+            #f.write('#'+'='*60 + '\n')
+            #f.write(f'echo "Running SDPCHAIN processes on station {name}"\n')
+            #f.write('#'+'='*60 + '\n')
             f.write(script)
             f.write('\n')
             f.close()

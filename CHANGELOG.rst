@@ -12,7 +12,10 @@ Changed ``network`` file (station level):
   in StationXML comments or not)
 * Added ``extras`` (as in other information files/levels) for new/desired fields
 
-* 0.105.1: Added leap-second handling
+Other
+
+* 0.105.1: Added leap-second handling and simplified process-scripts (lc2ms completely, others partially)
+* 0.105.2: Further simplified process-scripts
   
 v0.104
 ------

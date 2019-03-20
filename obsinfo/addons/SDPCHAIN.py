@@ -286,6 +286,7 @@ def _console_script(argv=None):
         help='subdirectory of station_data_path/{STATION}/ for SDS structure of uncorrected data')
     parser.add_argument( '-v', '--verbose',action="store_true",
         help='increase output verbosiy')
+    parser.add_argument( '--header',default=True,action="store_false",help='include file header')
     parser.add_argument( '-q', '--quiet',action="store_true",
         help='run silently')
     args = parser.parse_args()
@@ -316,15 +317,15 @@ def _console_script(argv=None):
                                 corrected_dir=args.corrected_dir,
                                 SDS_uncorr_dir=args.SDS_uncorr_dir,
                                 SDS_corr_dir=args.SDS_corr_dir,
-                                include_header=False)
+                                include_header=arg.header)
         fname='process_'+name+'_SDPCHAIN.sh'
         if args.verbose:
             print(f" ... writing file {fname}")
         with open(fname,'w') as f:
-            f.write(f'#!/bin/bash\n\n')
-            f.write('#'+'='*60 + '\n')
-            f.write(f'echo "Running SDPCHAIN processes on station {name}"\n')
-            f.write('#'+'='*60 + '\n')
+            #f.write(f'#!/bin/bash\n\n')
+            #f.write('#'+'='*60 + '\n')
+            #f.write(f'echo "Running SDPCHAIN processes on station {name}"\n')
+            #f.write('#'+'='*60 + '\n')
             f.write(script)
             f.write('\n')
             f.close()

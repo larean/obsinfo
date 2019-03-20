@@ -59,7 +59,7 @@ def __setup_variables(distrib_dir,station_dir):
     return s
 
 ############################################################################
-def __lcfix_commandline(station, in_path, out_path,in_fnames='*.raw.lch'):
+def __lcfix_commands(station, in_path, out_path,in_fnames='*.raw.lch'):
 
     """
         Write an lc2ms command line
@@ -93,7 +93,7 @@ def __lcfix_commandline(station, in_path, out_path,in_fnames='*.raw.lch'):
                         
     return s
 ############################################################################
-def __lc2ms_commandline(station, in_path, out_path, 
+def __lc2ms_commands(station, in_path, out_path, 
             in_fnames='*.fix.lch',
             out_fnames_model='%E.%S.00.%C.%Y.%D.%T.%H_%I.mseed',
             force_quality_D=True):

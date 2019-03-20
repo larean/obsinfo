@@ -28,18 +28,19 @@ def process_script(station,
     fixed_dir='lcheapo_fixed'
     s = ''
     if include_header:
-        s = s + __header(station)
-    s = s + __setup_variables(distrib_dir,station_dir)
-    s = s + __lcfix_commands(station,input_dir,fixed_dir)
-    s = s + __lc2ms_commands(station,fixed_dir,output_dir)
+        s += __header(station)
+    s += __setup_variables(distrib_dir,station_dir)
+    s += __lcfix_commands(station,input_dir,fixed_dir)
+    s += __lc2ms_commands(station,fixed_dir,output_dir)
+    s += __force_quality_commands(output_dir,'D')
 
     return s
                     
 ############################################################################
 def __header():
 
-    s = "#!/bin/bash\n" 
-    s+= SEPARATOR_LINE + 'echo "Working on station {station.name}"' + SEPARATOR_LINE
+    s =  "#!/bin/bash\n" 
+    s += SEPARATOR_LINE + 'echo "Working on station {station.name}"' + SEPARATOR_LINE
     return s
 
 ############################################################################
@@ -50,12 +51,12 @@ def __setup_variables(distrib_dir,station_dir):
     station_dir: base directory for station data files
     """
 
-    s = SEPARATOR_LINE + "# LCHEAPO STEPS" + SEPARATOR_LINE
-    s+= f"STATION_DIR={station_dir}\n"
-    s+= f"LCFIX_EXEC={os.path.join(distrib_dir,'bin','lcfix')}\n"
-    s+= f"LC2MS_EXEC={os.path.join(distrib_dir,'bin','lc2ms')}\n"
-    s+= f"LC2MS_CONFIG={os.path.join(distrib_dir,'config','lc2ms.properties')}\n"
-    s+= f'\n'
+    s =  SEPARATOR_LINE + "# LCHEAPO STEPS" + SEPARATOR_LINE
+    s += f"STATION_DIR={station_dir}\n"
+    s += f"LCFIX_EXEC={os.path.join(distrib_dir,'bin','lcfix')}\n"
+    s += f"LC2MS_EXEC={os.path.join(distrib_dir,'bin','lc2ms')}\n"
+    s += f"LC2MS_CONFIG={os.path.join(distrib_dir,'config','lc2ms.properties')}\n"
+    s += f'\n'
     return s
 
 ############################################################################
@@ -79,7 +80,7 @@ def __lcfix_commands(station, in_path, out_path,in_fnames='*.raw.lch'):
     s += f'out_dir="{out_path}"\n'
                         
     s += "#  - Create output directory\n"
-    s += 'mkdir $STATION_DIR/$out_dir'
+    s += 'mkdir $STATION_DIR/$out_dir\n'
                         
     s += "# - Collect input filenames\n"
     s += 'command cd $STATION_DIR/$in_dir\n'
@@ -131,7 +132,7 @@ def __lc2ms_commands(station, in_path, out_path,
     s += f'out_dir="{out_path}"\n'
                         
     s += "#  - Create output directory\n"
-    s += 'mkdir $STATION_DIR/$out_dir'
+    s += 'mkdir $STATION_DIR/$out_dir\n'
                         
     s += "# - Collect input filenames\n"
     s += 'command cd $STATION_DIR/$in_dir\n'

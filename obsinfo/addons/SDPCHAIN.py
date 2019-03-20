@@ -316,7 +316,7 @@ def _console_script(argv=None):
                                 corrected_dir=args.corrected_dir,
                                 SDS_uncorr_dir=args.SDS_uncorr_dir,
                                 SDS_corr_dir=args.SDS_corr_dir,
-                                include_header=not arg.no_header)
+                                include_header=not args.no_header)
         fname='process_'+name+'_SDPCHAIN.sh'
         if args.verbose:
             print(f" ... writing file {fname}")

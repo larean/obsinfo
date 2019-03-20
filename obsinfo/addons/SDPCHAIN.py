@@ -12,7 +12,7 @@ SEPARATOR_LINE="\n# " + 60 * "=" + "\n"
 
 ################################################################################       
 def process_script(station, station_dir,
-                    distrib_path='/opt/sdpchain',
+                    distrib_dir='/opt/sdpchain',
                     input_dir='miniseed_basic',
                     corrected_dir='minseed_corrected',
                     extra_commands=None,
@@ -38,7 +38,7 @@ def process_script(station, station_dir,
                           same directory)
         include_header:   whether or not to include the bash script header
                           ('#!/bin/bash') at the top of the script [True]
-        distrib_path:     Path to sdpchain distribution ['/opt/sdpchain']
+        distrib_dir:      Base directory of sdpchain distribution ['/opt/sdpchain']
     
         The sequence of commands is:
             1: optional proprietary format steps (proprietary format -> basic miniseed, separate)
@@ -265,7 +265,7 @@ def _console_script(argv=None):
     parser = ArgumentParser( prog='obsinfo-make_process_scripts_SDPCHAIN',description=__doc__)
     parser.add_argument( 'network_file', help='Network information file')
     parser.add_argument( 'station_data_path', help='Base path containing station data')
-    parser.add_argument( 'distrib_path', help='Path to SDPCHAIN software')
+    parser.add_argument( 'distrib_dir', help='Path to SDPCHAIN software',default='/opt/sdpchain')
     parser.add_argument( '-i', '--input_dir', default='miniseed_basic',
         help='subdirectory of station_data_path/{STATION}/ containing input *.mseed files')
     parser.add_argument( '-o', '--corrected_dir', default='miniseed_corrected',
@@ -301,7 +301,7 @@ def _console_script(argv=None):
                     print(f", {name}", end="")
         station_dir=os.path.join(args.station_data_path,name)
         script=process_script(station,station_dir,
-                                args.distrib_path,
+                                distrib_dir=args.distrib_path,
                                 input_dir=args.input_dir,
                                 corrected_dir=args.corrected_dir,
                                 SDS_uncorr_dir=args.SDS_uncorr_dir,

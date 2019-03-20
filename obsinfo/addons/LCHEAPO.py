@@ -213,8 +213,8 @@ def _console_script(argv=None):
         script=process_script(station,
                                 station_dir,
                                 args.distrib_path,
-                                lcheapo_dir=args.input_dir,
-                                input_dir=args.output_dir,
+                                input_dir=args.input_dir,
+                                output_dir=args.output_dir,
                                 include_header=False)
         fname='process_'+name+'_LC2MS.sh'
         if args.verbose:

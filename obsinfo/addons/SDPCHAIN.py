@@ -122,7 +122,6 @@ def __ms2sds_script(station,in_path,out_path):
     s =  f'echo "{"-"*60}"\n'
     s += 'echo "Running MS2SDS: MAKE SDS ARCHIVE"\n'
     s += f'echo "{"-"*60}"\n'
-    s += 'echo "MS2SDS directory = $MS2SDS_DIR"\n'
    
     s += f'in_dir="{in_path}"\n'
     s += f'out_dir="{out_path}"\n'
@@ -144,7 +143,7 @@ def __ms2sds_script(station,in_path,out_path):
     return s
 
 ############################################################################
-def  __leap_second_script(leapseconds,out_path):
+def  __leap_second_script(leapseconds,in_dir,out_dir):
     """ 
     Create leap-second correction text
     
@@ -154,8 +153,18 @@ def  __leap_second_script(leapseconds,out_path):
     if not leapseconds:
         return ""
     
-    s = SEPARATOR_LINE
-    s += '# - LEAPSECOND CORRECTION(S)\n'
+    s =  f'echo "{"-"*60}"\n'
+    s += 'echo "LEAPSECOND CORRECTIONS"\n'
+    s += f'echo "{"-"*60}"\n'
+    
+    s += f'in_dir={in_dir}\n'
+    s += f'out_dir={out_dir}\n'
+    
+    s += '# - Create output directory\n'
+    s += 'mkdir $STATION_DIR/$out_dir\n'
+    
+    s += '# - Copy files to output directory\n'
+    s += 'cp $STATION_DIR/$in_dir/*.mseed $STATION_DIR/$out_dir\n'    
     
     for leapsecond in leapseconds:
         if leapsecond['corrected_in_basic_miniseed']:
@@ -170,15 +179,15 @@ def  __leap_second_script(leapseconds,out_path):
         s += 'echo "Running LEAPSECOND correction"\n'
         s += f'echo "{"-"*60}"\n'
         if leapsecond['type']=="+":
-            s += 'sdp-process -c="Shifting one second BACKWARDS after positive leapsecond" '
-            s += f' --cmd="msmod --timeshift -1 -ts {leap_time} -s -i {out_path}/*.mseed"\n'
+            s += 'sdp-process -d $STATION_DIR -c="Shifting one second BACKWARDS after positive leapsecond" '
+            s += f' --cmd="msmod --timeshift -1 -ts {leap_time} -s -i $out_dir/*.mseed"\n'
             s += 'sdp-process -c="Marking the record containing the positive leapsecond" '
-            s += f' --cmd="msmod --actflags 4,1 -tsc {leap_time} -tec {leap_time} -s -i {out_path}/*.mseed"\n'
+            s += f' --cmd="msmod --actflags 4,1 -tsc {leap_time} -tec {leap_dir} -s -i $out_dir/*.mseed"\n'
         elif leapsecond['type']=="-":
             s += 'sdp-process -c="Shifting one second FORWARDS after negative leapsecond" '
-            s += f' --cmd="msmod --timeshift +1 -ts {leap_time} -s -i {out_path}/*.mseed"\n'
+            s += f' --cmd="msmod --timeshift +1 -ts {leap_time} -s -i $out_dir/*.mseed"\n'
             s += 'sdp-process -c="Marking the record containing the negative leapsecond" '
-            s += f' --cmd="msmod --actflags 5,1 -tsc {leap_time} -tec {leap_time} -s -i {out_path}/*.mseed"\n'
+            s += f' --cmd="msmod --actflags 5,1 -tsc {leap_time} -tec {leap_time} -s -i $out_dir/*.mseed"\n'
         else:
             s += 'ERROR: leapsecond type "{}" is neither "+" nor "-"\n'.format(leapsecond['type'])
             sys.exit(2)

@@ -52,6 +52,7 @@ def __setup_variables(distrib_dir,station_dir):
     """
 
     s =  SEPARATOR_LINE + "# LCHEAPO STEPS" + SEPARATOR_LINE
+    s += "#  - Set up paths\n"
     s += f"STATION_DIR={station_dir}\n"
     s += f"LCFIX_EXEC={os.path.join(distrib_dir,'bin','lcfix')}\n"
     s += f"LC2MS_EXEC={os.path.join(distrib_dir,'bin','lc2ms')}\n"

@@ -254,7 +254,7 @@ def  __force_quality_script(in_path,quality='Q'):
     s =  f'echo "{"-"*60}"\n'
     s += 'echo "Forcing data quality to Q"\n'
     s += f'echo "{"-"*60}"\n'
-    s += f'$SDP-PROCESS_EXEC -d $STATION_DIR -c="Forcing data quality to Q" --cmd="msmod --quality Q -i {out_path}/*.mseed"\n'
+    s += f'$SDP-PROCESS_EXEC -d $STATION_DIR -c="Forcing data quality to Q" --cmd="msmod --quality Q -i {in_path}/*.mseed"\n'
 
     return s
 

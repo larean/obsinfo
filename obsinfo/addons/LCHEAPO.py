@@ -28,7 +28,7 @@ def process_script(station,
     fixed_dir='lcheapo_fixed'
     s = ''
     if include_header:
-        s += __header(station)
+        s += __header(station.code)
     s += __setup_variables(distrib_dir,station_dir)
     s += __lcfix_commands(station,input_dir,fixed_dir)
     s += __lc2ms_commands(station,fixed_dir,output_dir)
@@ -37,10 +37,10 @@ def process_script(station,
     return s
                     
 ############################################################################
-def __header():
+def __header(station_name):
 
     s =  "#!/bin/bash\n" 
-    s += SEPARATOR_LINE + 'echo "Working on station {station.name}"' + SEPARATOR_LINE
+    s += SEPARATOR_LINE + 'echo "Working on station {station_name}"' + SEPARATOR_LINE
     return s
 
 ############################################################################

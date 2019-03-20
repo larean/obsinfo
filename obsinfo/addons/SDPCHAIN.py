@@ -80,7 +80,7 @@ def __header(station_name):
     return s
 
 ############################################################################
-def __setup_variables(distrib_dir,ms2sds_dir,station_dir):
+def __setup_variables(distrib_dir,station_dir):
 
     s = SEPARATOR_LINE + "# SDPCHAIN STEPS" + SEPARATOR_LINE
     s += "#  - Set up paths\n"

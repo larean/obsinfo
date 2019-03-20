@@ -185,6 +185,7 @@ def _console_script(argv=None):
         help='subdirectory of station_data_path/{STATION}/ to put output *.mseed files')
     parser.add_argument( '-v', '--verbose',action="store_true",
         help='increase output verbosity')
+    parser.add_argument( '--header',action="store_true", help='include a script header')
     parser.add_argument( '-q', '--quiet',action="store_true",
         help='run silently')
     args = parser.parse_args()
@@ -214,15 +215,15 @@ def _console_script(argv=None):
                                 args.distrib_path,
                                 input_dir=args.input_dir,
                                 output_dir=args.output_dir,
-                                include_header=False)
+                                include_header=args.header)
         fname='process_'+name+'_LC2MS.sh'
         if args.verbose:
             print(f" ... writing file {fname}",flush=True)
         with open(fname,'w') as f:
-            f.write('#!/bin/bash\n\n')
-            f.write('#'+'='*60 + '\n')
-            f.write(f'echo "Running LC2MS processes on station {name}"\n')
-            f.write('#'+'='*60 + '\n')
+            #f.write('#!/bin/bash\n\n')
+            #f.write('#'+'='*60 + '\n')
+            #f.write(f'echo "Running LC2MS processes on station {name}"\n')
+            #f.write('#'+'='*60 + '\n')
             f.write(script)
             f.write('\n')
             f.close()

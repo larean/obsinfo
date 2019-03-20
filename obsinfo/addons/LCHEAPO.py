@@ -80,7 +80,7 @@ def __lcfix_commands(station, in_path, out_path,in_fnames='*.raw.lch'):
     s += f'in_dir="{in_path}"\n'
     s += f'out_dir="{out_path}"\n'
                         
-    s += "#  - Create output directory\n"
+    s += "# - Create output directory\n"
     s += 'mkdir $STATION_DIR/$out_dir\n'
                         
     s += "# - Collect input filenames\n"
@@ -132,7 +132,7 @@ def __lc2ms_commands(station, in_path, out_path,
     s += f'in_dir="{in_path}"\n'
     s += f'out_dir="{out_path}"\n'
                         
-    s += "#  - Create output directory\n"
+    s += "# - Create output directory\n"
     s += 'mkdir $STATION_DIR/$out_dir\n'
                         
     s += "# - Collect input filenames\n"
@@ -227,7 +227,6 @@ def _console_script(argv=None):
             #f.write(f'echo "Running LC2MS processes on station {name}"\n')
             #f.write('#'+'='*60 + '\n')
             f.write(script)
-            f.write('\n')
             f.close()
         first_time=False
     if not args.verbose and not args.quiet:

@@ -29,7 +29,7 @@ def process_script(station,
     s = ''
     if include_header:
         s = s + __header(station)
-    s = s + __setup_variables(software_dir,station_dir)
+    s = s + __setup_variables(distrib_dir,station_dir)
     s = s + __configure()
     s = s + __lcfix_commands(station,input_dir,fixed_dir)
     s = s + __lc2ms_commands(station,fixed_dir,output_dir)

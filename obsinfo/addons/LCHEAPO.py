@@ -154,7 +154,7 @@ def __lc2ms_commandline(station, in_path, out_path,
     return s
 
 ################################################################################ 
-def __force_quality(rel_path,quality='D')
+def __force_quality(rel_path,quality='D'):
     """ Forces miniseed files to have given quality ('D' by default)
     """
     s = f'echo "{"-"*60}"\n'
@@ -163,7 +163,7 @@ def __force_quality(rel_path,quality='D')
     # THE FOLLOWING ASSUMES THAT SDP-PROCESS IS IN OUR PATH, NOT NECESSARILY THE CASE
     s += f'sdp-process -d $STATION_DIR -c="Forcing data quality to {quality}" --cmd="msmod --quality {quality} -i {rel_path}/*.mseed"\n'
     s += '\n'
-    return
+    return s
 
 ################################################################################ 
 def _console_script(argv=None):

@@ -286,7 +286,7 @@ def _console_script(argv=None):
         help='subdirectory of station_data_path/{STATION}/ for SDS structure of uncorrected data')
     parser.add_argument( '-v', '--verbose',action="store_true",
         help='increase output verbosiy')
-    parser.add_argument( '--header',default=True,action="store_false",help='include file header')
+    parser.add_argument( '--no_header',action="store_true",help='do not include file header')
     parser.add_argument( '-q', '--quiet',action="store_true",
         help='run silently')
     args = parser.parse_args()
@@ -317,7 +317,7 @@ def _console_script(argv=None):
                                 corrected_dir=args.corrected_dir,
                                 SDS_uncorr_dir=args.SDS_uncorr_dir,
                                 SDS_corr_dir=args.SDS_corr_dir,
-                                include_header=arg.header)
+                                include_header=not arg.no_header)
         fname='process_'+name+'_SDPCHAIN.sh'
         if args.verbose:
             print(f" ... writing file {fname}")

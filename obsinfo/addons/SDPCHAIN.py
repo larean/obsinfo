@@ -240,6 +240,7 @@ def  __msdrift_script(in_path,out_path,clock_corrs,):
             s += + 'ERROR, CANT YET APPLY MULTIPLE TIME CORRECTIONS (SHOULD CHANGE\n'
             s += + 'MSDRIFT TO ONLY WRITE GIVEN TIME RANGE AND BE ABLE TO APPEND TO EXISTING FILE?)\n'
             s += + SEPARATOR+LINE
+    return s
         
 ############################################################################
 def  __force_quality_script(in_path,quality='Q'):

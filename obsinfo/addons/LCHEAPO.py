@@ -154,7 +154,7 @@ def __lc2ms_commands(station, in_path, out_path,
     return s
 
 ################################################################################ 
-def __force_quality(rel_path,quality='D'):
+def __force_quality_commands(rel_path,quality='D'):
     """ Forces miniseed files to have given quality ('D' by default)
     """
     s = f'echo "{"-"*60}"\n'

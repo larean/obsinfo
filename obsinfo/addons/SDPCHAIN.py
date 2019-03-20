@@ -1,5 +1,5 @@
 """ 
-Return scripts needed to go from basic miniSEED to data center ready
+Generate scripts needed to go from basic miniSEED to data center ready
 """
 import obsinfo
 from obsinfo.network import network as oi_network

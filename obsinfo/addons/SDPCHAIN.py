@@ -132,8 +132,8 @@ def __ms2sds_script(station,in_path,out_path):
     s += '# - Collect input filenames\n'
     s += 'command cd $STATION_DIR/$in_dir\n'
     s += 'mseedfiles=$(ls *.mseed)\n'
-    s += 'echo "mseedfiles=" $mseedfiles\n'
     s += 'command cd -\n'
+    s += 'echo "mseedfiles=" $mseedfiles\n'
     
     s += '# - Run executable\n'
     s += '$MS2SDS_EXEC $mseedfiles -d $STATION_DIR -i $in_dir -o $out_dir '
@@ -230,7 +230,7 @@ def  __msdrift_script(in_path,out_path,clock_corrs,):
         s += f'-m "%E.%S.00.%C.%Y.%D.%1_%2.mseed:%E.%S.00.%C.%Y.%D.%1_%2_driftcorr.mseed" '
         s += f'-s "$START_REFR;$START_INST" '
         s += f'-e "$END_REFR;$END_INST" '
-        s += f'-c "comment.txt" '
+        #s += f'-c "comment.txt" '
         s += f'-p $MSDRIFT_CONFIG\n'
         s += '\n'
     else :
@@ -253,7 +253,7 @@ def  __force_quality_script(in_path,quality='Q'):
     s =  f'echo "{"-"*60}"\n'
     s += 'echo "Forcing data quality to Q"\n'
     s += f'echo "{"-"*60}"\n'
-    s += f'$SDP-PROCESS_EXEC -d $STATION_DIR -c="Forcing data quality to Q" --cmd="msmod --quality Q -i {in_path}/*.mseed"\n'
+    s += f'$SDP-PROCESS_EXEC -d $STATION_DIR -c="Forcing data quality to Q" --cmd="msmod --quality Q -i $outdir/*.mseed"\n'
 
     return s
 

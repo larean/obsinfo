@@ -40,7 +40,7 @@ def process_script(station,
 def __header(station_name):
 
     s =  "#!/bin/bash\n" 
-    s += SEPARATOR_LINE + 'echo "Working on station {station_name}"' + SEPARATOR_LINE
+    s += SEPARATOR_LINE + f'echo "Working on station {station_name}"' + SEPARATOR_LINE
     return s
 
 ############################################################################

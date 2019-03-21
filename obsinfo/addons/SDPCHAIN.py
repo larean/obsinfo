@@ -283,6 +283,8 @@ def _console_script(argv=None):
         help='subdirectory of station_data_path/{STATION}/ for SDS structure of corrected data')
     parser.add_argument( '--SDS_uncorr_dir', default='SDS_uncorrected',
         help='subdirectory of station_data_path/{STATION}/ for SDS structure of uncorrected data')
+    parser.add_argument( '--suffix', default='_SDPCHAIN',help='suffix for script filename')
+    parser.add_argument( '--append', action="store_true",help='append to existing script file')
     parser.add_argument( '-v', '--verbose',action="store_true",
         help='increase output verbosiy')
     parser.add_argument( '--no_header',action="store_true",help='do not include file header')

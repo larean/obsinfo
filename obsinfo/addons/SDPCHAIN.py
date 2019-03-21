@@ -247,13 +247,14 @@ def  __force_quality_script(in_path,quality='Q'):
     Force data quality to Q
     
     Inputs:
-        in_path
-        quality
+        in_path: directory where mseed files are found
+        quality: new quality code
     """
     s =  f'echo "{"-"*60}"\n'
     s += 'echo "Forcing data quality to Q"\n'
     s += f'echo "{"-"*60}"\n'
-    s += f'$SDP-PROCESS_EXEC -d $STATION_DIR -c="Forcing data quality to Q" --cmd="msmod --quality Q -i $outdir/*.mseed"\n'
+    s += f'$SDP-PROCESS_EXEC -d $STATION_DIR -c="Forcing data quality to Q" --cmd="msmod --quality Q -i {in_path}/*.mseed"\n'
+    s += '\n'
 
     return s
 

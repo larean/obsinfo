@@ -247,13 +247,14 @@ def  __force_quality_script(in_path,quality='Q'):
     Force data quality to Q
     
     Inputs:
-        in_path
-        quality
+        in_path: directory where mseed files are found
+        quality: new quality code
     """
     s =  f'echo "{"-"*60}"\n'
     s += 'echo "Forcing data quality to Q"\n'
     s += f'echo "{"-"*60}"\n'
-    s += f'$SDP-PROCESS_EXEC -d $STATION_DIR -c="Forcing data quality to Q" --cmd="msmod --quality Q -i $outdir/*.mseed"\n'
+    s += f'$SDP-PROCESS_EXEC -d $STATION_DIR -c="Forcing data quality to Q" --cmd="msmod --quality Q -i {in_path}/*.mseed"\n'
+    s += '\n'
 
     return s
 
@@ -283,6 +284,8 @@ def _console_script(argv=None):
         help='subdirectory of station_data_path/{STATION}/ for SDS structure of corrected data')
     parser.add_argument( '--SDS_uncorr_dir', default='SDS_uncorrected',
         help='subdirectory of station_data_path/{STATION}/ for SDS structure of uncorrected data')
+    parser.add_argument( '--suffix', default='_SDPCHAIN',help='suffix for script filename')
+    parser.add_argument( '--append', action="store_true",help='append to existing script file')
     parser.add_argument( '-v', '--verbose',action="store_true",
         help='increase output verbosiy')
     parser.add_argument( '--no_header',action="store_true",help='do not include file header')
@@ -317,16 +320,15 @@ def _console_script(argv=None):
                                 SDS_uncorr_dir=args.SDS_uncorr_dir,
                                 SDS_corr_dir=args.SDS_corr_dir,
                                 include_header=not args.no_header)
-        fname='process_'+name+'_SDPCHAIN.sh'
+        fname = 'process_' + name + args.suffix + '.sh'
         if args.verbose:
-            print(f" ... writing file {fname}")
-        with open(fname,'w') as f:
-            #f.write(f'#!/bin/bash\n\n')
-            #f.write('#'+'='*60 + '\n')
-            #f.write(f'echo "Running SDPCHAIN processes on station {name}"\n')
-            #f.write('#'+'='*60 + '\n')
+            print(f" ... writing file {fname}",flush=True)
+        if args.append:
+            write_mode='a'
+        else:
+            write_mode='w'
+        with open(fname,write_mode) as f:
             f.write(script)
-            f.write('\n')
             f.close()
         first_time=False
     if not args.verbose and not args.quiet:

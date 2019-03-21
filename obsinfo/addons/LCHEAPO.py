@@ -185,6 +185,8 @@ def _console_script(argv=None):
         help='subdirectory of station_data_path/{STATION}/ containing input *.raw.lch files')
     parser.add_argument( '-o', '--output_dir', default='2_miniseed_basic',
         help='subdirectory of station_data_path/{STATION}/ to put output *.mseed files')
+    parser.add_argument( '--suffix', default='_LC2MS',help='suffix for script filename')
+    parser.add_argument( '--append', action="store_true",help='append to existing script file')
     parser.add_argument( '-v', '--verbose',action="store_true",
         help='increase output verbosity')
     parser.add_argument( '--no_header',action="store_true", help='do not include a script header')
@@ -218,13 +220,14 @@ def _console_script(argv=None):
                                 input_dir=args.input_dir,
                                 output_dir=args.output_dir,
                                 include_header=not args.no_header)
-        fname='process_'+name+'_LC2MS.sh'
+        fname = 'process_' + name + args.suffix + '.sh'
         if args.verbose:
             print(f" ... writing file {fname}",flush=True)
-        with open(fname,'w') as f:
-            #f.write('#!/bin/bash\n\n')
-            #f.write('#'+'='*60 + '\n')
-            #f.write(f'echo "Running LC2MS processes on station {name}"\n')
+        if args.append:
+            write_mode='a'
+        else:
+            write_mode='w'
+        with open(fname,write_mode) as f:
             #f.write('#'+'='*60 + '\n')
             f.write(script)
             f.close()

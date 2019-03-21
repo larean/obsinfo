@@ -8,6 +8,7 @@ ______
   allow one to correctly specify bad stations without the codes trying to make data and
   stationXML from them.  But it would force the user to specify a start_ and end_date and synchronization,
   even if there aren't any.
+- In obsinfo-make_process_scripts_*, should --append imply --noheader ?
 
 Major
 ______

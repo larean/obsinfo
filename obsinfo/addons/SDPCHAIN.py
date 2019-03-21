@@ -319,16 +319,15 @@ def _console_script(argv=None):
                                 SDS_uncorr_dir=args.SDS_uncorr_dir,
                                 SDS_corr_dir=args.SDS_corr_dir,
                                 include_header=not args.no_header)
-        fname='process_'+name+'_SDPCHAIN.sh'
+        fname = 'process_' + name + args.suffix + '.sh'
         if args.verbose:
-            print(f" ... writing file {fname}")
-        with open(fname,'w') as f:
-            #f.write(f'#!/bin/bash\n\n')
-            #f.write('#'+'='*60 + '\n')
-            #f.write(f'echo "Running SDPCHAIN processes on station {name}"\n')
-            #f.write('#'+'='*60 + '\n')
+            print(f" ... writing file {fname}",flush=True)
+        if args.append:
+            write_mode='a'
+        else:
+            write_mode='w'
+        with open(fname,write_mode) as f:
             f.write(script)
-            f.write('\n')
             f.close()
         first_time=False
     if not args.verbose and not args.quiet:

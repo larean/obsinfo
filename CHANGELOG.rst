@@ -16,6 +16,7 @@ Other
 
 * 0.105.1: Added leap-second handling and simplified process-scripts (lc2ms completely, others partially)
 * 0.105.2: Further simplified process-scripts
+* 0.105.3: Added custom filename and file appending to make_process_scripts_*
   
 v0.104
 ------

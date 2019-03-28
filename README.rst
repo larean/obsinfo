@@ -86,8 +86,8 @@ The following command-line executables perform useful tasks:
 
 The following command-line executables make scripts to run specific data conversion software:
 
-- ``obsinfo-make_process_scripts_LC2MS``: Makes scripts to convert LCHEAPO data to miniSEED
-- ``obsinfo-make_process_scripts_SDPCHAIN``: Makes scripts to drift correct miniSEED data and package
+- ``obsinfo-make_LCHEAPO_scripts``: Makes scripts to convert LCHEAPO data to miniSEED
+- ``obsinfo-make_SDPCHAIN_scripts``: Makes scripts to drift correct miniSEED data and package
   them for FDSN-compatible data centers
 
 Other subdirectories
@@ -114,7 +114,7 @@ Contains example information files and scripts:
     **instrument_components**, **response** and **filter** files.
 
 - ``_examples/scripts`` contains bash scripts to look at and manipulate these files
-  using the Executables.  Running these scripts is a good way to make sure your
+  using the executables.  Running these scripts is a good way to make sure your
   installation works, looking at the files they work on is a good way to start
   making your own information files.
 

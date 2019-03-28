@@ -14,7 +14,7 @@ from ..instrumentation import instrumentation
 from ..instrument_components import instrument_components
 
 ################################################################################ 
-def print_summary(filename,format=None, type=None,verbose=False,debug=True):
+def print_summary(filename,format=None, type=None,verbose=False,debug=False):
     """
     Print a summary of an information file
     type: "network", "instrumentation","response", "instrument_components","filter"

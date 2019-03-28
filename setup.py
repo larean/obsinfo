@@ -9,7 +9,6 @@ with open("obsinfo/version.py") as fp:
 
 setuptools.setup(
     name="obsinfo",
-    #version="0.104",
     version=version['__version__'],
     author="Wayne Crawford",
     author_email="crawford@ipgp.fr",

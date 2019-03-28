@@ -51,7 +51,7 @@ class network:
             self.stations[code]=oi_station(station, code, self.network_info.code)
             if debug:
                 print(f'created obsinfo station')
-           if self.instrumentation_file:
+            if self.instrumentation_file:
                 # Fill the instrument right away
                 self.stations[code].fill_instrument(self.instrumentation_file,referring_file=self.basepath)
             else:

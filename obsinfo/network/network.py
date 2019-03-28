@@ -5,9 +5,7 @@ nomenclature:
     A "measurement instrument" is a means of recording one physical parameter,
         from sensor through dac
     An "instrument" is composed of one or more measurement instruments
-    
-    version 0.100.0.1
-    
+        
 I need to modify the code so that it treats a $ref as a placeholder for the associated object
 """
 # Standard library modules
@@ -49,7 +47,7 @@ class network:
             print('in network:__init__()')
         for code,station in root['network']['stations'].items():
             if debug:
-                print(f'net={self.nework_info.code},station={code}')
+                print(f'net={self.network_info.code},station={code}')
             self.stations[code]=oi_station(station, code, self.network_info.code)
             if self.instrumentation_file:
                 # Fill the instrument right away

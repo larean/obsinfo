@@ -42,6 +42,8 @@ class network:
         self.campaign =             root['network']['campaign_reference_name']
         self.network_info = oi_FDSN.network_info(root['network']['general_information'])
         self.instrumentation_file = root['network']['instrumentation']
+        if not self.instrumentation_file['$ref']:
+            print("No instrumentation file specfied, will not be able to create StationXML")
         self.stations=dict()
         if debug:
             print('in network:__init__()')
@@ -50,10 +52,8 @@ class network:
                 print(f'net={self.network_info.code},station={code}')
             self.stations[code]=oi_station(station, code, self.network_info.code)
             if self.instrumentation_file['$ref']:
-                # Fill the instrument right away
+                # Fill the instrument
                 self.stations[code].fill_instrument(self.instrumentation_file,referring_file=self.basepath)
-            else:
-                print("No instrumentation file specfied, will not be able to create StationXML")
 
             if debug:
                 print(self.stations[code])

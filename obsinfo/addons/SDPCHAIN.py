@@ -229,7 +229,7 @@ def  __msdrift_script(in_path,out_path,clock_corrs,):
         s += f'END_REFR="{str(lin_corr["end_sync_reference"]).rstrip("Z")}"\n'
         s += f'END_INST="{str(lin_corr["end_sync_instrument"]).rstrip("Z")}"\n'
         s += f'$MSDRIFT_EXEC $mseedfiles -d $STATION_DIR -i $in_dir -o $out_dir '
-        s += f'-m "%E.%S.00.%C.%Y.%D.%1_%2.mseed:%E.%S.00.%C.%Y.%D.%1_%2_driftcorr.mseed" '
+        s += f'-m "%E.%S.00.%C.%Y.%D.mseed:%E.%S.00.%C.%Y.%D_driftcorr.mseed" '
         s += f'-s "$START_REFR;$START_INST" '
         s += f'-e "$END_REFR;$END_INST" '
         #s += f'-c "comment.txt" '

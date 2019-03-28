@@ -29,7 +29,7 @@ class network:
             stations (.station)
             network_info (..misc.network_info)
     """
-    def __init__(self,filename,referring_file=None,debug=True):
+    def __init__(self,filename,referring_file=None,debug=False):
         """ Reads from a network information file 
         
         should also be able to specify whether or not it has read its sub_file
@@ -49,9 +49,6 @@ class network:
             if debug:
                 print(f'net={self.network_info.code},station={code}')
             self.stations[code]=oi_station(station, code, self.network_info.code)
-            if debug:
-                print(f'created obsinfo station')
-                print(self.stations[code])
             if self.instrumentation_file['$ref']:
                 # Fill the instrument right away
                 self.stations[code].fill_instrument(self.instrumentation_file,referring_file=self.basepath)

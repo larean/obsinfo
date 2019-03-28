@@ -18,6 +18,7 @@ Other
 * 0.105.2: Further simplified process-scripts
 * 0.105.3: Added custom filename and file appending to make_process_scripts_*
 * 0.105.4: Add combining SDS_corrected/ and SDS_uncorrected/ into SDS_combined/ to SDPCHAIN.py (pulled w/o complete verification)
+* 0.105.5: Allow network.yaml to NOT specify an information file, rename ``obsinfo-make_process_scripts_*`` to ``obsinfo-make_*_scripts``
   
 v0.104
 ------

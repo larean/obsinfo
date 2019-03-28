@@ -285,15 +285,18 @@ def  __combine_sds_script(station,SDS_corrected_dir,SDS_uncorrected_dir,SDS_comb
     s += f'years=????\n'
     s += f'command cd -\n'
     s += f'for y in $years ; do\n'
-    s += f'    for d in $STATION_DIR/{SDS_corrected_dir}/$y/{station.network_code}/{station.code}/*.D ; do\n'
-    s +=  '        d_sub=${{d#$STATION_DIR/{}/}}\n'.format(SDS_corrected_dir)   
+    # I HAD TO ADD "SDSs" to handle the fact that ms2sds makes an "SDS" directory inside the output directory
+    #s += f'    for d in $STATION_DIR/{SDS_corrected_dir}/$y/{station.network_code}/{station.code}/*.D ; do\n'
+    #s +=  '        d_sub=${{d#$STATION_DIR/{}/}}\n'.format(SDS_corrected_dir)   
+    s += f'    for d in $STATION_DIR/{SDS_corrected_dir}/SDS/$y/{station.network_code}/{station.code}/*.D ; do\n'
+    s +=  '        d_sub=${{d#$STATION_DIR/{}/SDS/}}\n'.format(SDS_corrected_dir)   
     s += f'        if [[ ! -d $STATION_DIR/{SDS_combined_dir}/$d_sub ]] ; then\n'
     s += f'            echo "Creating and filling combined SDS subdirectory $d_sub"\n'
     s += f'            eval "mkdir -p $STATION_DIR/{SDS_combined_dir}/$d_sub"\n'
     s += f'            for f in $d/*; do\n'
-    s +=  '                f_sub=${{f#$STATION_DIR/{}/}}\n'    .format(SDS_corrected_dir)
-    s += f'                cat $STATION_DIR/{SDS_corrected_dir}/$f_sub '
-    s +=                     f'$STATION_DIR/{SDS_uncorrected_dir}/$f_sub > '
+    s +=  '                f_sub=${{f#$STATION_DIR/{}/SDS/}}\n'    .format(SDS_corrected_dir)
+    s += f'                cat $STATION_DIR/{SDS_corrected_dir}/SDS/$f_sub '
+    s +=                     f'$STATION_DIR/{SDS_uncorrected_dir}/SDS/$f_sub > '
     s +=                     f'$STATION_DIR/{SDS_combined_dir}/$f_sub\n'
     s += f'            done\n'
     s += f'        else\n'

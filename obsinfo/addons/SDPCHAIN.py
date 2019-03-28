@@ -91,7 +91,7 @@ def __setup_variables(distrib_dir,station_dir):
     s += f"MSDRIFT_CONFIG={os.path.join(distrib_dir,'config','msdrift.properties')}\n"
     s += f"MS2SDS_EXEC={os.path.join(distrib_dir,'bin','ms2sds')}\n"
     s += f"MS2SDS_CONFIG={os.path.join(distrib_dir,'config','ms2sds.properties')}\n"
-    s += f"SDP-PROCESS_EXEC={os.path.join(distrib_dir,'bin','sdp-process')}\n"
+    s += f"SDPPROCESS_EXEC={os.path.join(distrib_dir,'bin','sdp-process')}\n"
     s += "\n"
     
     return s
@@ -255,7 +255,7 @@ def  __force_quality_script(in_path,quality='Q'):
     s =  f'echo "{"-"*60}"\n'
     s += 'echo "Forcing data quality to Q"\n'
     s += f'echo "{"-"*60}"\n'
-    s += f'$SDP-PROCESS_EXEC -d $STATION_DIR -c="Forcing data quality to Q" --cmd="msmod --quality Q -i {in_path}/*.mseed"\n'
+    s += f'$SDPPROCESS_EXEC -d $STATION_DIR -c="Forcing data quality to Q" --cmd="msmod --quality Q -i {in_path}/*.mseed"\n'
     s += '\n'
 
     return s

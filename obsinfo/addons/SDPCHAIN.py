@@ -322,7 +322,7 @@ def _console_script(argv=None):
     """
     from argparse import ArgumentParser
 
-    parser = ArgumentParser( prog='obsinfo-make_process_scripts_SDPCHAIN',description=__doc__)
+    parser = ArgumentParser( prog='obsinfo-make_SDPCHAIN_scripts',description=__doc__)
     parser.add_argument( 'network_file', help='Network information file')
     parser.add_argument( 'station_data_path', help='Base path containing station data')
     parser.add_argument( 'distrib_dir', help='Path to SDPCHAIN software',default='/opt/sdpchain')

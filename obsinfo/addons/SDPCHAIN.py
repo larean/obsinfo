@@ -19,6 +19,7 @@ def process_script(station, station_dir,
                     include_header=True,
                     SDS_uncorr_dir='SDS_uncorrected',
                     SDS_corr_dir=  'SDS_corrected',
+                    SDS_combined_dir= 'SDS_combined'
                   ):
     """Writes OBS data processing script using SDPCHAIN software
         
@@ -68,6 +69,7 @@ def process_script(station, station_dir,
     s += __msdrift_script(input_dir,corrected_dir,station.clock_corrections)
     s += __force_quality_script(corrected_dir,'Q')
     s += __ms2sds_script(station,corrected_dir,SDS_corr_dir)
+    s += __combine_sds_script(station,SDS_corr_dir,SDS_uncorr_dir,SDS_combined_dir)
 
     return s
                     
@@ -254,6 +256,49 @@ def  __force_quality_script(in_path,quality='Q'):
     s += 'echo "Forcing data quality to Q"\n'
     s += f'echo "{"-"*60}"\n'
     s += f'$SDP-PROCESS_EXEC -d $STATION_DIR -c="Forcing data quality to Q" --cmd="msmod --quality Q -i {in_path}/*.mseed"\n'
+    s += '\n'
+
+    return s
+
+############################################################################
+def  __combine_sds_script(station,SDS_corr_dir,SDS_uncorr_dir,SDS_combined_dir):
+    """ 
+    Combine corrected and uncorrected SDS directories/files
+    
+    Corrected must be before uncorrected so that Arclink will extract it by default
+    Uses the corrected directory as the template: will not process uncorrected files
+    that don't have corresponding corrected files
+    
+    Creates no process-steps because there are so many individual calls to msmod (should we write an sdp-sds_combine script?)
+    
+    Inputs:
+        station:          station object
+        SDS_corr_dir:     name of SDS directory containing corrected data
+        SDS_uncorr_dir:   name of SDS directory containing uncorrected data
+        SDS_combined_dir: name of SDS directory to put combined data into
+    """
+    s =  f'echo "{"-"*60}"\n'
+    s += 'echo "Combining corrected and uncorrected SDS datafiles"\n'
+    s += f'echo "{"-"*60}"\n'
+    s += f'mkdir -p {SDS_combined_dir}\n'
+    s += f'cd {SDS_corrected_dir}\n'
+    s += f'years=????\n'
+    s += f'cd -\n'
+    s += f'for y in $years do\n'
+    s += f'    for d in {SDS_corrected_dir}/$y/{station.network_code}/{station.code}/*.D ; do\n'
+    s += f'        d_sub=${d#{SDS_corrected_dir}/}\n'    
+    s += f'        if [[ ! -d {SDS_combined_dir}/$d_sub ]] ; then\n'
+    s += f'            echo "Creating and filling combined SDS subdirectory $d_sub"\n'
+    s += f'            eval "mkdir -p {SDS_combined_dir}/$d_sub"\n'
+    s += f'            for f in $d/*; do\n'
+    s += f'                f_sub=${f#{SDS_corrected_dir}/}\n'    
+    s += f'                eval "msmod -o {SDS_combined_dir}/$f_sub {SDS_corrected_dir}/$f_sub {SDS_uncorrected_dir}/$f_sub"\n'
+    s += f'            done\n'
+    s += f'        else\n'
+    s += f'            echo "Combined SDS subdirectory $d_sub already exists, skipping..."\n'
+    s += f'        fi\n'
+    s += f'    done\n'
+    s += f'done\n'
     s += '\n'
 
     return s

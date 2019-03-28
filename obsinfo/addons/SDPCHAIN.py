@@ -281,9 +281,9 @@ def  __combine_sds_script(station,SDS_corrected_dir,SDS_uncorrected_dir,SDS_comb
     s += 'echo "Combining corrected and uncorrected SDS datafiles"\n'
     s += f'echo "{"-"*60}"\n'
     s += f'mkdir -p $STATION_DIR/{SDS_combined_dir}\n'
-    s += f'cd $STATION_DIR/{SDS_corrected_dir}\n'
+    s += f'command cd $STATION_DIR/{SDS_corrected_dir}\n'
     s += f'years=????\n'
-    s += f'cd -\n'
+    s += f'command cd -\n'
     s += f'for y in $years do\n'
     s += f'    for d in $STATION_DIR/{SDS_corrected_dir}/$y/{station.network_code}/{station.code}/*.D ; do\n'
     s +=  '        d_sub=${{d#$STATION_DIR/{}/}}\n'.format(SDS_corrected_dir)   

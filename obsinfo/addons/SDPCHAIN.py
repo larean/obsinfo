@@ -14,7 +14,7 @@ SEPARATOR_LINE="\n# " + 60 * "=" + "\n"
 def process_script(station, station_dir,
                     distrib_dir='/opt/sdpchain',
                     input_dir='miniseed_basic',
-                    corrected_dir='minseed_corrected',
+                    corrected_dir='miniseed_corrected',
                     extra_commands=None,
                     include_header=True,
                     SDS_uncorr_dir='SDS_uncorrected',

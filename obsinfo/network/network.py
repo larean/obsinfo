@@ -31,7 +31,7 @@ class network:
             stations (.station)
             network_info (..misc.network_info)
     """
-    def __init__(self,filename,referring_file=None,debug=False):
+    def __init__(self,filename,referring_file=None,debug=True):
         """ Reads from a network information file 
         
         should also be able to specify whether or not it has read its sub_file
@@ -45,6 +45,8 @@ class network:
         self.network_info = oi_FDSN.network_info(root['network']['general_information'])
         self.instrumentation_file = root['network']['instrumentation']
         self.stations=dict()
+        if debug:
+            print('in network:__init__()')
         for code,station in root['network']['stations'].items():
             self.stations[code]=oi_station(station, code, self.network_info.code)
             if self.instrumentation_file:

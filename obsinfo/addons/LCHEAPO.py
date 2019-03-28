@@ -97,7 +97,7 @@ def __lcfix_commands(station, in_path, out_path,in_fnames='*.raw.lch'):
 ############################################################################
 def __lc2ms_commands(station, in_path, out_path, 
             in_fnames='*.fix.lch',
-            out_fnames_model='%E.%S.00.%C.%Y.%D.%T.%H_%I.mseed',
+            out_fnames_model='%E.%S.00.%C.%Y.%D.%T.mseed',
             force_quality_D=True):
 
     """
@@ -108,8 +108,8 @@ def __lc2ms_commands(station, in_path, out_path,
             in_path:       relative path to directory containing input files
             in_fnames:     search string for input files within in_path ['*.fix.lch']
             out_path:      relative path to directory for output files
-            out_fnames_model: model for output filenames ['%E.%S.00.%C.%Y.%D.%T.%H_%I.mseed']
-                              (should change to '%E.%S.%L.%C.%Y.%D.%T.%H_%I.mseed'
+            out_fnames_model: model for output filenames ['%E.%S.00.%C.%Y.%D.%T.mseed']
+                              (should change to '%E.%S.%L.%C.%Y.%D.%T.mseed'
                                once lc2ms handles location codes)
             force_quality_D: uses a separate call to msmod to force the data
                               quality to "D" (should be unecessary once lc2ms is

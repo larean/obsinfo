@@ -261,7 +261,7 @@ def  __force_quality_script(in_path,quality='Q'):
     return s
 
 ############################################################################
-def  __combine_sds_script(station,SDS_corr_dir,SDS_uncorr_dir,SDS_combined_dir):
+def  __combine_sds_script(station,SDS_corrected_dir,SDS_uncorrected_dir,SDS_combined_dir):
     """ 
     Combine corrected and uncorrected SDS directories/files
     
@@ -272,10 +272,10 @@ def  __combine_sds_script(station,SDS_corr_dir,SDS_uncorr_dir,SDS_combined_dir):
     Creates no process-steps because there are so many individual calls to msmod (should we write an sdp-sds_combine script?)
     
     Inputs:
-        station:          station object
-        SDS_corr_dir:     name of SDS directory containing corrected data
-        SDS_uncorr_dir:   name of SDS directory containing uncorrected data
-        SDS_combined_dir: name of SDS directory to put combined data into
+        station:             station object
+        SDS_corrected_dir:   name of SDS directory containing corrected data
+        SDS_uncorrected_dir: name of SDS directory containing uncorrected data
+        SDS_combined_dir:    name of SDS directory to put combined data into
     """
     s =  f'echo "{"-"*60}"\n'
     s += 'echo "Combining corrected and uncorrected SDS datafiles"\n'

@@ -177,7 +177,7 @@ def _console_script(argv=None):
     """
     from argparse import ArgumentParser
 
-    parser = ArgumentParser( prog='obsinfo-make_process_scripts_LC2MS',description=__doc__)
+    parser = ArgumentParser( prog='obsinfo-make_LCHEAPO_scripts',description=__doc__)
     parser.add_argument( 'network_file', help='Network information file')
     parser.add_argument( 'station_data_path', help='Base path containing stations data')
     parser.add_argument( 'distrib_path', help='Path to lcheapo software distribution')

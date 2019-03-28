@@ -286,12 +286,12 @@ def  __combine_sds_script(station,SDS_corr_dir,SDS_uncorr_dir,SDS_combined_dir):
     s += f'cd -\n'
     s += f'for y in $years do\n'
     s += f'    for d in {SDS_corrected_dir}/$y/{station.network_code}/{station.code}/*.D ; do\n'
-    s += f'        d_sub=${d#{SDS_corrected_dir}/}\n'    
+    s +=  '        d_sub=${d#{}/}\n'.format(SDS_corrected_dir)   
     s += f'        if [[ ! -d {SDS_combined_dir}/$d_sub ]] ; then\n'
     s += f'            echo "Creating and filling combined SDS subdirectory $d_sub"\n'
     s += f'            eval "mkdir -p {SDS_combined_dir}/$d_sub"\n'
     s += f'            for f in $d/*; do\n'
-    s += f'                f_sub=${f#{SDS_corrected_dir}/}\n'    
+    s +=  '                f_sub=${f#{}/}\n'    .format(SDS_corrected_dir)
     s += f'                eval "msmod -o {SDS_combined_dir}/$f_sub {SDS_corrected_dir}/$f_sub {SDS_uncorrected_dir}/$f_sub"\n'
     s += f'            done\n'
     s += f'        else\n'

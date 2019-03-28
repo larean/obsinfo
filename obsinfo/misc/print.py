@@ -14,7 +14,7 @@ from ..instrumentation import instrumentation
 from ..instrument_components import instrument_components
 
 ################################################################################ 
-def print_summary(filename,format=None, type=None,verbose=False):
+def print_summary(filename,format=None, type=None,verbose=False,debug=True):
     """
     Print a summary of an information file
     type: "network", "instrumentation","response", "instrument_components","filter"
@@ -31,7 +31,11 @@ def print_summary(filename,format=None, type=None,verbose=False):
     
     print(f'\nFILENAME: {filename}')
     if type=='network':
+        if debug:
+            print('Loading network')
         instance=network(filename)
+        if debug:
+            print('Done')
         _print_summary_network(instance,filename)
     elif type=='instrumentation':
         instance=instrumentation(filename)

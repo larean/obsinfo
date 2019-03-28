@@ -209,8 +209,8 @@ def  __msdrift_script(in_path,out_path,clock_corrs,):
     s += 'echo "Running MSDRIFT: CORRECT LINEAR CLOCK DRIFT"\n'
     s += f'echo "{"-"*60}"\n'
 
-    s += f'in_dir={in_path}\n'
-    s += f'out_dir={out_path}\n'
+    s += f'in_dir="{in_path}"\n'
+    s += f'out_dir="{out_path}"\n'
     
     s += "# - Create output directory\n"
     s += 'mkdir $STATION_DIR/$out_dir\n'

@@ -48,6 +48,8 @@ class network:
         if debug:
             print('in network:__init__()')
         for code,station in root['network']['stations'].items():
+            if debug:
+                print(f'net={self.nework_info.code},station={code}')
             self.stations[code]=oi_station(station, code, self.network_info.code)
             if self.instrumentation_file:
                 # Fill the instrument right away
@@ -56,7 +58,7 @@ class network:
                 print("No instrumentation file specfied, will not be able to create StationXML")
 
             if debug:
-                print(self.stations[key])
+                print(self.stations[code])
                 
     def __repr__(self) :
         return "<{}: code={}, facility={}, campaign={}, {:d} stations>".format(

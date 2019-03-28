@@ -34,8 +34,8 @@ setuptools.setup(
             'obsinfo-validate=obsinfo.misc.info_files:_validate_script',
             'obsinfo-print=obsinfo.misc.print:_print_script',
             'obsinfo-makeSTATIONXML=obsinfo.network.network:_make_stationXML_script',
-            'obsinfo-make_process_scripts_SDPCHAIN=obsinfo.addons.SDPCHAIN:_console_script',
-            'obsinfo-make_process_scripts_LC2MS=obsinfo.addons.LCHEAPO:_console_script'
+            'obsinfo-SDPCHAIN_scripts=obsinfo.addons.SDPCHAIN:_console_script',
+            'obsinfo-LCHEAPO_scripts=obsinfo.addons.LCHEAPO:_console_script'
         ]
     },
     python_requires='>=3',

@@ -47,8 +47,11 @@ class network:
         self.stations=dict()
         for code,station in root['network']['stations'].items():
             self.stations[code]=oi_station(station, code, self.network_info.code)
-            # Try filling the instrument right away
-            self.stations[code].fill_instrument(self.instrumentation_file,referring_file=self.basepath)    
+            if self.instrumentation_file:
+                # Fill the instrument right away
+                self.stations[code].fill_instrument(self.instrumentation_file,referring_file=self.basepath)
+            else:
+                print("No instrumentation file specfied, will not be able to create StationXML")
 
             if debug:
                 print(self.stations[key])
@@ -98,10 +101,6 @@ class network:
     
     def write_stationXML(self,station_name,destination_folder=None,debug=False):
         station=self.stations[station_name]
-        #if debug:
-        #    print("Loading and filling station")    
-        #station.fill_instrument(self.instrumentation_file,
-        #                        referring_file=self.basepath)    
         if debug:
             print("Creating obsPy inventory object")    
         my_inv= self.__make_obspy_inventory([station],'INSU-IPGP OBS Park')

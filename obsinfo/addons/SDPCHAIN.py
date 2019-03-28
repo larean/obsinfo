@@ -284,7 +284,7 @@ def  __combine_sds_script(station,SDS_corrected_dir,SDS_uncorrected_dir,SDS_comb
     s += f'command cd $STATION_DIR/{SDS_corrected_dir}\n'
     s += f'years=????\n'
     s += f'command cd -\n'
-    s += f'for y in $years do\n'
+    s += f'for y in $years ; do\n'
     s += f'    for d in $STATION_DIR/{SDS_corrected_dir}/$y/{station.network_code}/{station.code}/*.D ; do\n'
     s +=  '        d_sub=${{d#$STATION_DIR/{}/}}\n'.format(SDS_corrected_dir)   
     s += f'        if [[ ! -d $STATION_DIR/{SDS_combined_dir}/$d_sub ]] ; then\n'

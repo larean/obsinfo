@@ -16,7 +16,7 @@ Existing questions can be found/modified in QUESTIONS_infofiles.rst
 Information files
 ======================
 
-The system is based on "information" files in JSON or YAML format, filled in
+The system is based on "`information files`_" in JSON or YAML format, filled in
 by appropriate actors and broken down into different categories to remove
 redundancy and simplify input as much as possible.
 
@@ -148,7 +148,8 @@ On information files:
 Use `reStructuredText
 <http://docutils.sourceforge.net/rst.html>`_ to modify this file.
 
-.. _Basic description: information_files.rst
+.. _information files: information_files.rst
+.. _Basic description: `information files`_
 .. _Questions and future paths: QUESTIONS_infofiles.rst
 .. _Update history: CHANGELOG.rst
 .. _Things to do: ToDo.rst

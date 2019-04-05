@@ -21,8 +21,15 @@ for the basic principals behind these files.
     - some of these features could even be useful for "standard" data
     - would have to also put the information into the comments so that it appears
       in StationXML comments (or create an ``extras_commented`` field?)
+      
+  Another possibility would be to allow two types of network file: "full"
+  (\*.network.yaml) and "obs" (\*.obsnetwork.yaml)
     
 - **Define and use a standard naming system for response files**
+
+- **Allow instrument-components to be specified using other formats as well**
+
+  Such as REF, for people who are used to using that
 
 - **Allow a generic and a specific instrument_components file?**  The
   generic version could become a standard library (downloadable or

@@ -21,7 +21,7 @@ Basic principals of information files
 - Within a given format_version, new fields go in the open-form ``extras`` field.
 
 - External files are referenced using "$ref" and the JSON Pointers syntax, but we do NOT
-  use JSON pointers, allowing us only partially read files downstream and to use YAML in
+  use JSON pointers, allowing us to partially read files downstream and to use YAML in
   addition to JSON
   
 Linkages between information files

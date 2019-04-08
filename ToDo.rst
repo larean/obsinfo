@@ -9,6 +9,11 @@ ______
   stationXML from them.  But it would force the user to specify a start_ and end_date and synchronization,
   even if there aren't any.
 - In obsinfo-make_process_scripts_*, should --append imply --noheader ?
+- Change ``network:general_information`` to ``network:fdsn_network_information`` (or 
+  ``network:STATIONXML_network_information``, or ``network:experiement_information``).  This field is used to
+  generate STATIONXML network information in the absence of informations directly from FDSN.  Its current name
+  implies that the information belongs to the campaign, but several campaigns could be part of the same
+  experiment/FDSN_network.
 
 Major
 ______

@@ -1,6 +1,10 @@
 TO DO
 ======================
 
+`Questions/suggestions for information files`_
+
+.. _Questions/suggestions for information files: QUESTIONS_infofiles.rst
+
 Minor
 ______
 

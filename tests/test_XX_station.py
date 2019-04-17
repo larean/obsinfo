@@ -14,7 +14,7 @@ path = os.path.dirname(os.path.realpath(__file__))
 def test_XX_station(compare):
 
 	# run _makeXML
-	#_make_stationXML_script([f'{path}/Information_Files/campaigns/MYCAMPAIGN/MYCAMPAIGN.INSU-IPGP.network.yaml','-d', f'{path}/output/'])
+	_make_stationXML_script([f'{path}/Information_Files/campaigns/MYCAMPAIGN/MYCAMPAIGN.INSU-IPGP.network.yaml','-d', f'{path}/output/'])
 
 	# test all stations
 

@@ -17,3 +17,5 @@
 /.settings
 RELEASE-VERSION
 build/
+__pycache__
+dist/*

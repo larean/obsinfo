@@ -1,0 +1,13 @@
+---
+format_version: "0.104"
+response:
+    stages :
+        -
+            description : "PREAMPLIFIER: BBOBS 0.225x"
+            input_units : {name: "V", description: "VOLTS"}
+            output_units : {name: "V", description: "VOLTS"}
+            gain : {value : 0.225, frequency: 0}
+            filter :
+                type : "ANALOG"
+            extras:
+                DBIRD_response_type : "THEORETICAL" 

@@ -1,0 +1,40 @@
+---
+format_version: "0.104"
+notes:
+    - "From CS5322_Filter.pdf"
+yaml_anchors:
+    base: &BASE
+        decimation_factor : 2
+        gain :         {value: 1, frequency: 0}
+        input_units :  { name : "COUNTS", description: "Digital Counts"}
+        output_units : { name : "COUNTS", description: "Digital Counts"}
+        delay_corrected: True
+        extras:
+            DBIRD_response_type : "THEORETICAL" 
+    fir2: &FIR2
+        <<: *BASE
+        description : "DECIMATION - CS5322 FIR2" 
+        filter: 
+            $ref: "../_filters/FIR/CirrusLogic_CS5322_FIR2.filter.yaml#filter"
+    fir3: &FIR3
+        <<: *BASE
+        description : "DECIMATION - CS5322 FIR3 (linear phase)" 
+        filter: 
+            $ref: "../_filters/FIR/CirrusLogic_CS5322_FIR3.filter.yaml#filter"
+response:
+    stages: 
+        - 
+            <<: *FIR2
+            output_sample_rate : 16000
+        -
+            <<: *FIR2
+            output_sample_rate : 8000
+        -
+            <<: *FIR2
+            output_sample_rate : 4000   
+        -
+            <<: *FIR2
+            output_sample_rate : 2000 
+        -
+            <<: *FIR3
+            output_sample_rate : 1000

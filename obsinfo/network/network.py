@@ -136,7 +136,8 @@ def _make_stationXML_script(argv=None):
                 help='Destination folder for StationXML files')
     #parser.add_argument( '-v', '--verbose',action="store_true",
     #            help='increase output verbosiy')
-    args = parser.parse_args()
+    
+    args = parser.parse_args(argv)
     
     if args.dest_path:
         if not os.path.exists(args.dest_path):

@@ -1,0 +1,15 @@
+---
+format_version: "0.104"
+filter:
+    type: "PolesZeros"
+    units : "rad/s"
+    zeros:
+        - [0.0, 0.0]
+        - [0.0, 0.0]
+    poles:
+        - [8.886,  8.886]
+        - [8.886, -8.886]
+notes:
+    - "poles et zeros des Sercel L22D utilisés dans OBS LCHEAPOs" 
+    - " coil resistance: 510 ohms"
+    - " shunt resistance: 2000 ohms"

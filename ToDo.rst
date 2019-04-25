@@ -5,6 +5,11 @@ TO DO
 
 .. _Questions/suggestions for information files: QUESTIONS_infofiles.rst
 
+Bugs
+______
+
+- Crashes on empty or absent network.general_information.comments field
+
 Minor
 ______
 

@@ -19,3 +19,4 @@ RELEASE-VERSION
 build/
 __pycache__
 dist/*
+tests/output/*

@@ -3,11 +3,11 @@
   <Source>INSU-IPGP OBS Park</Source>
   <Module>ObsPy 1.1.0</Module>
   <ModuleURI>https://www.obspy.org</ModuleURI>
-  <Created>2019-04-17T14:46:40.802017</Created>
+  <Created>2019-04-29T08:06:10.517442</Created>
   <Network code="4G" endDate="2025-12-31T00:00:00" startDate="2007-07-01T00:00:00">
     <Description>EMSO-MOMAR</Description>
     <Comment>
-      <Value>Lucky  Volcano, North Mid-Atlantic Ridge</Value>
+      <Value>Lucky Strike Volcano, North Mid-Atlantic Ridge</Value>
     </Comment>
     <Station code="LSVW" endDate="2016-05-28T21:02:00" startDate="2015-04-22T11:59:00">
       <Comment>

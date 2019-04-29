@@ -135,21 +135,13 @@ system is in prerelease:
 More information
 ======================
 
-On information files:
+`Information files`_
 
-    `Basic description`_
-    
-    `Questions and future paths`_
-
-`Update history`_
-
-`Things to do`_
+`TO DO`_
 
 Use `reStructuredText
 <http://docutils.sourceforge.net/rst.html>`_ to modify this file.
 
 .. _information files: information_files.rst
-.. _Basic description: `information files`_
-.. _Questions and future paths: QUESTIONS_infofiles.rst
-.. _Update history: CHANGELOG.rst
-.. _Things to do: ToDo.rst
+.. _Information files: `information files`_
+.. _TO DO: ToDo.rst

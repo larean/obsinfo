@@ -2,7 +2,7 @@
     "format_version": {
         "description": "Version of this file's schema",
         "type": "string",
-        "pattern": "^0\\.105$"
+        "pattern": "^0\\.106$"
     },
     "author" : {
         "type": "object",
@@ -26,7 +26,36 @@
         "type" : "array",
         "description" : "list of comments (should be included in output metadata)",
         "minItems": 0,
-        "items" : { "type" : "string", "minLength" : 1 }
+        "items" : {
+                "anyOf": [
+                    {
+                        "type": "string",
+                        "minimum": 2
+                    }, 
+                    {
+                        "type" : "object", 
+                        "required": ["comment"],
+                        "properties" : {
+                        "comment":{"type":"string"},
+                        "begin_effective_time" :{"$ref":"#/date-time-Z"},
+                        "end_effective_time" :{"$ref":"#/date-time-Z"},
+                        "authors" :{"type":"array","items": {"$ref": "#/author"}
+                        }
+                    }   
+                    }
+                ]
+            }
+    },
+    
+    "comment": {
+        "type" : "object", 
+        "required": ["comment"],
+        "properties" : {
+                        "comment":{"type":"string"},
+                        "BeginEffectiveTime" :{"$ref":"#/date-time-Z"},
+                        "EndEffectiveTime" :{"$ref":"#/date-time-Z"},
+                        "authors" :{"type":"array","items": {"$ref": "#/author"}}
+        }   
     },
     "date": {
         "type": "string",
@@ -68,9 +97,23 @@
         "description" : "open structure for values and fields that do not contribute to (current) FDSN data or metadata"
     },
     "phone": {
-        "type": "string",
+ 
+            "anyOf":[
+               { "type": "string",
+                "description": "...",
+                "pattern": "^[0-9]+-[0-9]+$"
+            },
+            {
+
+        "type": "object",
         "description": "...",
-        "pattern": "^[0-9]+-[0-9]+$"
+        "properties":{
+            "CountryCode": "Integer",
+            "AreaNumber":"Integer" ,
+            "PhoneNumber": {"type":"string", "pattern": "^[0-9]+-[0-9]+$"}
+            }
+        }
+        ]
     },
     "reference_name": {
         "type": "string",
@@ -117,5 +160,12 @@
     "website": {
         "type": "string",
         "format": "uri"
+    },
+    "any_date":{
+        "anyOf" :[
+            {"$ref": "#/date" },
+            {"$ref": "#/date-time-Z"}
+        ]
+
     }
 }

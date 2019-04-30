@@ -16,7 +16,7 @@
 	    "format_version" : {
 	        "anyOf": [
 	            {"$ref" : "definitions.schema.json#/format_version"},
-	            {"type": "string","pattern": "^0\\.105$","comment":"version of last change to this schema"}
+	            {"type": "string","pattern": "^0\\.106$","comment":"version of last change to this schema"}
             ]
 	    },
 		"network": {
@@ -34,7 +34,7 @@
 				"general_information" :    {"$ref" : "#/definitions/general_information"},
 				"instrumentation" :        {"$ref" : "definitions.schema.json#/URI_ref"},
 				"stations" :               {"$ref" : "#/definitions/stations"},
-				"notes" :                  {"$ref" : "definitions.schema.json#/comments"},
+				"notes" :                  {"$ref" : "definitions.schema.json#/commentys"},
 		        "extras":                  {"$ref" : "definitions.schema.json#/extras" }
 			},
 		    "additionalProperties" : false
@@ -50,8 +50,8 @@
             ],
             "properties" : {
                 "code" :       {"type" : "string" ,  "description": "FDSN network code or 'XX'"},
-                "start_date":  {"$ref" : "definitions.schema.json#/date" },
-                "end_date":    {"$ref" : "definitions.schema.json#/date" },
+                "start_date":  {"$ref" : "definitions.schema.json#/any_date" },
+                "end_date":    {"$ref" : "definitions.schema.json#/any_date" },
                 "description": {"type" : "string" , "description": "Should use FDSN 'network name'"},
                 "comments" :   {"$ref" : "definitions.schema.json#/comments" }
             }
@@ -73,8 +73,7 @@
                 "start_date",
                 "end_date",
                 "instrument",
-                "locations",
-                "clock_corrections"
+                "locations"
             ],
             "properties": {
                 "notes" :               {"$ref" : "definitions.schema.json#/comments"},
@@ -82,11 +81,15 @@
                 "site" :                {"type" : "string", "minLength" : 1 },
                 "start_date" :          {"$ref" : "definitions.schema.json#/date-time-Z" },
                 "end_date" :            {"$ref" : "definitions.schema.json#/date-time-Z" },
-                "instrument" :          {"$ref" : "#/definitions/instrument" },
+                "instrument" :         {"$ref" : "#/definitions/instruments" },
                 "locations" :           {"$ref" : "#/definitions/locations" },
                 "clock_corrections" :   {"$ref" : "#/definitions/clock_corrections"},
 	            "extras" :              {"$ref" : "definitions.schema.json#/extras"},
-                "sensors":              {"$ref" : "#/definitions/sensors"}
+                "sensors":              {"$ref" : "#/definitions/sensors"},
+                "restricted_status":    {
+                                        "type" : "string",
+                                        "enum" : ["open", "closed", "partial"]
+                                        }
             },
             "additionalProperties": false
         },
@@ -104,8 +107,7 @@
                 "uncertainties.m",
                 "depth.m",
                 "geology",
-                "vault",
-                "localisation_method"
+                "vault"
             ],
             "properties": {
                 "position" :        {"$ref" : "#/definitions/GeoJSON" },
@@ -241,8 +243,8 @@
             "required": [
                 "reference_code", 
                 "serial_number",
-		        "station_location",
-                "channel_codes_locations"
+                "station_location"
+                
             ],
             "properties" : {
                 "reference_code":    {"$ref" : "#/definitions/reference_code" },
@@ -257,6 +259,43 @@
                 }
             }
         },
+        "instruments": {
+           "anyOf": [
+                { 
+                    "$ref" : "#/definitions/instrument"
+                },                
+                {  "type": "array",
+                   "minItems" : 1,
+                   "items" : { "$ref" : "#/definitions/instrument"}
+                }
+            ]
+        },
+
+        "instrument":
+        {
+             "type": "object",
+                    "description": "Instrument reference",
+                    "required": [
+                        "reference_code", 
+                        "serial_number",
+                        "station_location"
+                        
+                    ],
+                    "properties" : {
+                        "reference_code":    {"$ref" : "#/definitions/reference_code" },
+                        "serial_number":     {"$ref" : "#/definitions/serial_number"},
+                        "station_location" :       {"$ref" : "#/definitions/location_code"},
+                        "channel_codes_locations": {
+                            "type" : "object",
+                            "description" : "specification by channel_location pairs",
+                            "patternProperties": {
+                                "^[A-Z]{3}_[0-9]{2}$": { "$ref": "#/definitions/channel_specification" 
+                        }
+                    }
+                }
+            }
+        },
+
         "location_code" : {
             "type" : "string",
             "description" : "SEED location code",
@@ -272,6 +311,8 @@
                     "type" : "string",
                     "description" : "suffix of datalogger name corresponding to the sample rate" 
                 },
+                "start_time":  {"$ref" : "definitions.schema.json#/date-time-Z" },
+                "end_time":    {"$ref" : "definitions.schema.json#/date-time-Z" },
                 "sensor" : { "type" : "object" },
                 "das_component" : { "type" : "string" }
             },

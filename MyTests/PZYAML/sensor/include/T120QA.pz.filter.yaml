@@ -1,0 +1,31 @@
+format_version: '0.104'
+filter:
+  type: PolesZeros
+  units: rad/s
+  poles:
+  - [-0.0058273, +0.0058981]
+  - [-0.0058273,-0.0058981]
+  - [-5.1805, 0.0]
+  - [-22.60 ,0.0]
+  - [-57.9324, +64.2986]
+  - [-57.9324, -64.2986]
+  - [-200.53523, 0.0]
+  - [-779.85922, +828.24232]
+  - [-779.85922, -828.24232]
+  - [-1130.00, +270.56340]
+  - [-1130.00, -270.56340]
+  zeros:
+  - [0.0 ,0.0]
+  - [0.0, 0.0]
+  - [-5.03407, 0.0]
+  - [-25.46479, 0.0]
+  - [-55.70423, 0.0]
+  - [-505.63525, 0.0]
+  description: "test"
+Transfer_normalization_frequency: '1'
+Transfer_normalization_constant: '21071538589433790.0'
+notes:
+- ' # PZ Trillium120PA '
+- '# Doc Nanometrics : Transformation rad/s en Hz'
+- '# D. Wolyniec'
+

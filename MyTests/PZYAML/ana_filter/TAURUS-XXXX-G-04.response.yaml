@@ -1,0 +1,15 @@
+format_version: '0.104'
+response:
+  stages:
+  - Response_name: AMPLIFIER_FILTER
+    Response_type: THEORETICAL
+    Transfer_function_type: ANALOG
+    Input_unit: V
+    Output_unit: V
+    Sensitivity: '0.4'
+    Transfer_normalization_frequency: '0'
+    Number_of_zeroes: '0'
+    Number_of_poles: '0'
+notes:
+- comment: '#   Diviseur par 1 en preampli'
+

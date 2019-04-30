@@ -1,0 +1,107 @@
+---
+# Example instrumentation file
+# Instrumentation files should be completed by the OBS facility
+format_version: "0.104"
+yaml_anchors:
+    equipmenttype: &EQUIPMENTTYPE_EMPTY
+        type: ~
+        description: ~
+        manufacturer: ~
+        vendor: ~
+        model: ~
+        serial_number: ~
+        calibration_date: ~
+
+revision: 
+    date: "2019-02-12"
+    authors:
+        - 
+            name: "rima"
+            email: "rima@resif.fr"
+instrumentation:
+    facility:
+        reference_name: "RESIF"
+        full_name: "RESIF - SISMOB mobile antenna"
+        email: "sismob@isterre.fr"
+        website: "http://sismob.fr"
+    instrument_components: 
+        $ref: "instrument_components.yaml"
+    instruments:
+        generic:    # model_config
+            "RESIF1": 
+                equipment:
+                    type: ~
+                    description: RESIF1
+                    manufacturer: ~
+                    vendor: ~
+                    model: ~
+                    serial_number: ~
+                    calibration_date: ~
+                das_components:
+                    "1":
+                        orientation_code : "E"
+                        datalogger: {reference_code: "TAURUS.G.XXXX"}
+                        preamplifier: {reference_code: "TAURUS-XXXX-G-04"}
+                        sensor: {reference_code: "STS2"}
+                    "2":
+                        orientation_code : "N" 
+                        datalogger: {reference_code: "TAURUS.G.XXXX"}
+                        preamplifier: {reference_code: "TAURUS-XXXX-G-04"}
+                        sensor: {reference_code: "STS2"}
+                    "3":
+                        orientation_code : "Z" 
+                        datalogger: {reference_code: "TAURUS.G.XXXX"}
+                        preamplifier: {reference_code: "TAURUS-XXXX-G-04"}
+                        sensor: {reference_code: "STS2"}
+            "RESIF2": 
+                    equipment:
+                        type: ~
+                        description: RESIF2
+                        manufacturer: ~
+                        vendor: ~
+                        model: ~
+                        serial_number: ~
+                        calibration_date: ~
+                    das_components:
+                        "1":
+                            orientation_code : "E"
+                            datalogger: {reference_code: "TAURUS.G.XXXX"}
+                            preamplifier: {reference_code: "TAURUS-XXXX-G-04"}
+                            sensor: {reference_code: "STS2"}
+                        "2":
+                            orientation_code : "N" 
+                            datalogger: {reference_code: "TAURUS.G.XXXX"}
+                            preamplifier: {reference_code: "TAURUS-XXXX-G-04"}
+                            sensor: {reference_code: "STS2"}
+                        "3":
+                            orientation_code : "Z" 
+                            datalogger: {reference_code: "TAURUS.G.XXXX"}
+                            preamplifier: {reference_code: "TAURUS-XXXX-G-04"}
+                            sensor: {reference_code: "STS2"}            
+            "RESIF3": 
+                equipment:
+                        type: ~
+                        description: RESIF3
+                        manufacturer: ~
+                        vendor: ~
+                        model: ~
+                        serial_number: ~
+                        calibration_date: ~
+                das_components:
+                    "1":
+                        orientation_code : "E"
+                        datalogger: {reference_code: "CENTAUR3.G.XXXX"}
+                        sensor: {reference_code: "T120QA"}
+                    "2":
+                        orientation_code : "N" 
+                        datalogger: {reference_code: "CENTAUR3.G.XXXX"}
+                        sensor: {reference_code: "T120QA"}
+                    "3":
+                        orientation_code : "Z" 
+                        datalogger: {reference_code: "CENTAUR3.G.XXXX"}
+                        sensor: {reference_code: "T120QA"}
+
+        specific:   # can be specified by orientation codes (if unique) or das_component
+            "c'est obligatoire" : "test  "             
+               
+            

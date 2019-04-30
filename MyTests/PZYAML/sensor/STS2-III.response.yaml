@@ -1,0 +1,22 @@
+format_version: '0.104'
+response:
+  stages:
+  - filter:
+      $ref: include/STS2-III.pz.filter.yaml#filter
+    Response_name: SENSORRESPONSE
+    Response_type: THEORETICAL
+    Transfer_function_type: ANALOG
+    Poles_and_Zeros_unit: Hz
+    Input_unit: m/s
+    Output_unit: V
+    Input_sampling_interval: '0'
+    Output_sampling_interval: '0'
+    Decimation_factor: '1'
+    Sensitivity: '1500'
+    Delay: '0'
+    Transfer_normalization_constant: '1'
+    Transfer_normalization_frequency: '0.05'
+notes:
+- comment: ' # nettoyage David + Glenn 19 05 15   '
+- comment: '# reponse d''un STS2-III (third generation)'
+

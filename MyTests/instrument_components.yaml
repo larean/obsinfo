@@ -1,0 +1,88 @@
+---
+# Example instrumentation_components file
+format_version: "0.104"
+notes:
+    - comment: "Notes are associated with information but not put in final metadata"
+revision: 
+    date: "2019-02-12"
+    authors:
+        - 
+            name : "rima"
+            email: "rima@resif.fr"
+instrument_components:
+    instrument_blocks:
+        sensor:
+            generic: # keys = MAKE_MODEL_CONFIG
+                "STS2": 
+                    equipment:
+                      type: sts2
+                      description: " STS2-III "
+                      manufacturer: ~
+                      vendor: ~
+                      model:  "STS2-III (third generation)"
+                      serial_number: ~
+                      calibration_date: ~
+                    seed_codes:
+                        band_base: "B" # à remplacer par D modifier  les check B for corner period >= 10s, S for <10s (output band code will be adjusted to the sample rate)
+                        instrument: "H"
+                        orientation:
+                            "Z": {azimuth.deg: [0], dip.deg: [-90] } # a voir
+                            "N": {azimuth.deg: [0], dip.deg: [0 ]}
+                            "E": {azimuth.deg: [90], dip.deg: [0] } # voir le code est changer 
+                    response_stages:
+                        - $ref: "/home/rima/Project/RESIF/obsinfo/TESTSISMOB/PZYAML/sensor/STS2-III.response.yaml"  
+                "T120QA":
+                    equipment:
+                      type: T120QA
+                      description: "T120QA"
+                      manufacturer: ~
+                      vendor: ~
+                      model:  "T120QA"
+                      serial_number: ~
+                      calibration_date: ~
+                    seed_codes:
+                        band_base: "B" # à remplacer par D modifier  les check "S" ça n'a pas marché
+                        instrument: "H"
+                        orientation:
+                            "Z": {azimuth.deg: [0], dip.deg: [-90] } # a voir
+                            "N": {azimuth.deg: [0], dip.deg: [0 ]}
+                            "E": {azimuth.deg: [90], dip.deg: [0] } # voir le code est changer 
+                    response_stages:
+                        - $ref: "/home/rima/Project/RESIF/obsinfo/TESTSISMOB/PZYAML/sensor/T120QA.response.yaml"  
+        preamplifier:
+            generic: # keys = MAKE_MODEL_CONFIG
+                "TAURUS-XXXX-G-04": 
+                    equipment:
+                      type: TAURUS-XXXX-G-04
+                      description: TAURUS-XXXX-G-04
+                      manufacturer: ~
+                      vendor: ~
+                      model: ~
+                      serial_number: ~
+                      calibration_date: ~
+                    response_stages:
+                        - $ref: "/home/rima/Project/RESIF/obsinfo/TESTSISMOB/PZYAML/ana_filter/TAURUS-XXXX-G-04.response.yaml"
+        datalogger:
+            generic: # keys = MAKE_MODEL_CONFIG
+                "TAURUS.G.XXXX_100":
+                    equipment:
+                      type: TAURUS.G.XXXX_100
+                      description: TAURUS.G.XXXX_100
+                      manufacturer: ~
+                      vendor: ~
+                      model: ~
+                      serial_number: ~
+                      calibration_date: ~
+                    response_stages:
+                        - $ref: "/home/rima/Project/RESIF/obsinfo/TESTSISMOB/PZYAML/digitizer/TAURUS.G.XXXX.100.response.yaml"
+                "CENTAUR3.G.XXXX_100":
+                    equipment:
+                      type: CENTAUR3.G.XXXX_100
+                      description: CENTAUR3.G.XXXX_100
+                      manufacturer: ~
+                      vendor: ~
+                      model: ~
+                      serial_number: ~
+                      calibration_date: ~
+                    response_stages:
+                        - $ref: "/home/rima/Project/RESIF/obsinfo/TESTSISMOB/PZYAML/digitizer/CENTAUR3.G.XXXX.100.response.yaml" # a creer

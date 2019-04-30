@@ -1,0 +1,22 @@
+format_version: '0.104'
+response:
+  stages:
+  - filter:
+      $ref: include/T120QA.pz.filter.yaml#filter
+    Response_name: SENSORRESPONSE
+    Response_type: THEORETICAL
+    Transfer_function_type: ANALOG
+    Input_unit: m/s
+    Output_unit: V
+    Input_sampling_interval: '0'
+    Output_sampling_interval: '0'
+    Decimation_factor: '1'
+    Sensitivity: '1202.5'
+    Delay: '0'
+    Transfer_normalization_constant: '1'
+    Transfer_normalization_frequency: '1.0'
+notes:
+- comment: ' # Trillium120PA '
+- comment: '# Doc Nanometrics'
+- comment: '# D. Wolyniec'
+

@@ -1,13 +1,14 @@
 ---
 # Example instrumentation_components file
-format_version: "0.104"
+format_version: "0.105"
 notes:
     - comment: "Notes are associated with information but not put in final metadata"
 revision: 
     date: "2019-02-12"
     authors:
         - 
-            name : "rima"
+            first_name : "rima"
+            last_name : "rima"
             email: "rima@resif.fr"
 instrument_components:
     instrument_blocks:

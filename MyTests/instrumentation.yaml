@@ -16,7 +16,8 @@ revision:
     date: "2019-02-12"
     authors:
         - 
-            name: "rima"
+            first_name: "rima"
+            last_name: "rima"
             email: "rima@resif.fr"
 instrumentation:
     facility:

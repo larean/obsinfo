@@ -17,7 +17,7 @@
 	    "format_version" : {
 	        "anyOf": [
 	            {"$ref" : "definitions.schema.json#/format_version"},
-	            {"type": "string","pattern": "^0\\.104$","comment":"version of last change to this schema"}
+	            {"type": "string","pattern": "^0\\.105$","comment":"version of last change to this schema"}
             ]
 	    },
 		"instrument_components": { 
@@ -235,7 +235,7 @@
         },
         "azimuthType" : { 
             "type" : "array",
-            "minItems": 2 ,
+            "minItems": 1 ,
             "maxItems": 2 ,
             "items": [
                 {
@@ -254,7 +254,7 @@
         },
         "dipType" : { 
             "type" : "array",
-            "minItems": 2 ,
+            "minItems": 1 ,
             "maxItems": 2 ,
             "items": [
                 {

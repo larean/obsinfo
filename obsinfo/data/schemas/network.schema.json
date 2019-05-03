@@ -73,6 +73,7 @@
                 "start_date",
                 "end_date",
                 "instrument",
+                "position",
                 "locations"
             ],
             "properties": {
@@ -89,7 +90,8 @@
                 "restricted_status":    {
                                         "type" : "string",
                                         "enum" : ["open", "closed", "partial"]
-                                        }
+                                        },
+                "position" :        {"$ref" : "#/definitions/GeoJSON" }
             },
             "additionalProperties": false
         },

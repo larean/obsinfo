@@ -364,3 +364,27 @@ def lon_lats(location, debug=False):
                                 lower_uncertainty=lon_uncert,
                                 upper_uncertainty=lon_uncert)    
     return obspy_lon,obspy_lat 
+
+def get_lon_lats(position,location, debug=False): 
+    """ Calculate obspy util.Latitude and util.Longitude"""
+
+    longitude=float(position[0])
+    latitude=float(position[1])
+    meters_per_degree_lat = 1852.*60.
+    meters_per_degree_lon = 1852.*60.*m.cos(latitude*m.pi/180.)
+    lat_uncert=location['uncertainties.m'][1]/meters_per_degree_lat
+    lon_uncert=location['uncertainties.m'][0]/meters_per_degree_lon
+    #REDUCE UNCERTAINTIES TO 3 SIGNIFICANT FIGURES
+    lat_uncert=float('{:.3g}'.format(lat_uncert))
+    lon_uncert=float('{:.3g}'.format(lon_uncert))
+    if debug:
+        print('{:.3f}+-{:.5f}, {:.3f}+-{:.5f}'.format(longitude,lon_uncert,                                                    latitude,lat_uncert))
+    obspy_lat  = obspy_util.Latitude(
+                                latitude,
+                                lower_uncertainty=lat_uncert,
+                                upper_uncertainty=lat_uncert)    
+    obspy_lon = obspy_util.Longitude(
+                                longitude,
+                                lower_uncertainty=lon_uncert,
+                                upper_uncertainty=lon_uncert) 
+    return obspy_lon,obspy_lat 

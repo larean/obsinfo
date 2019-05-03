@@ -43,6 +43,7 @@ network:
             start_date: "2016-10-20T00:01:00Z"
             end_date: "2020-07-01T00:07:00Z"
             restricted_status: "closed" # to add
+            position: [5.31951,46.7469 ,203] # long,latit,elev
             comments: 
                 - comment: "stations comment"
                   BeginEffectiveTime: "2015-07-01T00:00:00.000000Z"

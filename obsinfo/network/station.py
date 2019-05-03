@@ -42,6 +42,7 @@ class station:
             self.sensors=station_dict['sensors']
         else:
             self.sensors=None
+        self.position = station_dict['position']
     def __repr__(self) :
         txt =       "< {}: code={}, ".format(__name__,self.code)
         if hasattr(self.instrument,'das_components'):
@@ -184,15 +185,17 @@ class station:
             if debug:
                 print(yaml.dump(channel))
         # CREATE STATION
-        station_loc_code=self.station_location
+        station_loc_code=self.station_location # david
         if station_loc_code in self.locations:
             sta_loc=self.locations[station_loc_code]
-            obspy_lon,obspy_lat = oi_obspy.lon_lats(sta_loc)
+            #obspy_lon,obspy_lat = oi_obspy.lon_lats(sta_loc)
         else:
             print ("No valid location code for station, either set station_location_code or provide a location '00'")
             sys.exit()
-    
-    
+
+        # get position
+        obspy_lon,obspy_lat =  oi_obspy.get_lon_lats(self.position,sta_loc)
+        
         obspy_comments = oi_obspy.comments(
                         self.comments,
                         self.clock_corrections,

@@ -73,8 +73,8 @@
                 "start_date",
                 "end_date",
                 "instrument",
-                "position",
-                "locations"
+                "locations",
+                "station_location"
             ],
             "properties": {
                 "notes" :               {"$ref" : "definitions.schema.json#/comments"},
@@ -82,6 +82,7 @@
                 "site" :                {"type" : "string", "minLength" : 1 },
                 "start_date" :          {"$ref" : "definitions.schema.json#/date-time-Z" },
                 "end_date" :            {"$ref" : "definitions.schema.json#/date-time-Z" },
+                "station_location" :    {"$ref" : "#/definitions/location_code"},
                 "instrument" :         {"$ref" : "#/definitions/instruments" },
                 "locations" :           {"$ref" : "#/definitions/locations" },
                 "clock_corrections" :   {"$ref" : "#/definitions/clock_corrections"},
@@ -90,8 +91,7 @@
                 "restricted_status":    {
                                         "type" : "string",
                                         "enum" : ["open", "closed", "partial"]
-                                        },
-                "position" :        {"$ref" : "#/definitions/GeoJSON" }
+                                        }
             },
             "additionalProperties": false
         },
@@ -244,14 +244,11 @@
             "description": "Instrument reference",
             "required": [
                 "reference_code", 
-                "serial_number",
-                "station_location"
-                
+                "serial_number"                
             ],
             "properties" : {
                 "reference_code":    {"$ref" : "#/definitions/reference_code" },
                 "serial_number":     {"$ref" : "#/definitions/serial_number"},
-                "station_location" :       {"$ref" : "#/definitions/location_code"},
                 "channel_codes_locations": {
                     "type" : "object",
                     "description" : "specification by channel_location pairs",

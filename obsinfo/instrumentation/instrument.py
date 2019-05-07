@@ -167,6 +167,11 @@ class instrument:
             dc['sample_rate']=chan_values['sample_rate']
         if 'serial_number' in chan_values:
             dc['equipment'].serial_number=chan_values['serial_number']
+        if 'start_time' in chan_values:
+            dc['start_time'] = chan_values['start_time']
+        if 'end_time' in chan_values:
+            dc['end_time'] = chan_values['end_time']
+
         for block_type in ['sensor','datalogger','preamplifier']:
             if block_type in chan_values:
                 for key in chan_values[block_type]:
@@ -222,6 +227,7 @@ class instrument:
         for block_type in ['datalogger','preamplifier','sensor'] :
             if block_type == 'preamplifier' and block_type not in channel:
                 print('component type "{}" absent, ignored'.format(block_type))
+                continue # to ignore empty  preamplifier
             if debug:
                 print('Component=',block_type, channel[block_type])
             reference_code = channel[block_type]['reference_code']
@@ -265,7 +271,8 @@ class instrument:
             if debug:
                 print(yaml.dump(channel))
             channel['sensor'].fill_responses()
-            channel['preamplifier'].fill_responses()
+            if 'preamplifier' in channel:
+                channel['preamplifier'].fill_responses()
             channel['datalogger'].fill_responses()
             if debug:
                 print('channel {} has : {:d} sensor,{:d} preamp,{:d} logger stages'.format(\
@@ -276,6 +283,7 @@ class instrument:
                 #print(channel)
             channel['response']=[]
             channel['response'].extend(channel['sensor'].response) 
-            channel['response'].extend(channel['preamplifier'].response) 
+            if 'preamplifier' in channel:
+                channel['response'].extend(channel['preamplifier'].response)
             channel['response'].extend(channel['datalogger'].response) 
                

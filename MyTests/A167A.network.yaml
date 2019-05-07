@@ -43,7 +43,7 @@ network:
             start_date: "2016-10-20T00:01:00Z"
             end_date: "2020-07-01T00:07:00Z"
             restricted_status: "closed" # to add
-            position: [5.31951,46.7469 ,203] # long,latit,elev
+            station_location: "00" 
             comments: 
                 - comment: "stations comment"
                   BeginEffectiveTime: "2015-07-01T00:00:00.000000Z"
@@ -54,21 +54,18 @@ network:
                       "HHN_00" : {sample_rate: 100, datalogger_config: "100",start_time: "2016-10-20T00:02:00Z", end_time: "2017-02-23T15:00:00Z"}
                       "HHZ_00" : {sample_rate: 100, datalogger_config: "100",start_time: "2016-10-20T00:02:00Z", end_time: "2017-02-23T15:00:00Z"}
                     serial_number: "20" 
-                    station_location: "00"           
                   - reference_code : "RESIF2"
                     channel_codes_locations:
                       "HHE_00" : {sample_rate: 100, datalogger_config: "100",start_time: "2017-02-24T13:00:00Z", end_time: "2017-05-15T15:00:00Z"} #D et P : type d'instrument et gamme de fréquence. et Z Orientation vertivale
                       "HHN_00" : {sample_rate: 100, datalogger_config: "100",start_time: "2017-02-24T13:00:00Z", end_time: "2017-05-15T15:00:00Z"}
                       "HHZ_00" : {sample_rate: 100, datalogger_config: "100",start_time: "2017-02-24T13:00:00Z", end_time: "2017-05-15T15:00:00Z"}
                     serial_number: "20"
-                    station_location: "00"  
                   - reference_code: "RESIF3"
                     channel_codes_locations:
                       "HHE_00" : {sample_rate: 100, datalogger_config: "100",start_time: "2017-06-01T06:20:00Z", end_time: "2020-07-01T00:00:00Z"} #D et P : type d'instrument et gamme de fréquence. et Z Orientation vertivale
                       "HHN_00" : {sample_rate: 100, datalogger_config: "100",start_time: "2017-06-01T06:20:00Z", end_time: "2020-07-01T00:00:00Z"}
                       "HHZ_00" : {sample_rate: 100, datalogger_config: "100",start_time: "2017-06-01T06:20:00Z", end_time: "2020-07-01T00:00:00Z"}
                     serial_number: "20"
-                    station_location: "00"  
             locations:
                 "00":
                     depth.m: 0 #??

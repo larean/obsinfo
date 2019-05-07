@@ -74,7 +74,7 @@ network:
             site: "Lucky Strike Volcano West"
             start_date: "2015-04-22T12:00:00Z"
             end_date: "2016-05-28T21:01:00Z"
-            position: [-32.32504, 37.29744, -2030]
+            station_location: "00"
             instrument:
                 <<: *SPOBS2_125
                 serial_number: "20"
@@ -92,7 +92,7 @@ network:
             site: "Lucky Strike Volcano East"
             start_date: "2015-04-22T12:00:00Z"
             end_date: "2016-05-28T21:01:00Z"
-            position: [-32.02504, 37.25744, -2130]
+            station_location: "00"
             instrument:
                 <<: *SPOBS2_125
                 serial_number: "12"
@@ -113,7 +113,7 @@ network:
             comments: ["Hydrophone did not work"]
             start_date: "2015-04-23T10:00:00Z"
             end_date: "2016-05-26T23:00:00Z"
-            position: [-32.27909, 37.31960, -1798]
+            station_location: "00"
             instrument:
                 reference_code: "SPOBS1"
                 serial_number: "13"
@@ -136,11 +136,10 @@ network:
             site: "Lucky Strike Volcano Fake BBOBS"
             start_date: "2015-04-23T10:00:00Z"
             end_date: "2016-05-28T15:37:00Z"
-            position: [-32.29756, 37.26049, -1887]
+            station_location: "00"
             instrument:
                 reference_code: "BBOBS1_2"
                 serial_number: "07"
-                station_location: "00"
                 channel_codes_locations:
                     "BDH_00": {sample_rate: 62.5, datalogger_config: "62", sensor: {serial_number : "IP007"}}
                     "BH1_00": {sample_rate: 62.5, datalogger_config: "62", sensor: {serial_number : "Sphere06"}}
@@ -161,7 +160,7 @@ network:
             site: "Lucky Strike Volcano Fake BBOBS"
             start_date: "2015-04-23T10:00:00Z"
             end_date: "2016-05-28T15:37:00Z"
-            position: [-32.29756, 37.26049, -1887]
+            station_location: "00"
             instrument:
                 reference_code: "BBOBS1_1"
                 serial_number: "02"
@@ -186,7 +185,7 @@ network:
             site: "Lucky Strike Volcano Fake HydroOctopus"
             start_date: "2015-04-23T10:00:00Z"
             end_date: "2016-05-28T15:37:00Z"
-            position: [-32.29756, 37.26049, -1887]
+            station_location: "00"
             instrument:
                 reference_code: "HydroOctopus"
                 serial_number: "01"
@@ -245,7 +244,7 @@ network:
             notes: [ "original station name = LSJ4"]
             start_date: "2016-07-01T12:00:00Z"
             end_date: ~
-            position: [-32.280, 37.290, -1760]
+            station_location: "00"
             instrument:
                 <<: *SPOBS2_62
                 serial_number: "Station01"

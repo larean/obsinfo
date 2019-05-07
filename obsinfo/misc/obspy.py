@@ -68,6 +68,7 @@ def response(my_response,debug=False):
     """
     Create an obspy response object from a response_yaml-based list of stages
     """
+    print(my_response)
     resp_stages=[]
     i_stage=0
     sensitivity=dict()
@@ -166,7 +167,7 @@ def __make_poles_zeros(stage,i_stage,units,debug=False):
             poles = poles,
             input_units_description=units['input_description'],
             output_units_description=units['output_description'],
-            description=stage['description']
+            description=stage['description'] if 'description' in stage else None
         )
 
 def __make_coefficients(stage,i_stage,units,debug=False):
@@ -220,7 +221,7 @@ def __make_FIR(stage,i_stage,units,debug=False):
             coefficients = [obspy_types.FloatWithUncertaintiesAndUnit(x) for x in resp['coefficients']],
             input_units_description='Digital Counts',
             output_units_description='Digital Counts',
-            description=stage['description'],
+            description=stage['description'] if 'description' in stage else None,
             decimation_input_sample_rate=decim['input_sr'],
             decimation_factor=decim['factor'],
             decimation_offset=decim['offset'],
@@ -240,7 +241,7 @@ def __make_DIGITAL(stage,i_stage,units,debug=False):
             denominator=[],
             input_units_description=units['input_description'],
             output_units_description=units['output_description'],
-            description=stage['description'],
+            description=stage['description'] if 'description' in stage else None,
             decimation_input_sample_rate=decim['input_sr'],
             decimation_factor=decim['factor'],
             decimation_offset=decim['offset'],
@@ -257,7 +258,7 @@ def __make_ANALOG(stage,i_stage,units,debug=False):
             units['input'], units['output'],
             input_units_description=units['input_description'],
             output_units_description=units['output_description'],
-            description=stage['description'],
+            description=stage['description'] if 'description' in stage else None,
             pz_transfer_function_type = 'LAPLACE (HERTZ)',
             normalization_frequency = 0.,
             normalization_factor = 1.,
@@ -280,7 +281,7 @@ def __get_gain(stage):
 def __get_decim_parms(stage):
     decim=dict()
     decim['factor']=int(stage.get('decimation_factor',1))
-    decim['input_sr']=decim['factor']*stage['output_sample_rate']
+    decim['input_sr']=decim['factor']*stage['output_sample_rate'] # input pour sismob??
     filter=stage['filter']
     decim['offset']=int(filter.get('offset',0))
     decim['delay']=float(filter.get('delay', \

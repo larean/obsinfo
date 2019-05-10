@@ -86,7 +86,7 @@ def response(my_response,debug=False):
         resp_type=stage['filter']['type']
         if debug:
             print("i_stage=",i_stage,", resp_type=",resp_type)
-            
+        print("i_stage=",i_stage,", resp_type=",resp_type,units)
         # Create and append the appropriate response    
         if resp_type=='PolesZeros':
             resp_stages.append(__make_poles_zeros(stage,i_stage,units))
@@ -216,7 +216,7 @@ def __make_FIR(stage,i_stage,units,debug=False):
     return inventory.response.FIRResponseStage(\
             i_stage,
             gain_value, gain_frequency,
-            'COUNTS', 'COUNTS',
+            'counts', 'counts',
             symmetry= resp['symmetry'].upper(),
             coefficients = [obspy_types.FloatWithUncertaintiesAndUnit(x) for x in resp['coefficients']],
             input_units_description='Digital Counts',
@@ -281,10 +281,17 @@ def __get_gain(stage):
 def __get_decim_parms(stage):
     decim=dict()
     decim['factor']=int(stage.get('decimation_factor',1))
-    decim['input_sr']=decim['factor']*stage['output_sample_rate'] # input pour sismob??
+    #decim['input_sr']=decim['factor']*stage['output_sample_rate'] # wayne
+    #decim['input_sr']=stage['input_sample_rate'] # input pour sismob??  
+    print("--",stage, decim['factor'], stage['output_sample_rate'] )  
+    decim['input_sr']=decim['factor']*(1/stage['output_sample_rate'])# test david??
     filter=stage['filter']
     decim['offset']=int(filter.get('offset',0))
-    decim['delay']=float(filter.get('delay', \
+    # contourner le probleme
+    if 'delay' in stage:
+        decim['delay'] = stage['delay']
+    else:
+        decim['delay']=float(filter.get('delay', \
                             float(decim['offset'])/float(decim['input_sr'])))
     return decim
 

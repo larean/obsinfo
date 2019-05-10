@@ -167,10 +167,10 @@ class instrument:
             dc['sample_rate']=chan_values['sample_rate']
         if 'serial_number' in chan_values:
             dc['equipment'].serial_number=chan_values['serial_number']
-        if 'start_time' in chan_values:
-            dc['start_time'] = chan_values['start_time']
-        if 'end_time' in chan_values:
-            dc['end_time'] = chan_values['end_time']
+        if 'start_date' in chan_values:
+            dc['start_date'] = chan_values['start_date']
+        if 'end_date' in chan_values:
+            dc['end_date'] = chan_values['end_date']
 
         for block_type in ['sensor','datalogger','preamplifier']:
             if block_type in chan_values:

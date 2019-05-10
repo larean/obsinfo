@@ -129,8 +129,8 @@ class station:
                 # Give at least 3 seconds margin around start and end dates
 
 
-                if  'start_time' in chan:
-                    start_date = chan['start_time']
+                if  'start_date' in chan:
+                    start_date = UTCDateTime(chan['start_date'])
                 elif hasattr(self,'start_date'):
                     if self.start_date:
                         try:
@@ -138,8 +138,8 @@ class station:
                         except:
                             print(f"There is a problem with the station start date: {self.start_date}")
                             sys.exit(2)
-                if 'end_time' in chan:
-                    end_date = self.cast_date(chan['end_time'])
+                if 'end_date' in chan:
+                    end_date = UTCDateTime(chan['end_date'])
                 elif hasattr(self,'end_date'):
                     if self.end_date:
                         #print(self.end_date)
@@ -241,8 +241,8 @@ class station:
                         termination_date=end_date,
                         description=None,
                         comments = obspy_comments,
-                        start_date = start_date,
-                        end_date   = end_date,
+                        start_date = UTCDateTime(self.start_date),
+                        end_date   = UTCDateTime(self.end_date),
                         restricted_status = None,
                         alternate_code=None,
                         data_availability=None,

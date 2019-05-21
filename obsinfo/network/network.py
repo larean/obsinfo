@@ -19,6 +19,7 @@ from obspy.core.utcdatetime import UTCDateTime
 from ..misc.info_files import load_information_file
 from ..misc import FDSN  as oi_FDSN
 from .station import station as oi_station
+from .util import create_comments
 
 ################################################################################       
     
@@ -86,10 +87,9 @@ class network:
             obspy_stations.append(station.make_obspy_station())
     
         temp=self.network_info.comments
+        comments = None
         if temp:
-            comments=[]
-            for comment in temp:
-                comments.append(obspy_util.Comment(comment))
+            comments = create_comments(temp)
         my_net = obspy_inventory.network.Network(
                             self.network_info.code,
                             obspy_stations,

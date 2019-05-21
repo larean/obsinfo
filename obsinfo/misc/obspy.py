@@ -94,6 +94,7 @@ def response(my_response,debug=False):
             resp_stages.append(__make_coefficients(stage,i_stage,units))
         elif resp_type=="FIR" :
             resp_stages.append(__make_FIR(stage,i_stage,units))
+            #resp_stages.append(__make_coefficients(stage,i_stage,units))
         elif resp_type=="AD_CONVERSION" : 
             resp_stages.append(__make_DIGITAL(stage,i_stage,units))
         elif resp_type=="ANALOG" :

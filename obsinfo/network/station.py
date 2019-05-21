@@ -20,6 +20,7 @@ from ..misc            import misc       as oi_misc
 from ..misc            import obspy      as oi_obspy
 from ..misc.misc       import round_down_minute, round_up_minute, make_channel_code
 from ..instrumentation import instrument as oi_instrument
+from .util import create_comments
 
 ################################################################################       
 class station:
@@ -206,13 +207,15 @@ class station:
                 print ("No valid location code for station, either set station_location_code or provide a location '00'")
                 sys.exit()
             
-            obspy_comments = oi_obspy.comments(
+            """obspy_comments = oi_obspy.comments(
                             self.comments,
                             self.clock_corrections,
                             self.supplements,
                             station_loc_code,
                             sta_loc
-                        )
+                       )
+            """
+            
             # DEFINE Operator
             agency=self.operator['full_name']
             contacts=None

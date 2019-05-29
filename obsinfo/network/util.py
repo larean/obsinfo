@@ -3,13 +3,16 @@ import obspy.core.inventory.util as obspy_util
 
 
 def create_comments(temp):
+
+    if type(temp) is str: 
+        return [obspy_util.Comment(temp)]  
     comments=[]
-    for id,comment in enumerate(temp):
-        value = comment['comment'] 
+    for id,comment in enumerate(temp): 
+        value = comment['comment'] if 'comment' in comment else comment
         begin_effective_time = comment['BeginEffectiveTime'] if 'BeginEffectiveTime' in comment else None
         end_effective_time = comment['EndEffectiveTime'] if 'EndEffectiveTime' in comment else None
         authors = create_authors(comment) if 'authors' in comment else None
-        comments.append(obspy_util.Comment(value,id=id,begin_effective_time=begin_effective_time,end_effective_time=end_effective_time,authors=authors))
+        comments.append(obspy_util.Comment(value,begin_effective_time=begin_effective_time,end_effective_time=end_effective_time,authors=authors))
     return(comments)
 
 def create_authors(comment):

@@ -34,15 +34,18 @@ class XmlTree():
             if not name in excludes:
                 if x2.attrib.get(name) != value:
                     print(error(f'Attributes do not match: {name}={value}, {name}={x2.attrib.get(name)}'))
+                    print(error(f'Elements: {x1.attrib},{x2.attrib}'))
                     return False
         for name in x2.attrib.keys():
             if not name in excludes:
                 if name not in x1.attrib:
                     print('x2 has an attribute x1 is missing: %s'
                                  % name)
+
                     return False
         if not self.text_compare(x1.text, x2.text):
             print(error(f'text: {x1.text} != {x2.text}'))
+            print(error(f'Elements: {x1.tag},{x2.tag}'))
             return False
         if not self.text_compare(x1.tail, x2.tail):
             print('tail: %r != %r' % (x1.tail, x2.tail))

@@ -1,0 +1,15 @@
+---
+format_version: "0.104"
+response:
+    stages:
+        -
+          description : "SENSOR - TRILLIUM COMPACT OBS" # optionel
+          input_units :  {name: "M/S", description: "VELOCITY"}
+          output_units : {name: "V", description: "VOLTS"}
+          gain : 
+            value: 749.1
+            frequency : 1.
+          filter:
+            $ref: "../_filters/PolesZeros//Trillium_TCompact_OBS_generic.filter.yaml#filter"
+          extras:
+            DBIRD_response_type : "THEORETICAL" # optionel

@@ -1,6 +1,6 @@
 ---
 # Network files should be completed by OBS facilities involved in a campaign
-format_version: "0.105"
+format_version: "0.106"
 notes:
     - "Notes are associated with information but not put in final metadata"
 yaml_anchors:
@@ -140,7 +140,6 @@ network:
             instrument:
                 reference_code: "BBOBS1_2"
                 serial_number: "07"
-                station_location: "00"
                 channel_codes_locations:
                     "BDH_00": {sample_rate: 62.5, datalogger_config: "62", sensor: {serial_number : "IP007"}}
                     "BH1_00": {sample_rate: 62.5, datalogger_config: "62", sensor: {serial_number : "Sphere06"}}

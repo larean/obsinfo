@@ -1,0 +1,15 @@
+---
+format_version: "0.104"
+response:
+    stages:
+        -
+          description : "SENSOR - TRILLIUM 240 SN1-399 (SINGLE-SIDED)"
+          input_units :  {name: "M/S", description: "VELOCITY"}
+          output_units : {name: "V", description: "VOLTS"}
+          gain : 
+            value: 598.45
+            frequency: 1.
+          filter:
+            $ref: "../_filters/PolesZeros//Trillium_T240_SN1-399_generic.filter.yaml#filter"
+          extras:
+            DBIRD_response_type : "THEORETICAL" # optionel

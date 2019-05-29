@@ -19,7 +19,7 @@ def test_XX_station(compare):
 	# test all stations
 
 	# exluded element
-	excludes = ['Created']
+	excludes = ['Created','Real','Imaginary','Numerator'] 
 	excludes = [ compare.add_ns(x) for x in excludes]
 	stationsXML = os.listdir(f'{path}/output/')
 	for stxml in stationsXML:

@@ -110,7 +110,6 @@ class station:
                 if debug:
                     print(key)
                     print(yaml.dump(chan))
-                print(chan)
                 response=oi_obspy.response(chan['response'])
                 #loc_code=key.split(':')[1]
                 loc_code=chan['location_code']
@@ -126,13 +125,15 @@ class station:
                                             chan['sensor'].seed_codes,
                                             chan['orientation_code'])
                 start_date=None
-                end_date=None
+                end_date=None                
+                start_date_chan=None
+                end_date_chan=None
                 # Give at least 3 seconds margin around start and end dates
 
 
                 if  'start_date' in chan:
-                    start_date = UTCDateTime(chan['start_date'])
-                elif hasattr(self,'start_date'):
+                    start_date_chan = UTCDateTime(chan['start_date'])
+                if hasattr(self,'start_date'):
                     if self.start_date:
                         try:
                             start_date=round_down_minute(UTCDateTime(self.start_date),3)
@@ -140,8 +141,8 @@ class station:
                             print(f"There is a problem with the station start date: {self.start_date}")
                             sys.exit(2)
                 if 'end_date' in chan:
-                    end_date = UTCDateTime(chan['end_date'])
-                elif hasattr(self,'end_date'):
+                    end_date_chan = UTCDateTime(chan['end_date'])
+                if hasattr(self,'end_date'):
                     if self.end_date:
                         #print(self.end_date)
                         #print(UTCDateTime(self.end_date))
@@ -189,8 +190,8 @@ class station:
                         response   =response,
                         description=None,
                         comments=[channel_comment] if channel_comment else None,
-                        start_date = start_date ,
-                        end_date   = end_date,
+                        start_date = start_date_chan if start_date_chan else start_date,
+                        end_date   = end_date_chan if end_date_chan else end_date,
                         restricted_status = None,
                         alternate_code=None,
                         data_availability=None
@@ -207,14 +208,13 @@ class station:
                 print ("No valid location code for station, either set station_location_code or provide a location '00'")
                 sys.exit()
             
-            """obspy_comments = oi_obspy.comments(
+            obspy_comments = oi_obspy.comments(
                             self.comments,
                             self.clock_corrections,
                             self.supplements,
                             station_loc_code,
                             sta_loc
                        )
-            """
             
             # DEFINE Operator
             agency=self.operator['full_name']
@@ -244,8 +244,8 @@ class station:
                         termination_date=end_date,
                         description=None,
                         comments = obspy_comments,
-                        start_date = UTCDateTime(self.start_date),
-                        end_date   = UTCDateTime(self.end_date),
+                        start_date = start_date if start_date else None,
+                        end_date   = end_date if end_date else None,
                         restricted_status = None,
                         alternate_code=None,
                         data_availability=None,

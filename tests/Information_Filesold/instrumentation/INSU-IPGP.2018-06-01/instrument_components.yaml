@@ -1,6 +1,6 @@
 ---
 # Example instrumentation_components file
-format_version: "0.104"
+format_version: "0.105"
 notes:
     - "Notes are associated with information but not put in final metadata"
 yaml_anchors:

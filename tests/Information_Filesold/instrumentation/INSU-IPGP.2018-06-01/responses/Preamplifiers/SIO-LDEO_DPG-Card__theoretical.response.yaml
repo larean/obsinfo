@@ -1,0 +1,25 @@
+---
+format_version: "0.104"
+notes:
+    - "# Has one important highpass filter, rest is out of sampling range"
+    - "Sensitivity currently all placed in DPG: should make the DPG a pressure-ohms transducer and this an ohms-volts transducer"
+response:
+    stages :
+        -
+            description : "PREAMPLIFIER - DPG card"
+            input_units : {name: "V", description: "VOLTS"}
+            output_units : {name: "V", description: "VOLTS"}
+            gain :
+                value : 1
+                frequency : 1
+            filter :
+                type : "PolesZeros"
+                units : "rad/s"
+                zeros :
+                    -      [0,   0]
+                poles :
+                    -     [-0.0484, 0]
+                    -    [-57.471,  0]
+                    -   [-100.0,    0]
+            extras:
+                DBIRD_response_type : "THEORETICAL" 

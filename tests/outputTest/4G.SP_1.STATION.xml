@@ -84,7 +84,7 @@
               <Description>VELOCITY</Description>
             </InputUnits>
             <OutputUnits>
-              <Name>COUNTS</Name>
+              <Name>counts</Name>
               <Description>Digital Counts</Description>
             </OutputUnits>
           </InstrumentSensitivity>
@@ -160,7 +160,7 @@
                 <Description>Volts</Description>
               </InputUnits>
               <OutputUnits>
-                <Name>COUNTS</Name>
+                <Name>counts</Name>
                 <Description>Digital Counts</Description>
               </OutputUnits>
               <CfTransferFunctionType>DIGITAL</CfTransferFunctionType>
@@ -182,11 +182,11 @@
             <FIR>
               <Description>DECIMATION - CS5322 FIR2</Description>
               <InputUnits>
-                <Name>COUNTS</Name>
+                <Name>counts</Name>
                 <Description>Digital Counts</Description>
               </InputUnits>
               <OutputUnits>
-                <Name>COUNTS</Name>
+                <Name>counts</Name>
                 <Description>Digital Counts</Description>
               </OutputUnits>
               <Symmetry>NONE</Symmetry>
@@ -220,11 +220,11 @@
             <FIR>
               <Description>DECIMATION - CS5322 FIR2</Description>
               <InputUnits>
-                <Name>COUNTS</Name>
+                <Name>counts</Name>
                 <Description>Digital Counts</Description>
               </InputUnits>
               <OutputUnits>
-                <Name>COUNTS</Name>
+                <Name>counts</Name>
                 <Description>Digital Counts</Description>
               </OutputUnits>
               <Symmetry>NONE</Symmetry>
@@ -258,11 +258,11 @@
             <FIR>
               <Description>DECIMATION - CS5322 FIR2</Description>
               <InputUnits>
-                <Name>COUNTS</Name>
+                <Name>counts</Name>
                 <Description>Digital Counts</Description>
               </InputUnits>
               <OutputUnits>
-                <Name>COUNTS</Name>
+                <Name>counts</Name>
                 <Description>Digital Counts</Description>
               </OutputUnits>
               <Symmetry>NONE</Symmetry>
@@ -296,11 +296,11 @@
             <FIR>
               <Description>DECIMATION - CS5322 FIR2</Description>
               <InputUnits>
-                <Name>COUNTS</Name>
+                <Name>counts</Name>
                 <Description>Digital Counts</Description>
               </InputUnits>
               <OutputUnits>
-                <Name>COUNTS</Name>
+                <Name>counts</Name>
                 <Description>Digital Counts</Description>
               </OutputUnits>
               <Symmetry>NONE</Symmetry>
@@ -334,11 +334,11 @@
             <FIR>
               <Description>DECIMATION - CS5322 FIR2</Description>
               <InputUnits>
-                <Name>COUNTS</Name>
+                <Name>counts</Name>
                 <Description>Digital Counts</Description>
               </InputUnits>
               <OutputUnits>
-                <Name>COUNTS</Name>
+                <Name>counts</Name>
                 <Description>Digital Counts</Description>
               </OutputUnits>
               <Symmetry>NONE</Symmetry>
@@ -372,11 +372,11 @@
             <FIR>
               <Description>DECIMATION - CS5322 FIR2</Description>
               <InputUnits>
-                <Name>COUNTS</Name>
+                <Name>counts</Name>
                 <Description>Digital Counts</Description>
               </InputUnits>
               <OutputUnits>
-                <Name>COUNTS</Name>
+                <Name>counts</Name>
                 <Description>Digital Counts</Description>
               </OutputUnits>
               <Symmetry>NONE</Symmetry>
@@ -410,11 +410,11 @@
             <FIR>
               <Description>DECIMATION - CS5322 FIR2</Description>
               <InputUnits>
-                <Name>COUNTS</Name>
+                <Name>counts</Name>
                 <Description>Digital Counts</Description>
               </InputUnits>
               <OutputUnits>
-                <Name>COUNTS</Name>
+                <Name>counts</Name>
                 <Description>Digital Counts</Description>
               </OutputUnits>
               <Symmetry>NONE</Symmetry>
@@ -448,11 +448,11 @@
             <FIR>
               <Description>DECIMATION - CS5322 FIR2</Description>
               <InputUnits>
-                <Name>COUNTS</Name>
+                <Name>counts</Name>
                 <Description>Digital Counts</Description>
               </InputUnits>
               <OutputUnits>
-                <Name>COUNTS</Name>
+                <Name>counts</Name>
                 <Description>Digital Counts</Description>
               </OutputUnits>
               <Symmetry>NONE</Symmetry>
@@ -486,11 +486,11 @@
             <FIR>
               <Description>DECIMATION - CS5322 FIR3 (linear phase)</Description>
               <InputUnits>
-                <Name>COUNTS</Name>
+                <Name>counts</Name>
                 <Description>Digital Counts</Description>
               </InputUnits>
               <OutputUnits>
-                <Name>COUNTS</Name>
+                <Name>counts</Name>
                 <Description>Digital Counts</Description>
               </OutputUnits>
               <Symmetry>NONE</Symmetry>
@@ -651,7 +651,7 @@
               <Description>PRESSURE</Description>
             </InputUnits>
             <OutputUnits>
-              <Name>COUNTS</Name>
+              <Name>counts</Name>
               <Description>Digital Counts</Description>
             </OutputUnits>
           </InstrumentSensitivity>
@@ -723,7 +723,7 @@
                 <Description>Volts</Description>
               </InputUnits>
               <OutputUnits>
-                <Name>COUNTS</Name>
+                <Name>counts</Name>
                 <Description>Digital Counts</Description>
               </OutputUnits>
               <CfTransferFunctionType>DIGITAL</CfTransferFunctionType>
@@ -745,11 +745,11 @@
             <FIR>
               <Description>DECIMATION - CS5322 FIR2</Description>
               <InputUnits>
-                <Name>COUNTS</Name>
+                <Name>counts</Name>
                 <Description>Digital Counts</Description>
               </InputUnits>
               <OutputUnits>
-                <Name>COUNTS</Name>
+                <Name>counts</Name>
                 <Description>Digital Counts</Description>
               </OutputUnits>
               <Symmetry>NONE</Symmetry>
@@ -783,11 +783,11 @@
             <FIR>
               <Description>DECIMATION - CS5322 FIR2</Description>
               <InputUnits>
-                <Name>COUNTS</Name>
+                <Name>counts</Name>
                 <Description>Digital Counts</Description>
               </InputUnits>
               <OutputUnits>
-                <Name>COUNTS</Name>
+                <Name>counts</Name>
                 <Description>Digital Counts</Description>
               </OutputUnits>
               <Symmetry>NONE</Symmetry>
@@ -821,11 +821,11 @@
             <FIR>
               <Description>DECIMATION - CS5322 FIR2</Description>
               <InputUnits>
-                <Name>COUNTS</Name>
+                <Name>counts</Name>
                 <Description>Digital Counts</Description>
               </InputUnits>
               <OutputUnits>
-                <Name>COUNTS</Name>
+                <Name>counts</Name>
                 <Description>Digital Counts</Description>
               </OutputUnits>
               <Symmetry>NONE</Symmetry>
@@ -859,11 +859,11 @@
             <FIR>
               <Description>DECIMATION - CS5322 FIR2</Description>
               <InputUnits>
-                <Name>COUNTS</Name>
+                <Name>counts</Name>
                 <Description>Digital Counts</Description>
               </InputUnits>
               <OutputUnits>
-                <Name>COUNTS</Name>
+                <Name>counts</Name>
                 <Description>Digital Counts</Description>
               </OutputUnits>
               <Symmetry>NONE</Symmetry>
@@ -897,11 +897,11 @@
             <FIR>
               <Description>DECIMATION - CS5322 FIR2</Description>
               <InputUnits>
-                <Name>COUNTS</Name>
+                <Name>counts</Name>
                 <Description>Digital Counts</Description>
               </InputUnits>
               <OutputUnits>
-                <Name>COUNTS</Name>
+                <Name>counts</Name>
                 <Description>Digital Counts</Description>
               </OutputUnits>
               <Symmetry>NONE</Symmetry>
@@ -935,11 +935,11 @@
             <FIR>
               <Description>DECIMATION - CS5322 FIR2</Description>
               <InputUnits>
-                <Name>COUNTS</Name>
+                <Name>counts</Name>
                 <Description>Digital Counts</Description>
               </InputUnits>
               <OutputUnits>
-                <Name>COUNTS</Name>
+                <Name>counts</Name>
                 <Description>Digital Counts</Description>
               </OutputUnits>
               <Symmetry>NONE</Symmetry>
@@ -973,11 +973,11 @@
             <FIR>
               <Description>DECIMATION - CS5322 FIR2</Description>
               <InputUnits>
-                <Name>COUNTS</Name>
+                <Name>counts</Name>
                 <Description>Digital Counts</Description>
               </InputUnits>
               <OutputUnits>
-                <Name>COUNTS</Name>
+                <Name>counts</Name>
                 <Description>Digital Counts</Description>
               </OutputUnits>
               <Symmetry>NONE</Symmetry>
@@ -1011,11 +1011,11 @@
             <FIR>
               <Description>DECIMATION - CS5322 FIR2</Description>
               <InputUnits>
-                <Name>COUNTS</Name>
+                <Name>counts</Name>
                 <Description>Digital Counts</Description>
               </InputUnits>
               <OutputUnits>
-                <Name>COUNTS</Name>
+                <Name>counts</Name>
                 <Description>Digital Counts</Description>
               </OutputUnits>
               <Symmetry>NONE</Symmetry>
@@ -1049,11 +1049,11 @@
             <FIR>
               <Description>DECIMATION - CS5322 FIR3 (linear phase)</Description>
               <InputUnits>
-                <Name>COUNTS</Name>
+                <Name>counts</Name>
                 <Description>Digital Counts</Description>
               </InputUnits>
               <OutputUnits>
-                <Name>COUNTS</Name>
+                <Name>counts</Name>
                 <Description>Digital Counts</Description>
               </OutputUnits>
               <Symmetry>NONE</Symmetry>

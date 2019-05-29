@@ -1,0 +1,19 @@
+---
+format_version: "0.104"
+filter:
+    type: "FIR"
+    symmetry: "NONE"
+    offset: 5
+    coefficient_divisor: 512
+    coefficients:
+        - 3
+        - 0
+        - -25
+        - 0
+        - 150
+        - 256
+        - 150
+        - 0
+        - -25
+        - 0
+        - 3

@@ -1,7 +1,7 @@
 ---
 # Example instrumentation file
 # Instrumentation files should be completed by the OBS facility
-format_version: "0.104"
+format_version: "0.105"
 notes:
     - "Notes are associated with information but not put in final metadata"
 yaml_anchors:

@@ -1,0 +1,16 @@
+---
+format_version: "0.104"
+filter:
+    type: "FIR"
+    symmetry: "ODD"
+    offset: 7
+    coefficient_divisor: 8388608
+    coefficients:
+        - -10944
+        - 0
+        - 103807
+        - 0
+        - -507903
+        - 0
+        - 2512192
+        - 4194304

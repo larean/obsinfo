@@ -34,12 +34,14 @@ class XmlTree():
             if not name in excludes:
                 if x2.attrib.get(name) != value:
                     print(error(f'Attributes do not match: {name}={value}, {name}={x2.attrib.get(name)}'))
+                    print(error(f'Elements: {x1.attrib},{x2.attrib}'))
                     return False
         for name in x2.attrib.keys():
             if not name in excludes:
                 if name not in x1.attrib:
                     print('x2 has an attribute x1 is missing: %s'
                                  % name)
+
                     return False
         if not self.text_compare(x1.text, x2.text):
             print(error(f'text: {x1.text} != {x2.text}'))
@@ -51,7 +53,7 @@ class XmlTree():
         cl2 = list(x2)
 
         if len(cl1) != len(cl2):
-            print(error(f'children length differs, {len(cl1)}!= {len(cl2)}'))            
+            print(error(f'children length differs, {len(cl1)}!= {len(cl2)}')) 
             return False
         i = 0
         for c1, c2 in zip(cl1, cl2):
@@ -76,7 +78,7 @@ class XmlTree():
             return True
         return (t1 or '').strip() == (t2 or '').strip()
 
-if __name__ == '__main__':
+def main():
     import os
     path = os.path.dirname(os.path.realpath(__file__))
     a = XmlTree()
@@ -85,3 +87,7 @@ if __name__ == '__main__':
     excludes = ['Created']
     excludes = [ a.add_ns(x) for x in excludes]
     print(a.xml_compare(a.getroot(xml1),a.getroot(xml2),excludes))
+
+if __name__ == '__main__':
+    main()
+

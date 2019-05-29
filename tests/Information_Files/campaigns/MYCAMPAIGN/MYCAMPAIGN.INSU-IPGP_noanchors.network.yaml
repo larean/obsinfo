@@ -1,0 +1,85 @@
+---
+# Network files should be completed by OBS facilities involved in a campaign
+notes:
+    - "Notes are associated with information but not put in final metadata"
+format_version: "0.104"
+revision:
+    authors:
+        -
+            first_name : "Wayne"
+            last_name : "Crawford"
+            email: "crawford@ipgp.fr"
+    date: "2017-10-04"
+network:
+    facility_reference_name: "INSU-IPGP"
+    campaign_reference_name: "MYCAMPAIGN"
+    general_information:
+        code: "4G"
+        start_date: "2007-07-01"
+        end_date: "2025-12-31"
+        description: "EMSO-MOMAR"
+        comments: 
+            - "Lucky Strike Volcano, North Mid-Atlantic Ridge"
+    instrumentation:
+        $ref: "../../instrumentation/INSU-IPGP.2018-06-01/instrumentation.yaml"
+    stations:
+        "SP_2":
+            site: "Lucky Strike Volcano Fake SPOBS"
+            start_date: "2015-04-22T12:00:00Z"
+            end_date: "2016-05-28T21:01:00Z"
+            location_code: "00"
+            instrument:
+                reference_code: "SPOBS2"
+                serial_number: "20"
+                channel_locations:
+                    "HDH_00" : {sample_rate: 125, datalogger_config: "125"}
+                    "EHZ_00" : {sample_rate: 125, datalogger_config: "125"}
+                    "EH1_00" : {sample_rate: 125, datalogger_config: "125"}
+                    "EH2_00" : {sample_rate: 125, datalogger_config: "125"}
+            locations:
+                "00":
+                    depth.m: 0
+                    geology: "unknown"
+                    vault: "Sea floor"                    
+                    uncertainties.m: [200, 200, 20]
+                    localisation_method: "Position is the sea-surface release point"
+                    position: [-32.32504, 37.29744, -2030]
+            clock_corrections:
+                linear_drift:
+                    time_base: "Seascan MCXO, ~1e-8 nominal drift"
+                    reference: "GPS"
+                    start_sync_instrument: 0
+                    start_sync_reference: "2015-04-21T21:06:00Z"
+                    end_sync_reference: "2016-05-28T20:59:00.32Z"
+                    end_sync_instrument: "2016-05-28T20:59:03Z"
+            supplements:
+                initial_name: "I2"
+        "BB_1":
+            site: "Lucky Strike Volcano Fake BBOBS"
+            start_date: "2015-04-23T10:00:00Z"
+            end_date: "2016-05-28T15:37:00Z"
+            location_code: "00"
+            instrument:
+                reference_code: "BBOBS1_1"
+                serial_number: "02"
+                channel_locations:
+                    "BDH_00" : {sample_rate: 62.5, datalogger_config: "62"}
+                    "BHZ_00" : {sample_rate: 62.5, datalogger_config: "62"}
+                    "BH1_00" : {sample_rate: 62.5, datalogger_config: "62"}
+                    "BH2_00" : {sample_rate: 62.5, datalogger_config: "62"}
+            locations:
+                "00":
+                    depth.m: 0
+                    geology: "unknown"
+                    vault: "Sea floor"                    
+                    uncertainties.m: [20, 20, 20]
+                    localisation_method: "Short baseline transponder, near-seafloor release"
+                    position: [-32.29756, 37.26049, -1887]
+            clock_corrections:
+                linear_drift:
+                    time_base: "Seascan MCXO, ~1e-8 nominal drift"
+                    reference: "GPS"
+                    start_sync_instrument: 0
+                    start_sync_reference: "2015-04-22T12:24:00Z"
+                    end_sync_reference: "2016-05-28T15:35:00.3660Z"
+                    end_sync_instrument: "2016-05-28T15:35:02Z"

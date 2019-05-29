@@ -1,0 +1,18 @@
+---
+format_version: "0.104"
+response:
+    stages:
+        -
+          description : "SENSOR - L28LB GEOPHONE with 395 ohm coil and 2490 ohm shunt" # optionel
+          input_units :  {name: "M/S", description: "VELOCITY"}
+          output_units : {name: "V", description: "VOLTS"}
+          gain : 
+            value: 26.6
+            frequency: 10
+          filter:
+            $ref: "../_filters/PolesZeros/Sercel_L28LB-obs_C395-S2490_generic.filter.yaml#filter"
+          extras:
+            DBIRD_response_type : "THEORETICAL" 
+            documentation: "OBS Transfer Functions_WCC.doc"
+notes:
+    - "Sensitivity from PASCALL doc (for 395 ohm inst with 2490 shunt (same as ours)"

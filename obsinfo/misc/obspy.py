@@ -25,7 +25,7 @@ import obspy.core.inventory.util as obspy_util
 from obspy.core.utcdatetime import UTCDateTime
 
 from .misc import calc_norm_factor
-
+from ..network.util import create_comments
 ################################################################################ 
 # OBSPY-specific
 
@@ -68,7 +68,6 @@ def response(my_response,debug=False):
     """
     Create an obspy response object from a response_yaml-based list of stages
     """
-    print(my_response)
     resp_stages=[]
     i_stage=0
     sensitivity=dict()
@@ -86,7 +85,6 @@ def response(my_response,debug=False):
         resp_type=stage['filter']['type']
         if debug:
             print("i_stage=",i_stage,", resp_type=",resp_type)
-        print("i_stage=",i_stage,", resp_type=",resp_type,units)
         # Create and append the appropriate response    
         if resp_type=='PolesZeros':
             resp_stages.append(__make_poles_zeros(stage,i_stage,units))
@@ -94,7 +92,6 @@ def response(my_response,debug=False):
             resp_stages.append(__make_coefficients(stage,i_stage,units))
         elif resp_type=="FIR" :
             resp_stages.append(__make_FIR(stage,i_stage,units))
-            #resp_stages.append(__make_coefficients(stage,i_stage,units))
         elif resp_type=="AD_CONVERSION" : 
             resp_stages.append(__make_DIGITAL(stage,i_stage,units))
         elif resp_type=="ANALOG" :
@@ -139,7 +136,7 @@ def __make_poles_zeros(stage,i_stage,units,debug=False):
     gain_value,gain_frequency=__get_gain(stage)
     resp=stage['filter']
     lstr=resp['units'].lower()
-    if "hertz" in lstr or "hz" in lstr:
+    if "hertz" in lstr or "hz" in lstr :
         pz_type='LAPLACE (HERTZ)'
     elif 'z-transform' in lstr or 'digital' in lstr:
         pz_type='DIGITAL (Z-TRANSFORM)'
@@ -147,8 +144,8 @@ def __make_poles_zeros(stage,i_stage,units,debug=False):
         pz_type='LAPLACE (RADIANS/SECOND)'
     else:
         raise ValueError('Unknown PoleZero response type: "{}"'.format(lstr))
-    zeros = [float(t[0]) + 1j * float(t[1]) for t in resp['zeros']]
-    poles = [float(t[0]) + 1j * float(t[1]) for t in resp['poles']]
+    zeros = [obspy_types.ComplexWithUncertainties(float(t[0]) + 1j * float(t[1]),lower_uncertainty=0.0,upper_uncertainty=0.0) for t in resp['zeros']]
+    poles = [obspy_types.ComplexWithUncertainties(float(t[0]) + 1j * float(t[1]),lower_uncertainty=0.0,upper_uncertainty=0.0) for t in resp['poles']]
     if gain_frequency==0:
         norm_freq=1.
     else :
@@ -238,7 +235,7 @@ def __make_DIGITAL(stage,i_stage,units,debug=False):
             gain_value, gain_frequency,
             units['input'], units['output'],
             'DIGITAL',
-            numerator=[obspy_types.FloatWithUncertaintiesAndUnit(1.0)],
+            numerator=[obspy_types.FloatWithUncertaintiesAndUnit(1.0,lower_uncertainty=0.0, upper_uncertainty=0.0)],
             denominator=[],
             input_units_description=units['input_description'],
             output_units_description=units['output_description'],
@@ -282,10 +279,9 @@ def __get_gain(stage):
 def __get_decim_parms(stage):
     decim=dict()
     decim['factor']=int(stage.get('decimation_factor',1))
-    #decim['input_sr']=decim['factor']*stage['output_sample_rate'] # wayne
+    decim['input_sr']=decim['factor']*stage['output_sample_rate'] # wayne
     #decim['input_sr']=stage['input_sample_rate'] # input pour sismob??  
-    print("--",stage, decim['factor'], stage['output_sample_rate'] )  
-    decim['input_sr']=decim['factor']*(1/stage['output_sample_rate'])# test david??
+    #decim['input_sr']=decim['factor']*(1/stage['output_sample_rate']) # test david??
     filter=stage['filter']
     decim['offset']=int(filter.get('offset',0))
     # contourner le probleme
@@ -349,6 +345,37 @@ def comments(comments,clock_corrections,supplements,loc_code,location,debug=Fals
         loc_comment = loc_comment + ', localised using : {}'.format(
                 location['localisation_method'])
     obspy_comments.append(obspy_util.Comment(loc_comment))                    
+    return obspy_comments
+
+def comments_next(comments,clock_corrections,supplements,loc_code,location,debug=False):
+    """
+    Create obspy comments from station information
+    
+    Also stuffs fields that are otherwise not put into StationXML:
+         "supplement" elements as JSON strings, 
+          "location:location_methods" 
+    """
+    obspy_comments = []
+    if debug:
+        print("supplements=",end='')
+        print(supplements)
+    #for comment in comments:
+    if comments:
+        obspy_comments+= create_comments(comments)
+    if supplements:
+        for key,val in supplements.items():
+            obspy_comments+=create_comments(json.dumps({key:val}))       
+    if clock_corrections:
+        for key,val in clock_corrections.items():
+            obspy_comments+=create_comments(json.dumps({"clock_correction":{key:val}}))        
+    #else:
+    #    obspy_comments.append(create_comments(json.dumps({"clock_correction":None})))        
+    loc_comment = 'Using location "{}"'.format(loc_code)
+    if 'localisation_method' in location:
+        loc_comment = loc_comment + ', localised using : {}'.format(
+                location['localisation_method'])
+        obspy_comments+= create_comments(loc_comment)     
+
     return obspy_comments
     
 def lon_lats(location, debug=False): 

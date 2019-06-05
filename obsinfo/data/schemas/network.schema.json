@@ -263,7 +263,9 @@
                 { 
                     "$ref" : "#/definitions/instrument"
                 },                
-                {  "type": "array",
+                {  
+                   "type": "array",
+                   "description":" list of instrument",
                    "minItems" : 1,
                    "items" : { "$ref" : "#/definitions/instrument"}
                 }
@@ -276,14 +278,11 @@
                     "description": "Instrument reference",
                     "required": [
                         "reference_code", 
-                        "serial_number",
-                        "station_location"
-                        
+                        "serial_number"  
                     ],
                     "properties" : {
                         "reference_code":    {"$ref" : "#/definitions/reference_code" },
                         "serial_number":     {"$ref" : "#/definitions/serial_number"},
-                        "station_location" :       {"$ref" : "#/definitions/location_code"},
                         "channel_codes_locations": {
                             "type" : "object",
                             "description" : "specification by channel_location pairs",
@@ -310,8 +309,8 @@
                     "type" : "string",
                     "description" : "suffix of datalogger name corresponding to the sample rate" 
                 },
-                "start_time":  {"$ref" : "definitions.schema.json#/date-time-Z" },
-                "end_time":    {"$ref" : "definitions.schema.json#/date-time-Z" },
+                "start_date":  {"$ref" : "definitions.schema.json#/date-time-Z" },
+                "end_date":    {"$ref" : "definitions.schema.json#/date-time-Z" },
                 "sensor" : { "type" : "object" },
                 "das_component" : { "type" : "string" }
             },

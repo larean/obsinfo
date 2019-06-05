@@ -45,6 +45,7 @@ class XmlTree():
                     return False
         if not self.text_compare(x1.text, x2.text):
             print(error(f'text: {x1.text} != {x2.text}'))
+            print(error(f'Elements: {x1.tag},{x2.tag}'))
             return False
         if not self.text_compare(x1.tail, x2.tail):
             print('tail: %r != %r' % (x1.tail, x2.tail))

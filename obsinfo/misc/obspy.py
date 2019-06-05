@@ -280,8 +280,6 @@ def __get_decim_parms(stage):
     decim=dict()
     decim['factor']=int(stage.get('decimation_factor',1))
     decim['input_sr']=decim['factor']*stage['output_sample_rate'] # wayne
-    #decim['input_sr']=stage['input_sample_rate'] # input pour sismob??  
-    #decim['input_sr']=decim['factor']*(1/stage['output_sample_rate']) # test david??
     filter=stage['filter']
     decim['offset']=int(filter.get('offset',0))
     # contourner le probleme
@@ -318,7 +316,7 @@ def equipment(equipment,resource_id=None,debug=False):
         print(obspy_equipment)
     return obspy_equipment
 
-def comments(comments,clock_corrections,supplements,loc_code,location,debug=False):
+def comments_old(comments,clock_corrections,supplements,loc_code,location,debug=False):
     """
     Create obspy comments from station information
     
@@ -347,7 +345,11 @@ def comments(comments,clock_corrections,supplements,loc_code,location,debug=Fals
     obspy_comments.append(obspy_util.Comment(loc_comment))                    
     return obspy_comments
 
+<<<<<<< HEAD
 def comments_next(comments,clock_corrections,supplements,loc_code,location,debug=False):
+=======
+def comments(comments,clock_corrections,supplements,loc_code,location,debug=False):
+>>>>>>> c4ad7563cabd307b021863c150a3c29c25155010
     """
     Create obspy comments from station information
     

@@ -345,11 +345,8 @@ def comments_old(comments,clock_corrections,supplements,loc_code,location,debug=
     obspy_comments.append(obspy_util.Comment(loc_comment))                    
     return obspy_comments
 
-<<<<<<< HEAD
-def comments_next(comments,clock_corrections,supplements,loc_code,location,debug=False):
-=======
+
 def comments(comments,clock_corrections,supplements,loc_code,location,debug=False):
->>>>>>> c4ad7563cabd307b021863c150a3c29c25155010
     """
     Create obspy comments from station information
     

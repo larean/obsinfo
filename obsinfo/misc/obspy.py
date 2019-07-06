@@ -98,7 +98,7 @@ def response(my_response,debug=False):
         elif resp_type=="ANALOG" :
             resp_stages.append(__make_ANALOG(stage,i_stage,units))
         else:
-            raise TypeError('UNKNOWN STAGE RESPONSE TYPE: {}'.format(resp['type']))
+            raise TypeError('UNKNOWN STAGE RESPONSE TYPE: {}'.format(resp_type))
     response=response_with_sensitivity(resp_stages,sensitivity)
     if debug:
         print(response)

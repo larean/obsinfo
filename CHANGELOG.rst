@@ -19,6 +19,9 @@ Other
 * 0.105.3: Added custom filename and file appending to make_process_scripts_*
 * 0.105.4: Add combining SDS_corrected/ and SDS_uncorrected/ into SDS_combined/ to SDPCHAIN.py (pulled w/o complete verification)
 * 0.105.5: Allow network.yaml to NOT specify an information file, rename ``obsinfo-make_process_scripts_*`` to ``obsinfo-make_*_scripts``
+* 0.105.6: Fix a bug in SDPCHAIN leap_second correction (obsinfo.addons.SDPCHAIN.__leap_second_script, "leap_dir"=>"leap_time")
+* 0.105.7: Some more corrections to addons.SDPCHAIN and addons.LCHEAPO (removes some inferred path dependecies)
+* 0.105.8: Minor bugfixes
   
 v0.104
 ------

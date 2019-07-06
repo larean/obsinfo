@@ -1,4 +1,4 @@
-""" 
+"""
 Generate scripts needed to go from basic miniSEED to data center ready
 """
 import obsinfo
@@ -10,7 +10,7 @@ from obspy.core import UTCDateTime
 SEPARATOR_LINE="\n# " + 60 * "=" + "\n"
 
 
-################################################################################       
+################################################################################
 def process_script(station, station_dir,
                     distrib_dir='/opt/sdpchain',
                     input_dir='miniseed_basic',
@@ -22,7 +22,7 @@ def process_script(station, station_dir,
                     SDS_combined_dir= 'SDS_combined'
                   ):
     """Writes OBS data processing script using SDPCHAIN software
-        
+
         station:          an obsinfo.station object
         station_dir:      base directory for the station data
         input_dir:        directory beneath station_dir for input (basic)
@@ -40,7 +40,7 @@ def process_script(station, station_dir,
         include_header:   whether or not to include the bash script header
                           ('#!/bin/bash') at the top of the script [True]
         distrib_dir:      Base directory of sdpchain distribution ['/opt/sdpchain']
-    
+
         The sequence of commands is:
             1: optional proprietary format steps (proprietary format -> basic miniseed, separate)
             2: optional extra_steps (any cleanup needed for the basic
@@ -50,10 +50,10 @@ def process_script(station, station_dir,
             3: ms2sds on basic miniseed data
             4: leap-second corrections, if necessary
             5: msdrift (creates drift-corrected miniseed)
-        
-    """   
+
+    """
     leap_corr_dir='miniseed_leap_corrected'
-    
+
     s=''
     if include_header:
         s += __header(station.code)
@@ -72,7 +72,7 @@ def process_script(station, station_dir,
     s += __combine_sds_script(station,SDS_corr_dir,SDS_uncorr_dir,SDS_combined_dir)
 
     return s
-                    
+
 ############################################################################
 def __header(station_name):
 
@@ -92,15 +92,16 @@ def __setup_variables(distrib_dir,station_dir):
     s += f"MS2SDS_EXEC={os.path.join(distrib_dir,'bin','ms2sds')}\n"
     s += f"MS2SDS_CONFIG={os.path.join(distrib_dir,'config','ms2sds.properties')}\n"
     s += f"SDPPROCESS_EXEC={os.path.join(distrib_dir,'bin','sdp-process')}\n"
+    s += f"MSMOD_EXEC={os.path.join('/opt/iris','bin','msmod')}\n"
     s += "\n"
-    
+
     return s
 
 ############################################################################
 def __extra_command_steps(extra_commands):
     """
     Write extra command lines, embedded in sdp-process
-    
+
     Input:
         extra_commands: list of strings containing extra commands
     """
@@ -109,65 +110,65 @@ def __extra_command_steps(extra_commands):
     if not isa(extra_commands,'list'):
         error('extra_commands is not a list')
     for cmd_line in extra_commands:
-        s=s+'sdp-process --cmd="{cmd_line}"\n'
+        s=s+'$SDPPROCESS_EXEC --cmd="{cmd_line}"\n'
     return s
 
 ############################################################################
 def __ms2sds_script(station,in_path,out_path):
 
-    """ 
+    """
     Writes the ms2sds lines of the script
     """
     sta=station.code
     net=station.network_code
-    
+
     s =  f'echo "{"-"*60}"\n'
     s += 'echo "Running MS2SDS: MAKE SDS ARCHIVE"\n'
     s += f'echo "{"-"*60}"\n'
-   
+
     s += f'in_dir="{in_path}"\n'
     s += f'out_dir="{out_path}"\n'
-    
+
     s += '# - Create output directory\n'
     s += 'mkdir $STATION_DIR/$out_dir\n'
-    
+
     s += '# - Collect input filenames\n'
     s += 'command cd $STATION_DIR/$in_dir\n'
     s += 'mseedfiles=$(ls *.mseed)\n'
     s += 'command cd -\n'
     s += 'echo "mseedfiles=" $mseedfiles\n'
-    
+
     s += '# - Run executable\n'
     s += '$MS2SDS_EXEC $mseedfiles -d $STATION_DIR -i $in_dir -o $out_dir '
     s += f'--network "{net}" --station "{sta}" -a SDS -p $MS2SDS_CONFIG\n'
     s += '\n'
-    
+
     return s
 
 ############################################################################
 def  __leap_second_script(leapseconds,in_dir,out_dir):
-    """ 
+    """
     Create leap-second correction text
-    
+
     Inputs:
         leapseconds: list of dictionaries from network information file
     """
     if not leapseconds:
         return ""
-    
+
     s =  f'echo "{"-"*60}"\n'
     s += 'echo "LEAPSECOND CORRECTIONS"\n'
     s += f'echo "{"-"*60}"\n'
-    
+
     s += f'in_dir={in_dir}\n'
     s += f'out_dir={out_dir}\n'
-    
+
     s += '# - Create output directory\n'
     s += 'mkdir $STATION_DIR/$out_dir\n'
-    
+
     s += '# - Copy files to output directory\n'
-    s += 'cp $STATION_DIR/$in_dir/*.mseed $STATION_DIR/$out_dir\n'    
-    
+    s += 'cp $STATION_DIR/$in_dir/*.mseed $STATION_DIR/$out_dir\n'
+
     for leapsecond in leapseconds:
         if leapsecond['corrected_in_basic_miniseed']:
             s += "# LEAP SECOND AT {} ALREADY CORRECTED IN BASIC MINISEED, DOING NOTHING\n".format(\
@@ -181,25 +182,25 @@ def  __leap_second_script(leapseconds,in_dir,out_dir):
         s += 'echo "Running LEAPSECOND correction"\n'
         s += f'echo "{"-"*60}"\n'
         if leapsecond['type']=="+":
-            s += 'sdp-process -d $STATION_DIR -c="Shifting one second BACKWARDS after positive leapsecond" '
-            s += f' --cmd="msmod --timeshift -1 -ts {leap_time} -s -i $out_dir/*.mseed"\n'
-            s += 'sdp-process -c="Marking the record containing the positive leapsecond" '
-            s += f' --cmd="msmod --actflags 4,1 -tsc {leap_time} -tec {leap_dir} -s -i $out_dir/*.mseed"\n'
+            s += '$SDPPROCESS_EXEC -d $STATION_DIR -c="Shifting one second BACKWARDS after positive leapsecond" '
+            s += f' --cmd="$MSMOD_EXEC --timeshift -1 -ts {leap_time} -s -i $STATION_DIR/$out_dir/*.mseed"\n'
+            s += '$SDPPROCESS_EXEC -d $STATION_DIR -c="Marking the record containing the positive leapsecond" '
+            s += f' --cmd="$MSMOD_EXEC --actflags 4,1 -tsc {leap_time} -tec {leap_time} -s -i $STATION_DIR/$out_dir/*.mseed"\n'
         elif leapsecond['type']=="-":
-            s += 'sdp-process -c="Shifting one second FORWARDS after negative leapsecond" '
-            s += f' --cmd="msmod --timeshift +1 -ts {leap_time} -s -i $out_dir/*.mseed"\n'
-            s += 'sdp-process -c="Marking the record containing the negative leapsecond" '
-            s += f' --cmd="msmod --actflags 5,1 -tsc {leap_time} -tec {leap_time} -s -i $out_dir/*.mseed"\n'
+            s += '$SDPPROCESS_EXEC -d $STATION_DIR -c="Shifting one second FORWARDS after negative leapsecond" '
+            s += f' --cmd="$MSMOD_EXEC --timeshift +1 -ts {leap_time} -s -i $STATION_DIR/$out_dir/*.mseed"\n'
+            s += '$SDPPROCESS_EXEC -d $STATION_DIR -c="Marking the record containing the negative leapsecond" '
+            s += f' --cmd="$MSMOD_EXEC --actflags 5,1 -tsc {leap_time} -tec {leap_time} -s -i $STATION_DIR/$out_dir/*.mseed"\n'
         else:
             s += 'ERROR: leapsecond type "{}" is neither "+" nor "-"\n'.format(leapsecond['type'])
             sys.exit(2)
     return s
-      
+
 ############################################################################
 def  __msdrift_script(in_path,out_path,clock_corrs,):
-    """ 
+    """
     Write msdrift lines of the script
-    
+
     Inputs:
         in_path
         out_path
@@ -211,7 +212,7 @@ def  __msdrift_script(in_path,out_path,clock_corrs,):
 
     s += f'in_dir="{in_path}"\n'
     s += f'out_dir="{out_path}"\n'
-    
+
     s += "# - Create output directory\n"
     s += 'mkdir $STATION_DIR/$out_dir\n'
 
@@ -220,7 +221,7 @@ def  __msdrift_script(in_path,out_path,clock_corrs,):
     s += 'mseedfiles=$(ls *.mseed)\n'
     s += 'command cd -\n'
     s += 'echo "mseedfiles=" $mseedfiles\n'
-    
+
     if 'linear_drift' in clock_corrs:
         lin_corr=clock_corrs['linear_drift']
         s += '# - Run executable\n'
@@ -229,7 +230,7 @@ def  __msdrift_script(in_path,out_path,clock_corrs,):
         s += f'END_REFR="{str(lin_corr["end_sync_reference"]).rstrip("Z")}"\n'
         s += f'END_INST="{str(lin_corr["end_sync_instrument"]).rstrip("Z")}"\n'
         s += f'$MSDRIFT_EXEC $mseedfiles -d $STATION_DIR -i $in_dir -o $out_dir '
-        s += f'-m "%E.%S.00.%C.%Y.%D.mseed:%E.%S.00.%C.%Y.%D_driftcorr.mseed" '
+        s += f'-m "%E.%S.00.%C.%Y.%D.%T.mseed:%E.%S.00.%C.%Y.%D.%T_driftcorr.mseed" '
         s += f'-s "$START_REFR;$START_INST" '
         s += f'-e "$END_REFR;$END_INST" '
         #s += f'-c "comment.txt" '
@@ -242,12 +243,12 @@ def  __msdrift_script(in_path,out_path,clock_corrs,):
             s += + 'MSDRIFT TO ONLY WRITE GIVEN TIME RANGE AND BE ABLE TO APPEND TO EXISTING FILE?)\n'
             s += + SEPARATOR+LINE
     return s
-        
+
 ############################################################################
 def  __force_quality_script(in_path,quality='Q'):
-    """ 
+    """
     Force data quality to Q
-    
+
     Inputs:
         in_path: directory where mseed files are found
         quality: new quality code
@@ -255,22 +256,22 @@ def  __force_quality_script(in_path,quality='Q'):
     s =  f'echo "{"-"*60}"\n'
     s += 'echo "Forcing data quality to Q"\n'
     s += f'echo "{"-"*60}"\n'
-    s += f'$SDPPROCESS_EXEC -d $STATION_DIR -c="Forcing data quality to Q" --cmd="msmod --quality Q -i {in_path}/*.mseed"\n'
+    s += f'$SDPPROCESS_EXEC -d $STATION_DIR -c="Forcing data quality to Q" --cmd="$MSMOD_EXEC --quality Q -i {in_path}/*.mseed"\n'
     s += '\n'
 
     return s
 
 ############################################################################
 def  __combine_sds_script(station,SDS_corrected_dir,SDS_uncorrected_dir,SDS_combined_dir):
-    """ 
+    """
     Combine corrected and uncorrected SDS directories/files
-    
+
     Corrected must be before uncorrected so that Arclink will extract it by default
     Uses the corrected directory as the template: will not process uncorrected files
     that don't have corresponding corrected files
-    
+
     Creates no process-steps because there are so many individual calls to msmod (should we write an sdp-sds_combine script?)
-    
+
     Inputs:
         station:             station object
         SDS_corrected_dir:   name of SDS directory containing corrected data
@@ -287,9 +288,9 @@ def  __combine_sds_script(station,SDS_corrected_dir,SDS_uncorrected_dir,SDS_comb
     s += f'for y in $years ; do\n'
     # I HAD TO ADD "SDSs" to handle the fact that ms2sds makes an "SDS" directory inside the output directory
     #s += f'    for d in $STATION_DIR/{SDS_corrected_dir}/$y/{station.network_code}/{station.code}/*.D ; do\n'
-    #s +=  '        d_sub=${{d#$STATION_DIR/{}/}}\n'.format(SDS_corrected_dir)   
+    #s +=  '        d_sub=${{d#$STATION_DIR/{}/}}\n'.format(SDS_corrected_dir)
     s += f'    for d in $STATION_DIR/{SDS_corrected_dir}/SDS/$y/{station.network_code}/{station.code}/*.D ; do\n'
-    s +=  '        d_sub=${{d#$STATION_DIR/{}/SDS/}}\n'.format(SDS_corrected_dir)   
+    s +=  '        d_sub=${{d#$STATION_DIR/{}/SDS/}}\n'.format(SDS_corrected_dir)
     s += f'        if [[ ! -d $STATION_DIR/{SDS_combined_dir}/$d_sub ]] ; then\n'
     s += f'            echo "Creating and filling combined SDS subdirectory $d_sub"\n'
     s += f'            eval "mkdir -p $STATION_DIR/{SDS_combined_dir}/$d_sub"\n'
@@ -308,21 +309,21 @@ def  __combine_sds_script(station,SDS_corrected_dir,SDS_uncorrected_dir,SDS_comb
 
     return s
 
-################################################################################ 
+################################################################################
 def _console_script(argv=None):
     """
     Console-level processing script
-    
+
     requires SDPCHAIN programs msdrift and ms2sds, and IRIS program msmod
-    
+
     Currently usese 'SDS_corrected' and 'SDS_uncorrected' as default SDS directories
     Would be better to use ../SDS_[un]corrected so that all data are together,
     but ms2sds is not yet capable of putting data in an existing SDS directory
-    
+
     """
     from argparse import ArgumentParser
 
-    parser = ArgumentParser( prog='obsinfo-make_SDPCHAIN_scripts',description=__doc__)
+    parser = ArgumentParser( prog='obsinfo-make_process_scripts_SDPCHAIN',description=__doc__)
     parser.add_argument( 'network_file', help='Network information file')
     parser.add_argument( 'station_data_path', help='Base path containing station data')
     parser.add_argument( 'distrib_dir', help='Path to SDPCHAIN software',default='/opt/sdpchain')
@@ -342,7 +343,7 @@ def _console_script(argv=None):
     parser.add_argument( '-q', '--quiet',action="store_true",
         help='run silently')
     args = parser.parse_args()
-        
+
     # READ IN NETWORK INFORMATION
     if not args.quiet:
         print(f"Creating SDPCHAIN process scripts, ",end="")

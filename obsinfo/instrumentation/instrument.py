@@ -82,7 +82,9 @@ class instrument:
         return generics[reference_code]
         
     def __get_specific_instrument(self,instrumentation) :
-        specifics = instrumentation.instruments['specific'] 
+        specifics = instrumentation.instruments.get('specific',None) 
+        if not specifics:
+            return None
         if self.reference_code not in specifics:
             return None
         if self.serial_number not in specifics[self.reference_code]:

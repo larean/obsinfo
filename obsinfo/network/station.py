@@ -171,9 +171,9 @@ class station:
                         latitude  = obspy_lat,
                         longitude = obspy_lon,
                         elevation = obspy_types.FloatWithUncertaintiesAndUnit(
-                                            location['position'][2],
-                                            lower_uncertainty=location['uncertainties.m'][2],
-                                            upper_uncertainty=location['uncertainties.m'][2]),
+                                            location['position']['elev'],
+                                            lower_uncertainty=location['uncertainties.m']["elev"],
+                                            upper_uncertainty=location['uncertainties.m']["elev"]),
                         depth     = location['depth.m'],
                         azimuth   = obspy_types.FloatWithUncertainties(
                                             azimuth[0],
@@ -231,9 +231,9 @@ class station:
                         latitude  = obspy_lat,
                         longitude = obspy_lon,
                         elevation = obspy_types.FloatWithUncertaintiesAndUnit(
-                                            sta_loc['position'][2],
-                                            lower_uncertainty=sta_loc['uncertainties.m'][2],
-                                            upper_uncertainty=sta_loc['uncertainties.m'][2]),
+                                            sta_loc['position']["elev"],
+                                            lower_uncertainty=sta_loc['uncertainties.m']["elev"],
+                                            upper_uncertainty=sta_loc['uncertainties.m']["elev"]),
                         channels = channels,
                         site     = obspy_util.Site(getattr(self,'site','')),
                         vault    = sta_loc['vault'],

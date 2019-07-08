@@ -316,36 +316,6 @@ def equipment(equipment,resource_id=None,debug=False):
         print(obspy_equipment)
     return obspy_equipment
 
-def comments_old(comments,clock_corrections,supplements,loc_code,location,debug=False):
-    """
-    Create obspy comments from station information
-    
-    Also stuffs fields that are otherwise not put into StationXML:
-         "supplement" elements as JSON strings, 
-          "location:location_methods" 
-    """
-    obspy_comments = []
-    if debug:
-        print("supplements=",end='')
-        print(supplements)
-    for comment in comments:
-        obspy_comments.append(obspy_util.Comment(comment))
-    if supplements:
-        for key,val in supplements.items():
-            obspy_comments.append(obspy_util.Comment(json.dumps({key:val})))        
-    if clock_corrections:
-        for key,val in clock_corrections.items():
-            obspy_comments.append(obspy_util.Comment(json.dumps({"clock_correction":{key:val}})))        
-    else:
-        obspy_comments.append(obspy_util.Comment(json.dumps({"clock_correction":None})))        
-    loc_comment = 'Using location "{}"'.format(loc_code)
-    if 'localisation_method' in location:
-        loc_comment = loc_comment + ', localised using : {}'.format(
-                location['localisation_method'])
-    obspy_comments.append(obspy_util.Comment(loc_comment))                    
-    return obspy_comments
-
-
 def comments(comments,clock_corrections,supplements,loc_code,location,debug=False):
     """
     Create obspy comments from station information
@@ -379,17 +349,17 @@ def comments(comments,clock_corrections,supplements,loc_code,location,debug=Fals
     
 def lon_lats(location, debug=False): 
     """ Calculate obspy util.Latitude and util.Longitude"""
-    longitude=float(location['position'][0])
-    latitude=float(location['position'][1])
+    longitude=float(location['position']["lon"])
+    latitude=float(location['position']["lat"])
     meters_per_degree_lat = 1852.*60.
     meters_per_degree_lon = 1852.*60.*m.cos(latitude*m.pi/180.)
-    lat_uncert=location['uncertainties.m'][1]/meters_per_degree_lat
-    lon_uncert=location['uncertainties.m'][0]/meters_per_degree_lon
+    lat_uncert=location['uncertainties.m']["lat"]/meters_per_degree_lat
+    lon_uncert=location['uncertainties.m']["lon"]/meters_per_degree_lon
     # REDUCE UNCERTAINTIES TO 3 SIGNIFICANT FIGURES
     lat_uncert=float('{:.3g}'.format(lat_uncert))
     lon_uncert=float('{:.3g}'.format(lon_uncert))
     if debug:
-        print('{:.3f}+-{:.5f}, {:.3f}+-{:.5f}'.format(longitude,lon_uncert,                                                    latitude,lat_uncert))
+        print('{:.3f}+-{:.5f}, {:.3f}+-{:.5f}'.format(longitude,lon_uncert,latitude,lat_uncert))
     obspy_lat  = obspy_util.Latitude(
                                 latitude,
                                 lower_uncertainty=lat_uncert,
@@ -398,28 +368,4 @@ def lon_lats(location, debug=False):
                                 longitude,
                                 lower_uncertainty=lon_uncert,
                                 upper_uncertainty=lon_uncert)    
-    return obspy_lon,obspy_lat 
-
-def get_lon_lats(position,location, debug=False): 
-    """ Calculate obspy util.Latitude and util.Longitude"""
-
-    longitude=float(position[0])
-    latitude=float(position[1])
-    meters_per_degree_lat = 1852.*60.
-    meters_per_degree_lon = 1852.*60.*m.cos(latitude*m.pi/180.)
-    lat_uncert=location['uncertainties.m'][1]/meters_per_degree_lat
-    lon_uncert=location['uncertainties.m'][0]/meters_per_degree_lon
-    #REDUCE UNCERTAINTIES TO 3 SIGNIFICANT FIGURES
-    lat_uncert=float('{:.3g}'.format(lat_uncert))
-    lon_uncert=float('{:.3g}'.format(lon_uncert))
-    if debug:
-        print('{:.3f}+-{:.5f}, {:.3f}+-{:.5f}'.format(longitude,lon_uncert,                                                    latitude,lat_uncert))
-    obspy_lat  = obspy_util.Latitude(
-                                latitude,
-                                lower_uncertainty=lat_uncert,
-                                upper_uncertainty=lat_uncert)    
-    obspy_lon = obspy_util.Longitude(
-                                longitude,
-                                lower_uncertainty=lon_uncert,
-                                upper_uncertainty=lon_uncert) 
     return obspy_lon,obspy_lat 

@@ -17,7 +17,7 @@ network:
         start_date: "2015-10-20T00:00:00Z" 
         end_date: "2020-07-01T00:09:00Z"
         restrictedStatus: "closed"
-        stationsNumber: 78 #pas la peine 
+        stationsNumber: 78 #pas la peine ?
         description: "AlpArray backbone temporary stations "
         comments: 
             - comment: "DOI:http://dx.doi.org/10.12686/alparray/z3_2015"
@@ -34,7 +34,7 @@ network:
                     - phoneNumber: "0-12555554"
                       countryCode: "33"
                       areaCode: "00"
-                      description: " description test"            
+                      description: "description test"            
     instrumentation:
         $ref: "instrumentation.yaml"
     stations:
@@ -70,6 +70,12 @@ network:
                 "00":
                     depth.m: 0 #??
                     geology: "C:Cement" # ??
-                    position: [5.31951,46.7469 ,203] # long,latit,elev
-                    uncertainties.m: [0,0,0] #??
+                    position: 
+                      lon: 5.31951
+                      lat: 46.7469 
+                      elev: 203  # long,latit,elev
+                    uncertainties.m:                       
+                      lon: 0
+                      lat: 0 
+                      elev: 0 # long,latit,elev
                     vault:  "Free field " #??

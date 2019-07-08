@@ -326,18 +326,24 @@
             }
         },
         "GeoJSON": {
-            "type": "array",
+            "type": "object",
             "description": "Object position [longitude (deg), latitude (deg), elevation (m)]",
-            "minItems": 3,
-            "maxItems": 3,
-            "items" : {"type" : "number" }
+            "required":["lat","lon","elev"],
+            "properties": {
+                "lat": {"type": "number"},
+                "lon": {"type": "number"},
+                "elev": {"type" :"number"}
+            }
         },
         "GeoJSON_m": {
             "type": "array",
             "description": "Object uncertainties, all in meters [longitude (m), latitude (m), elevation (m)]",
-            "minItems": 3,
-            "maxItems": 3,
-            "items" : {"type" : "number" }
+            "required":["lat","lon","elev"],
+            "properties": {
+                "lat": {"type": "number"},
+                "lon": {"type": "number"},
+                "elev": {"type" :"number"}
+            }
         }
 	}
 }

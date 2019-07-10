@@ -85,7 +85,7 @@
                 "station_location" :    {"$ref" : "#/definitions/location_code"},
                 "instrument" :         {"$ref" : "#/definitions/instruments" },
                 "locations" :           {"$ref" : "#/definitions/locations" },
-                "clock_corrections" :   {"$ref" : "#/definitions/clock_corrections"},
+                "processing" :          {"$ref" : "#/definitions/processing"},
 	            "extras" :              {"$ref" : "definitions.schema.json#/extras"},
                 "sensors":              {"$ref" : "#/definitions/sensors"},
                 "restricted_status":    {
@@ -100,6 +100,17 @@
             "description" : "sensor position by location code (two digits)",
             "patternProperties": {
                 "^[0-9]{2}$": { "$ref": "#/definitions/location_specification" }
+            }
+        },
+        "processing" : {
+            "type" : "array",
+            "description": "other information",
+            "items" : {
+                "type" : "object",
+                "description" : "other informations that will be appear as comments ",
+                "patternProperties": {
+                    "^[A-Za-z0-9_-]+$": {"type" : "object"}
+                }
             }
         },
         "location_specification": {
@@ -138,7 +149,7 @@
                 }
             ]
         },
-        "clock_corrections" : {
+        "clock_correction" : {
             "type" : "object",
             "description" : "clock_correction",
             "required" : ["linear_drift"],
@@ -336,7 +347,7 @@
             }
         },
         "GeoJSON_m": {
-            "type": "array",
+            "type": "object",
             "description": "Object uncertainties, all in meters [longitude (m), latitude (m), elevation (m)]",
             "required":["lat","lon","elev"],
             "properties": {

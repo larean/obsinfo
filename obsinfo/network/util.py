@@ -4,9 +4,11 @@ import obspy.core.inventory.util as obspy_util
 
 def create_comments(temp):
 
-    if type(temp) is str: 
+    # gerer le cas de str et dict (pour le champ processing)
+    if type(temp) in [str,dict]: 
         return [obspy_util.Comment(temp)]  
     comments=[]
+    print(temp,type(temp))
     for id,comment in enumerate(temp): 
         value = comment['comment'] if 'comment' in comment else comment
         begin_effective_time = comment['BeginEffectiveTime'] if 'BeginEffectiveTime' in comment else None

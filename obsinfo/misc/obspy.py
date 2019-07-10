@@ -316,7 +316,7 @@ def equipment(equipment,resource_id=None,debug=False):
         print(obspy_equipment)
     return obspy_equipment
 
-def comments(comments,clock_corrections,supplements,loc_code,location,debug=False):
+def comments(comments,processing,supplements,loc_code,location,debug=False):
     """
     Create obspy comments from station information
     
@@ -331,12 +331,14 @@ def comments(comments,clock_corrections,supplements,loc_code,location,debug=Fals
     #for comment in comments:
     if comments:
         obspy_comments+= create_comments(comments)
-    if supplements:
+    if supplements: #??
         for key,val in supplements.items():
             obspy_comments+=create_comments(json.dumps({key:val}))       
-    if clock_corrections:
-        for key,val in clock_corrections.items():
-            obspy_comments+=create_comments(json.dumps({"clock_correction":{key:val}}))        
+    if processing:
+        
+        for element in processing:
+            print(element)
+            obspy_comments+=create_comments(element)        
     #else:
     #    obspy_comments.append(create_comments(json.dumps({"clock_correction":None})))        
     loc_comment = 'Using location "{}"'.format(loc_code)

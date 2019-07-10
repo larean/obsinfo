@@ -35,8 +35,8 @@ class station:
         self.instruments=station_dict['instrument'] if type(station_dict['instrument']) is list else [station_dict['instrument']]
         self.station_location=station_dict['station_location']
         self.locations=station_dict['locations']
-        self.clock_corrections=station_dict.get('clock_corrections',[])
-        self.supplements=station_dict.get('supplements',[])
+        self.processing=station_dict.get('processing',[])
+        self.supplements=station_dict.get('supplements',[])#??
         self.code=station_code
         self.network_code=network_code
         if 'sensors' in station_dict:
@@ -210,7 +210,7 @@ class station:
             
             obspy_comments = oi_obspy.comments(
                             self.comments,
-                            self.clock_corrections,
+                            self.processing,
                             self.supplements,
                             station_loc_code,
                             sta_loc

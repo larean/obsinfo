@@ -56,7 +56,7 @@ class instrument:
         self.components_file = instrumentation.components_file
 
         self.reference_code= station_instrument['reference_code']
-        self.serial_number=  station_instrument['serial_number']
+        self.serial_number=  station_instrument['serial_number'] if 'serial_number' in station_instrument else None
         self.equipment=      FDSN.equipment_type(generic['equipment'])
         self.das_components= generic['das_components']
 
@@ -82,6 +82,8 @@ class instrument:
         return generics[reference_code]
         
     def __get_specific_instrument(self,instrumentation) :
+        if "specific" not in instrumentation.instruments:
+            return None
         specifics = instrumentation.instruments['specific'] 
         if self.reference_code not in specifics:
             return None

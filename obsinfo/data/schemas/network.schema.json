@@ -254,8 +254,7 @@
             "type": "object",
             "description": "Instrument reference",
             "required": [
-                "reference_code", 
-                "serial_number"                
+                "reference_code"              
             ],
             "properties" : {
                 "reference_code":    {"$ref" : "#/definitions/reference_code" },
@@ -288,8 +287,7 @@
              "type": "object",
                     "description": "Instrument reference",
                     "required": [
-                        "reference_code", 
-                        "serial_number"  
+                        "reference_code"  
                     ],
                     "properties" : {
                         "reference_code":    {"$ref" : "#/definitions/reference_code" },

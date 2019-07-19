@@ -102,13 +102,24 @@ def response(my_response,debug=False):
     if debug:
         print(response)
     return response
-    
+
+def check_unit(unit):
+
+    """
+    check if unit used is in iris_unis validator.
+    """
+    if unit not in iris_units:
+        print(f'unknow unit {unit} or it is not a valid IRIS unit. See here: https://github.com/iris-edu/stationxml-validator/wiki')
+    else:
+        return True
+
 def __get_units_sensitivity(stage,sensitivity,i_stage):
     # Get Units
     units=dict()
     temp=stage.get('input_units',{})
     units['input']= temp.get('name',None)
     units['input_description']= temp.get('description',None)
+
     temp=stage.get('output_units',{})
     units['output']= temp.get('name',None)
     units['output_description']= temp.get('description',None)

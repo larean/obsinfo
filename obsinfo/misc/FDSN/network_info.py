@@ -19,7 +19,7 @@ class network_info:
         self.start_date= UTCDateTime(info['start_date'])
         self.end_date=   UTCDateTime(info['end_date'])
         self.description=info['description']
-        self.comments=   info['comments']  # Should be a list
+        self.comments=   info['comments']  if 'commenst' in info else []
 ################################################################################       
 class equipment_type:
     """ Duplicates StationXML EquipmentType """

@@ -41,8 +41,7 @@
             "description" : "Response type",
             "required" : [
                 "input_units",
-                "output_units",
-                "gain"
+                "output_units"
             ],
             "properties": {
                 "input_units":        { "$ref" : "#/definitions/stage_io_units" },
@@ -59,7 +58,7 @@
                 "notes" :             {"$ref" : "definitions.schema.json#/notes"},
                 "extras":             {"$ref" : "#/definitions/extras"}
             },
-		    "additionalProperties" : false
+		    "additionalProperties" : true
         },
         "filter": {
             "anyOf" : [
@@ -82,7 +81,7 @@
                 "description"
             ],
             "properties": {
-                "name":               { "type" : "string",  "pattern": "[A-Z/*12-]+", "description": "BaseFilterType:name"},
+                "name":               { "type" : "string",  "$ref": "iris_units.json#/iris_units", "description": "BaseFilterType:name"},
                 "description":        { "type" : "string",  "pattern": "[A-Z/*12-]+", "description": "BaseFilterType:description"}
             },
 		    "additionalProperties" : false

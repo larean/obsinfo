@@ -18,23 +18,7 @@ network:
         end_date: "2020-07-01T00:09:00Z"
         restrictedStatus: "closed"
         stationsNumber: 78 #pas la peine ?
-        description: "AlpArray backbone temporary stations "
-        comments: 
-            - comment: "DOI:http://dx.doi.org/10.12686/alparray/z3_2015"
-              BeginEffectiveTime: "2015-07-01T00:00:00.000000Z"
-              EndEffectiveTime: "2020-07-31T00:00:00.000000Z"
-              authors:
-                - first_name: "Resif "
-                  last_name: "Information System"
-                  emails: 
-                    - "sismob@resif.fr"
-                  agencies: 
-                    - "Réseau Sismologique et géodésique Français (RESIF)"
-                  phones: 
-                    - phoneNumber: "0-12555554"
-                      countryCode: "33"
-                      areaCode: "00"
-                      description: "description test"            
+        description: "AlpArray backbone temporary stations "          
     instrumentation:
         $ref: "instrumentation.yaml"
     stations:

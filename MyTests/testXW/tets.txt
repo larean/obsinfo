@@ -1,0 +1,4 @@
+station_code|lat|lon|elevation|burying|site|sensor|physical_channel|digitizer|gain|Vpp|sampling|azimut|dip|start_time|end_time|comment
+AL05|44.0561|5.7875|882|UNKNOWN|Route de Lure, 04178, Saint-Etienne-les-Orgues, Alpes-de-Haute-Provence, Provence-Alpes-Cote d'Azur, France|TC20PH 6566|0|Taurus 1338|1|16|100|0|0|2019-07-02T18:00:00|UNKNOWN|
+AL07|44.1127|5.7801|1645|UNKNOWN|Station de Lure, 04178, Saint-Etienne-les-Orgues, Alpes-de-Haute-Provence, Provence-Alpes-Cote d'Azur, France|TC20PH 6567|0|Taurus 2378|1|16|100|0|0|2019-07-03T16:35:00|UNKNOWN|
+AL17|44.1037|5.4152|868|UNKNOWN|Quartier Mougne, 84123, Sault, Vaucluse, Provence-Alpes-Cote d'Azur, France|TC20PH 6565|0|Taurus 2336|1|16|100|0|0|2019-07-04T14:20:00|UNKNOWN|

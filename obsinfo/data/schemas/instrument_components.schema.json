@@ -212,7 +212,7 @@
         "seed_band_base" : {
             "type" : "string",
             "description" : "B for corner period >= 10s, S for <10s (output band code will be adjusted to the sample rate)",
-            "enum" : ["B","S"]
+            "enum" : ["B","S","H","L","D","E","C"]
         },
         "seed_instrument_code" : {
             "description" : "SEED instrument code",

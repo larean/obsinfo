@@ -30,6 +30,9 @@ campaign:
     data_distribution:
         embargo_period.a: 3
     fdsn_network_code: "4G"
+    data_dates:
+        start: "2015-08-01"
+        end: "2016-07-01"
     validation_methods:
         waveform_windows:
             # Specify 1-3 time intervals during the campaign for plotting

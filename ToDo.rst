@@ -23,6 +23,14 @@ ______
   generate STATIONXML network information in the absence of informations directly from FDSN.  Its current name
   implies that the information belongs to the campaign, but several campaigns could be part of the same
   experiment/FDSN_network.
+- change positions from implicit [*lat*, *lon*, *elev*]  ("GeoJSON") to
+  explicit {latitude:*lat*, longitude:*lon*, elevation:*elev*}
+- same for uncertainties.m [*x.x*, *y.y*, *z.z*]=> {n:*y.y*, e:*x.x*, z:*z.z*}
+- **Define and use a standard naming system for response files**
+
+MAYBES:
+-------------------
+
 
 Major
 ______

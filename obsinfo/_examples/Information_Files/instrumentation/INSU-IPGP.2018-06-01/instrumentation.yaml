@@ -46,7 +46,7 @@ instrumentation:
                     manufacturer: "Scripps Inst. Oceanography"
                 das_components:
                     "1":
-                        orientation_code : "Z"
+                        orientation_code : "3"
                         datalogger: {reference_code: "LC2000_LOGGER"}
                         preamplifier: {reference_code: "LCHEAPO_GEOPHONE-GAIN_128X"}
                         sensor: {reference_code: "SERCEL_L22"}
@@ -81,7 +81,7 @@ instrumentation:
                         preamplifier:  {reference_code: "LCHEAPO_GEOPHONE-GAIN_128X"}
                         sensor:  {reference_code: "SERCEL_L28"}
                     "4":
-                        orientation_code : "Z"
+                        orientation_code : "3"
                         datalogger:  {reference_code: "LC2000_LOGGER"}
                         preamplifier:  {reference_code: "LCHEAPO_GEOPHONE-GAIN_128X"}
                         sensor:  {reference_code: "SERCEL_L28"}

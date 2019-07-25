@@ -135,7 +135,7 @@ system is in prerelease:
 More information
 ======================
 
-`Information files`_
+`information files`_
 
 `TO DO`_
 
@@ -143,5 +143,4 @@ Use `reStructuredText
 <http://docutils.sourceforge.net/rst.html>`_ to modify this file.
 
 .. _information files: information_files.rst
-.. _Information files: `information files`_
 .. _TO DO: ToDo.rst

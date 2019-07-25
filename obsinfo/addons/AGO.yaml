@@ -1,0 +1,83 @@
+version: 2
+originating_organization: [ "RESIF Datacentre", "noeudA_LB@geoazur.unice.fr", "https://geoazur.oca.eu/", "" ]
+
+author: []
+
+network:
+  - [] # Netwotk comment
+  - &NET1 ["FR", "RESIF and other Broad-band and accelerometric permanent networks in metropolitan France", "FR@resif.fr", "1962-01-01T00:00:00.0Z", present, "RLBP", []]
+  - &NET2 ["XX", "RESIF new sites prospections", null, "2010-08-15T00:00:00Z", present, "XX", []]
+
+station:
+  -
+      definition: ["AGO", "1970-01-01T00:00:00Z", present, [46.052, null,null], [3.131, null,null], [523.0, null,null], "Saint-Agoulin - 63311 - Puy-de-Dôme - Auvergne-Rhône-Alpes - France"]
+      Contact: "network.opgc@resif.fr"
+      Owner: "Observatoire de Physique du Globe de Clermont-Ferrand (OPGC)"
+
+      comment: []
+
+      location:
+        - &LOC1 ["00", [46.052, null,null], [3.131, null,null], [523.0, null,null], 0.0, "unknown", "unknown"]
+        - &LOC2 ["", [46.052, null,null], [3.131, null,null], [523.0, null,null], 0.0, "unknown", "unknown"]
+        - &LOC3 ["00", [46.04978, null,null], [3.1317, null,null], [523.0, null,null], 0.0, "unknown", "unknown"]
+        - &LOC4 ["00", [46.0498, null,null], [3.1316, null,null], [500.0, null,null], 5.0, "borehole", "BH5"]
+
+      sensor:
+        - &VEL1 ["TRILLIUM-120PA", "001293", "sensor/nanometrics#trillium-120pa##theoretical#E", 90.0, 0.0]
+        - &VEL2 ["TRILLIUM-120PA", "001293", "sensor/nanometrics#trillium-120pa##theoretical#N", 0.0, 0.0]
+        - &VEL3 ["TRILLIUM-120PA", "001293", "sensor/nanometrics#trillium-120pa##theoretical#Z", 0.0, -90.0]
+        - &VEL4 ["L4-C-1D", "unknown-ago", "sensor/mark-products#l4-c-1d#l4-c-1d-auvergne#theoretical#Z", 0.0, -90.0]
+        - &VEL5 ["TRILLIUM-120PA", "000425", "sensor/nanometrics#trillium-120pa##theoretical#E", 90.0, 0.0]
+        - &VEL6 ["TRILLIUM-120PA", "000425", "sensor/nanometrics#trillium-120pa##theoretical#N", 0.0, 0.0]
+        - &VEL7 ["TRILLIUM-120PA", "000425", "sensor/nanometrics#trillium-120pa##theoretical#Z", 0.0, -90.0]
+        - &VEL8 ["TRILLIUM-120PH.V3", "000608", "sensor/nanometrics#trillium-120ph.v3##theoretical#E", 90.0, 0.0]
+        - &VEL9 ["TRILLIUM-120PH.V3", "000608", "sensor/nanometrics#trillium-120ph.v3##theoretical#N", 0.0, 0.0]
+        - &VEL10 ["TRILLIUM-120PH.V3", "000608", "sensor/nanometrics#trillium-120ph.v3##theoretical#Z", 0.0, -90.0]
+
+      ana_filter:
+        - &DPRE1 ["Q330-6", "4717", "ana_filter/kinemetrics#q330-6#q330-6-gain1#theoretical#A-3"]
+        - &DPRE2 ["Q330-6", "4717", "ana_filter/kinemetrics#q330-6#q330-6-gain1#theoretical#A-2"]
+        - &DPRE3 ["Q330-6", "4717", "ana_filter/kinemetrics#q330-6#q330-6-gain1#theoretical#A-1"]
+        - &PRE1 ["RENASS-AUVERGNE-GAIN", "unknown-AGO", "ana_filter/eost#renass-auvergne-gain##unknown-AGO#1#1970-01-01T00:00:00Z#present"]
+        - &DPRE4 ["TAURUS", "1100", "ana_filter/nanometrics#taurus#taurus-high_impedance-gain4e-1#theoretical#1-3"]
+        - &DPRE5 ["TAURUS", "1100", "ana_filter/nanometrics#taurus#taurus-high_impedance-gain4e-1#theoretical#1-2"]
+        - &DPRE6 ["TAURUS", "1100", "ana_filter/nanometrics#taurus#taurus-high_impedance-gain4e-1#theoretical#1-1"]
+        - &DPRE7 ["CENTAUR6-STD", "2718", "ana_filter/nanometrics#centaur6-std#centaur6-std-gain1#theoretical#A-3"]
+        - &DPRE8 ["CENTAUR6-STD", "2718", "ana_filter/nanometrics#centaur6-std#centaur6-std-gain1#theoretical#A-2"]
+        - &DPRE9 ["CENTAUR6-STD", "2718", "ana_filter/nanometrics#centaur6-std#centaur6-std-gain1#theoretical#A-1"]
+
+      digitizer:
+        - &DIG1 ["Q330-6", "4717", "digitizer/kinemetrics#q330-6##theoretical#A-3"]
+        - &DIG2 ["Q330-6", "4717", "digitizer/kinemetrics#q330-6##theoretical#A-2"]
+        - &DIG3 ["Q330-6", "4717", "digitizer/kinemetrics#q330-6##theoretical#A-1"]
+        - &DIG4 ["RENASS-AUVERGNE", "unknown-AGO", "digitizer/eost#renass-auvergne##theoretical#1-1"]
+        - &DIG5 ["TAURUS", "1100", "digitizer/nanometrics#taurus##theoretical#1-3"]
+        - &DIG6 ["TAURUS", "1100", "digitizer/nanometrics#taurus##theoretical#1-2"]
+        - &DIG7 ["TAURUS", "1100", "digitizer/nanometrics#taurus##theoretical#1-1"]
+        - &DIG8 ["CENTAUR6-STD", "2718", "digitizer/nanometrics#centaur6-std##2718#A-3#2017-04-19T00:00:00Z#present"]
+        - &DIG9 ["CENTAUR6-STD", "2718", "digitizer/nanometrics#centaur6-std##2718#A-2#2017-04-19T00:00:00Z#present"]
+        - &DIG10 ["CENTAUR6-STD", "2718", "digitizer/nanometrics#centaur6-std##2718#A-1#2017-04-19T00:00:00Z#present"]
+
+      decimation:
+        - &DPOST1 ["Q330-6", "4717", "dig_filter/kinemetrics#q330-6#q330-6-FLinear-100"]
+        - &DPOST2 ["TAURUS", "1100", "dig_filter/nanometrics#taurus#taurus-IIR_off-100"]
+        - &DPOST3 ["CENTAUR6-STD", "2718", "dig_filter/nanometrics#centaur6-std#centaur6-std-IIR_off-100"]
+        - &DPOST4 ["CENTAUR6-STD", "2718", "dig_filter/nanometrics#centaur6-std#centaur6-std-IIR_off-1"]
+
+      channel:
+        - [*LOC1, HHE, *VEL1, [*DPRE1], *DIG1, [*DPOST1], CG, STEIM2, "2012-07-11T08:00:00Z", "2012-09-07T16:58:00Z", *NET2, []]
+        - [*LOC1, HHN, *VEL2, [*DPRE2], *DIG2, [*DPOST1], CG, STEIM2, "2012-07-11T08:00:00Z", "2012-09-07T16:58:00Z", *NET2, []]
+        - [*LOC1, HHZ, *VEL3, [*DPRE3], *DIG3, [*DPOST1], CG, STEIM2, "2012-07-11T08:00:00Z", "2012-09-07T16:58:00Z", *NET2, []]
+        - [*LOC2, EHZ, *VEL4, [*PRE1], *DIG4, [], CG, STEIM1, "2012-10-06T14:12:00Z", "2017-12-21T15:00:00Z", *NET1, []]
+        - [*LOC1, HHE, *VEL1, [*DPRE1], *DIG1, [*DPOST1], CG, STEIM2, "2015-05-28T16:41:00Z", "2015-06-24T16:42:00Z", *NET2, []]
+        - [*LOC1, HHN, *VEL2, [*DPRE2], *DIG2, [*DPOST1], CG, STEIM2, "2015-05-28T16:41:00Z", "2015-06-24T16:42:00Z", *NET2, []]
+        - [*LOC1, HHZ, *VEL3, [*DPRE3], *DIG3, [*DPOST1], CG, STEIM2, "2015-05-28T16:41:00Z", "2015-06-24T16:42:00Z", *NET2, []]
+        - [*LOC3, HHE, *VEL5, [*DPRE4], *DIG5, [*DPOST2], CG, STEIM1, "2016-12-13T14:54:00Z", "2017-06-29T08:30:00Z", *NET1, []]
+        - [*LOC3, HHN, *VEL6, [*DPRE5], *DIG6, [*DPOST2], CG, STEIM1, "2016-12-13T14:54:00Z", "2017-06-29T08:30:00Z", *NET1, []]
+        - [*LOC3, HHZ, *VEL7, [*DPRE6], *DIG7, [*DPOST2], CG, STEIM1, "2016-12-13T14:54:00Z", "2017-06-29T08:30:00Z", *NET1, []]
+        - [*LOC4, HHE, *VEL8, [*DPRE7], *DIG8, [*DPOST3], CG, STEIM1, "2017-06-29T08:30:01Z", present, *NET1, []]
+        - [*LOC4, HHN, *VEL9, [*DPRE8], *DIG9, [*DPOST3], CG, STEIM1, "2017-06-29T08:30:01Z", present, *NET1, []]
+        - [*LOC4, HHZ, *VEL10, [*DPRE9], *DIG10, [*DPOST3], CG, STEIM1, "2017-06-29T08:30:01Z", present, *NET1, []]
+        - [*LOC4, LHE, *VEL8, [*DPRE7], *DIG8, [*DPOST4], CG, STEIM1, "2018-08-24T08:44:00Z", present, *NET1, []]
+        - [*LOC4, LHN, *VEL9, [*DPRE8], *DIG9, [*DPOST4], CG, STEIM1, "2018-08-24T08:44:00Z", present, *NET1, []]
+        - [*LOC4, LHZ, *VEL10, [*DPRE9], *DIG10, [*DPOST4], CG, STEIM1, "2018-08-24T08:44:00Z", present, *NET1, []]

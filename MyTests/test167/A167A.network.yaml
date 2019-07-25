@@ -18,13 +18,13 @@ network:
         end_date: "2020-07-01T00:09:00Z"
         restrictedStatus: "closed"
         stationsNumber: 78 #pas la peine ?
-        description: "AlpArray backbone temporary stations "          
+        description: "AlpArray backbone temporary stations "          p
     instrumentation:
         $ref: "instrumentation.yaml"
     stations:
         "A167A":
             site: "Glacier de l'argentiere"
-            start_date: "2016-10-20T00:01:00Z"
+            start_date: "2016-10-20T00:01:00.555Z"
             end_date: "2020-07-01T00:07:00Z"
             restricted_status: "closed" # to add
             station_location: "00" 
@@ -34,8 +34,7 @@ network:
                     start_sync_reference: "2015-04-21T21:06:00Z"
                     end_sync_reference: "2016-05-28T20:59:00.32Z"
                     end_sync_instrument: "2016-05-28T20:59:03Z"
-              - test: 
-                  test: "d"
+              - test: "d"
             comments: 
                 - comment: "stations comment"
                   BeginEffectiveTime: "2015-07-01T00:00:00.000000Z"

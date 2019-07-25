@@ -346,9 +346,11 @@ def comments(comments,processing,supplements,loc_code,location,debug=False):
         for key,val in supplements.items():
             obspy_comments+=create_comments(json.dumps({key:val}))       
     if processing:
-        
         for element in processing:
-            print(element)
+            if 'clock_corrections' in element:
+                for e in element['clock_corrections']:
+                    obspy_comments+=create_comments({'clock_corrections':element}) 
+                continue
             obspy_comments+=create_comments(element)        
     #else:
     #    obspy_comments.append(create_comments(json.dumps({"clock_correction":None})))        

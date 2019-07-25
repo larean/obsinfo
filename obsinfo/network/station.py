@@ -144,8 +144,6 @@ class station:
                     end_date_chan = UTCDateTime(chan['end_date'])
                 if hasattr(self,'end_date'):
                     if self.end_date:
-                        #print(self.end_date)
-                        #print(UTCDateTime(self.end_date))
                         try:
                             end_date=round_up_minute(UTCDateTime(self.end_date),3)
                         except:

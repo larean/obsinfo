@@ -83,9 +83,9 @@ def main():
     import os
     path = os.path.dirname(os.path.realpath(__file__))
     a = XmlTree()
-    xml1 = ET.parse(f"{path}/output/4G.BB_1.STATION.xml")
-    xml2 = ET.parse(f"{path}/outputTest/4G.BB_1.STATION.xml")
-    excludes = ['Created']
+    xml1 = ET.parse(f"{path}/output/4G.LSVW.STATION.xml")
+    xml2 = ET.parse(f"{path}/outputTest/4G.LSVW.STATION.xml")
+    excludes = ['Created','Real','Imaginary','Numerator']
     excludes = [ a.add_ns(x) for x in excludes]
     print(a.xml_compare(a.getroot(xml1),a.getroot(xml2),excludes))
 

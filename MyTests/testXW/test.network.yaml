@@ -73,7 +73,7 @@ network:
         "AL17":
             site: "Quartier Mougne, 84123, Sault, Vaucluse, Provence-Alpes-Cote d'Azur, France"
             start_date: "2019-07-04T14:20:00Z"
-            end_date: "2022-01-20T23:59:59Z"
+            end_date: "2022-01-21T23:59:59Z"
             station_location: "00" 
             instrument:
                   - reference_code:  "instrument1"

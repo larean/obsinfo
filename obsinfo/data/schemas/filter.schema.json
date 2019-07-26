@@ -26,11 +26,13 @@
                 },
                 "normalization_frequency": {
                     "type": "number",
-                    "description": "If undefined, will use gain.frequency",
+                    "description": "If undefined, will use gain:frequency",
                     "minimum" : 0.0
                 },
                 "normalization_factor": {
-                    "type": "number"
+                    "type": "number",
+                    "description": "If undefined, will be calculated from normalization_frequency and poles and zeros",
+                    "minimum" : 0.0
                 },
                 "poles": {
                     "description": "Instrument poles (rad/s)",

@@ -133,22 +133,18 @@ class station:
 
                 if  'start_date' in chan:
                     start_date_chan = UTCDateTime(chan['start_date'])
-                if hasattr(self,'start_date'):
-                    if self.start_date:
-                        try:
-                            start_date=round_down_minute(UTCDateTime(self.start_date),3)
-                        except:
-                            print(f"There is a problem with the station start date: {self.start_date}")
-                            sys.exit(2)
+
+                if self.start_date:
+                    start_date=UTCDateTime(self.start_date)
+
                 if 'end_date' in chan:
                     end_date_chan = UTCDateTime(chan['end_date'])
-                if hasattr(self,'end_date'):
-                    if self.end_date:
-                        try:
-                            end_date=round_up_minute(UTCDateTime(self.end_date),3)
-                        except:
-                            print(f"There is a problem with the station end date: {self.end_date}")
-                            sys.exit(2)
+
+                if self.end_date:
+                    
+                    end_date=UTCDateTime(self.end_date)
+
+
                 if debug:
                     print(key)
                     print(yaml.dump(chan))

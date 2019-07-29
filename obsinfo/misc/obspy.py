@@ -336,10 +336,13 @@ def comments(comments,processing,supplements,loc_code,location,debug=False):
           "location:location_methods" 
     """
     obspy_comments = []
+
+    # add varible to check if clock_corrections is alredy commented
+    clock_cor_commented = False
     if debug:
         print("supplements=",end='')
         print(supplements)
-    #for comment in comments:
+
     if comments:
         obspy_comments+= create_comments(comments)
     if supplements: #??
@@ -348,18 +351,19 @@ def comments(comments,processing,supplements,loc_code,location,debug=False):
     if processing:
         for element in processing:
             if 'clock_corrections' in element:
-                for e in element['clock_corrections']:
-                    obspy_comments+=create_comments({'clock_corrections':element}) 
-                continue
-            obspy_comments+=create_comments(element)        
-    #else:
-    #    obspy_comments.append(create_comments(json.dumps({"clock_correction":None})))        
+                clock_cor_commented = True
+                for key,val in element['clock_corrections'].items():
+                    obspy_comments+=create_comments(json.dumps({"clock_correction":{key:val}}))   
+            else:
+                obspy_comments+=create_comments(element)
+
+        if not clock_cor_commented:
+            obspy_comments+=create_comments(json.dumps({"clock_correction":None}))   
     loc_comment = 'Using location "{}"'.format(loc_code)
     if 'localisation_method' in location:
         loc_comment = loc_comment + ', localised using : {}'.format(
                 location['localisation_method'])
         obspy_comments+= create_comments(loc_comment)     
-
     return obspy_comments
     
 def lon_lats(location, debug=False): 

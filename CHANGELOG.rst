@@ -1,3 +1,15 @@
+v0.106
+------
+
+  * Move  ``station_location`` to station level 
+  * Change instrument level in network file to accept a list of intrument
+  * add Comment in format station XML
+  * add start_time and end_time to channel, if not given they take station dates'
+  * add iris_unit list to input_unit and output_unit filed
+
+
+
+
 v0.105
 ------
 

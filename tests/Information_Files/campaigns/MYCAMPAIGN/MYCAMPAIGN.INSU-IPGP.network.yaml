@@ -99,7 +99,7 @@ network:
                     position: 
                         lon: -32.32504
                         lat: 37.29744
-                        elev: -2130                    
+                        elev: -2030                  
 
             processing:
                 - clock_corrections:

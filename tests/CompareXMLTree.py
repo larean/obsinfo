@@ -1,23 +1,26 @@
-import xml.etree.ElementTree  as ET
-error  = lambda s: '\033[91m'+s+'\033[0m'
+import xml.etree.ElementTree as ET
 
-class XmlTree():
+error = lambda s: "\033[91m" + s + "\033[0m"
 
-    ns = '{http://www.fdsn.org/xml/station/1}'
+
+class XmlTree:
+
+    ns = "{http://www.fdsn.org/xml/station/1}"
 
     @staticmethod
-    def convert_string_to_tree( xmlString):
+    def convert_string_to_tree(xmlString):
 
         return ET.fromstring(xmlString)
+
     @staticmethod
     def getroot(xml):
-        return  xml.getroot()
+        return xml.getroot()
 
     @staticmethod
     def add_ns(tag):
         return f"{XmlTree.ns}{tag}"
-    
-    def xml_compare(self, x1,x2, excludes=['Created']):
+
+    def xml_compare(self, x1, x2, excludes=["Created"]):
         """
         Compares two xml etrees
         :param x1: the first tree
@@ -27,41 +30,44 @@ class XmlTree():
             True if both files match
         """
         # get namespace
-        
+
         if x1.tag != x2.tag:
-            return False,error(f'Tags do not match: {x1.tag} and {x2.tag}')
+            return False, error(f"Tags do not match: {x1.tag} and {x2.tag}")
         for name, value in x1.attrib.items():
             if not name in excludes:
                 if x2.attrib.get(name) != value:
-                    print(error(f'Attributes do not match: {name}={value}, {name}={x2.attrib.get(name)}'))
-                    print(error(f'Elements: {x1.attrib},{x2.attrib}'))
+                    print(
+                        error(
+                            f"Attributes do not match: {name}={value}, {name}={x2.attrib.get(name)}"
+                        )
+                    )
+                    print(error(f"Elements: {x1.attrib},{x2.attrib}"))
                     return False
         for name in x2.attrib.keys():
             if not name in excludes:
                 if name not in x1.attrib:
-                    print('x2 has an attribute x1 is missing: %s'
-                                 % name)
+                    print("x2 has an attribute x1 is missing: %s" % name)
 
                     return False
         if not self.text_compare(x1.text, x2.text):
-            print(error(f'text: {x1.text} != {x2.text}'))
-            print(error(f'Elements: {x1.tag},{x2.tag}'))
+            print(error(f"text: {x1.text} != {x2.text}"))
+            print(error(f"Elements: {x1.tag},{x2.tag}"))
             return False
         if not self.text_compare(x1.tail, x2.tail):
-            print('tail: %r != %r' % (x1.tail, x2.tail))
+            print("tail: %r != %r" % (x1.tail, x2.tail))
             return False
         cl1 = list(x1)
         cl2 = list(x2)
 
         if len(cl1) != len(cl2):
-            print(error(f'children length differs, {len(cl1)}!= {len(cl2)}')) 
+            print(error(f"children length differs, {len(cl1)}!= {len(cl2)}"))
             return False
         i = 0
         for c1, c2 in zip(cl1, cl2):
             i += 1
             if not c1.tag in excludes:
                 if not self.xml_compare(c1, c2, excludes):
-                    print(error(f'children {c1.tag} do not match with {c1.tag}'))
+                    print(error(f"children {c1.tag} do not match with {c1.tag}"))
                     return False
         return True
 
@@ -75,20 +81,22 @@ class XmlTree():
         """
         if not t1 and not t2:
             return True
-        if t1 == '*' or t2 == '*':
+        if t1 == "*" or t2 == "*":
             return True
-        return (t1 or '').strip() == (t2 or '').strip()
+        return (t1 or "").strip() == (t2 or "").strip()
+
 
 def main():
     import os
+
     path = os.path.dirname(os.path.realpath(__file__))
     a = XmlTree()
     xml1 = ET.parse(f"{path}/output/4G.LSVW.STATION.xml")
     xml2 = ET.parse(f"{path}/outputTest/4G.LSVW.STATION.xml")
-    excludes = ['Created','Real','Imaginary','Numerator']
-    excludes = [ a.add_ns(x) for x in excludes]
-    print(a.xml_compare(a.getroot(xml1),a.getroot(xml2),excludes))
+    excludes = ["Created", "Real", "Imaginary", "Numerator"]
+    excludes = [a.add_ns(x) for x in excludes]
+    print(a.xml_compare(a.getroot(xml1), a.getroot(xml2), excludes))
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()
-

@@ -34,9 +34,9 @@
                     }, 
                     {
                         "type" : "object", 
-                        "required": ["comment"],
+                        "required": ["value"],
                         "properties" : {
-                        "comment":{"type":"string"},
+                        "value":{"type":"string"},
                         "begin_effective_time" :{"$ref":"#/date-time-Z"},
                         "end_effective_time" :{"$ref":"#/date-time-Z"},
                         "authors" :{"type":"array","items": {"$ref": "#/author"}

@@ -8,7 +8,7 @@ def create_comments(temp):
         return [obspy_util.Comment(temp)]
     comments = []
     for id, comment in enumerate(temp):
-        value = comment["comment"] if "comment" in comment else comment
+        value = comment["value"] if "value" in comment else comment
         begin_effective_time = (
             comment["BeginEffectiveTime"] if "BeginEffectiveTime" in comment else None
         )

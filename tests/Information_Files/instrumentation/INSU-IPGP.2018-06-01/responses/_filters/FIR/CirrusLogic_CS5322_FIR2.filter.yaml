@@ -3,7 +3,7 @@ format_version: "0.104"
 filter:
     type: "FIR"
     symmetry: "NONE"
-    offset: 6
+    delay.samples: 6
     coefficients:
         - 2.44141E-4
         - 0.00292969

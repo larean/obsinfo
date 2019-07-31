@@ -341,7 +341,7 @@ def __get_decim_parms(stage):
     decim["factor"] = int(stage.get("decimation_factor", 1))
     decim["input_sr"] = decim["factor"] * stage["output_sample_rate"]  # wayne
     filter = stage["filter"]
-    decim["offset"] = int(filter.get("offset", 0))
+    decim["offset"] = int(filter.get("delay.samples", 0))
     # contourner le probleme
     if "delay" in stage:
         decim["delay"] = stage["delay"]

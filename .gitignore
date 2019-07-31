@@ -25,3 +25,4 @@ MyTests
 **/__pycache__/
 *.jar
 *.xml
+mydist.sh

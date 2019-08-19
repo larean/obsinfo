@@ -260,6 +260,7 @@ class instrument:
             channel[block_type] = components.get_component(
                 block_type, reference_code, serial_number
             )
+            print("channel[block_type]========",channel[block_type])
             if not channel[block_type]:
                 raise NameError(
                     "Component not found: type:{}, "
@@ -311,9 +312,10 @@ class instrument:
                         len(channel["datalogger"].response),
                     )
                 )
-                # print(channel)
+                
             channel["response"] = []
-            channel["response"].extend(channel["sensor"].response)
+            channel["response"].append(channel["sensor"].response)
             if "preamplifier" in channel:
-                channel["response"].extend(channel["preamplifier"].response)
-            channel["response"].extend(channel["datalogger"].response)
+                channel["response"].append(channel["preamplifier"].response)
+            channel["response"].append(channel["datalogger"].response)
+

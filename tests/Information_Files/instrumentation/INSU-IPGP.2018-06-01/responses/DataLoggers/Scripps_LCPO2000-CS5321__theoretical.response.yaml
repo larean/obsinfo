@@ -3,6 +3,8 @@ format_version: "0.104"
 notes:
     - "From CS5321-22_F3.pdf"
 response:
+    decimation_info:
+        delay_correction: True
     stages:
         -
             description : "DIGITIZER - CS5321 Delta-Sigma A/D converter" #  optionel

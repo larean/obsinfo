@@ -8,6 +8,7 @@ v0.106
   * add iris_unit list to input_unit and output_unit  field
   * delete atomatic  around_down/up_minutes in start/end_time station
   * Z in date field is not required  
+  * change response:stage:filter:offset to response:stage:filter:delay.samples
 
 
 

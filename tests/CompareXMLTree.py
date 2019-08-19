@@ -67,6 +67,7 @@ class XmlTree:
             i += 1
             if not c1.tag in excludes:
                 if not self.xml_compare(c1, c2, excludes):
+                    print(c1.attrib,c2.attrib)
                     print(error(f"children {c1.tag} do not match with {c1.tag}"))
                     return False
         return True
@@ -91,8 +92,8 @@ def main():
 
     path = os.path.dirname(os.path.realpath(__file__))
     a = XmlTree()
-    xml1 = ET.parse(f"{path}/output/4G.LSVW.STATION.xml")
-    xml2 = ET.parse(f"{path}/outputTest/4G.LSVW.STATION.xml")
+    xml1 = ET.parse(f"{path}/output/4G.BB_1.STATION.xml")
+    xml2 = ET.parse(f"{path}/outputTest/4G.BB_1.STATION.xml")
     excludes = ["Created", "Real", "Imaginary", "Numerator"]
     excludes = [a.add_ns(x) for x in excludes]
     print(a.xml_compare(a.getroot(xml1), a.getroot(xml2), excludes))

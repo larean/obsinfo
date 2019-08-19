@@ -81,6 +81,46 @@ class instrument_component:
         Input:
             directory: base directory of response_yaml files
         """
+        self.response = {'decimation_info':None,'stages':list()}
+        if debug:
+            print(
+                "{:d} superstage files for the component".format(
+                    len(self.response_superstages)
+                )
+            )
+        for superstage in self.response_superstages:
+            superstage_file = superstage["$ref"]
+            if debug:
+                print("Reading superstage file {}".format(superstage_file))
+            response, temp = load_information_file(
+                superstage_file + root_symbol + "response", self.basepath
+            )
+            self.response['decimation_info'] = response['decimation_info'] if 'decimation_info' in response else None
+            for stage in response['stages']:
+                # IF STAGE FILTER IS A "$ref", READ AND INJECT THE REFERRED FILE
+                if "$ref" in stage["filter"]:
+                    # READ REFERRED FILE
+                    filter_ref = os.path.join(
+                        os.path.split(superstage_file)[0], stage["filter"]["$ref"]
+                    )
+                    if debug:
+                        print("filter file ref:", filter_ref)
+                    filter, temp = load_information_file(filter_ref, self.basepath)
+                    # MAKE SURE IT'S THE SAME TYPE, IF SO INJECT
+                    stage["filter"] = filter
+                self.response['stages'].append(stage)
+            if debug:
+                print("{:d} stages read".format(len(stages)))
+        if debug:
+            print("{:d} total stages in component".format(len(self.response)))
+            print(yaml.dump(self.response))
+
+    def __read_response_yamls_old(self, debug=False):
+        """ READ INSTRUMENT RESPONSES FROM RESPONSE_YAML FILES
+    
+        Input:
+            directory: base directory of response_yaml files
+        """
         self.response = list()
         if debug:
             print(

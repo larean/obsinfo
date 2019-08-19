@@ -69,7 +69,7 @@ def response_with_sensitivity(resp_stages, sensitivity, debug=False):
     return response
 
 
-def response(my_response, debug=False):
+def response(my_responses, debug=False):
     """
     Create an obspy response object from a response_yaml-based list of stages
     """
@@ -77,49 +77,50 @@ def response(my_response, debug=False):
     i_stage = 0
     sensitivity = dict()
     if debug:
-        print(len(my_response), "stages")
-    for stage in my_response:
-        # DEFINE COMMON VALUES
-        i_stage = i_stage + 1
-        #         if debug:
-        #             print("stage=",end='')
-        #             print(yaml.dump(stage))
+        print(len(my_responses), "stages") #??
+    #delay_correction = my_response.get("delay_correction",False)
+    nbrS = get_nb_stages(my_responses)
+    for my_response in my_responses:
+        delay_correction = my_response['decimation_info']['delay_correction'] if my_response['decimation_info'] else False
+        for stage in my_response['stages']:
+            # DEFINE COMMON VALUES
+            
+            
+            i_stage = i_stage + 1
+            #         if debug:
+            #             print("stage=",end='')
+            #             print(yaml.dump(stage))
 
-        units, sensitivity = __get_units_sensitivity(stage, sensitivity, i_stage)
+            units, sensitivity = __get_units_sensitivity(stage, sensitivity, i_stage)
 
-        resp_type = stage["filter"]["type"]
-        if debug:
-            print("i_stage=", i_stage, ", resp_type=", resp_type)
-        # Create and append the appropriate response
-        if resp_type == "PolesZeros":
-            resp_stages.append(__make_poles_zeros(stage, i_stage, units))
-        elif resp_type == "COEFFICIENTS":
-            resp_stages.append(__make_coefficients(stage, i_stage, units))
-        elif resp_type == "FIR":
-            resp_stages.append(__make_FIR(stage, i_stage, units))
-        elif resp_type == "AD_CONVERSION":
-            resp_stages.append(__make_DIGITAL(stage, i_stage, units))
-        elif resp_type == "ANALOG":
-            resp_stages.append(__make_ANALOG(stage, i_stage, units))
-        else:
-            raise TypeError("UNKNOWN STAGE RESPONSE TYPE: {}".format(resp_type))
+            resp_type = stage["filter"]["type"]
+            if debug:
+                print("i_stage=", i_stage, ", resp_type=", resp_type)
+            # Create and append the appropriate response
+            if resp_type == "PolesZeros":
+                resp_stages.append(__make_poles_zeros(stage, i_stage, units))
+            elif resp_type == "COEFFICIENTS":
+                resp_stages.append(__make_coefficients(stage, i_stage, units, delay_correction,nbrS))
+            elif resp_type == "FIR":
+                resp_stages.append(__make_FIR(stage, i_stage, units, delay_correction,nbrS))
+            elif resp_type == "AD_CONVERSION":
+                resp_stages.append(__make_DIGITAL(stage, i_stage, units))
+            elif resp_type == "ANALOG":
+                resp_stages.append(__make_ANALOG(stage, i_stage, units))
+            else:
+                raise TypeError("UNKNOWN STAGE RESPONSE TYPE: {}".format(resp_type))
     response = response_with_sensitivity(resp_stages, sensitivity)
     if debug:
         print(response)
     return response
 
 
-def check_unit(unit):
+def get_nb_stages(responses):
+    s = 0
+    for i in responses:
+        s = s + len(i['stages'])
+    return s
 
-    """
-    check if unit used is in iris_unis validator.
-    """
-    if unit not in iris_units:
-        print(
-            f"unknow unit {unit} or it is not a valid IRIS unit. See here: https://github.com/iris-edu/stationxml-validator/wiki"
-        )
-    else:
-        return True
 
 
 def __get_units_sensitivity(stage, sensitivity, i_stage):
@@ -207,7 +208,7 @@ def __make_poles_zeros(stage, i_stage, units, debug=False):
     )
 
 
-def __make_coefficients(stage, i_stage, units, debug=False):
+def __make_coefficients(stage, i_stage, units, delay_correction, nbr_stages, debug=False):
     resp = stage["filter"]
     gain_value, gain_frequency = __get_gain(stage)
     decim = {"delay": None, "factor": 1, "offset": None, "input_sr": None}
@@ -217,8 +218,10 @@ def __make_coefficients(stage, i_stage, units, debug=False):
     elif resp["type"].lower() == "digital":
         cf_type = "DIGITAL"
         decim = __get_decim_parms(stage)
-        if stage.get("delay_corrected", False):
+        if delay_correction is True:
             correction = decim["delay"]
+        elif type(delay_correction) is int and i_stage == nbr_stages:
+            correction = delay_correction
         else:
             correction = 0.0
     else:
@@ -243,14 +246,16 @@ def __make_coefficients(stage, i_stage, units, debug=False):
     )
 
 
-def __make_FIR(stage, i_stage, units, debug=False):
+def __make_FIR(stage, i_stage, units, delay_correction, nbr_stages, debug=False):
     resp = stage["filter"]
     if debug:
         print(resp)
     gain_value, gain_frequency = __get_gain(stage)
     decim = __get_decim_parms(stage)
-    if stage.get("delay_corrected", False):
+    if delay_correction is True:
         correction = decim["delay"]
+    elif type(delay_correction) is int and i_stage == nbr_stages:
+        correction = delay_correction
     else:
         correction = 0.0
     return inventory.response.FIRResponseStage(

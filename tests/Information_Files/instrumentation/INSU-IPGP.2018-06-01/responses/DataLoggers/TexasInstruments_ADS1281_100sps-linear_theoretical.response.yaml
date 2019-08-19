@@ -10,6 +10,8 @@ yaml_anchors:
         extras:
             DBIRD_response_type : "THEORETICAL" 
 response:
+    decimation_info:
+        delay_correction: True
     stages: 
         - 
             <<: *BASE

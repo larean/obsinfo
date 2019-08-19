@@ -128,6 +128,7 @@ class instrument_components:
         component = oi_instrument_component(
             self.instrument_blocks[block_type]["generic"][reference_code], self.basepath
         )
+
         component.reference_code = reference_code
         component.type = block_type
         if serial_number:

@@ -21,6 +21,8 @@ yaml_anchors:
         filter: 
             $ref: "../_filters/FIR/CirrusLogic_CS5322_FIR3.filter.yaml#filter"
 response:
+    decimation_info:
+        delay_correction: True
     stages: 
         - 
             <<: *fir2

@@ -17,6 +17,7 @@ ______
   allow one to correctly specify bad stations without the codes trying to make data and
   stationXML from them.  But it would force the user to specify a start_ and end_date and synchronization,
   even if there aren't any.
+- Change network.general_information.description to network.general_information.name 
 - In obsinfo-make_process_scripts_*, should --append imply --noheader ?
 - Change ``network:general_information`` to ``network:fdsn_network_information`` (or 
   ``network:STATIONXML_network_information``, or ``network:experiement_information``).  This field is used to

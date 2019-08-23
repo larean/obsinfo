@@ -15,7 +15,7 @@
 	"additionalProperties" : false,
 	"definitions": {
 	    "format_version" : {
-	        "oneOf": [
+	        "anyOf": [
 	            {"$ref" : "definitions.schema.json#/format_version"},
 	            {"type": "string","pattern": "^0\\.106$","comment":"version of last change to this schema"}
             ]

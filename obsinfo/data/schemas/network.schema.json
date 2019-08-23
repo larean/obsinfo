@@ -311,9 +311,8 @@
         "channel_specification" : {
             "type": "object",
             "description": "specification of channel parameters",
-            "required" : ["sample_rate", "datalogger_config"],
+            "required" : ["datalogger_config"],
             "properties" : {
-                "sample_rate" : { "type" : "number", "minimum" : 0 },
                 "datalogger_config" : { 
                     "type" : "string",
                     "description" : "suffix of datalogger name corresponding to the sample rate" 

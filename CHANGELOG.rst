@@ -2,14 +2,31 @@ v0.106
 ------
 
   * Move  ``station_location`` to station level 
-  * Change instrument level in network file to accept a list of intrument
+  * Change instrument level in network file to accept a list of intruments
   * add Comment in format station XML
   * add start_time and end_time to channel, if not given they take station dates'
   * add iris_unit list to input_unit and output_unit  field
   * delete atomatic  around_down/up_minutes in start/end_time station
   * Z in date field is not required  
   * change response:stage:filter:offset to response:stage:filter:delay.samples
+  * add response:decimation_info: with following elements
+    
+    - input_sample_rate
+    - output_sample_rate
+    - delay_correction.samples delay_correction.s or delay.correction.boolean
+      * if .s, sets correction=0 in all stages except last, where it is set
+        to delay_correction.s   
+      * if .samples, sets correction=0 in all stages except last, where it is set
+        to delay_correction.samples/sample_rate   
+      * if .boolean=False, sets Correction=0 in all stages   
+      * if .boolean=True, sets Correction=Delay in all stages
 
+  * move sample_rate from network: to instrument_components:datalogger:{MODEL}:{CONFIG}
+  * made "processing" field as list in network:stations:{STATION}, moved
+    clock corrections there
+  * added many tests
+  * changed station positions and uncertainties from lists to objects with fields
+    ``lat``, ``lon`` and ``elev``
 
 
 
@@ -17,8 +34,9 @@ v0.106
 v0.105
 ------
 
-Change all information file schemas to allow information files to specify either the current format_version or
-the last one in which that information file type was modified.
+Change all information file schemas to allow information files to specify either
+the current format_version or the last one in which that information file type
+was modified.
 
 Changed ``network`` file (station level):
 

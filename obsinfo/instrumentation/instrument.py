@@ -260,7 +260,8 @@ class instrument:
             channel[block_type] = components.get_component(
                 block_type, reference_code, serial_number
             )
-            print("channel[block_type]========",channel[block_type])
+            if debug:
+                print("channel[block_type]========",channel[block_type])
             if not channel[block_type]:
                 raise NameError(
                     "Component not found: type:{}, "

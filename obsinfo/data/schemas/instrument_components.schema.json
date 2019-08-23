@@ -109,6 +109,7 @@
                     "required" : ["equipment","response_stages"],
                     "properties": {
                         "equipment" :                { "$ref": "#/definitions/equipmentType" },
+                        "sample_rate" :              { "type" : "number", "minimum" : 0 },
                         "delay_correction_samples" : { "$ref": "#/definitions/delay_correction_samples" },
                         "response_stages" :          { "$ref": "#/definitions/response_stage_list" }
                     }

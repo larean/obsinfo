@@ -17,7 +17,7 @@
 	    "format_version" : {
 	        "anyOf": [
 	            {"$ref" : "definitions.schema.json#/format_version"},
-	            {"type": "string","pattern": "^0\\.104$","comment":"version of last change to campaign schema"}
+	            {"type": "string","pattern": "^0\\.106$","comment":"version of last change to campaign schema"}
             ]
 	    },
 		"campaign": {
@@ -27,13 +27,13 @@
 				"reference_scientist",
 				"OBS_facilities",
 				"data_distribution",
-				"fdsn_network_code",
+				"fdsn_network",
 				"validation_methods"
 			],
 			"properties": {
 				"reference_name":        {"$ref" : "definitions.schema.json#/reference_name" },
 				"reference_scientist" :  {"$ref" : "definitions.schema.json#/author" },
-				"fdsn_network_code" :    {"type" : "string" },
+				"fdsn_network" :         {"$ref" : "#/definitions/fdsn_network" },
 				"OBS_facilities" :       {"$ref" : "#/definitions/OBS_facilities" },
 				"data_distribution" :    {"$ref" : "#/definitions/data_distribution" },
 				"validation_methods" :   {"$ref" : "#/definitions/validation_methods" },
@@ -43,6 +43,18 @@
 			},
 			"additionalProperties" : false
 		},
+        "fdsn_network": {
+            "type": "object",
+            "description": "FDSN network information",
+            "required": ["code","start_date"],
+           "properties": {
+                "code": {"type": "string"}, 
+                "start_date": {"type": "string"}, 
+                "end_date": {"type": "string"}, 
+                "name": {"type": "string"}
+            },
+            "additionalProperties" : false
+        },
         "OBS_facilities": {
             "type": "object",
             "description": "List of OBS facilities and their stations",

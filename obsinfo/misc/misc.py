@@ -165,6 +165,7 @@ def make_channel_code(
 ##################################################
 def get_azimuth_dip(channel_seed_codes, orientation_code):
     " Returns azimuth and dip [value,error] pairs "
+
     if orientation_code in channel_seed_codes["orientation"]:
         azimuth = channel_seed_codes["orientation"][orientation_code]["azimuth.deg"]
         azimuth = [float(x) for x in azimuth]

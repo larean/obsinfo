@@ -1,0 +1,16 @@
+---
+format_version: "0.104"
+response:
+    stages:
+        -
+          description : "SENSOR - L22D 2Hz 510 Ohm GEOPHONE with 2 kOhm shunt (70.7% damping)"
+          input_units :  {name: "M/S", description: "VELOCITY"}
+          output_units : {name: "V", description: "VOLTS"}
+          extras:
+            DBIRD_response_type : "THEORETICAL" 
+            documentation: "OBS Transfer Functions_WCC.doc"
+          gain : 
+            value: 29.0
+            frequency: 10
+          filter: 
+            $ref: "../_filters/PolesZeros/Sercel_L22D_C510-S2000_generic.filter.yaml#filter"

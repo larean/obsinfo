@@ -14,55 +14,39 @@ yaml_anchors:
         vault: "Sea floor"                    
     location_buc_direct: &LOC_BUC_DIRECT
         <<: *LOC_DEFAULTS
-        uncertainties.m: 
-            lon: 5
-            lat: 5
-            elev: 10
+        uncertainties.m: {lon: 5, lat: 5, elev: 10}
         localisation_method: "Short baseline transponder, seafloor release"
     location_buc_drop: &LOC_BUC_DROP
         <<: *LOC_DEFAULTS
-        uncertainties.m: 
-            lon: 20
-            lat: 20
-            elev: 20
+        uncertainties.m: {lon: 20, lat: 20, elev: 20}
         localisation_method: "Short baseline transponder, near-seafloor release"
     location_surface_drop: &LOC_SURFACE_DROP
         <<: *LOC_DEFAULTS
-        uncertainties.m: 
-            lon: 200
-            lat: 200
-            elev: 20
+        uncertainties.m: {lon: 200, lat: 200, elev: 20}
         localisation_method: "Position is the sea-surface release point"
     location_acoustic: &LOC_ACOUSTIC
         <<: *LOC_DEFAULTS
-        uncertainties.m: 
-            lon: 5
-            lat: 5
-            elev: 10
+        uncertainties.m: {lon: 5, lat: 5, elev: 10}
         localisation_method: "Acoustic survey"
     location_airgun: &LOC_AIRGUN
         <<: *LOC_DEFAULTS
-        uncertainties.m: 
-            lon: 40
-            lat: 40
-            elev: 20
+        uncertainties.m: {lon: 40, lat: 40, elev: 20}
         localisation_method: "Airgun survey"
     spobs2_125: &SPOBS2_125
-        reference_code: "SPOBS2"
+        reference_code: "SPOBS_2_1"
         station_location: "00"
         channel_codes_locations:
-            "HDH_00" : {sample_rate: 125, datalogger_config: "125"}
-            "EHZ_00" : {sample_rate: 125, datalogger_config: "125"}
-            "EH1_00" : {sample_rate: 125, datalogger_config: "125"}
-            "EH2_00" : {sample_rate: 125, datalogger_config: "125"}
+            "HDH_00" : {datalogger_config: "125"}
+            "EH3_00" : {datalogger_config: "125"}
+            "EH1_00" : {datalogger_config: "125"}
+            "EH2_00" : {datalogger_config: "125"}
     spobs2_62: &SPOBS2_62
-        reference_code: "SPOBS2"
-        station_location: "00"
+        reference_code: "SPOBS_2_1"
         channel_codes_locations:
-            "BDH_00" : {sample_rate: 62.5, datalogger_config: "62"}
-            "SHZ_00" : {sample_rate: 62.5, datalogger_config: "62"}
-            "SH1_00" : {sample_rate: 62.5, datalogger_config: "62"}
-            "SH2_00" : {sample_rate: 62.5, datalogger_config: "62"}
+            "BDH_00" : {datalogger_config: "62"}
+            "SH3_00" : {datalogger_config: "62"}
+            "SH1_00" : {datalogger_config: "62"}
+            "SH2_00" : {datalogger_config: "62"}
     
 
 revision:
@@ -83,12 +67,12 @@ network:
         comments: 
             - "Lucky Strike Volcano, North Mid-Atlantic Ridge"
     instrumentation:
-        $ref: "../../instrumentation/INSU-IPGP.2018-06-01/instrumentation.yaml"
+        $ref: "../../instrumentation/INSU-IPGP.2019-06-05/instrumentation.yaml"
     stations:
         "LSVW":
             site: "Lucky Strike Volcano West"
-            start_date: "2015-04-22T11:59:00Z"
-            end_date: "2016-05-28T21:02:00Z"
+            start_date: "2015-04-22T12:00:00Z"
+            end_date: "2016-05-28T21:01:00Z"
             station_location: "00"
             instrument:
                 <<: *SPOBS2_125
@@ -96,11 +80,7 @@ network:
             locations:
                 "00":
                     <<: *LOC_SURFACE_DROP
-                    position: 
-                        lon: -32.32504
-                        lat: 37.29744
-                        elev: -2030                  
-
+                    position: {lon: -32.32504, lat: 37.29744, elev: -2030}
             processing:
                 - clock_corrections:
                     linear_drift:
@@ -110,8 +90,8 @@ network:
                         end_sync_instrument: "2016-05-28T20:59:03Z"
         "LSVE":
             site: "Lucky Strike Volcano East"
-            start_date: "2015-04-22T11:59:00Z"
-            end_date: "2016-05-28T21:02:00Z"
+            start_date: "2015-04-22T12:00:00Z"
+            end_date: "2016-05-28T21:01:00Z"
             station_location: "00"
             instrument:
                 <<: *SPOBS2_125
@@ -119,10 +99,7 @@ network:
             locations:
                 "00":
                     <<: *LOC_SURFACE_DROP
-                    position: 
-                        lon: -32.02504
-                        lat: 37.25744
-                        elev: -2130
+                    position: {lon: -32.02504, lat: 37.25744, elev: -2130}
             processing:
                 - clock_corrections:
                     linear_drift:
@@ -135,23 +112,20 @@ network:
             site: "Lucky Strike Volcano North"
             notes: ["original station name = I1"]
             comments: ["Hydrophone did not work"]
-            start_date: "2015-04-23T09:59:00Z"
-            end_date: "2016-05-26T23:01:00Z"
+            start_date: "2015-04-23T10:00:00Z"
+            end_date: "2016-05-26T23:00:00Z"
             station_location: "00"
             instrument:
-                reference_code: "SPOBS1"
+                reference_code: "SPOBS_1_1"
                 serial_number: "13"
                 station_location: "00"
                 channel_codes_locations:
-                    "BDH_00" : {sample_rate: 62.5, datalogger_config: "62"}
-                    "SHZ_00" : {sample_rate: 62.5, datalogger_config: "62"}
+                    "BDH_00" : {datalogger_config: "62"}
+                    "SH3_00" : {datalogger_config: "62"}
             locations:
                 "00":
                     <<: *LOC_ACOUSTIC
-                    position: 
-                        lon: -32.27909
-                        lat: 37.31960
-                        elev: -1798
+                    position: {lon: -32.27909, lat: 37.31960, elev: -1798}
             processing:
                 - clock_corrections:
                     linear_drift:
@@ -162,25 +136,22 @@ network:
         "BB_2":
             # EXAMPLE: CHANGE BBOBS SENSOR
             site: "Lucky Strike Volcano Fake BBOBS"
-            start_date: "2015-04-23T09:59:00Z"
-            end_date: "2016-05-28T15:38:00Z"
+            start_date: "2015-04-23T10:00:00Z"
+            end_date: "2016-05-28T15:37:00Z"
             station_location: "00"
             instrument:
-                reference_code: "BBOBS1_2"
+                reference_code: "BBOBS_1_2"
                 serial_number: "07"
                 station_location: "00"
                 channel_codes_locations:
-                    "BDH_00": {sample_rate: 62.5, datalogger_config: "62", sensor: {serial_number : "IP007"}}
-                    "BH1_00": {sample_rate: 62.5, datalogger_config: "62", sensor: {serial_number : "Sphere06"}}
-                    "BH2_00": {sample_rate: 62.5, datalogger_config: "62", sensor: {serial_number : "Sphere06"}}
-                    "BHZ_00": {sample_rate: 62.5, datalogger_config: "62", sensor: {serial_number : "Sphere06"}}
+                    "BDH_00": {datalogger_config: "62", sensor: {serial_number : "IP007"}}
+                    "BH1_00": {datalogger_config: "62", sensor: {serial_number : "Sphere06"}}
+                    "BH2_00": {datalogger_config: "62", sensor: {serial_number : "Sphere06"}}
+                    "BHZ_00": {datalogger_config: "62", sensor: {serial_number : "Sphere06"}}
             locations:
                 "00":
                     <<: *LOC_BUC_DROP
-                    position: 
-                        lon: -32.29756
-                        lat: 37.26049
-                        elev: -1887
+                    position: {lon: -32.29756, lat: 37.26049, elev: -1887}
             processing:
                 - clock_corrections:
                     linear_drift:
@@ -191,25 +162,22 @@ network:
         "BB_1":
             # EXAMPLE: BBOBS CONFIGURATION 1
             site: "Lucky Strike Volcano Fake BBOBS"
-            start_date: "2015-04-23T09:59:00Z"
-            end_date: "2016-05-28T15:38:00Z"
+            start_date: "2015-04-23T10:00:00Z"
+            end_date: "2016-05-28T15:37:00Z"
             station_location: "00"
             instrument:
-                reference_code: "BBOBS1_1"
+                reference_code: "BBOBS_1_1"
                 serial_number: "02"
                 station_location: "00"
                 channel_codes_locations:
-                    "BDH_00" : {sample_rate: 62.5, datalogger_config: "62"}
-                    "BHZ_00" : {sample_rate: 62.5, datalogger_config: "62"}
-                    "BH1_00" : {sample_rate: 62.5, datalogger_config: "62"}
-                    "BH2_00" : {sample_rate: 62.5, datalogger_config: "62"}
+                    "BDH_00" : {datalogger_config: "62"}
+                    "BHZ_00" : {datalogger_config: "62"}
+                    "BH1_00" : {datalogger_config: "62"}
+                    "BH2_00" : {datalogger_config: "62"}
             locations:
                 "00":
                     <<: *LOC_BUC_DROP
-                    position: 
-                        lon: -32.29756
-                        lat: 37.26049
-                        elev: -1887
+                    position: {lon: -32.29756, lat: 37.26049, elev: -1887}
             processing:
                 - clock_corrections:
                     linear_drift:
@@ -220,37 +188,33 @@ network:
         "HOCT":
             # EXAMPLE: HYDROCTOPUS, MULTIPLE SENSORS WITH SAME CHANNEL CODE
             site: "Lucky Strike Volcano Fake HydroOctopus"
-            start_date: "2015-04-23T09:59:00Z"
-            end_date: "2016-05-28T15:38:00Z"
+            start_date: "2015-04-23T10:00:00Z"
+            end_date: "2016-05-28T15:37:00Z"
             station_location: "00"
             instrument:
-                reference_code: "HydroOctopus"
+                reference_code: "HydOct_1_1"
                 serial_number: "01"
                 station_location: "00"
                 channel_codes_locations:
                     "BDH_00":
-                        sample_rate: 62.5
                         datalogger_config: "62"
                         das_component: "1"
                         sensor: 
                             reference_code : "HITECH_HTI04-PLC-ULF"
                             serial_number : "4500"
                     "BDH_01":
-                        sample_rate: 62.5
                         datalogger_config: "62"
                         das_component: "2"
                         sensor: 
                             reference_code : "HITECH_HTI04-PLC-ULF"
                             serial_number : "4501"
                     "BDH_02":
-                        sample_rate: 62.5
                         datalogger_config: "62"
                         das_component: "3"
                         sensor: 
                             reference_code : "HITECH_HTI04-PLC-ULF"
                             serial_number : "4502"
                     "BDH_03":
-                        sample_rate: 62.5
                         datalogger_config: "62"
                         das_component: "4"
                         sensor:
@@ -259,28 +223,16 @@ network:
             locations:
                 "00":
                     <<: *LOC_BUC_DIRECT
-                    position: 
-                        lon: -32.29756
-                        lat: 37.26049
-                        elev: -1887
+                    position: {lon: -32.29756, lat: 37.26049, elev: -1887}
                 "01":
                     <<: *LOC_BUC_DIRECT
-                    position: 
-                        lon: -32.29756
-                        lat: 37.26051
-                        elev: -1885
+                    position: {lon: -32.29756, lat: 37.26051, elev: -1885}
                 "02":
                     <<: *LOC_BUC_DIRECT
-                    position: 
-                        lon: -32.29758
-                        lat: 37.26049
-                        elev: -1889
+                    position: {lon: -32.29758, lat: 37.26049, elev: -1889}
                 "03":
                     <<: *LOC_BUC_DIRECT
-                    position: 
-                        lon: -32.29756
-                        lat: 37.26047
-                        elev: -1877
+                    position: {lon: -32.29756, lat: 37.26047, elev: -1877}
             processing:
                 - clock_corrections:
                     linear_drift:
@@ -292,7 +244,7 @@ network:
             # EXAMPLE: LEAPSECOND DURING DEPLOYMENT
             site: "Lucky Strike Volcano Center"
             notes: [ "original station name = LSJ4"]
-            start_date: "2016-07-01T11:59:00"
+            start_date: "2016-07-01T12:00:00Z"
             end_date: ~
             station_location: "00"
             instrument:
@@ -300,22 +252,19 @@ network:
                 serial_number: "Station01"
             locations:
                 "00":
-                    <<: *LOC_BUC_DIRECT 
-                    position: 
-                        lon: -32.280
-                        lat: 37.290
-                        elev: -1760
+                    <<: *LOC_BUC_DIRECT
+                    position: {lon: -32.280, lat: 37.290, elev: -1760}
             processing:
                 - clock_corrections:
-                        linear_drift:
-                            <<: *LINEAR_CLOCK_DEFAULTS
-                            start_sync_reference: "2016-07-01T16:00:00Z"
-                            end_sync_reference:   "2017-07-01T15:35:00.555Z"
-                            end_sync_instrument:  "2017-07-01T15:35:00Z"
-                        leapseconds:
-                            -
-                                time: "2016-12-31T23:59:60Z"
-                                type: "+"
-                                description: "Positive leapsecond (a 61-second minute)"
-                                corrected_in_basic_miniseed: No
-                                corrected_in_end_sync: Yes
+                    linear_drift:
+                        <<: *LINEAR_CLOCK_DEFAULTS
+                        start_sync_reference: "2016-07-01T16:00:00Z"
+                        end_sync_reference:   "2017-07-01T15:35:00.555Z"
+                        end_sync_instrument:  "2017-07-01T15:35:00Z"
+                    leapseconds:
+                        -
+                            time: "2016-12-31T23:59:60Z"
+                            type: "+"
+                            description: "Positive leapsecond (a 61-second minute)"
+                            corrected_in_basic_miniseed: No
+                            corrected_in_end_sync: Yes

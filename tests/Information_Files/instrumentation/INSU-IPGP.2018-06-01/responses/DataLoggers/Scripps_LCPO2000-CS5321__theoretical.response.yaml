@@ -3,13 +3,11 @@ format_version: "0.104"
 notes:
     - "From CS5321-22_F3.pdf"
 response:
-    decimation_info:
-        delay_correction: True
     stages:
         -
             description : "DIGITIZER - CS5321 Delta-Sigma A/D converter" #  optionel
             input_units : { name : "V", description: "Volts"}
-            output_units : { name : "counts", description: "Digital Counts"}
+            output_units : { name : "COUNTS", description: "Digital Counts"}
             output_sample_rate : 32000
             gain : 
                 frequency: 0

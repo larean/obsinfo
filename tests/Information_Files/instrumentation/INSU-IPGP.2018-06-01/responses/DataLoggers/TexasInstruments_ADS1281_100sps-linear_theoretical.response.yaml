@@ -5,13 +5,11 @@ notes:
 yaml_anchors:
     base: &BASE
         gain :         {value: 1, frequency: 0}
-        input_units :  { name : "counts", description: "Digital Counts"}
-        output_units : { name : "counts", description: "Digital Counts"}
+        input_units :  { name : "COUNTS", description: "Digital Counts"}
+        output_units : { name : "COUNTS", description: "Digital Counts"}
         extras:
             DBIRD_response_type : "THEORETICAL" 
 response:
-    decimation_info:
-        delay_correction: True
     stages: 
         - 
             <<: *BASE

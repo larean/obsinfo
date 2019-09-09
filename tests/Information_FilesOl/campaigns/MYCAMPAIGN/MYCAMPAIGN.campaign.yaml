@@ -1,0 +1,67 @@
+---
+# Example campaign file
+# Campaign files should be filled in by the reference scientist
+notes:
+    - "Example note"
+format_version: "0.104"
+revision: 
+    date: "2017-09-14"
+    authors: 
+        -
+            first_name: "Wayne"
+            last_name: "Crawford"
+campaign:
+    reference_name: "MYCAMPAIGN"
+    reference_scientist:
+        first_name: "Ima"
+        last_name: "Genie"
+        institution: "Institut de Petits Genies de Paris"
+        email: "genie@ipgp.fr"
+        telephone: ~
+    OBS_facilities:
+        # Use facility_reference_names: e.g. "INSU-IPGP","Geoazur","DEPAS"
+        "INSU-IPGP":
+            stations: 
+                - 'LSVCI'
+                - 'LSVNI'
+                - 'LSVSI'
+                - 'LSVEI'
+                - 'LSVWI'
+    data_distribution:
+        embargo_period.a: 3
+    fdsn_network_code: "4G"
+    validation_methods:
+        waveform_windows:
+            # Specify 1-3 time intervals during the campaign for plotting
+            -
+                title: "M1 local earthquake"
+                datetime: "2015-09-10T14:00:00Z"
+                duration.s: 300
+                source_position: [358.250, -16.701, 36.4]
+            -
+                title: "M5 regional earthquake"
+                datetime: "2015-10-10T14:00:00Z"
+                duration.s: 600
+            -
+                title: "M7 teleseism"
+                datetime: "2015-11-10T14:00:00Z"
+                duration.min: 60
+    expeditions:
+        -
+            name: ~
+            ship_name: ~
+            start_date: ~
+            end_date: ~
+            actions: "Deployment"
+        -
+            name: ~
+            ship_name: Archipelago
+            start_date: "2016-05-27"
+            end_date: "2016-05-29"
+            actions: "Recuperation 4 autonomous stations"
+        -
+            name: ~
+            ship_name: ~
+            start_date: ~
+            end_date: ~
+            actions: "Recuperation central station (LSVCI)"

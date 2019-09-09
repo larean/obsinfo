@@ -30,8 +30,8 @@ from ..network.util import create_comments
 ################################################################################
 # OBSPY-specific
 
-
-def response_with_sensitivity(resp_stages, sensitivity, debug=False):
+last_output = None
+def response_with_sensitivity(resp_stages, sensitivity, debug=True):
 
     true_sensitivity_input_units = None
 
@@ -73,6 +73,7 @@ def response(my_responses, debug=False):
     """
     Create an obspy response object from a response_yaml-based list of stages
     """
+    global last_output
     resp_stages = []
     i_stage = 0
     sensitivity = dict()
@@ -81,11 +82,19 @@ def response(my_responses, debug=False):
     #delay_correction = my_response.get("delay_correction",False)
     nbrS = get_nb_stages(my_responses)
     for my_response in my_responses:
-        delay_correction = my_response['decimation_info']['delay_correction'] if my_response['decimation_info'] else False
+        # temporary
+        if my_response['decimation_info'] :
+            key_with_p = [k for k in my_response['decimation_info'].keys() if '.' in k ]
+            if len(key_with_p) !=0:
+                delay_correction = my_response['decimation_info'][key_with_p[0]]
+            else:
+                delay_correction = my_response['decimation_info']['delay_correction'] if my_response['decimation_info'] else False
+            if 'input_sample_rate' in my_response['decimation_info']:
+                last_output = my_response['decimation_info']['input_sample_rate'] 
+        decimation_info = my_response['decimation_info'] if 'decimation_info' in my_response else None
+
         for stage in my_response['stages']:
             # DEFINE COMMON VALUES
-            
-            
             i_stage = i_stage + 1
             #         if debug:
             #             print("stage=",end='')
@@ -100,11 +109,11 @@ def response(my_responses, debug=False):
             if resp_type == "PolesZeros":
                 resp_stages.append(__make_poles_zeros(stage, i_stage, units))
             elif resp_type == "COEFFICIENTS":
-                resp_stages.append(__make_coefficients(stage, i_stage, units, delay_correction,nbrS))
+                resp_stages.append(__make_coefficients(stage, i_stage, units, delay_correction, decimation_info, nbrS))
             elif resp_type == "FIR":
-                resp_stages.append(__make_FIR(stage, i_stage, units, delay_correction,nbrS))
+                resp_stages.append(__make_FIR(stage, i_stage, units, delay_correction, decimation_info, nbrS))
             elif resp_type == "AD_CONVERSION":
-                resp_stages.append(__make_DIGITAL(stage, i_stage, units))
+                resp_stages.append(__make_DIGITAL(stage, i_stage, units, decimation_info))
             elif resp_type == "ANALOG":
                 resp_stages.append(__make_ANALOG(stage, i_stage, units))
             else:
@@ -125,6 +134,7 @@ def get_nb_stages(responses):
 
 def __get_units_sensitivity(stage, sensitivity, i_stage):
     # Get Units
+    
     units = dict()
     temp = stage.get("input_units", {})
     units["input"] = temp.get("name", None)
@@ -143,6 +153,7 @@ def __get_units_sensitivity(stage, sensitivity, i_stage):
             "freq": gain_frequency,
             "guess": gain_value,
         }
+
     else:
         sensitivity["guess"] = sensitivity["guess"] * gain_value
     if units["output"]:
@@ -208,7 +219,7 @@ def __make_poles_zeros(stage, i_stage, units, debug=False):
     )
 
 
-def __make_coefficients(stage, i_stage, units, delay_correction, nbr_stages, debug=False):
+def __make_coefficients(stage, i_stage, units, delay_correction, decimation_info,  nbr_stages, debug=False):
     resp = stage["filter"]
     gain_value, gain_frequency = __get_gain(stage)
     decim = {"delay": None, "factor": 1, "offset": None, "input_sr": None}
@@ -220,7 +231,7 @@ def __make_coefficients(stage, i_stage, units, delay_correction, nbr_stages, deb
         decim = __get_decim_parms(stage)
         if delay_correction is True:
             correction = decim["delay"]
-        elif type(delay_correction) is int and i_stage == nbr_stages:
+        elif type(delay_correction) is float and i_stage == nbr_stages:
             correction = delay_correction
         else:
             correction = 0.0
@@ -246,15 +257,15 @@ def __make_coefficients(stage, i_stage, units, delay_correction, nbr_stages, deb
     )
 
 
-def __make_FIR(stage, i_stage, units, delay_correction, nbr_stages, debug=False):
+def __make_FIR(stage, i_stage, units, delay_correction, decimation_info, nbr_stages, debug=False):
     resp = stage["filter"]
     if debug:
         print(resp)
     gain_value, gain_frequency = __get_gain(stage)
-    decim = __get_decim_parms(stage)
+    decim = __get_decim_parms(stage, decimation_info)
     if delay_correction is True:
         correction = decim["delay"]
-    elif type(delay_correction) is int and i_stage == nbr_stages:
+    elif type(delay_correction) is float and i_stage == nbr_stages:
         correction = delay_correction
     else:
         correction = 0.0
@@ -279,9 +290,9 @@ def __make_FIR(stage, i_stage, units, delay_correction, nbr_stages, debug=False)
     )
 
 
-def __make_DIGITAL(stage, i_stage, units, debug=False):
+def __make_DIGITAL(stage, i_stage, units, decimation_info, debug=False):
     gain_value, gain_frequency = __get_gain(stage)
-    decim = __get_decim_parms(stage)
+    decim = __get_decim_parms(stage, decimation_info)
     return inventory.response.CoefficientsTypeResponseStage(
         i_stage,
         gain_value,
@@ -341,10 +352,21 @@ def __get_gain(stage):
     return float(gain.get("value", 1.0)), float(gain.get("frequency", 0.0))
 
 
-def __get_decim_parms(stage):
+def __get_decim_parms(stage, decimation_info):
+    global last_output
+
     decim = dict()
     decim["factor"] = int(stage.get("decimation_factor", 1))
-    decim["input_sr"] = decim["factor"] * stage["output_sample_rate"]  # wayne
+
+    if 'output_sample_rate' in stage:
+        decim["input_sr"] = decim["factor"] * stage["output_sample_rate"]  
+    elif  decimation_info and 'input_sample_rate' in decimation_info.keys():
+        decim["input_sr"] = last_output
+        last_output = decim["input_sr"] / decim["factor"]
+
+    else:
+        raise RuntimeError(f'Your stage {stage} does not have a "output_sample_rate" ')
+
     filter = stage["filter"]
     decim["offset"] = int(filter.get("delay.samples", 0))
     # contourner le probleme

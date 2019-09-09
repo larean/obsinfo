@@ -3,7 +3,7 @@ format_version: "0.104"
 filter:
     type: "FIR"
     symmetry: "ODD"
-    delay.samples: 7
+    offset: 7
     coefficient_divisor: 8388608
     coefficients:
         - -10944

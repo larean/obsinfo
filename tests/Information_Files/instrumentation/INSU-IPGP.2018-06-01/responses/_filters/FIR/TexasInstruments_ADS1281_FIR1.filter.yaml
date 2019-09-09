@@ -3,7 +3,7 @@ format_version: "0.104"
 filter:
     type: "FIR"
     symmetry: "NONE"
-    delay.samples: 5
+    offset: 5
     coefficient_divisor: 512
     coefficients:
         - 3

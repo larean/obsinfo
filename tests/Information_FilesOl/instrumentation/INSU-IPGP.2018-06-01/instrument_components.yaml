@@ -1,0 +1,295 @@
+---
+# Example instrumentation_components file
+format_version: "0.104"
+notes:
+    - "Notes are associated with information but not put in final metadata"
+yaml_anchors:
+    equipment_type: &EQUIPMENT_EMPTY
+        type: ~
+        description: ~
+        manufacturer: ~
+        vendor: ~
+        model: ~
+        serial_number: ~
+        calibration_date: ~
+    datalogger_lc2000: &EQUIPMENT_DATALOGGER_LC2000
+        <<: *EQUIPMENT_EMPTY
+        type: "delta-sigma A/D converter + digital filter"
+        description: "CS5321/22 delta-sigma A/D converter + FIR digital filter"
+        manufacturer: "Cirrus Logic"
+        model: "CS5321/22"
+
+revision: 
+    date: "2017-11-30"
+    authors: 
+        -
+            first_name: "Wayne"
+            last_name: "Crawford"
+            email: "crawford@ipgp.fr"
+instrument_components:
+    instrument_blocks:
+        sensor:
+            generic: # keys = MAKE_MODEL_CONFIG
+                "NANOMETRICS_T240_SINGLESIDED":
+                    equipment:
+                        <<: *EQUIPMENT_EMPTY
+                        model: "Trillium T240 (single-sided)"
+                        type: "Broadband seismometer"
+                        description: "Trillium T240 single-sided"
+                        manufacturer: "Nanometrics, Inc"
+                        vendor: "Nanometrics, Inc"
+                    seed_codes:
+                        band_base: "B"
+                        instrument: "H"
+                        orientation:
+                            "Z": {azimuth.deg: [0,0],    dip.deg: [-90,0]}
+                            "1": {azimuth.deg: [0,180],  dip.deg: [0,0]}
+                            "2": {azimuth.deg: [90,180], dip.deg: [0,0]}
+                    response_stages:
+                        - $ref: "responses/Sensors/Trillium_T240_SN1-399-singlesided_theoretical.response.yaml"
+                "SIO_DPG":
+                    notes: 
+                        - >-
+                            dip value assumes pressure gauge positive correponds to increasing pressure
+                            in upward compressional wave (seafloor up => pressure up)
+                        - "orientation H=hydrophone, F=infrasound.  Which to use?"
+                    equipment:
+                        <<: *EQUIPMENT_EMPTY
+                        model: "DPG"
+                        type: "Differential Pressure Gauge"
+                        description: "Differential Pressure Gauge"
+                    seed_codes:
+                        band_base: "B"
+                        instrument: "D"
+                        orientation:
+                            "H": {azimuth.deg: [0,0], dip.deg: [90,0]}
+                            "F": {azimuth.deg: [0,0], dip.deg: [90,0]}
+                    response_stages:
+                        - $ref: "responses/Sensors/SIO-LDEO_DPG_generic_theoretical.response.yaml"
+                "HITECH_HTI90U": 
+                    equipment:
+                        <<: *EQUIPMENT_EMPTY
+                        model: "HTI-90-U"
+                        type: "Hydrophone"
+                        description: >-
+                                HiTech HTI-90-U hydrophone with integrated preamp,
+                                0.05-2500 Hz
+                        manufacturer: "HiTech, inc"
+                    seed_codes:
+                        band_base: "B"
+                        instrument: "D"
+                        orientation:
+                            "H": {azimuth.deg: [0,0], dip.deg: [90,0]}
+                    response_stages:
+                        - $ref: "responses/Sensors/HiTech_HTI-90U_SIO-preamp_theoretical.response.yaml"
+                "HITECH_HTI04-PLC-ULF": 
+                    notes: 
+                        - >-
+                            dip value assumes hydrophone positive correponds to increasing pressure
+                            in upward compressional wave (seafloor up => pressure up)
+                    equipment:
+                        <<: *EQUIPMENT_EMPTY
+                        model: "HTI-04-PLC-ULF"
+                        type: "Hydrophone"
+                        description: >-
+                                "HiTech HTI-04-PLC-ULF hydrophone, 0.01-XXX Hz"
+                        manufacturer: "HiTech, inc"
+                    seed_codes:
+                        band_base: "B"
+                        instrument: "D"
+                        orientation:
+                            "H": {azimuth.deg: [0,0], dip.deg: [90,0]}
+                    response_stages:
+                        - $ref: "responses/Sensors/HiTech_HTI-04-PLC-ULF_voltage-mode_theoretical.response.yaml"
+                "SERCEL_L28": 
+                    notes: 
+                        - "Not sure the sensor is 'high gain', but it is when combined with the LCHEAPO analog filter"
+                        - "Geophone Z channel is positive DOWN"
+                    equipment:
+                        <<: *EQUIPMENT_EMPTY
+                        model: "L-28LB"
+                        type: "Geophone"
+                        description: "Sercel L-28LB 4.5 Hz 3C geophone"
+                        manufacturer: "Sercel"
+                    seed_codes:
+                        band_base: "S"
+                        instrument: "H"
+                        orientation:
+                            "Z": {azimuth.deg: [0,0],    dip.deg: [-90,0]}
+                            "3": {azimuth.deg: [0,0],    dip.deg: [90,0]}
+                            "1": {azimuth.deg: [0,180],  dip.deg: [0,0]}
+                            "2": {azimuth.deg: [90,180], dip.deg: [0,0]}
+                    response_stages:
+                        - $ref: "responses/Sensors/Sercel_L28LB_LCHEAPO_theoretical.response.yaml"
+                "SERCEL_L22":
+                    notes: 
+                        - "Not sure the L22 is 'high gain', but it is when combined with the LCHEAPO analog filter"
+                        - "Geophone Z channel is positive DOWN"
+                    equipment:
+                        <<: *EQUIPMENT_EMPTY
+                        type: "Geophone"
+                        description: "Sercel L-22 2 Hz vertical geophone"
+                        manufacturer: "Sercel"
+                        model: "L-22D"
+                    seed_codes:
+                        band_base: "S"
+                        instrument: "H"
+                        orientation:
+                            "Z": {azimuth.deg: [0,180], dip.deg: [-90,0]}
+                            "3": {azimuth.deg: [0,180], dip.deg: [90,0]}
+                    response_stages:
+                        - $ref: "responses/Sensors/Sercel_L22D_LCHEAPO_theoretical.response.yaml"
+            specific:
+                "NANOMETRICS_T240_SINGLESIDED" :
+                    "132":
+                        response_stages: [ {$ref: "responses/Sensors/Trillium_T240_SN1-399-singlesided_theoretical.response.yaml"}]
+                    "133": 
+                        response_stages: [ {$ref: "responses/Sensors/Trillium_T240_SN1-399-singlesided_theoretical.response.yaml"}]
+                    "134": 
+                        response_stages: [ {$ref: "responses/Sensors/Trillium_T240_SN1-399-singlesided_theoretical.response.yaml"}]
+                    "136": 
+                        response_stages: [ {$ref: "responses/Sensors/Trillium_T240_SN1-399-singlesided_theoretical.response.yaml"}]
+                    "137": 
+                        response_stages: [ {$ref: "responses/Sensors/Trillium_T240_SN1-399-singlesided_theoretical.response.yaml"}]
+                    "138": 
+                        response_stages: [ {$ref: "responses/Sensors/Trillium_T240_SN1-399-singlesided_theoretical.response.yaml"}]
+                    "826": 
+                        response_stages: [ {$ref: "responses/Sensors/Trillium_T240_SN400-singlesided_theoretical.response.yaml"}]
+                    "829": 
+                        response_stages: [ {$ref: "responses/Sensors/Trillium_T240_SN400-singlesided_theoretical.response.yaml"}]
+                    "830": 
+                        response_stages: [ {$ref: "responses/Sensors/Trillium_T240_SN400-singlesided_theoretical.response.yaml"}]
+                    "Sphere01":
+                        response_stages: [ {$ref: "responses/Sensors/Trillium_T240_SN1-399-singlesided_theoretical.response.yaml"}]
+                        equipment: {serial_number: "133"}
+                    "Sphere02":
+                        response_stages: [ {$ref: "responses/Sensors/Trillium_T240_SN1-399-singlesided_theoretical.response.yaml"}]
+                        equipment: {serial_number: "132"}
+                    "Sphere03":
+                        response_stages: [ {$ref: "responses/Sensors/Trillium_T240_SN1-399-singlesided_theoretical.response.yaml"}]
+                        equipment: {serial_number: "134"}
+                    "Sphere04":
+                        response_stages: [ {$ref: "responses/Sensors/Trillium_T240_SN1-399-singlesided_theoretical.response.yaml"}]
+                        equipment: {serial_number: "138"}
+                    "Sphere05":
+                        response_stages: [ {$ref: "responses/Sensors/Trillium_T240_SN1-399-singlesided_theoretical.response.yaml"}]
+                        equipment: {serial_number: "137"}
+                    "Sphere06":
+                        response_stages: [ {$ref: "responses/Sensors/Trillium_T240_SN400-singlesided_theoretical.response.yaml"}]
+                        equipment: {serial_number: "830"}
+                    "Sphere07":
+                        response_stages: [ {$ref: "responses/Sensors/Trillium_T240_SN1-399-singlesided_theoretical.response.yaml"}]
+                        equipment: {serial_number: "136"}
+                    "Sphere08":
+                        response_stages: [ {$ref: "responses/Sensors/Trillium_T240_SN400-singlesided_theoretical.response.yaml"}]
+                        equipment: {serial_number: "829"}
+                    "Sphere09":
+                        response_stages: [ {$ref: "responses/Sensors/Trillium_T240_SN400-singlesided_theoretical.response.yaml"}]
+                        equipment: {serial_number: "826"}
+                "SIO_DPG":
+                    "5004": 
+                        equipment: {manufacturer: "SIO"}
+                        response_stages: [ {$ref: "responses/Sensors/SIO-LDEO_DPG_5004_calibrated.response.yaml"}]
+                    "5018":
+                        equipment: {manufacturer: "SIO"}
+                        response_stages: [ {$ref: "responses/Sensors/SIO-LDEO_DPG_5018_calibrated.response.yaml"}]
+                    "5027":
+                        equipment: {manufacturer: "SIO"}
+                    "IP004":
+                        equipment: {manufacturer: "IPGP"}
+                    "IP005":
+                        equipment: {manufacturer: "IPGP"}
+                    "IP006":
+                        equipment: {manufacturer: "IPGP"}
+                    "IP007":
+                        equipment: {manufacturer: "IPGP"}
+                    "LD013":
+                        equipment: {manufacturer: "LDEO"}
+                    "LDxxx":
+                        equipment: 
+                            manufacturer: "LDEO"
+                            description: "DPG on lost BBOBS9, did not note serial number"
+        preamplifier:
+            generic: # keys = MAKE_MODEL_CONFIG
+                "LCHEAPO_DPG-CARD": 
+                    equipment:
+                        <<: *EQUIPMENT_EMPTY
+                        type: "DPG Card"
+                        description: "Differential Pressure Gauge Card"
+                        model: "DPG-Card"
+                        manufacturer: "SIO-IPGP"
+                    response_stages:
+                        - $ref: "responses/Preamplifiers/SIO-LDEO_DPG-Card__theoretical.response.yaml"
+                "LCHEAPO_BBOBS-GAIN_0P225X": 
+                    equipment:
+                        <<: *EQUIPMENT_EMPTY
+                        type: "Analog gain card"
+                        description: "INSU BBOBS gain card : 0.225x"
+                        model: "BBOBS-GAIN_0P225x"
+                        manufacturer: "SIO or IPGP"
+                    response_stages:
+                        - $ref: "responses/Preamplifiers/INSU_BBOBS_gain0.225_theoretical.response.yaml"
+                "LCHEAPO_BBOBS-GAIN_1X": 
+                    equipment:
+                        <<: *EQUIPMENT_EMPTY
+                        type: "Analog gain card"
+                        description: "INSU BBOBS gain card : 1x"
+                        model: "BBOBS-GAIN_1x"
+                        manufacturer: "SIO or IPGP"
+                    response_stages:
+                        - $ref: "responses/Preamplifiers/INSU_BBOBS_gain1.0_theoretical.response.yaml"
+                "LCHEAPO_HYDRO-GAIN_16X": 
+                    equipment:
+                        <<: *EQUIPMENT_EMPTY
+                        type: "Analog gain/filter card"
+                        description: "SIO gain/filter card, hydro channel (16x)"
+                        manufacturer: "SIO or IPGP"
+                        model: "HYDRO-GAIN_16X"
+                    response_stages:
+                        - $ref: "responses/Preamplifiers/Scripps_SPOBS_HydroL22x16_theoretical.response.yaml"
+                "LCHEAPO_GEOPHONE-GAIN_128X": 
+                    equipment:
+                        <<: *EQUIPMENT_EMPTY
+                        type: "Analog gain/filter card"
+                        description: "SIO gain/filter card, seismo channel (128x)"
+                        manufacturer: "SIO or IPGP"
+                        model: "GEOPHONE-GAIN_16X"
+                    response_stages:
+                        - $ref: "responses/Preamplifiers/Scripps_SPOBS_HydroL22x128_theoretical.response.yaml"
+        datalogger:
+            generic: # keys = MAKE_MODEL_CONFIG
+                "LC2000_LOGGER_62":
+                    equipment:
+                        <<: *EQUIPMENT_DATALOGGER_LC2000
+                    delay_correction_samples: 29
+                    response_stages:
+                        - $ref: "responses/DataLoggers/Scripps_LCPO2000-CS5321__theoretical.response.yaml"
+                        - $ref: "responses/DataLoggers/Scripps_LCPO2000-CS5322_62.5sps_theoretical.response.yaml"
+                "LC2000_LOGGER_125":
+                    equipment:
+                        <<: *EQUIPMENT_DATALOGGER_LC2000
+                    delay_correction_samples: 29
+                    response_stages:
+                        - $ref: "responses/DataLoggers/Scripps_LCPO2000-CS5321__theoretical.response.yaml"
+                        - $ref: "responses/DataLoggers/Scripps_LCPO2000-CS5322_125sps_theoretical.response.yaml"
+                "LC2000_LOGGER_250":
+                    equipment:
+                        <<: *EQUIPMENT_DATALOGGER_LC2000
+                    delay_correction_samples: 29
+                    response_stages:
+                        - $ref: "responses/DataLoggers/Scripps_LCPO2000-CS5321__theoretical.response.yaml"
+                        - $ref: "responses/DataLoggers/Scripps_LCPO2000-CS5322_250sps_theoretical.response.yaml"
+                "LC2000_LOGGER_500":
+                    equipment:
+                        <<: *EQUIPMENT_DATALOGGER_LC2000
+                    delay_correction_samples: 29
+                    response_stages:
+                        - $ref: "responses/DataLoggers/Scripps_LCPO2000-CS5321__theoretical.response.yaml"
+                        - $ref: "responses/DataLoggers/Scripps_LCPO2000-CS5322_500sps_theoretical.response.yaml"
+                "LC2000_LOGGER_1000":
+                    equipment:
+                        <<: *EQUIPMENT_DATALOGGER_LC2000
+                    delay_correction_samples: 29
+                    response_stages:
+                        - $ref: "responses/DataLoggers/Scripps_LCPO2000-CS5321__theoretical.response.yaml"
+                        - $ref: "responses/DataLoggers/Scripps_LCPO2000-CS5322_1000sps_theoretical.response.yaml"

@@ -172,7 +172,7 @@ class station:
                     chan["band_code"],
                     chan["inst_code"],
                     chan["orientation_code"],
-                    chan["sample_rate"],
+                    chan["datalogger"].sample_rate,
                 )
                 channel = obspy_inventory.channel.Channel(
                     code=channel_code,
@@ -192,9 +192,9 @@ class station:
                     ),
                     dip=dip[0],
                     types=["CONTINUOUS", "GEOPHYSICAL"],
-                    sample_rate=chan["sample_rate"],
+                    sample_rate=chan["datalogger"].sample_rate,
                     clock_drift_in_seconds_per_sample=1
-                    / (1e8 * float(chan["sample_rate"])),
+                    / (1e8 * float(chan["datalogger"].sample_rate)),
                     sensor=oi_obspy.equipment(chan["sensor"].equipment),
                     pre_amplifier=oi_obspy.equipment(chan["preamplifier"].equipment)
                     if "preamplifier" in chan

@@ -125,8 +125,9 @@ class instrument_components:
                 code_list = None
             return code_list
         # LOAD GENERIC COMPONENT
+        sample_rate = self.instrument_blocks[block_type]["generic"][reference_code]["sample_rate"] if "sample_rate" in self.instrument_blocks[block_type]["generic"][reference_code] else None
         component = oi_instrument_component(
-            self.instrument_blocks[block_type]["generic"][reference_code], self.basepath
+            self.instrument_blocks[block_type]["generic"][reference_code], self.basepath, sample_rate=sample_rate
         )
 
         component.reference_code = reference_code

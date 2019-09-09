@@ -41,6 +41,7 @@ class instrument_component:
         basepath,
         component_type=None,
         reference_code=None,
+        sample_rate = None,
         debug=False,
     ):
         """ Inputs:
@@ -60,6 +61,7 @@ class instrument_component:
         self.response_superstages = component_dict["response_stages"]
         self.type = component_type
         self.reference_code = reference_code
+        self.sample_rate = sample_rate 
         self.response = None
 
     def __repr__(self):

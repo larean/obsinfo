@@ -1,0 +1,16 @@
+---
+format_version: "0.104"
+filter:
+    type: "PolesZeros"
+    units: "rad/s"
+    zeros:
+        - [0.0, 0.0]
+        - [0.0, 0.0]
+    poles:
+        - [19.99, 19.99]
+        - [19.99, -19.99]
+notes:
+    - "poles et zeros des Sercel L28LB 4.5 Hz geophones utilisés dans OBS LCHEAPOs "
+    - "  coil resistance: 395 ohms"
+    - "  shunt resistance: 2490 ohms"
+    - "  damping = 0.700"

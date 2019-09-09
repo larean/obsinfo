@@ -1,0 +1,23 @@
+---
+notes:
+    - "Based on June 2007 laboratory Calibration with BB02 logger"
+format_version: "0.104"
+response:
+    stages:
+        -
+          description : "SENSOR - DPG 5018" 
+          input_units :  {name: "PA", description: "PRESSURE"}
+          output_units : {name: "V", description: "VOLTS"}
+          calibration_date: "2007-01-01"
+          gain : 
+            value: 4.38e-4
+            frequency: 1
+          filter:
+            type : "PolesZeros"
+            units: "rad/s"
+            zeros :
+                - 0.0, 0.0
+            poles :
+                - -0.0138, 0.000
+          extras:
+            DBIRD_response_type : "CALIBRATED" 

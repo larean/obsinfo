@@ -20,7 +20,7 @@ class XmlTree:
     def add_ns(tag):
         return f"{XmlTree.ns}{tag}"
 
-    def xml_compare(self, x1, x2, excludes=["Created"]):
+    def xml_compare(self, x1, x2, excludes=["Created"], excludes_attributes=[]):
         """
         Compares two xml etrees
         :param x1: the first tree
@@ -34,7 +34,7 @@ class XmlTree:
         if x1.tag != x2.tag:
             return False, error(f"Tags do not match: {x1.tag} and {x2.tag}")
         for name, value in x1.attrib.items():
-            if not name in excludes:
+            if not name in excludes_attributes:
                 if x2.attrib.get(name) != value:
                     print(
                         error(
@@ -66,7 +66,7 @@ class XmlTree:
         for c1, c2 in zip(cl1, cl2):
             i += 1
             if not c1.tag in excludes:
-                if not self.xml_compare(c1, c2, excludes):
+                if not self.xml_compare(c1, c2, excludes,excludes_attributes):
                     print(c1.attrib,c2.attrib)
                     print(error(f"children {c1.tag} do not match with {c1.tag}"))
                     return False
@@ -92,11 +92,12 @@ def main():
 
     path = os.path.dirname(os.path.realpath(__file__))
     a = XmlTree()
-    xml1 = ET.parse(f"{path}/output/4G.BB_1.STATION.xml")
-    xml2 = ET.parse(f"{path}/outputTest/4G.BB_1.STATION.xml")
-    excludes = ["Created", "Real", "Imaginary", "Numerator"]
+    xml1 = ET.parse(f"{path}/output/4G.LPSCD.STATION.xml")
+    xml2 = ET.parse(f"{path}/outputTest/4G.LPSCD.STATION.xml")
+    excludes = ["Created", "Real", "Imaginary", "Numerator","CreationDate","TerminationDate","Name","Description"]
+    excludes_attributes= ["endDate","startDate"]
     excludes = [a.add_ns(x) for x in excludes]
-    print(a.xml_compare(a.getroot(xml1), a.getroot(xml2), excludes))
+    print(a.xml_compare(a.getroot(xml1), a.getroot(xml2),excludes=excludes,excludes_attributes=excludes_attributes))
 
 
 if __name__ == "__main__":

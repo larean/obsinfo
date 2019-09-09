@@ -25,12 +25,13 @@ def test_XX_station(compare):
     # test all stations
 
     # exluded element
-    excludes = ["Created", "Real", "Imaginary", "Numerator"]
+    excludes = ["Created", "Real", "Imaginary", "Numerator", "CreationDate", "Description"]
+    excludes_attributes = ["startDate", "endDate"]
     excludes = [compare.add_ns(x) for x in excludes]
     stationsXML = os.listdir(f"{path}/output/")
     for stxml in stationsXML:
         xml1 = ET.parse(f"{path}/output/{stxml}")
         xml2 = ET.parse(f"{path}/outputTest/{stxml}")
         assert compare.xml_compare(
-            compare.getroot(xml1), compare.getroot(xml2), excludes
+            compare.getroot(xml1), compare.getroot(xml2), excludes=excludes, excludes_attributes= excludes_attributes
         )

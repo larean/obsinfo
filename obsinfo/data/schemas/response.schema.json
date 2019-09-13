@@ -37,7 +37,8 @@
             "properties" : { 
                 "input_units":   { "$ref" : "#/definitions/stage_io_units" },
                 "output_units":   { "$ref" : "#/definitions/stage_io_units" },
-                "delay_correction": { "$ref" : "#/definitions/delay_correction" }
+                "delay_correction": { "$ref" : "#/definitions/delay_correction" },
+                "notes" :             {"$ref" : "definitions.schema.json#/notes"}
             }
         },
         "delay_correction": {

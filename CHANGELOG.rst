@@ -13,13 +13,10 @@ v0.106
     
     - input_sample_rate
     - output_sample_rate
-    - delay_correction.samples delay_correction.s or delay.correction.boolean
-      * if .s, sets correction=0 in all stages except last, where it is set
-        to delay_correction.s   
-      * if .samples, sets correction=0 in all stages except last, where it is set
-        to delay_correction.samples/sample_rate   
-      * if .boolean=False, sets Correction=0 in all stages   
-      * if .boolean=True, sets Correction=Delay in all stages
+    - delay_correction: it can be boolean or numeric
+      * if True, set correction=delay for each stage
+      * if False, set correction=0 for each stage
+      * if numeric, set correction=0 for all stage and  set correction=delay_correction for the last stage
 
   * move sample_rate from network: to instrument_components:datalogger:{MODEL}:{CONFIG}
   * made "processing" field as list in network:stations:{STATION}, moved
@@ -27,6 +24,7 @@ v0.106
   * added many tests
   * changed station positions and uncertainties from lists to objects with fields
     ``lat``, ``lon`` and ``elev``
+  * replace static source "INSU-IPGP OBS Park" in create XML by the facility of network
 
 
 

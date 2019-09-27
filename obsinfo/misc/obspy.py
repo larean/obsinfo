@@ -31,7 +31,7 @@ from ..network.util import create_comments
 # OBSPY-specific
 
 last_output = None
-def response_with_sensitivity(resp_stages, sensitivity, debug=True):
+def response_with_sensitivity(resp_stages, sensitivity, debug=False):
 
     true_sensitivity_input_units = None
 
@@ -369,7 +369,7 @@ def __get_decim_parms(stage, decimation_info):
 
     filter = stage["filter"]
     decim["offset"] = int(filter.get("delay.samples", 0))
-    # contourner le probleme
+    # cas sismob
     if "delay" in stage:
         decim["delay"] = stage["delay"]
     else:

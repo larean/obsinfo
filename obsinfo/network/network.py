@@ -83,11 +83,14 @@ class network:
         """
         my_net = self.__make_obspy_network(stations)
         if not source:
-            source = (
-                self.revision["author"]["first_name"]
-                + " "
-                + self.revision["author"]["last_name"]
-            )
+            if self.facility :
+                source = self.facility
+            else:   
+                source = (
+                    self.revision["author"]["first_name"]
+                    + " "
+                    + self.revision["author"]["last_name"]
+                )
         my_inv = obspy_inventory.inventory.Inventory([my_net], source)
         return my_inv
 
@@ -115,7 +118,7 @@ class network:
         station = self.stations[station_name]
         if debug:
             print("Creating obsPy inventory object")
-        my_inv = self.__make_obspy_inventory([station], "INSU-IPGP OBS Park")
+        my_inv = self.__make_obspy_inventory([station])
         if debug:
             print(yaml.dump(my_inv))
         if not destination_folder:

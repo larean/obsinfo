@@ -1,24 +1,25 @@
 v0.106
 ------
 
-- Move sample_rate from network: to instrument_components:datalogger:{MODEL}:{CONFIG}
+- Moved ``sample_rate`` from ``network:`` to
+  ``instrument_components:datalogger:{MODEL}:{CONFIG}``
 
 - In ``network`` files:
 
-  * Move  ``station_location`` to station level 
-  * Change 'instrument' to 'instruments': [list of 'instrument']
-    for OBSs, there will be only one element
-  * add ``Comment`` in format station XML
-  * add ``start_time`` and ``end_time`` to ``channel``, if not given they
+  * Moved ``station_location`` to station level 
+  * Changed ``instrument`` to ``instruments``: [list of 'instrument']
+    (for OBSs, there will be only one element)
+  * Added ``Comment`` in format station XML
+  * Added ``start_time`` and ``end_time`` to ``channel``, if not given they
     take station dates
-  * add iris_unit list to ``input_unit`` and ``output_unit`` fields
-  * 'Z' no longer required at end of date field 
-  * made ``processing`` field: list in ``network:stations:{STATION}``, moved
+  * Added iris_unit list to ``input_unit`` and ``output_unit`` fields
+  * 'Z' is no longer required at end of date field 
+  * Made ``processing`` field: list in ``network:stations:{STATION}``, moved
     clock corrections there
   * changed station positions and uncertainties from lists to objects with fields
     ``lat``, ``lon`` and ``elev``
   * changed ``network:facility_reference_name`` to ``network:facility``
-    object with two fields: ``reference_name``` and ``full_name```
+    object with two fields: ``reference_name`` and ``full_name``
   
 - In ``response`` files:
 

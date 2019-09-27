@@ -34,7 +34,7 @@
 				"general_information" :    {"$ref" : "#/definitions/general_information"},
 				"instrumentation" :        {"$ref" : "definitions.schema.json#/URI_ref"},
 				"stations" :               {"$ref" : "#/definitions/stations"},
-				"notes" :                  {"$ref" : "definitions.schema.json#/commentys"},
+				"notes" :                  {"$ref" : "definitions.schema.json#/comments"},
 		        "extras":                  {"$ref" : "definitions.schema.json#/extras" }
 			},
 		    "additionalProperties" : false
@@ -72,7 +72,7 @@
                 "site",
                 "start_date",
                 "end_date",
-                "instrument",
+                "instruments",
                 "locations",
                 "station_location"
             ],
@@ -83,7 +83,7 @@
                 "start_date" :          {"$ref" : "definitions.schema.json#/date-time-Z" },
                 "end_date" :            {"$ref" : "definitions.schema.json#/date-time-Z" },
                 "station_location" :    {"$ref" : "#/definitions/location_code"},
-                "instrument" :         {"$ref" : "#/definitions/instruments" },
+                "instruments" :         {"$ref" : "#/definitions/instruments" },
                 "locations" :           {"$ref" : "#/definitions/locations" },
                 "processing" :          {"$ref" : "#/definitions/processing"},
 	            "extras" :              {"$ref" : "definitions.schema.json#/extras"},
@@ -250,38 +250,12 @@
                 { "type" : "null" }
             ]
         },
-        "instrument" : {
-            "type": "object",
-            "description": "Instrument reference",
-            "required": [
-                "reference_code"              
-            ],
-            "properties" : {
-                "reference_code":    {"$ref" : "#/definitions/reference_code" },
-                "serial_number":     {"$ref" : "#/definitions/serial_number"},
-                "channel_codes_locations": {
-                    "type" : "object",
-                    "description" : "specification by channel_location pairs",
-                    "patternProperties": {
-                        "^[A-Z]{3}_[0-9]{2}$": { "$ref": "#/definitions/channel_specification" }
-                    }
-                }
-            }
-        },
         "instruments": {
-           "anyOf": [
-                { 
-                    "$ref" : "#/definitions/instrument"
-                },                
-                {  
-                   "type": "array",
-                   "description":" list of instrument",
-                   "minItems" : 1,
-                   "items" : { "$ref" : "#/definitions/instrument"}
-                }
-            ]
+           "type": "array",
+           "description":" list of instrument",
+           "minItems" : 1,
+           "items" : { "$ref" : "#/definitions/instrument"}
         },
-
         "instrument":
         {
              "type": "object",

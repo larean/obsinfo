@@ -27,16 +27,13 @@ class station:
     """a station from the network information file"""
 
     def __init__(self, station_dict, station_code, network_code, debug=False):
-        """ station_dict is straight out of the network information file"""
+        """ Create a station object directly from a network file's 
+        station: element """
         self.comments = station_dict.get("comments", [])
         self.site = station_dict["site"]
         self.start_date = station_dict["start_date"]
         self.end_date = station_dict["end_date"]
-        self.instruments = (
-            station_dict["instrument"]
-            if type(station_dict["instrument"]) is list
-            else [station_dict["instrument"]]
-        )
+        self.instruments = station_dict["instruments"]
         self.station_location = station_dict["station_location"]
         self.locations = station_dict["locations"]
         self.processing = station_dict.get("processing", [])
@@ -50,62 +47,37 @@ class station:
 
     def __repr__(self):
         txt = "< {}: code={}, ".format(__name__, self.code)
-        if hasattr(self.instrument, "das_components"):
-            txt = txt + "instrument={} >".format(self.instrument)
-        else:
-            # print(self.instrument)
-            txt = txt + "instrument= ['{}','{}']".format(
-                self.instrument["reference_code"], self.instrument["serial_number"]
-            )
+        for inst in self.instruments:
+            if hasattr(inst, "das_components"):
+                txt += "instrument={} >".format(inst)
+            else:
+                txt += "instrument= ['{}','{}']".format(
+                    inst["reference_code"], inst["serial_number"]
+                )
         return txt
 
-    def fill_instrument(self, instrument_file, referring_file=None, debug=False):
+    def fill_instrument(self, instrument_file, referring_file=None):
         """ Fills in instrument information """
-        self.partial_fill_instrument(instrument_file, referring_file)
-        if debug:
-            print(yaml.dump(self.instrument.das_components))
-
+        self.partial_fill_instruments(instrument_file, referring_file)
         if self.sensors:
             print("Adding custom sensors")
-            self.instrument.modify_sensors(self.sensors, referring_file)
-            if debug:
-                print(self.sensors)
-        for key in self.instruments.keys():
-            self.instruments[key].fill_responses()
-        if debug:
-            print(self.instrument.das_components)
+            self.instruments.modify_sensors(self.sensors, referring_file)
+        for inst in self.instruments:
+            inst.fill_responses()
 
-    def partial_fill_instrument(
-        self, instrument_file, referring_file=None, debug=False
-    ):
-        """ Fills in instrument information, but without specific component information """
-        instruments = {}
-        for instrument in self.instruments:
-            reference_code = instrument["reference_code"]
-            instruments[reference_code] = oi_instrument(
-                instrument_file["$ref"], instrument, referring_file=referring_file
-            )
-            # self.__verify_revision_date(instrument_file['revision_date'])
-            if debug:
-                print("INSTRUMENT DAS COMPONENTS: PRE-LOAD")
-                print(yaml.dump(self.instrument.das_components))
-            instruments[reference_code].load_components(
-                instruments[reference_code].components_file,
-                instruments[reference_code].basepath,
-            )
-            if debug:
-                print("INSTRUMENT DAS COMPONENTS: POST-LOAD")
-                print(yaml.dump(self.instrument.das_components))
-            self.operator = instruments[reference_code].facility  # à verifier??
-            if debug:
-                print("INSTRUMENT : POST-LOAD")
-                print(yaml.dump(self))
+    def partial_fill_instruments(self, instrument_file, 
+                                 referring_file=None, debug=True ):
+        """ Converts network file instrument objects to Instrument class.
+            ??? Does not fill in component responses ??? """
+        instruments = []
+        for inst_dict in self.instruments:
+            inst = oi_instrument(instrument_file["$ref"], inst_dict,
+                                 referring_file=referring_file)
+            inst.load_components(inst.components_file, inst.basepath)
+            self.operator = inst.facility  # à verifier??
+            #instruments[inst_dict["reference_code"]]=inst
+            instruments.append(inst)
         self.instruments = instruments
-
-    #     def __verify_revision_date(self,reference_revision_date):
-    #         if not self.instrument.revision['date'] == reference_revision_date :
-    #             print('ERROR!: instrument file revision date is not that specified in network file')
-    #             sys.exit(1)
 
     def make_obspy_station(self, debug=False):
         """
@@ -116,7 +88,7 @@ class station:
         # if debug:
         #    print(self)
         channels = []
-        for instrument in self.instruments.values():
+        for instrument in self.instruments:
             resource_id = instrument.resource_id
             for key, chan in instrument.das_components.items():
                 if debug:
@@ -257,7 +229,7 @@ class station:
                 geology=sta_loc["geology"],
                 equipments=[
                     oi_obspy.equipment(instrument.equipment)
-                    for instrument in self.instruments.values()
+                    for instrument in self.instruments
                 ],
                 operators=[operator],
                 creation_date=start_date,  # Necessary for obspy to write StationXML

@@ -8,36 +8,41 @@ v0.106
   * Move  ``station_location`` to station level 
   * Change 'instrument' to 'instruments': [list of 'instrument']
     for OBSs, there will be only one element
-  * add Comment in format station XML
-  * add start_time and end_time to channel, if not given they take station dates'
-  * add iris_unit list to input_unit and output_unit  field
-  * Z in date field is not required  
-  * made "processing" field as list in network:stations:{STATION}, moved
+  * add ``Comment`` in format station XML
+  * add ``start_time`` and ``end_time`` to ``channel``, if not given they
+    take station dates
+  * add iris_unit list to ``input_unit`` and ``output_unit`` fields
+  * 'Z' no longer required at end of date field 
+  * made ``processing`` field: list in ``network:stations:{STATION}``, moved
     clock corrections there
   * changed station positions and uncertainties from lists to objects with fields
     ``lat``, ``lon`` and ``elev``
-  * changed ```network:facility_reference_name``` to ```network:facility```
-    object with two fields: ```reference_name``` and ```full_name```
+  * changed ``network:facility_reference_name`` to ``network:facility``
+    object with two fields: ``reference_name``` and ``full_name```
   
 - In ``response`` files:
 
-  * change response:stage:filter:offset to response:stage:filter:delay.samples
-  * add response:decimation_info: with following elements
+  * changed ``response:stage:filter:offset`` to 
+    ``response:stage:filter:delay.samples``
+  * added ``response:decimation_info:`` with following elements
 
-    - input_sample_rate
-    - output_sample_rate
-    - delay_correction: it can be boolean or numeric
+    - ``input_sample_rate`` : ``numeric``
+    - ``output_sample_rate`` : ``numeric``
+    - ``delay_correction``: ``boolean`` or ``numeric``
     
-      * if True, set correction=delay for each stage
-      * if False, set correction=0 for each stage
-      * if numeric, set correction=0 for all stage and  set correction=delay_correction for the last stage
+      * if ``True``, set ``correction=delay`` for each stage
+      * if ``False``, set ``correction=0`` for each stage
+      * if ``numeric``, set ``correction=0`` for all but the last stage and 
+        ``correction=delay_correction`` for the last stage
+
+    - ``notes``: ``string``
 
 - In code
 
-  * delete atomatic around_down/up_minutes in start/end_time station
+  * delete automatic around_down/up_minutes in start/end_time station
   * added many tests
-  * StationXML Inventory source is now ```network:facility:full_name``` (or
-    ```revision:author`` if ```full_name``` not provided)
+  * StationXML Inventory source is now ``network:facility:full_name`` (or
+    ``revision:author`` if ``full_name`` not provided)
     
 
 v0.105

@@ -22,14 +22,14 @@
 		"network": {
 			"type": "object",
 			"required": [
-		        "facility_reference_name",
+		        "facility",
 		        "campaign_reference_name",
 				"general_information",
 				"instrumentation",
 				"stations"
 			],
 			"properties": {
-                "facility_reference_name": {"$ref" : "definitions.schema.json#/reference_name"},
+                "facility":                {"$ref" : "#/definitions/facility"},
                 "campaign_reference_name": {"$ref" : "definitions.schema.json#/reference_name"},
 				"general_information" :    {"$ref" : "#/definitions/general_information"},
 				"instrumentation" :        {"$ref" : "definitions.schema.json#/URI_ref"},
@@ -39,6 +39,15 @@
 			},
 		    "additionalProperties" : false
 		},
+	    "facility" : {
+            "description": "Facility information",
+            "type": "object",
+            "required" : [ "reference_name" ],
+            "properties" : {
+                "reference_name": {"$ref" : "definitions.schema.json#/reference_name"},
+                "full_name" :     {"type" : "string" ,  "description": "Full facility name"}
+            }
+        },
 	    "general_information" : {
             "description": "Network information (if this is an FDSN network values should correspond to those on FDSN network page",
             "type": "object",

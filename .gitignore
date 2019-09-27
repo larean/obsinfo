@@ -1,4 +1,3 @@
-
 *~
 \#*
 .#*
@@ -22,7 +21,7 @@ dist/*
 tests/output/*
 evalresp-4.0.6
 MyTests
-**/__pycache__/
+**/__pycache__/*
 *.jar
 *.xml
 mydist.sh

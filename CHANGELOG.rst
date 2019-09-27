@@ -1,34 +1,42 @@
 v0.106
 ------
 
+- Move sample_rate from network: to instrument_components:datalogger:{MODEL}:{CONFIG}
+
+- In ``network`` files:
+
   * Move  ``station_location`` to station level 
-  * Change 'instrument' in network file to 'instruments': list of 'instrument'
+  * Change 'instrument' to 'instruments': [list of 'instrument']
     for OBSs, there will be only one element
   * add Comment in format station XML
   * add start_time and end_time to channel, if not given they take station dates'
   * add iris_unit list to input_unit and output_unit  field
-  * delete atomatic  around_down/up_minutes in start/end_time station
   * Z in date field is not required  
+  * made "processing" field as list in network:stations:{STATION}, moved
+    clock corrections there
+  * changed station positions and uncertainties from lists to objects with fields
+    ``lat``, ``lon`` and ``elev``
+  * changed ```network:facility_reference_name``` to ```network:facility```
+    object with two fields: ```reference_name``` and ```full_name```
+  
+- In ``response`` files:
   * change response:stage:filter:offset to response:stage:filter:delay.samples
   * add response:decimation_info: with following elements
-    
+
     - input_sample_rate
     - output_sample_rate
     - delay_correction: it can be boolean or numeric
+    
       * if True, set correction=delay for each stage
       * if False, set correction=0 for each stage
       * if numeric, set correction=0 for all stage and  set correction=delay_correction for the last stage
 
-  * move sample_rate from network: to instrument_components:datalogger:{MODEL}:{CONFIG}
-  * made "processing" field as list in network:stations:{STATION}, moved
-    clock corrections there
+- In code
+  * delete atomatic around_down/up_minutes in start/end_time station
   * added many tests
-  * changed station positions and uncertainties from lists to objects with fields
-    ``lat``, ``lon`` and ``elev``
-  * replace static source "INSU-IPGP OBS Park" in create XML by the facility of network
-
-
-
+  * StationXML Inventory source is now ```network:facility:full_name``` (or
+    ```revision:author`` if ```full_name``` not provided)
+    
 
 v0.105
 ------

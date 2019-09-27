@@ -1,12 +1,7 @@
-""" 
+"""
 station object in network information file
-
 """
 # Standard library modules
-# import math as m
-# import json
-# import pprint
-# import os.path
 import sys
 
 # Non-standard modules
@@ -18,16 +13,16 @@ from obspy.core.utcdatetime import UTCDateTime
 
 from ..misc import misc as oi_misc
 from ..misc import obspy as oi_obspy
-from ..misc.misc import round_down_minute, round_up_minute, make_channel_code
+# from .util import create_comments
+from ..misc.misc import make_channel_code
 from ..instrumentation import instrument as oi_instrument
-from .util import create_comments
 
-################################################################################
+
 class station:
     """a station from the network information file"""
 
     def __init__(self, station_dict, station_code, network_code, debug=False):
-        """ Create a station object directly from a network file's 
+        """ Create a station object directly from a network file's
         station: element """
         self.comments = station_dict.get("comments", [])
         self.site = station_dict["site"]
@@ -65,8 +60,8 @@ class station:
         for inst in self.instruments:
             inst.fill_responses()
 
-    def partial_fill_instruments(self, instrument_file, 
-                                 referring_file=None, debug=True ):
+    def partial_fill_instruments(self, instrument_file,
+                                 referring_file=None, debug=True):
         """ Converts network file instrument objects to Instrument class.
             ??? Does not fill in component responses ??? """
         instruments = []
@@ -75,7 +70,7 @@ class station:
                                  referring_file=referring_file)
             inst.load_components(inst.components_file, inst.basepath)
             self.operator = inst.facility  # à verifier??
-            #instruments[inst_dict["reference_code"]]=inst
+            # instruments[inst_dict["reference_code"]]=inst
             instruments.append(inst)
         self.instruments = instruments
 
@@ -89,7 +84,7 @@ class station:
         #    print(self)
         channels = []
         for instrument in self.instruments:
-            resource_id = instrument.resource_id
+            # resource_id = instrument.resource_id
             for key, chan in instrument.das_components.items():
                 if debug:
                     print(key)
@@ -99,15 +94,14 @@ class station:
                 loc_code = chan["location_code"]
                 try:
                     location = self.locations[loc_code]
-                except:
-                    print(
-                        f"location code {loc_code} not found in self.locations, valid keys are:"
-                    )
+                except KeyError:
+                    print(f"location code {loc_code} not found in ")
+                    print("self.locations, valid keys are:")
                     for key in self.locations.keys():
                         print(key)
                     sys.exit(2)
                 obspy_lon, obspy_lat = oi_obspy.lon_lats(location)
-                azimuth, dip = oi_misc.get_azimuth_dip(
+                azi, dip = oi_misc.get_azimuth_dip(
                     chan["sensor"].seed_codes, chan["orientation_code"]
                 )
                 start_date = None
@@ -135,7 +129,8 @@ class station:
                 # print(location)
                 if "localisation_method" in location:
                     channel_comment = obspy_util.Comment(
-                        "Localised using : {}".format(location["localisation_method"])
+                        "Localised using : {}".format(
+                                location["localisation_method"])
                     )
                 else:
                     channel_comment = None
@@ -146,6 +141,7 @@ class station:
                     chan["orientation_code"],
                     chan["datalogger"].sample_rate,
                 )
+                start_date = start_date_chan if start_date_chan else start_date
                 channel = obspy_inventory.channel.Channel(
                     code=channel_code,
                     location_code=loc_code,
@@ -158,9 +154,9 @@ class station:
                     ),
                     depth=location["depth.m"],
                     azimuth=obspy_types.FloatWithUncertainties(
-                        azimuth[0],
-                        lower_uncertainty=azimuth[1] if len(azimuth) is 2 else 0,
-                        upper_uncertainty=azimuth[1] if len(azimuth) is 2 else 0,
+                        azi[0],
+                        lower_uncertainty=azi[1] if len(azi) == 2 else 0,
+                        upper_uncertainty=azi[1] if len(azi) == 2 else 0,
                     ),
                     dip=dip[0],
                     types=["CONTINUOUS", "GEOPHYSICAL"],
@@ -168,15 +164,17 @@ class station:
                     clock_drift_in_seconds_per_sample=1
                     / (1e8 * float(chan["datalogger"].sample_rate)),
                     sensor=oi_obspy.equipment(chan["sensor"].equipment),
-                    pre_amplifier=oi_obspy.equipment(chan["preamplifier"].equipment)
+                    pre_amplifier=oi_obspy.equipment(
+                                    chan["preamplifier"].equipment)
                     if "preamplifier" in chan
                     else None,
-                    data_logger=oi_obspy.equipment(chan["datalogger"].equipment),
+                    data_logger=oi_obspy.equipment(
+                                    chan["datalogger"].equipment),
                     equipment=None,
                     response=response,
                     description=None,
                     comments=[channel_comment] if channel_comment else None,
-                    start_date=start_date_chan if start_date_chan else start_date,
+                    start_date=start_date,
                     end_date=end_date_chan if end_date_chan else end_date,
                     restricted_status=None,
                     alternate_code=None,
@@ -191,9 +189,8 @@ class station:
                 sta_loc = self.locations[station_loc_code]
                 obspy_lon, obspy_lat = oi_obspy.lon_lats(sta_loc)
             else:
-                print(
-                    "No valid location code for station, either set station_location_code or provide a location '00'"
-                )
+                print("No valid location code for station, either ", end='')
+                print("set station_location_code or provide a location '00'")
                 sys.exit()
 
             obspy_comments = oi_obspy.comments(
@@ -232,7 +229,7 @@ class station:
                     for instrument in self.instruments
                 ],
                 operators=[operator],
-                creation_date=start_date,  # Necessary for obspy to write StationXML
+                creation_date=start_date,  # Needed to write StationXML
                 termination_date=end_date,
                 description=None,
                 comments=obspy_comments,

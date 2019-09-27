@@ -20,6 +20,7 @@ v0.106
     object with two fields: ```reference_name``` and ```full_name```
   
 - In ``response`` files:
+
   * change response:stage:filter:offset to response:stage:filter:delay.samples
   * add response:decimation_info: with following elements
 
@@ -32,6 +33,7 @@ v0.106
       * if numeric, set correction=0 for all stage and  set correction=delay_correction for the last stage
 
 - In code
+
   * delete atomatic around_down/up_minutes in start/end_time station
   * added many tests
   * StationXML Inventory source is now ```network:facility:full_name``` (or

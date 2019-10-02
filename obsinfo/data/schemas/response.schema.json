@@ -35,10 +35,12 @@
             "type" : "object",
             "description" : "Decimation info",
             "properties" : { 
-                "input_units":   { "$ref" : "#/definitions/stage_io_units" },
-                "output_units":   { "$ref" : "#/definitions/stage_io_units" },
-                "delay_correction": { "$ref" : "#/definitions/delay_correction" },
-                "notes" :             {"$ref" : "definitions.schema.json#/notes"}
+                "input_units":       { "$ref" : "#/definitions/stage_io_units" },
+                "output_units":      { "$ref" : "#/definitions/stage_io_units" },
+                "input_sample_rate": { "type" : "number",  "description": "DecimationType:InputSampleRate"},
+                "output_sample_rate":{ "type" : "number",  "description": "DecimationType:OutputSampleRate"},
+                "delay_correction":  { "$ref" : "#/definitions/delay_correction" },
+                "notes" :            {"$ref" : "definitions.schema.json#/notes"}
             },
 	        "additionalProperties" : false
         },

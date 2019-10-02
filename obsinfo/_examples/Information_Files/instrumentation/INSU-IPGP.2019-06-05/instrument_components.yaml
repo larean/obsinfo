@@ -275,7 +275,7 @@ instrument_components:
                         - $ref: "responses/Preamplifiers/Scripps_SPOBS_HydroL22x128_theoretical.response.yaml"
         datalogger:
             generic: # keys = MAKE_MODEL_CONFIG
-                "LC2000_LOGGER_62":
+                "LC2000_LOGGER_62.5sps":
                     equipment:
                         <<: *EQUIPMENT_DATALOGGER_LC2000
                     sample_rate: 62.5
@@ -283,7 +283,7 @@ instrument_components:
                     response_stages:
                         - $ref: "responses/DataLoggers/Scripps_LCPO2000-CS5321__theoretical.response.yaml"
                         - $ref: "responses/DataLoggers/Scripps_LCPO2000-CS5322_62.5sps_theoretical.response.yaml"
-                "LC2000_LOGGER_125":
+                "LC2000_LOGGER_125sps":
                     sample_rate: 125.
                     equipment:
                         <<: *EQUIPMENT_DATALOGGER_LC2000
@@ -291,7 +291,7 @@ instrument_components:
                     response_stages:
                         - $ref: "responses/DataLoggers/Scripps_LCPO2000-CS5321__theoretical.response.yaml"
                         - $ref: "responses/DataLoggers/Scripps_LCPO2000-CS5322_125sps_theoretical.response.yaml"
-                "LC2000_LOGGER_250":
+                "LC2000_LOGGER_250sps":
                     sample_rate: 150.
                     equipment:
                         <<: *EQUIPMENT_DATALOGGER_LC2000
@@ -299,7 +299,7 @@ instrument_components:
                     response_stages:
                         - $ref: "responses/DataLoggers/Scripps_LCPO2000-CS5321__theoretical.response.yaml"
                         - $ref: "responses/DataLoggers/Scripps_LCPO2000-CS5322_250sps_theoretical.response.yaml"
-                "LC2000_LOGGER_500":
+                "LC2000_LOGGER_500sps":
                     sample_rate: 500.
                     equipment:
                         <<: *EQUIPMENT_DATALOGGER_LC2000
@@ -307,7 +307,7 @@ instrument_components:
                     response_stages:
                         - $ref: "responses/DataLoggers/Scripps_LCPO2000-CS5321__theoretical.response.yaml"
                         - $ref: "responses/DataLoggers/Scripps_LCPO2000-CS5322_500sps_theoretical.response.yaml"
-                "LC2000_LOGGER_1000":
+                "LC2000_LOGGER_1000sps":
                     sample_rate: 1000.
                     equipment:
                         <<: *EQUIPMENT_DATALOGGER_LC2000

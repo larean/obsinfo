@@ -39,7 +39,8 @@
                 "output_units":   { "$ref" : "#/definitions/stage_io_units" },
                 "delay_correction": { "$ref" : "#/definitions/delay_correction" },
                 "notes" :             {"$ref" : "definitions.schema.json#/notes"}
-            }
+            },
+	        "additionalProperties" : false
         },
         "delay_correction": {
             "anyOf" : [

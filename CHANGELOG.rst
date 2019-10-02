@@ -13,7 +13,7 @@ v0.106
   * Added ``start_time`` and ``end_time`` to ``channel``, if not given they
     take station dates
   * Added iris_unit list to ``input_unit`` and ``output_unit`` fields
-  * 'Z' is no longer required at end of date field 
+  * 'Z' is no longer required at end of date fields 
   * Made ``processing`` field: list in ``network:stations:{STATION}``, moved
     clock corrections there
   * changed station positions and uncertainties from lists to objects with fields

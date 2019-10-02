@@ -25,9 +25,9 @@ response:
     decimation_info:
         input_sample_rate: 32000
         output_sample_rate: 62.5
-        delay_correction.samples: 29
+        delay_correction: 0.464
         notes: 
-            - "Delay correction is hard-coded in LCHEAPO software"
+            - "Delay correction is hard-coded to 29 samples in LCHEAPO software"
     stages: 
         -   <<: *fir2
         -   <<: *fir2

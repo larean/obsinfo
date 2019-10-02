@@ -13,7 +13,7 @@ response:
     decimation_info:
         input_sample_rate: 409600
         output_sample_rate: 100
-        delay_correction.boolean: True
+        delay_correction: True
     stages: 
         - 
             <<: *BASE

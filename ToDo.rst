@@ -64,6 +64,11 @@ or even:
       "Configurations":
         {CONFIGURATION}:
 ``` 
+Would have to specify each of these (or have  default for the version and configuration).
+Could choose to use only model and configuration.  Would need to change Python code
+(but might be overall easier/clearer).  
+```network:stations:{STATION}:instruments:channel_codes_locations:{CODE_LOC}:``
+field datalogger_config might need to change to ```datalogger:config:```
 
 Minor
 ______

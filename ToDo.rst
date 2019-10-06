@@ -16,19 +16,19 @@ ______
 Use different keys for model & configuration (and version?)
 ------------------------------------------------------------
 
-Currently ```{MODEL}_{VERSION}_{CONFIGURATION}:```
+Currently ``{MODEL}_{VERSION}_{CONFIGURATION}:``
 
 Could do:
-```
+``
 {MODEL}:
   {VERSION}:
     {CONFIGURATION}:
     {CONFIGURATION}:
   {VERSION}:
     {CONFIGURATION}:
-```
+``
 or:
-```
+``
 {MODEL}:
   "Description"
   "Versions":
@@ -41,9 +41,9 @@ or:
       "Description":
       "Configurations":
         {CONFIGURATION}:
-``` 
+``
 or even:
-```
+``
 {MODEL}:
   "Description"
   "Versions":
@@ -63,12 +63,12 @@ or even:
       "Description":
       "Configurations":
         {CONFIGURATION}:
-``` 
+``
 Would have to specify each of these (or have  default for the version and configuration).
 Could choose to use only model and configuration.  Would need to change Python code
 (but might be overall easier/clearer).  
-```network:stations:{STATION}:instruments:channel_codes_locations:{CODE_LOC}:``
-field datalogger_config might need to change to ```datalogger:config:```
+``network:stations:{STATION}:instruments:channel_codes_locations:{CODE_LOC}:``
+field datalogger_config might need to change to ``datalogger:config:``
 
 Minor
 ______

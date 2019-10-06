@@ -10,6 +10,61 @@ ______
 
 - Crashes on empty or absent network.general_information.comments field
 
+Major
+______
+
+Use different keys for model & configuration (and version?)
+------------------------------------------------------------
+
+Currently ```{MODEL}_{VERSION}_{CONFIGURATION}:```
+
+Could do:
+```
+{MODEL}:
+  {VERSION}:
+    {CONFIGURATION}:
+    {CONFIGURATION}:
+  {VERSION}:
+    {CONFIGURATION}:
+```
+or:
+```
+{MODEL}:
+  "Description"
+  "Versions":
+    {VERSION}:
+      "Description":
+      "Configurations":
+        {CONFIGURATION}:
+        {CONFIGURATION}:
+    {VERSION}:
+      "Description":
+      "Configurations":
+        {CONFIGURATION}:
+``` 
+or even:
+```
+{MODEL}:
+  "Description"
+  "Versions":
+    "Default":
+      "Description":
+      "Configurations":
+        "Default":
+        {CONFIGURATION}:
+        {CONFIGURATION}:
+    {VERSION}:
+      "Description":
+      "Configurations":
+        "Default":
+        {CONFIGURATION}:
+        {CONFIGURATION}:
+    {VERSION}:
+      "Description":
+      "Configurations":
+        {CONFIGURATION}:
+``` 
+
 Minor
 ______
 
@@ -24,17 +79,27 @@ ______
   generate STATIONXML network information in the absence of informations directly from FDSN.  Its current name
   implies that the information belongs to the campaign, but several campaigns could be part of the same
   experiment/FDSN_network.
-- change positions from implicit [*lat*, *lon*, *elev*]  ("GeoJSON") to
-  explicit {latitude:*lat*, longitude:*lon*, elevation:*elev*}
-- same for uncertainties.m [*x.x*, *y.y*, *z.z*]=> {n:*y.y*, e:*x.x*, z:*z.z*}
 - **Define and use a standard naming system for response files**
+- Change model naming from ```reference_code:model_config``` to 
+   ```model: model```, ```config: config```.
+  Within instrumentation and instrument_component files make a new level for the
+  config instead of adding to  model name.  Use '1' for
+  all models with only one configuration.
+  
+  * Get rid of "model" in instrumentation: already specified as field
+- Make simpler network files in examples:
+  * SPOBS_250sps_BUC: one from MOMAR (SPOBS, HOCT and BUC location)
+  * BBOBS_61sps_SURFACE: one from PiLAB (BBOBS, acoustic survey and leap_second)
+  * HOCT_100sps_ACOUSTIC:
+  * MIX: mix of instruments and location methods
+  * LEAPSECOND: with leapsecond
+  * OBSOLETE:  weird cases and obsolete instruents 
+- State somewhere that a given model has the same channels
+  - Different configurations can have different responses
 
 MAYBES:
 -------------------
 
-
-Major
-______
 
 Define a "field separation" character?
 ------------------------------------------------------------

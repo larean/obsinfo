@@ -15,13 +15,13 @@ ______
 
 - Network file:
 
-    * Add ``bad_stations`` field at same level (and with same format) as
+    - Add ``bad_stations`` field at same level (and with same format) as
       ``stations``?  This would allow one correct specification of bad stations
       without the codes trying to make data from them.  But it would force the
       user to specify a start_date and end_date for data recovery statistics.
-    * Change ``network.general_information.description`` to 
+    - Change ``network.general_information.description`` to 
      ``network.general_information.name`` 
-    * Change ``network:general_information`` to
+    - Change ``network:general_information`` to
       ``network:fdsn_network_information`` (or
       ``network:STATIONXML_network_information``, or 
       ``network:experiement_information``).  This field is used to generate
@@ -46,9 +46,9 @@ ______
 - Define and use a standard naming system for response files
 
 - Change model naming from ``reference_code:model_config`` to 
-   ``reference_code: MODEL_VERS``, ``config: CONFIG``.
+  ``reference_code: MODEL_VERS``, ``config: CONFIG``.
 - Remove ``delay_correction_samples`` from ``instrument_components:datalogger``
-   ( I don't think it's used anymore anyway)
+  ( I don't think it's used anymore anyway)
 
   
 - Make simpler network files in examples:
@@ -78,11 +78,18 @@ Use different keys for ref_code & configuration
  - Also put specifics inside "generic"s? both at ``ref_code`` level and perhaps
    at ``config`` level
  - MAYBE:
+ 
     * Allow common parts of ``das_components`` to be specified as
-    ``base_component``?
+    ``base_component``? 
+    
+      - ``base_component`` would requires ``datalogger``, ``preamplifier``
+        and ``sensor``
+      - ``das_component`` would require ``orientation_code`` 
+      - order of reading would be(right overwrites left): base_component ->
+        das_components -> configurations -> serial_number -> network file specs::
+
    
-order of precedence (right overwrites left): das_components -> serial_number -> network file specs
-Example: Current model (151-line example)::
+Current model (151-line example)::
     instruments:
         generic:    # model_config
             "BBOBS_1_1":
@@ -235,8 +242,8 @@ Example: Current model (151-line example)::
                             preamplifier: {  serial_number: "23"}
                             sensor:     { serial_number: "5027"}                    
 
-to (93 lines)
-order of precedence (right overwrites left): das_components -> configurations -> serial_number -> network file specs::
+Using separate configuration (93 lines)::
+
     instruments:
         "BBOBS1":
             equipment:
@@ -331,10 +338,7 @@ order of precedence (right overwrites left): das_components -> configurations ->
                             <<: *BBOSBS1_1_03_SISMO
                             sensor:     { serial_number: "5027"}  
                             
-or, using the "base_component" concept (63 lines)
-  base_component requires datalogger, preamplifier and sensor, 
-  das_component requires orientation_code 
-order of reading (right overwrites left): base_component -> das_components -> configurations -> serial_number -> network file specs::
+adding the "base_component" concept (63 lines):
 
     instruments:
         "BBOBS1":

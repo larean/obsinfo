@@ -32,39 +32,42 @@ ______
       campaign, but several campaigns could be part of the same
       experiment/FDSN_network.
       
- - ?Put location code in instrumentation.yaml?
+- ?Put location code in instrumentation.yaml?
  
-   * (allows proper specification of Hydroctopus, for example)
+    - (allows proper specification of Hydroctopus, for example)
    
-   * Should automatically verify that channel_locations in network.yaml
-     correspond        
+    - Should automatically verify that channel_locations in network.yaml
+      correspond        
      
-   * Or only require a location code in instrumentation.yaml if there are
-     duplicate channel codes?
+    - Or only require a location code in instrumentation.yaml if there are
+      duplicate channel codes?
 
 - Code
 
-   - ``In obsinfo-make_process_scripts_*``, should ``--append`` imply
-     ``--noheader`` ?
+    - ``In obsinfo-make_process_scripts_*``, should ``--append`` imply
+      ``--noheader`` ?
    
 - Define and use a standard naming system for response files
 
 - Change model naming from ``reference_code:model_config`` to 
   ``reference_code: MODEL_VERS``, ``config: CONFIG``.
+  
 - Remove ``delay_correction_samples`` from ``instrument_components:datalogger``
   ( I don't think it's used anymore anyway)
 
   
 - Make simpler network files in examples:
-  * SPOBS_EXPT: one from MOMAR (SPOBS, HOCT and BUC location)
-  * BBOBS_EXPT: one from PiLAB (BBOBS, acoustic survey and leap_second)
-  * MANY_LOCS: showing many different location methods
-  * HOCT_EXPT: showing an instrument with many of the same sensors
-  * LEAPSECOND: with leapsecond
-  * LANDSTATION: Showing full specification of each channels acquistion chain
-  * CUSTOM-CONFIGS1: Show specification of gains
-  * CUSTOM-CONFIGS2: Show specification of gains and sensors
-  * OBSOLETE:  weird cases and obsolete instruents 
+
+    - SPOBS_EXPT: one from MOMAR (SPOBS, HOCT and BUC location)
+    - BBOBS_EXPT: one from PiLAB (BBOBS, acoustic survey and leap_second)
+    - MANY_LOCS: showing many different location methods
+    - HOCT_EXPT: showing an instrument with many of the same sensors
+    - LEAPSECOND: with leapsecond
+    - LANDSTATION: Showing full specification of each channels acquistion chain
+    - CUSTOM-CONFIGS1: Show specification of gains
+    - CUSTOM-CONFIGS2: Show specification of gains and sensors
+    - OBSOLETE:  weird cases and obsolete instruments 
+    
 - State somewhere that a given instrument should have a fixed number of channels
   - Different configurations can change anything about the responses/components
 

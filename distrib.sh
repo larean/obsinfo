@@ -1,4 +1,4 @@
-mkdir dist
+mkdir -p dist
 rm dist/*
 python setup.py sdist
 python setup.py bdist_wheel

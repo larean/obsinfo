@@ -15,7 +15,7 @@ setuptools.setup(
     description="Tools for documenting ocean bottom seismometer experiments and creating meta/data",
     long_description=long_description,
     long_description_content_type="text/x-rst; charset=UTF-8",
-    url="https://github.com/pypa/obsinfo",
+    url="https://github.com/WayneCrawford/obsinfo",
     packages=setuptools.find_packages(),
     include_package_data=True,
     install_requires=[
@@ -24,10 +24,6 @@ setuptools.setup(
           'jsonschema>=2.6',
           'jsonref>=0.2'
       ],
-#     scripts=[
-#         'scripts/obsinfo-print.py',
-#         'scripts/obsinfo-makeSTATIONXML.py'
-#     ],
     entry_points={
         'console_scripts': [
             'obsinfo-validate=obsinfo.misc.info_files:_validate_script',

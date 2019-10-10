@@ -43,7 +43,7 @@ ______
    * ``In obsinfo-make_process_scripts_*``, should ``--append`` imply
      ``--noheader`` ?
    
-- **Define and use a standard naming system for response files**
+- Define and use a standard naming system for response files
 
 - Change model naming from ``reference_code:model_config`` to 
    ``reference_code: MODEL_VERS``, ``config: CONFIG``.

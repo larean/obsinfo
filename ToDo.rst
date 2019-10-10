@@ -81,9 +81,8 @@ Use different keys for ref_code & configuration
     * Allow common parts of ``das_components`` to be specified as
     ``base_component``?
    
-Example: Current model (151-line example)
 order of precedence (right overwrites left): das_components -> serial_number -> network file specs
-``
+Example: Current model (151-line example)::
     instruments:
         generic:    # model_config
             "BBOBS_1_1":
@@ -235,10 +234,9 @@ order of precedence (right overwrites left): das_components -> serial_number -> 
                             datalogger: {  serial_number: "23"}
                             preamplifier: {  serial_number: "23"}
                             sensor:     { serial_number: "5027"}                    
-``
+
 to (93 lines)
-order of precedence (right overwrites left): das_components -> configurations -> serial_number -> network file specs
-``
+order of precedence (right overwrites left): das_components -> configurations -> serial_number -> network file specs::
     instruments:
         "BBOBS1":
             equipment:
@@ -331,13 +329,13 @@ order of precedence (right overwrites left): das_components -> configurations ->
                             <<: *BBOSBS1_1_03_SISMO
                         "4":
                             <<: *BBOSBS1_1_03_SISMO
-                            sensor:     { serial_number: "5027"}                    
-``
+                            sensor:     { serial_number: "5027"}  
+                            
 or, using the "base_component" concept (63 lines)
   base_component requires datalogger, preamplifier and sensor, 
   das_component requires orientation_code 
-order of reading (right overwrites left): base_component -> das_components -> configurations -> serial_number -> network file specs
-``
+order of reading (right overwrites left): base_component -> das_components -> configurations -> serial_number -> network file specs::
+
     instruments:
         "BBOBS1":
             equipment:
@@ -401,7 +399,6 @@ order of reading (right overwrites left): base_component -> das_components -> co
                         sensor:     {serial_number: "Sphere03"}
                     das_components:
                         "4": {sensor: { serial_number: "5027"}}                    
-``
 
 
 Allow user to specify complete instruments for a network

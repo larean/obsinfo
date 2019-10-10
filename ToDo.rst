@@ -40,7 +40,7 @@ ______
 
 - Code
 
-   * ``In obsinfo-make_process_scripts_*``, should ``--append`` imply
+   - ``In obsinfo-make_process_scripts_*``, should ``--append`` imply
      ``--noheader`` ?
    
 - Define and use a standard naming system for response files
@@ -90,6 +90,7 @@ Use different keys for ref_code & configuration
 
    
 Current model (151-line example)::
+
     instruments:
         generic:    # model_config
             "BBOBS_1_1":
@@ -338,7 +339,7 @@ Using separate configuration (93 lines)::
                             <<: *BBOSBS1_1_03_SISMO
                             sensor:     { serial_number: "5027"}  
                             
-adding the "base_component" concept (63 lines):
+adding the "base_component" concept (63 lines)::
 
     instruments:
         "BBOBS1":

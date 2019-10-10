@@ -42,6 +42,13 @@ ______
 
    * ``In obsinfo-make_process_scripts_*``, should ``--append`` imply
      ``--noheader`` ?
+
+   * Flatten the directory structure:
+     * Put instrumentation.py, instrument.py, instrument_components.py,
+       instrument_component.py, network.py and station.py at top level
+     * maybe put station in network.py, instrument in instrumentation.py
+       and instrument_component in instrument_components.py?
+     * will allow me to make a "test/" directory at this level
    
 - **Define and use a standard naming system for response files**
 

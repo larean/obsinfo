@@ -69,7 +69,7 @@ network:
         comments: 
             - "Lucky Strike Volcano, North Mid-Atlantic Ridge"
     instrumentation:
-        $ref: "../../instrumentation/INSU-IPGP.2019-06-05/instrumentation.yaml"
+        $ref: "../instrumentation/instrumentation.yaml"
     stations:
         "LSVW":
             site: "Lucky Strike Volcano West"

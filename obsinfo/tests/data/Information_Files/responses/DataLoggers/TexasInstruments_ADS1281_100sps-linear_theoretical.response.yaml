@@ -1,0 +1,50 @@
+---
+format_version: "0.106"
+notes:
+    - "From ads1281.pdf"
+yaml_anchors:
+    base: &BASE
+        gain :         {value: 1, frequency: 0}
+        input_units :  { name : "counts", description: "Digital Counts"}
+        output_units : { name : "counts", description: "Digital Counts"}
+        extras:
+            DBIRD_response_type : "THEORETICAL" 
+response:
+    decimation_info:
+        input_sample_rate: 409600
+        output_sample_rate: 100
+        delay_correction: True
+    stages: 
+        - 
+            <<: *BASE
+            description : "DECIMATION - ADS1281 SINC - 128x" 
+            notes: 
+                - "SINC FILTER NOT MODELED IN STATIONXML??, just input/output"
+                - "Assumes f_clk = 1.6384 MHz (standard = 4.096 MHz)"
+            decimation_factor : 128
+            filter:
+                type : "DIGITAL"
+        -
+            <<: *BASE
+            description : "DECIMATION - ADS1281 FIR1" 
+            decimation_factor : 2
+            filter: 
+                $ref: "../_filters/FIR/TexasInstruments_ADS1281_FIR1.filter.yaml#filter"
+        -
+            <<: *BASE
+            description : "DECIMATION - ADS1281 FIR2" 
+            decimation_factor : 2
+            filter: 
+                $ref: "../_filters/FIR/TexasInstruments_ADS1281_FIR2.filter.yaml#filter"
+        -
+            <<: *BASE
+            description : "DECIMATION - ADS1281 FIR3" 
+            decimation_factor : 4
+            filter: 
+                $ref: "../_filters/FIR/TexasInstruments_ADS1281_FIR3_LINEAR.filter.yaml#filter"
+        -
+            <<: *BASE
+            description : "DECIMATION - ADS1281 FIR4" 
+            decimation_factor : 2
+            filter: 
+                $ref: "../_filters/FIR/TexasInstruments_ADS1281_FIR4_LINEAR.filter.yaml#filter"

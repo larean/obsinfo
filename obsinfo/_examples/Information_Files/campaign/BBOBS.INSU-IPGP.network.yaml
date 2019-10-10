@@ -1,0 +1,93 @@
+---
+format_version: "0.106"
+notes:
+    - "comments are put into StationXML"
+    - "notes are not put in StationXML"
+yaml_anchors:
+    obs_clock_correction_linear_defaults: &LINEAR_CLOCK_DEFAULTS
+        time_base: "Seascan MCXO, ~1e-8 nominal drift"
+        reference: "GPS"
+        start_sync_instrument: 0
+    location_buc_drop: &LOC_BUC_DROP
+        depth.m: 0
+        geology: "unknown"
+        vault: "Sea floor"                    
+        uncertainties.m: {lon: 20, lat: 20, elev: 20}
+        localisation_method: "Short baseline transponder, near-seafloor release"
+    bbobs_62: &BBOBS_1_62
+        reference_code: "BBOBS_1_2"
+        channel_codes_locations:
+            "BDH_00" : {datalogger_config: "62.5sps"}
+            "BHZ_00" : {datalogger_config: "62.5sps"}
+            "BH1_00" : {datalogger_config: "62.5sps"}
+            "BH2_00" : {datalogger_config: "62.5sps"}    
+
+revision:
+    authors:
+        -
+            first_name : "Wayne"
+            last_name : "Crawford"
+            email: "crawford@ipgp.fr"
+    date: "2017-10-04"
+network:
+    facility:
+        reference_name: "INSU-IPGP"
+        full_name: "INSU-IPGP OBS Park"
+    campaign_reference_name: "MYCAMPAIGN"
+    general_information:
+        code: "4G"
+        start_date: "2007-07-01"
+        end_date: "2025-12-31"
+        description: "EMSO-MOMAR"
+        comments: 
+            - "Lucky Strike Volcano, North Mid-Atlantic Ridge"
+    instrumentation:
+        $ref: "../instrumentation/instrumentation.yaml"
+    stations:
+        "BB_1":
+            site: "My favorite site"
+            start_date: "2015-04-23T10:00:00"
+            end_date: "2016-05-28T15:37:00"
+            station_location: "00"
+            instruments:
+                - 
+                    <<: *BBOBS_1_62
+                    serial_number: "07"
+            locations:
+                "00":
+                    <<: *LOC_BUC_DROP
+                    position: {lon: -32.234, lat: 37.2806, elev: -1950}
+            processing:
+                - clock_corrections:
+                    linear_drift:
+                        <<: *LINEAR_CLOCK_DEFAULTS
+                        start_sync_reference: "2015-04-23T11:20:00"
+                        end_sync_reference: "2016-05-27T14:00:00.2450"
+                        end_sync_instrument: "22016-05-27T14:00:00"
+        "BB_2":
+            notes: 
+                - "Example changing the sensor from the default"
+            site: "My other favorite site"
+            start_date: "2015-04-23T10:00:00Z"
+            end_date: "2016-05-28T15:37:00Z"
+            station_location: "00"
+            instruments:
+                - 
+                    <<: *BBOBS_1_62
+                    serial_number: "07"
+                    channel_codes_locations:
+                        "BDH_00": {datalogger_config: "62.5sps", sensor: {serial_number : "IP007"}}
+                        "BH1_00": {datalogger_config: "62.5sps", sensor: {serial_number : "Sphere06"}}
+                        "BH2_00": {datalogger_config: "62.5sps", sensor: {serial_number : "Sphere06"}}
+                        "BHZ_00": {datalogger_config: "62.5sps", sensor: {serial_number : "Sphere06"}}
+            locations:
+                "00":
+                    <<: *LOC_BUC_DROP
+                    position: {lon: -32.29756, lat: 37.26049, elev: -1887}
+            processing:
+                - clock_corrections:
+                    linear_drift:
+                        <<: *LINEAR_CLOCK_DEFAULTS
+                        start_sync_reference: "2015-04-22T12:24:00"
+                        end_sync_reference: "2016-05-28T15:35:00.3660"
+                        end_sync_instrument: "2016-05-28T15:35:02"

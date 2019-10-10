@@ -164,7 +164,7 @@ def _make_stationXML_script(argv=None):
 
     # READ IN NETWORK INFORMATION
     net = network(args.network_file)
-    print(net)
+    # print(net)
 
     for station in net.stations:
         net.write_stationXML(station, args.dest_path)

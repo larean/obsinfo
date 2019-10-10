@@ -44,7 +44,8 @@ v0.106
   * added many tests
   * StationXML Inventory source is now ``network:facility:full_name`` (or
     ``revision:author`` if ``full_name`` not provided)
-    
+
+v0.106.1: moved tests to obspy style (inittests inside submodule directory) 
 
 v0.105
 ------

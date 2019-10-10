@@ -66,11 +66,6 @@ def validate(filename, format=None, type=None, verbose=False, quiet=False):
     if not type:
         type = get_information_file_type(filename)
 
-    #     with open(filename,'r') as f:
-    #         if format=='YAML':
-    #             instance=yaml.safe_load(f)
-    #         else:
-    #             instance=json.load(f)
     instance = read_json_yaml(filename, format=format)
 
     SCHEMA_FILE = pkg_resources.resource_filename(
@@ -84,11 +79,11 @@ def validate(filename, format=None, type=None, verbose=False, quiet=False):
         except json.decoder.JSONDecodeError as e:
             print(f"JSONDecodeError: Error loading JSON schema file: {SCHEMA_FILE}")
             print(str(e))
-            return
+            return False
         except:
             print(f"Error loading JSON schema file: {SCHEMA_FILE}")
             print(sys.exc_info()[1])
-            return
+            return False
 
     # Lazily report all errors in the instance
     # ASSUMES SCHEMA IS DRAFT-04 (I couldn't get it to work otherwise)
@@ -130,7 +125,7 @@ def validate(filename, format=None, type=None, verbose=False, quiet=False):
             print("")
         print("\t" + e.message)
 
-    return
+    return True
 
 
 ################################################################################

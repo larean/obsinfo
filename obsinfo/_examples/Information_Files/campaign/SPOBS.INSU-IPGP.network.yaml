@@ -1,0 +1,91 @@
+---
+format_version: "0.106"
+notes:
+    - "comments are put into StationXML"
+    - "notes are not put in StationXML"
+yaml_anchors:
+    obs_clock_correction_linear_defaults: &LINEAR_CLOCK_DEFAULTS
+        time_base: "Seascan MCXO, ~1e-8 nominal drift"
+        reference: "GPS"
+        start_sync_instrument: 0
+    location_defaults: &LOC_DEFAULTS
+        depth.m: 0
+        geology: "unknown"
+        vault: "Sea floor"                    
+    location_surface_drop: &LOC_SURFACE_DROP
+        <<: *LOC_DEFAULTS
+        uncertainties.m: {lon: 200, lat: 200, elev: 20}
+        localisation_method: "Position is the sea-surface release point"
+    location_acoustic: &LOC_ACOUSTIC
+        <<: *LOC_DEFAULTS
+        uncertainties.m: {lon: 5, lat: 5, elev: 10}
+        localisation_method: "Acoustic survey"
+    spobs2_125: &SPOBS2_125
+        reference_code: "SPOBS_2_1"
+        station_location: "00"
+        channel_codes_locations:
+            "HDH_00" : {datalogger_config: "125sps"}
+            "EH3_00" : {datalogger_config: "125sps"}
+            "EH1_00" : {datalogger_config: "125sps"}
+            "EH2_00" : {datalogger_config: "125sps"}
+revision:
+    authors:
+        -
+            first_name : "Wayne"
+            last_name : "Crawford"
+            email: "crawford@ipgp.fr"
+    date: "2017-10-04"
+network:
+    facility:
+        reference_name: "INSU-IPGP"
+        full_name: "INSU-IPGP OBS Park"
+    campaign_reference_name: "MYCAMPAIGN"
+    general_information:
+        code: "4G"
+        start_date: "2007-07-01"
+        end_date: "2025-12-31"
+        description: "EMSO-MOMAR"
+        comments: 
+            - "Lucky Strike Volcano, North Mid-Atlantic Ridge"
+    instrumentation:
+        $ref: "../instrumentation/instrumentation.yaml"
+    stations:
+        "LSVW":
+            site: "Lucky Strike Volcano West"
+            start_date: "2015-04-22T12:00:00Z"
+            end_date: "2016-05-28T21:01:00Z"
+            station_location: "00"
+            instruments:
+                -
+                    <<: *SPOBS2_125
+                    serial_number: "20"
+            locations:
+                "00":
+                    <<: *LOC_SURFACE_DROP
+                    position: {lon: -32.32504, lat: 37.29744, elev: -2030}
+            processing:
+                - clock_corrections:
+                    linear_drift:
+                        <<: *LINEAR_CLOCK_DEFAULTS
+                        start_sync_reference: "2015-04-21T21:06:00Z"
+                        end_sync_reference: "2016-05-28T20:59:00.32Z"
+                        end_sync_instrument: "2016-05-28T20:59:03Z"
+        "LSVE":
+            site: "Lucky Strike Volcano East"
+            start_date: "2015-04-22T12:00:00Z"
+            end_date: "2016-05-28T21:01:00Z"
+            station_location: "00"
+            instruments:
+                - <<: *SPOBS2_125
+                  serial_number: "12"
+            locations:
+                "00":
+                    <<: *LOC_ACOUSTIC
+                    position: {lon: -32.02504, lat: 37.25744, elev: -2130}
+            processing:
+                - clock_corrections:
+                    linear_drift:
+                        <<: *LINEAR_CLOCK_DEFAULTS
+                        start_sync_reference: "2015-04-21T21:06:00Z"
+                        end_sync_reference: "2016-05-28T20:59:00.32Z"
+                        end_sync_instrument: "2016-05-28T20:59:01Z"

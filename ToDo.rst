@@ -19,8 +19,10 @@ ______
       ``stations``?  This would allow one correct specification of bad stations
       without the codes trying to make data from them.  But it would force the
       user to specify a start_date and end_date for data recovery statistics.
+      
     - Change ``network.general_information.description`` to 
      ``network.general_information.name`` 
+     
     - Change ``network:general_information`` to
       ``network:fdsn_network_information`` (or
       ``network:STATIONXML_network_information``, or 
@@ -33,8 +35,10 @@ ______
  - ?Put location code in instrumentation.yaml?
  
    * (allows proper specification of Hydroctopus, for example)
+   
    * Should automatically verify that channel_locations in network.yaml
      correspond        
+     
    * Or only require a location code in instrumentation.yaml if there are
      duplicate channel codes?
 

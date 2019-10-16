@@ -32,22 +32,6 @@ yaml_anchors:
         <<: *LOC_DEFAULTS
         uncertainties.m: {lon: 40, lat: 40, elev: 20}
         localisation_method: "Airgun survey"
-    spobs2_125: &SPOBS2_125
-        reference_code: "SPOBS_2_1"
-        station_location: "00"
-        channel_codes_locations:
-            "HDH_00" : {datalogger_config: "125sps"}
-            "EH3_00" : {datalogger_config: "125sps"}
-            "EH1_00" : {datalogger_config: "125sps"}
-            "EH2_00" : {datalogger_config: "125sps"}
-    spobs2_62: &SPOBS2_62
-        reference_code: "SPOBS_2_1"
-        channel_codes_locations:
-            "BDH_00" : {datalogger_config: "62.5sps"}
-            "SH3_00" : {datalogger_config: "62.5sps"}
-            "SH1_00" : {datalogger_config: "62.5sps"}
-            "SH2_00" : {datalogger_config: "62.5sps"}
-    
 
 revision:
     authors:
@@ -71,61 +55,19 @@ network:
     instrumentation:
         $ref: "../instrumentation/instrumentation.yaml"
     stations:
-        "LSVW":
-            site: "Lucky Strike Volcano West"
-            start_date: "2015-04-22T12:00:00Z"
-            end_date: "2016-05-28T21:01:00Z"
-            station_location: "00"
-            instruments:
-                -
-                    <<: *SPOBS2_125
-                    serial_number: "20"
-            locations:
-                "00":
-                    <<: *LOC_SURFACE_DROP
-                    position: {lon: -32.32504, lat: 37.29744, elev: -2030}
-            processing:
-                - clock_corrections:
-                    linear_drift:
-                        <<: *LINEAR_CLOCK_DEFAULTS
-                        start_sync_reference: "2015-04-21T21:06:00Z"
-                        end_sync_reference: "2016-05-28T20:59:00.32Z"
-                        end_sync_instrument: "2016-05-28T20:59:03Z"
-        "LSVE":
-            site: "Lucky Strike Volcano East"
-            start_date: "2015-04-22T12:00:00Z"
-            end_date: "2016-05-28T21:01:00Z"
-            station_location: "00"
-            instruments:
-                - <<: *SPOBS2_125
-                  serial_number: "12"
-            locations:
-                "00":
-                    <<: *LOC_SURFACE_DROP
-                    position: {lon: -32.02504, lat: 37.25744, elev: -2130}
-            processing:
-                - clock_corrections:
-                    linear_drift:
-                        <<: *LINEAR_CLOCK_DEFAULTS
-                        start_sync_reference: "2015-04-21T21:06:00Z"
-                        end_sync_reference: "2016-05-28T20:59:00.32Z"
-                        end_sync_instrument: "2016-05-28T20:59:01Z"
         "SP_1":
-            # EXAMPLE: SPOBS CONFIGURATION 1 (TWO CHANNELS)
+            notes: ["Old SPOBS(TWO CHANNELS)"]
+            comments: ["Hydrophone failed"]
             site: "Lucky Strike Volcano North"
-            notes: ["original station name = I1"]
-            comments: ["Hydrophone did not work"]
             start_date: "2015-04-23T10:00:00Z"
             end_date: "2016-05-26T23:00:00Z"
             station_location: "00"
             instruments:
                 - 
-                    reference_code: "SPOBS_1_1"
+                    reference_code: "SPOBS1"
                     serial_number: "13"
-                    station_location: "00"
-                    channel_codes_locations:
-                        "BDH_00" : {datalogger_config: "62.5sps"}
-                        "SH3_00" : {datalogger_config: "62.5sps"}
+                    base_component: {datalogger: {config: "62.5sps"}
+                    channel_codes_locations: {"BDH_00" : {}, "SH3_00" : {}}
             locations:
                 "00":
                     <<: *LOC_ACOUSTIC
@@ -137,49 +79,19 @@ network:
                         start_sync_reference: "2015-04-22T09:21:00Z"
                         end_sync_reference: "2016-05-28T22:59:00.1843Z"
                         end_sync_instrument: "2016-05-28T22:59:02Z"
-        "BB_2":
-            # EXAMPLE: CHANGE BBOBS SENSOR
+        "BBOBS1":
+            notes: ["Pre-2012 BBOBS configuration"]
             site: "Lucky Strike Volcano Fake BBOBS"
             start_date: "2015-04-23T10:00:00Z"
             end_date: "2016-05-28T15:37:00Z"
             station_location: "00"
             instruments:
                 - 
-                    reference_code: "BBOBS_1_2"
-                    serial_number: "07"
-                    station_location: "00"
-                    channel_codes_locations:
-                        "BDH_00": {datalogger_config: "62.5sps", sensor: {serial_number : "IP007"}}
-                        "BH1_00": {datalogger_config: "62.5sps", sensor: {serial_number : "Sphere06"}}
-                        "BH2_00": {datalogger_config: "62.5sps", sensor: {serial_number : "Sphere06"}}
-                        "BHZ_00": {datalogger_config: "62.5sps", sensor: {serial_number : "Sphere06"}}
-            locations:
-                "00":
-                    <<: *LOC_BUC_DROP
-                    position: {lon: -32.29756, lat: 37.26049, elev: -1887}
-            processing:
-                - clock_corrections:
-                    linear_drift:
-                        <<: *LINEAR_CLOCK_DEFAULTS
-                        start_sync_reference: "2015-04-22T12:24:00Z"
-                        end_sync_reference: "2016-05-28T15:35:00.3660Z"
-                        end_sync_instrument: "2016-05-28T15:35:02Z"
-        "BB_1":
-            # EXAMPLE: BBOBS CONFIGURATION 1
-            site: "Lucky Strike Volcano Fake BBOBS"
-            start_date: "2015-04-23T10:00:00Z"
-            end_date: "2016-05-28T15:37:00Z"
-            station_location: "00"
-            instruments:
-                - 
-                    reference_code: "BBOBS_1_1"
+                    reference_code: "BBOBS1"
                     serial_number: "02"
-                    station_location: "00"
+                    base_component: {datalogger: {config: "62.5sps"}
                     channel_codes_locations:
-                        "BDH_00" : {datalogger_config: "62.5sps"}
-                        "BHZ_00" : {datalogger_config: "62.5sps"}
-                        "BH1_00" : {datalogger_config: "62.5sps"}
-                        "BH2_00" : {datalogger_config: "62.5sps"}
+                        {"BDH_00" : {}, "BHZ_00" : {}, "BH1_00" : {}, "BH2_00" : {}}
             locations:
                 "00":
                     <<: *LOC_BUC_DROP
@@ -192,7 +104,7 @@ network:
                         end_sync_reference: "2016-05-28T15:35:00.3660Z"
                         end_sync_instrument: "2016-05-28T15:35:02Z"
         "HOCT":
-            # EXAMPLE: HYDROCTOPUS, MULTIPLE SENSORS WITH SAME CHANNEL CODE
+            notes: ["HYDROCTOPUS, MULTIPLE SENSORS WITH SAME CHANNEL CODE"]
             site: "Lucky Strike Volcano Fake HydroOctopus"
             start_date: "2015-04-23T10:00:00Z"
             end_date: "2016-05-28T15:37:00Z"
@@ -201,28 +113,20 @@ network:
                 - 
                     reference_code: "HydOct_1_1"
                     serial_number: "01"
-                    station_location: "00"
+                    base_component:
+                        datalogger_config: "250sps"
+                        sensor: {reference_code : "HITECH_HTI04-PLC-ULF"}
                     channel_codes_locations:
                         "BDH_00":
-                            datalogger_config: "250sps"
                             das_component: "1"
-                            sensor: 
-                                reference_code : "HITECH_HTI04-PLC-ULF"
-                                serial_number : "4500"
+                            sensor: {serial_number : "4500"}
                         "BDH_01":
-                            datalogger_config: "250sps"
                             das_component: "2"
-                            sensor: 
-                                reference_code : "HITECH_HTI04-PLC-ULF"
-                                serial_number : "4501"
+                            sensor: { serial_number : "4501"}
                         "BDH_02":
-                            datalogger_config: "250sps"
                             das_component: "3"
-                            sensor: 
-                                reference_code : "HITECH_HTI04-PLC-ULF"
-                                serial_number : "4502"
+                            sensor:  { serial_number : "4502"}
                         "BDH_03":
-                            datalogger_config: "250sps"
                             das_component: "4"
                             sensor:
                                 reference_code : "HITECH_HTI90U"

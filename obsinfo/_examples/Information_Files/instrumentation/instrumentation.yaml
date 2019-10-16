@@ -31,370 +31,198 @@ instrumentation:
         full_name: "INSU-IPGP OBS facility"
         email: "obs@ipgp.fr"
         website: "http://parc-obs.insu.cnrs.fr"
-    instrument_components: 
-        $ref: "instrument_components.yaml"
+    instrument_components: {$ref: "instrument_components.yaml"}
     instruments:
-        generic:    # model_config
-            "SPOBS_1_1":
-                equipment:
-                    <<: *EQUIPMENTTYPE_EMPTY
-                    model: "SPOBS1"
-                    type: "Short Period Ocean Bottom Seismometer"
-                    description: >-
-                         "LCHEAPO 2000 Short Period Ocean Bottom Seismometer,
-                         2 channels, L-22 vertical geophone"
-                    manufacturer: "Scripps Inst. Oceanography"
-                das_components:
-                    "1":
-                        orientation_code : "3"
-                        datalogger: {reference_code: "LC2000_LOGGER"}
-                        preamplifier: {reference_code: "LCHEAPO_GEOPHONE-GAIN_128X"}
-                        sensor: {reference_code: "SERCEL_L22"}
-                    "2":
-                        orientation_code : "H"
-                        datalogger: {reference_code: "LC2000_LOGGER"}
-                        preamplifier: {reference_code: "LCHEAPO_HYDRO-GAIN_16X"}
-                        sensor: {reference_code: "HITECH_HTI90U"}
-            "SPOBS_2_1":
-                equipment:
-                    <<: *EQUIPMENTTYPE_EMPTY
-                    model: "SPOBS2"
-                    type: "Short Period Ocean Bottom Seismometer"
-                    description: >-
-                         "LCHEAPO 2000 Short Period Ocean Bottom Seismometer,
-                         4 channels, L-28 3C geophone"
-                    manufacturer: "Scripps Inst. Oceanography"
-                das_components:
-                    "1":
-                        orientation_code : "H"
-                        datalogger: {reference_code: "LC2000_LOGGER"}
-                        preamplifier: {reference_code: "LCHEAPO_HYDRO-GAIN_16X"}
-                        sensor: {reference_code: "HITECH_HTI90U"}
-                    "2":
-                        orientation_code : "2"
-                        datalogger: {reference_code: "LC2000_LOGGER"}
-                        preamplifier: {reference_code: "LCHEAPO_GEOPHONE-GAIN_128X"}
-                        sensor: {reference_code: "SERCEL_L28"}
-                    "3":
-                        orientation_code : "1"
-                        datalogger:  {reference_code: "LC2000_LOGGER"}
-                        preamplifier:  {reference_code: "LCHEAPO_GEOPHONE-GAIN_128X"}
-                        sensor:  {reference_code: "SERCEL_L28"}
-                    "4":
-                        orientation_code : "3"
-                        datalogger:  {reference_code: "LC2000_LOGGER"}
-                        preamplifier:  {reference_code: "LCHEAPO_GEOPHONE-GAIN_128X"}
-                        sensor:  {reference_code: "SERCEL_L28"}
-            "HydOct_1_1":
-                equipment:
-                    <<: *EQUIPMENTTYPE_EMPTY
-                    type: "Multi-hydrophone antenna"
-                    description: >-
-                         "LCHEAPO 2000 Hydro-octopus,
-                         4 channels, HTI-90U hydrophones"
-                    manufacturer: "INSU-IPGP"
-                    vendor: ~
-                    model: "HydroOct-1"
-                das_components:
-                    "1":
-                        orientation_code : "H"
-                        datalogger:  {reference_code: "LC2000_LOGGER"}
-                        preamplifier: {reference_code: "LCHEAPO_HYDRO-GAIN_16X"}
-                        sensor: {reference_code: "HITECH_HTI90U"}
-                    "2":
-                        orientation_code : "H"
-                        datalogger: {reference_code: "LC2000_LOGGER"}
-                        preamplifier: {reference_code: "LCHEAPO_HYDRO-GAIN_16X"}
-                        sensor: {reference_code: "HITECH_HTI90U"}
-                    "3":
-                        orientation_code : "H"
-                        datalogger: {reference_code: "LC2000_LOGGER"}
-                        preamplifier: {reference_code: "LCHEAPO_HYDRO-GAIN_16X"}
-                        sensor: {reference_code: "HITECH_HTI90U"}
-                    "4":
-                        orientation_code : "H"
-                        datalogger:  {reference_code: "LC2000_LOGGER"}
-                        preamplifier: {reference_code: "LCHEAPO_HYDRO-GAIN_16X"}
-                        sensor: {reference_code: "HITECH_HTI90U"}
-            "BBOBS_1_1":
-                equipment:
-                    <<: *EQUIPMENTTYPE_EMPTY
-                    type: "Broadband Ocean Bottom Seismometer"
-                    description: >-
-                          "LCHEAPO 2000 Broadband Ocean Bottom Seismometer, 
-                          configuration 1: all channels preamp gain = 0.225.
-                          valid before 2012-11" 
-                    manufacturer: "Scripps Inst. Oceanography - INSU"
-                    model: "BBOBS1_1"
-                das_components:
-                    "1":
-                        orientation_code : "2"
-                        datalogger:  {reference_code: "LC2000_LOGGER"}
-                        preamplifier: {reference_code: "LCHEAPO_BBOBS-GAIN_0P225X"}
-                        sensor: {reference_code: "NANOMETRICS_T240_SINGLESIDED"}
-                    "2":
-                        orientation_code : "1"
-                        datalogger:  {reference_code: "LC2000_LOGGER"}
-                        preamplifier: {reference_code: "LCHEAPO_BBOBS-GAIN_0P225X"}
-                        sensor: {reference_code: "NANOMETRICS_T240_SINGLESIDED"}
-                    "3":
-                        orientation_code : "Z"
-                        datalogger:  {reference_code: "LC2000_LOGGER"}
-                        preamplifier: {reference_code: "LCHEAPO_BBOBS-GAIN_0P225X"}
-                        sensor: {reference_code: "NANOMETRICS_T240_SINGLESIDED"}
-                    "4":
-                        orientation_code : "H"
-                        datalogger: {reference_code: "LC2000_LOGGER"}
-                        preamplifier: {reference_code: "LCHEAPO_DPG-CARD"}
-                        sensor: {reference_code: "SIO_DPG"}
-            "BBOBS_1_2":
-                equipment:
-                    <<: *EQUIPMENTTYPE_EMPTY
-                    type: "Broadband Ocean Bottom Seismometer"
-                    description: >-
-                          "LCHEAPO 2000 Broadband Ocean Bottom Seismometer, 
-                          configuration 2: vertical channel preamp gain = 1.0.
-                          valid from 2012-11 on" 
-                    manufacturer: "Scripps Inst. Oceanography - INSU"
-                    model: "BBOBS1_2"
-                das_components:
-                    "1":
-                        orientation_code : "2"
-                        datalogger:  {reference_code: "LC2000_LOGGER"}
-                        preamplifier: {reference_code: "LCHEAPO_BBOBS-GAIN_0P225X"}
-                        sensor: {reference_code: "NANOMETRICS_T240_SINGLESIDED"}
-                    "2":
-                        orientation_code : "1"
-                        datalogger:  {reference_code: "LC2000_LOGGER"}
-                        preamplifier: {reference_code: "LCHEAPO_BBOBS-GAIN_0P225X"}
-                        sensor: {reference_code: "NANOMETRICS_T240_SINGLESIDED"}
-                    "3":
-                        orientation_code : "Z"
-                        datalogger:  {reference_code: "LC2000_LOGGER"}
-                        preamplifier: {reference_code: "LCHEAPO_BBOBS-GAIN_1X"}
-                        sensor: {reference_code: "NANOMETRICS_T240_SINGLESIDED"}
-                    "4":
-                        orientation_code : "H"
-                        datalogger: {reference_code: "LC2000_LOGGER"}
-                        preamplifier: {reference_code: "LCHEAPO_DPG-CARD"}
-                        sensor: {reference_code: "SIO_DPG"}
-            "WBOBS_1_1":
-                equipment:
-                    <<: *EQUIPMENTTYPE_EMPTY
-                    type: "Wideband Ocean Bottom Seismometer"
-                    description: >-
-                          "LCHEAPO 2000 Broadband Ocean Bottom Seismometer" 
-                    manufacturer: "Scripps Inst. Oceanography - INSU"
-                    model: "WBOBS1_1"
-                das_components:
-                    "1":
-                        orientation_code : "2"
-                        datalogger:  {reference_code: "LC2000_LOGGER"}
-                        preamplifier: {reference_code: "LCHEAPO_BBOBS-GAIN_0P225X"}
-                        sensor: {reference_code: "NANOMETRICS_TCOMPACT_SINGLESIDED"}
-                    "2":
-                        orientation_code : "1"
-                        datalogger:  {reference_code: "LC2000_LOGGER"}
-                        preamplifier: {reference_code: "LCHEAPO_BBOBS-GAIN_0P225X"}
-                        sensor: {reference_code: "NANOMETRICS_TCOMPACT_SINGLESIDED"}
-                    "3":
-                        orientation_code : "Z"
-                        datalogger:  {reference_code: "LC2000_LOGGER"}
-                        preamplifier: {reference_code: "LCHEAPO_BBOBS-GAIN_1X"}
-                        sensor: {reference_code: "NANOMETRICS_TCOMPACT_SINGLESIDED"}
-                    "4":
-                        orientation_code : "H"
-                        datalogger: {reference_code: "LC2000_LOGGER"}
-                        preamplifier: {reference_code: "LCHEAPO_HYDRO-GAIN_16X"}
-                        sensor: {reference_code: "HITECH_HTI90U"}
-        specific:   # can be specified by orientation codes (if unique) or das_component
-            "BBOBS_1_1":
+        "SPOBS1":
+            equipment:
+                <<: *EQUIPMENTTYPE_EMPTY
+                model: "SPOBS1"
+                type: "Short Period Ocean Bottom Seismometer"
+                description: >-
+                     "LCHEAPO 2000 Short Period Ocean Bottom Seismometer,
+                     2 channels, L-22 vertical geophone"
+                manufacturer: "Scripps Inst. Oceanography"
+            base_channel:
+                datalogger_ref: {code: "LC2000_LOGGER"}
+                preamplifier_ref:
+                    code: "LCHEAPO_GEOPHONE"
+                    config: "128x"
+                sensor_ref: {code: "SERCEL_L22"}
+            das_channels:
+                "1":
+                    orientation_code : "3"
+                "2":
+                    orientation_code : "H"
+                    sensor: {reference_code: "HITECH_HTI90U"}
+        "SPOBS2":
+            equipment:
+                <<: *EQUIPMENTTYPE_EMPTY
+                model: "SPOBS2"
+                type: "Short Period Ocean Bottom Seismometer"
+                description: >-
+                     "LCHEAPO 2000 Short Period Ocean Bottom Seismometer,
+                     4 channels, L-28 3C geophone"
+                manufacturer: "Scripps Inst. Oceanography"
+            base_channel:
+                datalogger_ref: {code: "LC2000_LOGGER"}
+                preamplifier_ref:
+                    code: "LCHEAPO_GEOPHONE"
+                    config: "128x"
+                sensor_ref: {code: "SERCEL_L28"}
+            das_channels:
+                "1":
+                    orientation_code : "H"
+                    preamplifier_ref:
+                        code: "LCHEAPO_HYDRO"
+                        config: "16x"
+                    sensor_ref: {code: "HITECH_HTI90U"}
+                "2": {orientation_code : "2"}
+                "3": {orientation_code : "1"}
+                "4": {orientation_code : "3"}
+        "HydOct1":
+            equipment:
+                <<: *EQUIPMENTTYPE_EMPTY
+                type: "Multi-hydrophone antenna"
+                description: >-
+                     "LCHEAPO 2000 Hydro-octopus,
+                     4 channels, HTI-90U hydrophones"
+                manufacturer: "INSU-IPGP"
+                vendor: ~
+                model: "HydroOct-1"
+            base_channel:
+                datalogger_ref:  {code: "LC2000_LOGGER"}
+                preamplifier_ref:
+                    code: "LCHEAPO_HYDRO"
+                    config: "16x"
+                sensor_ref: {code: "HITECH_HTI90U"}
+            das_channels:
+                "1": {orientation_code : "H"; location_code: "00"}
+                "2": {orientation_code : "H"; location_code: "01"}
+                "3": {orientation_code : "H"; location_code: "02"}
+                "4": {orientation_code : "H"; location_code: "03"}
+        "BBOBS1":
+            equipment:
+                <<: *EQUIPMENTTYPE_EMPTY
+                type: "Broadband Ocean Bottom Seismometer"
+                description: >-
+                      "LCHEAPO 2000 Broadband Ocean Bottom Seismometer" 
+                manufacturer: "Scripps Inst. Oceanography - INSU"
+                model: "BBOBS1"
+            base_channel:
+                datalogger_ref:  {code: "LC2000_LOGGER"}
+                preamplifier_ref:
+                    code: "LCHEAPO_BBOBS"
+                    config: "0p225x"
+                sensor_ref: 
+                    code: "NANOMETRICS_T240"
+                    config: "SINGLE-SIDED"
+            das_channels:
+                "1":
+                    orientation_code : "2"
+                "2":
+                    orientation_code : "1"
+                "3":
+                    orientation_code : "Z"
+                "4":
+                    orientation_code : "H"
+                    preamplifier_ref: {code: "LCHEAPO_DPG-CARD"}
+                    sensor_ref: {code: "SIO_DPG"}
+            configurations:
+                "pre-2012":
+                    description: "gain=0.225 on all sismo channels"
+                "2012-":
+                    description: "gain=1.0 on vertical channel, 0.225 on horizontals"
+                    das_channels:
+                        "3": {"preamplifier_ref": {"config": "1x"}
+            serial_numbers:
                 "01":
-                    das_components:
-                        "1": &BBOSBS1_1_01_SISMO
-                            datalogger: {serial_number: "21"}
-                            preamplifier: {serial_number: "21"}
-                            sensor:     {serial_number: "Sphere01"}
-                        "2":
-                            <<: *BBOSBS1_1_01_SISMO
-                        "3":
-                            <<: *BBOSBS1_1_01_SISMO
-                        "4":
-                            datalogger: { serial_number: "21"}
-                            preamplifier: { serial_number: "21"}
-                            sensor:     { serial_number: "5004"}                    
+                    base_channel:
+                        datalogger_ref:   {serial_number: "21"}
+                        preamplifier_ref: {serial_number: "21"}
+                        sensor_ref:       {serial_number: "Sphere01"}
+                    das_channels:
+                        "4": {sensor_ref: {serial_number: "5004"}}                   
                 "02":
-                    das_components:
-                        "1": &BBOSBS1_1_02_SISMO
-                            datalogger: { serial_number: "22"}
-                            preamplifier: { serial_number: "22"}
-                            sensor:     { serial_number: "Sphere02"}
-                        "2":
-                            <<: *BBOSBS1_1_02_SISMO
-                        "3":
-                            <<: *BBOSBS1_1_02_SISMO
-                        "4":
-                            datalogger: {  serial_number: "22"}
-                            preamplifier: {  serial_number: "22"}
-                            sensor:     { serial_number: "5018"}                    
+                     base_channel:
+                        datalogger_ref:   {serial_number: "22"}
+                        preamplifier_ref: {serial_number: "22"}
+                        sensor_ref:       {serial_number: "Sphere02"}
+                    das_channels:
+                        "4": {sensor_ref: {serial_number: "5018"}}                   
                 "03":
-                    das_components:
-                        "1": &BBOSBS1_1_03_SISMO
-                            datalogger: {  serial_number: "23"}
-                            preamplifier: {  serial_number: "23"}
-                            sensor:     { serial_number: "Sphere03"}
-                        "2":
-                            <<: *BBOSBS1_1_03_SISMO
-                        "3":
-                            <<: *BBOSBS1_1_03_SISMO
-                        "4":
-                            datalogger: {  serial_number: "23"}
-                            preamplifier: {  serial_number: "23"}
-                            sensor:     { serial_number: "5027"}                    
-            "BBOBS_1_2":
-                "01":
-                    das_components:
-                        "1": &BBOSBS1_2_01_SISMO
-                            preamplifier: {  serial_number: "21"}
-                            datalogger: {  serial_number: "21"}
-                            sensor:     { serial_number: "Sphere01"}
-                        "2":
-                            <<: *BBOSBS1_2_01_SISMO
-                        "3":
-                            <<: *BBOSBS1_2_01_SISMO
-                        "4":
-                            preamplifier: {  serial_number: "21"}
-                            datalogger: {  serial_number: "21"}
-                            sensor:     { serial_number: "5004"}                    
-                "02":
-                    das_components:
-                        "1": &BBOSBS1_2_02_SISMO
-                            datalogger: {  serial_number: "22"}
-                            preamplifier: {  serial_number: "22"}
-                            sensor:     { serial_number: "Sphere02"}
-                        "2":
-                            <<: *BBOSBS1_2_02_SISMO
-                        "3":
-                            <<: *BBOSBS1_2_02_SISMO
-                        "4":
-                            datalogger: {  serial_number: "22"}
-                            preamplifier: {  serial_number: "22"}
-                            sensor:     { serial_number: "5018"}                    
-                "03":
-                    das_components:
-                        "1": &BBOSBS1_2_03_SISMO
-                            datalogger: {  serial_number: "23"}
-                            preamplifier: {  serial_number: "23"}
-                            sensor:     { serial_number: "Sphere03"}
-                        "2":
-                            <<: *BBOSBS1_2_03_SISMO
-                        "3":
-                            <<: *BBOSBS1_2_03_SISMO
-                        "4":
-                            datalogger: {  serial_number: "23"}
-                            preamplifier: {  serial_number: "23"}
-                            sensor:     { serial_number: "5027"}                    
+                     base_channel:
+                        datalogger_ref:   {serial_number: "23"}
+                        preamplifier_ref: {serial_number: "23"}
+                        sensor_ref:       {serial_number: "Sphere03"}
+                    das_channels:
+                        "4": {sensor: {serial_number: "5027"}}                   
                 "04":
-                    das_components:
-                        "1": &BBOSBS1_2_04_SISMO
-                            datalogger: {  serial_number: "24"}
-                            preamplifier: {  serial_number: "24"}
-                            sensor:     { serial_number: "Sphere04"}
-                        "2":
-                            <<: *BBOSBS1_2_04_SISMO
-                        "3":
-                            <<: *BBOSBS1_2_04_SISMO
-                        "4":
-                            datalogger: {  serial_number: "24"}
-                            preamplifier: {  serial_number: "24"}
-                            sensor:     { serial_number: "IP004"}                    
+                     base_channel:
+                        datalogger_ref:   {serial_number: "24"}
+                        preamplifier_ref: {serial_number: "24"}
+                        sensor_ref:       {serial_number: "Sphere04"}
+                    das_channels:
+                        "4": {sensor: {serial_number: "IP004"}}                   
                 "05":
-                    das_components:
-                        "1": &BBOSBS1_2_05_SISMO
-                            datalogger: {  serial_number: "25"}
-                            preamplifier: {  serial_number: "25"}
-                            sensor:     { serial_number: "Sphere05"}
-                        "2":
-                            <<: *BBOSBS1_2_05_SISMO
-                        "3":
-                            <<: *BBOSBS1_2_05_SISMO
-                        "4":
-                            datalogger: {  serial_number: "25"}
-                            preamplifier: {  serial_number: "25"}
-                            sensor:     { serial_number: "IP005"}                    
+                     base_channel:
+                        datalogger_ref:   {serial_number: "25"}
+                        preamplifier_ref: {serial_number: "25"}
+                        sensor_ref:       {serial_number: "Sphere05"}
+                    das_channels:
+                        "4": {sensor: {serial_number: "IP005"}}                   
                 "06":
-                    das_components:
-                        "1": &BBOSBS1_2_06_SISMO
-                            datalogger: {  serial_number: "26"}
-                            preamplifier: {  serial_number: "26"}
-                            sensor:     { serial_number: "Sphere06"}
-                        "2":
-                            <<: *BBOSBS1_2_06_SISMO
-                        "3":
-                            <<: *BBOSBS1_2_06_SISMO
-                        "4":
-                            datalogger: {  serial_number: "26"}
-                            preamplifier: {  serial_number: "26"}
-                            sensor:     { serial_number: "IP006"}                    
+                     base_channel:
+                        datalogger_ref:   {serial_number: "26"}
+                        preamplifier_ref: {serial_number: "26"}
+                        sensor_ref:       {serial_number: "Sphere06"}
+                    das_channels:
+                        "4": {sensor: {serial_number: "IP006"}}                   
                 "07":
-                    das_components:
-                        "1": &BBOSBS1_2_07_SISMO
-                            datalogger: {  serial_number: "27"}
-                            preamplifier: {  serial_number: "27"}
-                            sensor:     { serial_number: "Sphere07"}
-                        "2":
-                            <<: *BBOSBS1_2_07_SISMO
-                        "3":
-                            <<: *BBOSBS1_2_07_SISMO
-                        "4":
-                            datalogger: {  serial_number: "27"}
-                            preamplifier: {  serial_number: "27"}
-                            sensor:     { serial_number: "IP007"}                    
+                     base_channel:
+                        datalogger_ref:   {serial_number: "27"}
+                        preamplifier_ref: {serial_number: "27"}
+                        sensor_ref:       {serial_number: "Sphere07"}
+                    das_channels:
+                        "4": {sensor: {serial_number: "IP007"}}                   
                 "08":
-                    das_components:
-                        "1": &BBOSBS1_2_08_SISMO
-                            datalogger: {  serial_number: "28"}
-                            preamplifier: {  serial_number: "28"}
-                            sensor:     { serial_number: "Sphere08"}
-                        "2":
-                            <<: *BBOSBS1_2_08_SISMO
-                        "3":
-                            <<: *BBOSBS1_2_08_SISMO
-                        "4":
-                            datalogger: {  serial_number: "28"}
-                            preamplifier: {  serial_number: "28"}
-                            sensor:     { serial_number: "LD013"}                    
+                     base_channel:
+                        datalogger_ref:   {serial_number: "28"}
+                        preamplifier_ref: {serial_number: "28"}
+                        sensor_ref:       {serial_number: "Sphere02"}
+                    das_channels:
+                        "4": {sensor_ref: {serial_number: "LD013"}}                   
                 "09":
-                    das_components:
-                        "1": &BBOSBS1_2_09_SISMO
-                            datalogger: {  serial_number: "29"}
-                            preamplifier: {  serial_number: "29"}
-                            sensor:     { serial_number: "Sphere09"}
-                        "2":
-                            <<: *BBOSBS1_2_09_SISMO
-                        "3":
-                            <<: *BBOSBS1_2_09_SISMO
-                        "4":
-                            # Instrument lost before I wrote down DPG number
-                            datalogger: {  serial_number: "29"}
-                            preamplifier: {  serial_number: "29"}
-                            sensor:     { serial_number: "LDxxx"}                    
-            
-#loggers_NRL: # Convenience definitions for Nominal Reference Library loggers. 
-#    datalogger_configs: ['62','125','250','500','1000']
-#    loggers:
-#        LC2000_DPG_{sampling_rate}:
-#            datalogger: "LC2000_LOGGER"
-#            preamplifier: "LCHEAPO_DPG-CARD"
-#        LC2000_HYDROPHONE_{sampling_rate}:
-#            datalogger: "LC2000_LOGGER"
-#            preamplifier: "LCHEAPO_HYDRO-GAIN_16X"
-#        LC2000_GEOPHONE_{sampling_rate}:
-#            datalogger: "LC2000_LOGGER"
-#            preamplifier: "LCHEAPO_GEOPHONE-GAIN_128X"
-#        LC2000_BBOBSx1_{sampling_rate}:
-#            datalogger: "LC2000_LOGGER"
-#            preamplifier: "LCHEAPO_BBOBS-GAIN_1X"
-#        LC2000_BBOVBSx0p225_{sampling_rate}:
-#            datalogger: "LC2000_LOGGER"
-#            preamplifier: "LCHEAPO_BBOBS-GAIN_0P225X"
+                     base_channel:
+                        datalogger_ref:   {serial_number: "29"}
+                        preamplifier_ref: {serial_number: "29"}
+                        sensor_ref:       {serial_number: "Sphere09"}
+                    das_channels:
+                        "4": {sensor_ref: {serial_number: "LDxxx"}}                   
+        "WBOBS1":
+            equipment:
+                <<: *EQUIPMENTTYPE_EMPTY
+                type: "Wideband Ocean Bottom Seismometer"
+                description: "LCHEAPO 2000 Broadband Ocean Bottom Seismometer" 
+                manufacturer: "Scripps Inst. Oceanography - INSU"
+                model: "WBOBS1"
+            base_channel:
+                datalogger_ref:  {code: "LC2000_LOGGER"}
+                preamplifier_ref:
+                    code: "LCHEAPO_BBOBS"
+                    config: "0p225x"
+                sensor_ref:
+                    code: "NANOMETRICS_TCOMPACT"
+                    config: "SINGLESIDED"
+            das_channels:
+                "1":
+                    orientation_code : "2"
+                "2":
+                    orientation_code : "1"
+                "3":
+                    orientation_code : "Z"
+                "4":
+                    orientation_code : "H"
+                    preamplifier_ref: 
+                        code: "LCHEAPO_HYDRO"
+                        config: 16x"
+                    sensor_ref: {code: "HITECH_HTI90U"}

@@ -1,5 +1,5 @@
 ---
-format_version: "0.106"
+format_version: "0.107"
 notes:
     - "comments are put into StationXML"
     - "notes are not put in StationXML"
@@ -8,26 +8,17 @@ yaml_anchors:
         time_base: "Seascan MCXO, ~1e-8 nominal drift"
         reference: "GPS"
         start_sync_instrument: 0
-    location_defaults: &LOC_DEFAULTS
+    location_surface_drop: &LOC_SURFACE_DROP
         depth.m: 0
         geology: "unknown"
         vault: "Sea floor"                    
-    location_surface_drop: &LOC_SURFACE_DROP
-        <<: *LOC_DEFAULTS
         uncertainties.m: {lon: 200, lat: 200, elev: 20}
         localisation_method: "Position is the sea-surface release point"
-    location_acoustic: &LOC_ACOUSTIC
-        <<: *LOC_DEFAULTS
-        uncertainties.m: {lon: 5, lat: 5, elev: 10}
-        localisation_method: "Acoustic survey"
-    spobs2_125: &SPOBS2_125
-        reference_code: "SPOBS_2_1"
-        station_location: "00"
-        channel_codes_locations:
-            "HDH_00" : {datalogger_config: "125sps"}
-            "EH3_00" : {datalogger_config: "125sps"}
-            "EH1_00" : {datalogger_config: "125sps"}
-            "EH2_00" : {datalogger_config: "125sps"}
+    SPOBS2_125: &SPOBS2_125
+        code: "SPOBS2"
+        base_channel_mods:
+            datalogger: {config: "125sps"}
+        
 revision:
     authors:
         -
@@ -47,18 +38,19 @@ network:
         description: "EMSO-MOMAR"
         comments: 
             - "Lucky Strike Volcano, North Mid-Atlantic Ridge"
-    instrumentation:
-        $ref: "../instrumentation/instrumentation.yaml"
+    ref_files:
+        instrumentation: {$ref: "../instrumentation/instrumentation.yaml"}
     stations:
         "LSVW":
             site: "Lucky Strike Volcano West"
             start_date: "2015-04-22T12:00:00Z"
             end_date: "2016-05-28T21:01:00Z"
-            station_location: "00"
+            location_code: "00"
             instruments:
-                -
-                    <<: *SPOBS2_125
-                    serial_number: "20"
+                - ref:
+                        code: "SPOBS2"
+                        serial_number: "20"
+                        base_channel_mods: {datalogger: {config: "125sps"}}
             locations:
                 "00":
                     <<: *LOC_SURFACE_DROP
@@ -74,10 +66,12 @@ network:
             site: "Lucky Strike Volcano East"
             start_date: "2015-04-22T12:00:00Z"
             end_date: "2016-05-28T21:01:00Z"
-            station_location: "00"
+            location_code: "00"
             instruments:
-                - <<: *SPOBS2_125
-                  serial_number: "12"
+                - ref:
+                        code: "SPOBS2"
+                        serial_number: "12"
+                        base_channel_mods: {datalogger: {config: "125sps"}}
             locations:
                 "00":
                     <<: *LOC_ACOUSTIC

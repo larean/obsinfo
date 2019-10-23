@@ -1,8 +1,7 @@
 ---
-format_version: "0.106"
+format_version: "0.107"
 yaml_anchors:
     # From CS5322_Filter.pdf
-    # Delay correction corresponds to 29 samples hard-coded in LCHEAPO code
     base: &base
         decimation_factor : 2
         gain :         {value: 1, frequency: 0}
@@ -25,9 +24,6 @@ response:
     decimation_info:
         input_sample_rate: 32000
         output_sample_rate: 62.5
-        delay_correction: 0.464
-        notes: 
-            - "Delay correction is hard-coded to 29 samples in LCHEAPO software"
     stages: 
         -   <<: *fir2
         -   <<: *fir2

@@ -1,76 +1,90 @@
 {
-	"$schema": "http://json-schema.org/draft-04/schema#",
-	"title": "Network",
-	"description": "Network of stations deployed by an OBS facility  $comment: No $id (or id) yet: should be set to a URL at a domain we control (e.g. http://www.ipgp.fr/~crawford/json-schemas/network.schema.json",
-	"type": "object",
-	"required": [ "format_version","network" ],
-	"properties": {
-	    "format_version" : {"$ref" : "#/definitions/format_version"},
-	    "revision" :       {"$ref" : "definitions.schema.json#/revision"},
-	    "network":         {"$ref" : "#/definitions/network"},
-	    "yaml_anchors" :   {"$ref" : "definitions.schema.json#/yaml_anchors"},
-	    "notes" :          {"$ref" : "definitions.schema.json#/comments"},
-	    "extras" :         {"$ref" : "definitions.schema.json#/extras"}
-	},
-	"definitions" : {
-	    "format_version" : {
-	        "anyOf": [
-	            {"$ref" : "definitions.schema.json#/format_version"},
-	            {"type": "string","pattern": "^0\\.106$","comment":"version of last change to this schema"}
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Network",
+    "description": "Network of stations deployed by an OBS facility  $comment: No $id (or id) yet: should be set to a URL at a domain we control (e.g. http://www.ipgp.fr/~crawford/json-schemas/network.schema.json",
+    "type": "object",
+    "required": ["format_version","network" ],
+    "properties": {
+        "format_version": {"$ref": "#/definitions/format_version"},
+        "revision":       {"$ref": "definitions.schema.json#/revision"},
+        "network":        {"$ref": "#/definitions/network"},
+        "yaml_anchors":   {"$ref": "definitions.schema.json#/yaml_anchors"},
+        "notes":          {"$ref": "definitions.schema.json#/note_list"},
+        "extras":         {"$ref": "definitions.schema.json#/extras"}
+    },
+    "additionalProperties" : false,
+    "definitions" : {
+        "format_version" : {
+            "anyOf": [
+                {"$ref": "definitions.schema.json#/format_version"},
+                {"type": "string","pattern": "^0\\.107$","comment":"version of last change to this schema"}
             ]
-	    },
-		"network": {
-			"type": "object",
-			"required": [
-		        "facility",
-		        "campaign_reference_name",
-				"general_information",
-				"instrumentation",
-				"stations"
-			],
-			"properties": {
-                "facility":                {"$ref" : "#/definitions/facility"},
-                "campaign_reference_name": {"$ref" : "definitions.schema.json#/reference_name"},
-				"general_information" :    {"$ref" : "#/definitions/general_information"},
-				"instrumentation" :        {"$ref" : "definitions.schema.json#/URI_ref"},
-				"stations" :               {"$ref" : "#/definitions/stations"},
-				"notes" :                  {"$ref" : "definitions.schema.json#/comments"},
-		        "extras":                  {"$ref" : "definitions.schema.json#/extras" }
-			},
-		    "additionalProperties" : false
-		},
-	    "facility" : {
+        },
+        "network": {
+            "type": "object",
+            "required": [
+                "facility",
+                "campaign_ref_name",
+                "network_info",
+                "ref_files",
+                "stations"
+            ],
+            "properties": {
+                "facility":             {"$ref": "#/definitions/facility"},
+                "campaign_ref_name":    {"$ref": "definitions.schema.json#/ref_name"},
+                "network_info" : {"$ref": "#/definitions/network_info"},
+                "ref_files" :           {"$ref": "#/definitions/ref_files"},
+                "stations" :            {"$ref": "#/definitions/stations_map"},
+                "notes" :               {"$ref": "definitions.schema.json#/note_list"},
+                "extras":               {"$ref": "definitions.schema.json#/extras" }
+            },
+            "additionalProperties" : false
+        },
+       "ref_files": {
+           "type": "object",
+           "description":"list of reference information files (instrumentation and/or instrument_components)",
+            "properties" : {
+                "instrumentation" :        {"$ref": "definitions.schema.json#/URI_ref"},
+                "instrument_components" :  {"$ref": "definitions.schema.json#/URI_ref"}
+            },
+            "additionalProperties": false
+        },
+        "facility" : {
             "description": "Facility information",
             "type": "object",
-            "required" : [ "reference_name" ],
+            "required" : [ "ref_name" ],
             "properties" : {
-                "reference_name": {"$ref" : "definitions.schema.json#/reference_name"},
-                "full_name" :     {"type" : "string" ,  "description": "Full facility name"}
-            }
+                "ref_name":  {"$ref": "definitions.schema.json#/ref_name"},
+                "full_name": {"type": "string" ,  "description": "Full facility name"}
+            },
+            "additionalProperties" : false
         },
-	    "general_information" : {
-            "description": "Network information (if this is an FDSN network values should correspond to those on FDSN network page",
+        "network_info" : {
+            "description": "Network information in FDSN nomenclature",
             "type": "object",
             "required" : [
                 "code",
+                "name",
                 "start_date",
                 "end_date",
                 "description"
             ],
             "properties" : {
-                "code" :       {"type" : "string" ,  "description": "FDSN network code or 'XX'"},
-                "start_date":  {"$ref" : "definitions.schema.json#/any_date" },
-                "end_date":    {"$ref" : "definitions.schema.json#/any_date" },
-                "description": {"type" : "string" , "description": "Should use FDSN 'network name'"},
-                "comments" :   {"$ref" : "definitions.schema.json#/comments" }
-            }
+                "code" :       {"type": "string" ,  "description": "FDSN network code or 'XX'"},
+                "name" :       {"type": "string" ,  "description": "FDSN network name"},
+                "start_date":  {"$ref": "definitions.schema.json#/any_date" },
+                "end_date":    {"$ref": "definitions.schema.json#/any_date" },
+                "description": {"type": "string" , "description": "Should use FDSN 'network name'"},
+                "comments" :   {"$ref": "definitions.schema.json#/comment_list" }
+            },
+            "additionalProperties" : false
         },
-        "stations" : {
+        "stations_map" : {
             "type": "object",
             "description": "Seafloor seismological stations, keys are station names",
             "$comment": "If we use draft-06, 'patternProperties' should probably be replaced by 'propertyNames':{'pattern':}",
             "patternProperties": {
-                "^[A-Za-z0-9_-]+$": { "$ref" : "#/definitions/station" }
+                "^[A-Za-z0-9_-]+$": {"$ref": "#/definitions/station" }
             },
             "additionalProperties": false
         },
@@ -83,46 +97,39 @@
                 "end_date",
                 "instruments",
                 "locations",
-                "station_location"
+                "location_code"
             ],
             "properties": {
-                "notes" :               {"$ref" : "definitions.schema.json#/comments"},
-                "comments" :            {"$ref" : "definitions.schema.json#/comments"},
-                "site" :                {"type" : "string", "minLength" : 1 },
-                "start_date" :          {"$ref" : "definitions.schema.json#/date-time-Z" },
-                "end_date" :            {"$ref" : "definitions.schema.json#/date-time-Z" },
-                "station_location" :    {"$ref" : "#/definitions/location_code"},
-                "instruments" :         {"$ref" : "#/definitions/instruments" },
-                "locations" :           {"$ref" : "#/definitions/locations" },
-                "processing" :          {"$ref" : "#/definitions/processing"},
-	            "extras" :              {"$ref" : "definitions.schema.json#/extras"},
-                "sensors":              {"$ref" : "#/definitions/sensors"},
-                "restricted_status":    {
-                                        "type" : "string",
-                                        "enum" : ["open", "closed", "partial"]
-                                        }
+                "notes":             {"$ref": "definitions.schema.json#/note_list"},
+                "comments":          {"$ref": "definitions.schema.json#/comment_list"},
+                "site":              {"type": "string", "minLength" : 1 },
+                "start_date":        {"$ref": "definitions.schema.json#/date-time-Z" },
+                "end_date":          {"$ref": "definitions.schema.json#/date-time-Z" },
+                "location_code":     {"$ref": "#/definitions/location_code"},
+                "locations":         {"$ref": "#/definitions/locations_map" },
+                "instruments":       {"$ref": "#/definitions/instrument_list" },
+                "processing":        {"$ref": "#/definitions/processing_list"},
+                "extras":            {"$ref": "definitions.schema.json#/extras"},
+                "restricted_status": {
+                                      "type": "string",
+                                      "enum": ["open", "closed", "partial"]
+                                     }
             },
             "additionalProperties": false
         },
-        "locations" : {
+        "location_code" : {
+            "type" : "string",
+            "description" : "SEED location code",
+            "pattern" : "^[0-9]{2}$"
+        },
+        "locations_map" : {
             "type" : "object",
             "description" : "sensor position by location code (two digits)",
             "patternProperties": {
                 "^[0-9]{2}$": { "$ref": "#/definitions/location_specification" }
             }
         },
-        "processing" : {
-            "type" : "array",
-            "description": "other information",
-            "items" : {
-                "type" : "object",
-                "description" : "other informations that will be appear as comments ",
-                "patternProperties": {
-                    "^[A-Za-z0-9_-]+$": {"type" : "object"}
-                }
-            }
-        },
-        "location_specification": {
+         "location_specification": {
             "type" : "object",
             "required": [
                 "position",
@@ -132,47 +139,143 @@
                 "vault"
             ],
             "properties": {
-                "position" :        {"$ref" : "#/definitions/GeoJSON" },
-                "uncertainties.m" : {"$ref" : "#/definitions/GeoJSON_m" },
-                "depth.m" :           {"type" : "number", "description" : "depth beneath the seafloor (m)"},
-                "geology" :         {"type" : "string", "default" : "unknown"},
-                "vault" :           {"type" : "string", "default" : "Sea floor"},
+                "position" :        {"$ref": "#/definitions/GeoJSON" },
+                "uncertainties.m" : {"$ref": "#/definitions/GeoJSON_m" },
+                "depth.m" :         {"type": "number", "description" : "depth beneath the seafloor (m)"},
+                "geology" :         {"type": "string", "default" : "unknown"},
+                "vault" :           {"type": "string", "default" : "Sea floor"},
                 "localisation_method" : {
                     "type": "string", 
                     "description" : "method used to locate instrument. Examples : 'Short baseline transponder, seafloor release',  'Ship position at deployment', or 'Acoustic (pinger) survey'"
                 }
+            },
+            "additionalProperties" : false
+        },
+       "instrument_list": {
+           "type": "array",
+           "description":" list of instrument",
+           "minItems" : 1,
+           "items" : { 
+                "oneOf": [
+                    {"$ref": "#/definitions/instrument_tag"},
+                    {"$ref": "#/definitions/instrument_ref_tag"}
+                ]
             }
         },
-        "synchronization_reference" :  {
-            "type" : "string",
-            "description" : "time reference used for synchronization (for example: 'GNSS', or 'ambient noise correlation')"
+        "instrument_ref_tag":
+        {
+            "type": "object",
+            "description": "Instrument reference tag",
+            "required": [ "ref" ],
+            "properties": {"ref": {"$ref": "#/definitions/instrument_ref"}},
+            "additionalProperties" : false
         },
-        "start_sync_instrument" : {
-            "anyOf" : [
-                { "$ref": "definitions.schema.json#/date-time-Z" },
+        "instrument_tag":
+        {
+            "type": "object",
+            "description": "Instrument full definition tag",
+            "required": [ "instrument" ],
+            "properties": {"instrument": {"$ref": "instrumentation.schema.json#/definitions/instrument_struct"}},
+            "additionalProperties" : false
+        },
+        "instrument_ref":
+        {
+            "type": "object",
+            "description": "Instrument reference",
+            "required": [ "code" ],
+            "properties" : {
+                "code":          {"type": "string" },
+                "config":        {"type": "string" },
+                "serial_number": {"type": "string"},
+                "channel_mods":  {"$ref": "#/definitions/channel_mods"}
+            }
+        },
+        "channel_mods": {
+            "type": "object",
+            "description": "modifications to instrument channels.  'by_das' or 'by_orientation' add to the 'base_channel_mod' values.  Only use one '*_by_*', usually 'by_orientation' unless more than one channel has the same orientation code",
+            "properties": {
+                "base":           {"$ref": "#/definitions/base_channel_mod"},
+                "by_das":         {"$ref": "#/definitions/channel_mods_map"},
+                "by_orientation": {"$ref": "#/definitions/channel_mods_map"}
+            },
+            "additionalProperties": false
+        },
+        "channel_mods_map": {
+            "type" : "object",
+            "description" : "channel modifications specified by orientation code or by das_channel",
+            "patternProperties": {
+                "^[A-Z]{3}_[0-9]{2}$": { "$ref": "#/definitions/channel_mod"} 
+            }
+        },
+       "channel_mod" : {
+            "type": "object",
+            "description": "spec/modification of one channel's properties",
+            "properties" : {
+                "datalogger":    {"$ref": "#/definitions/instrument_component_struct"},
+                "sensor":        {"$ref": "#/definitions/instrument_component_struct"},
+                "preamplifier":  {"$ref": "#/definitions/instrument_component_struct"},
+                "location_code": {"$ref": "#/definitions/location_code"},
+                "start_date":    {"$ref": "definitions.schema.json#/date-time-Z" },
+                "end_date":      {"$ref": "definitions.schema.json#/date-time-Z" }
+            },
+            "additionalProperties" : false
+        },
+       "base_channel_mod" : {
+            "allOf": [
+                {"$ref": "#/definitions/channel_mod"},
+                {"required": ["datalogger"]}
+            ]
+        },
+        "instrument_component_struct" : {  
+            "type": "object",
+            "description": "same as in instrumentation file, except 'code' not required",
+            "properties" : {
+                "code":          {"type": "string"},
+                "config":        {"type": "string"},
+                "serial_number": {"type": "string"}
+            },
+            "additionalProperties" : false
+        },
+        "processing_list": {
+            "type": "array",
+            "description": "other information",
+            "items": {
+                "type": "object",
+                "description": "other informations that will be appear as comments ",
+                "patternProperties": {"^[A-Za-z0-9_-]+$": {"type" : "object"}}
+            }
+        },
+        "synchronization_reference":  {
+            "type": "string",
+            "description": "time reference used for synchronization (for example: 'GNSS', or 'ambient noise correlation')"
+        },
+        "start_sync_instrument": {
+            "anyOf": [
+                {"$ref": "definitions.schema.json#/date-time-Z"},
                 {
-                    "type" : "integer",
-                    "minimum" : 0,
-                    "maximum" : 0,
-                    "description": "Can use 0 if identical to start_sync_reference"
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 0,
+                    "description": "sets start_sync_instrument equal to to start_sync_reference"
                 }
             ]
         },
         "clock_correction" : {
-            "type" : "object",
-            "description" : "clock_correction",
-            "required" : ["linear_drift"],
-            "properties" : {
-                "linear_drift" : {"$ref" : "#/definitions/clock_correction_linear"},
-                "linear_drifts" : {"$ref" : "#/definitions/linear_drifts"},
-                "leapseconds" :  {"$ref" : "#/definitions/clock_correction_leapseconds"}
+            "type": "object",
+            "description": "clock_correction",
+            "required": ["linear_drift"],
+            "properties": {
+                "linear_drift":  {"$ref": "#/definitions/clock_correction_linear"},
+                "linear_drifts": {"$ref": "#/definitions/clock_correction_linear_list"},
+                "leapsecond":    {"$ref": "#/definitions/clock_correction_leapsecond"},
+                "leapseconds":   {"$ref": "#/definitions/clock_correction_leapseconds_list"}
             },
             "additionalProperties": false
         },
-        "linear_drifts" : {
-            "type" : "array",
+        "clock_correction_linear_list" : {
+            "type": "array",
             "description": "list of linear drift corrections",
-            "items" : { "$ref" : "#/definitions/linear_drifts"}
+            "items": { "$ref" : "#/definitions/clock_correction_linear"}
         },
         "clock_correction_linear": {
             "type" : "object",
@@ -186,155 +289,74 @@
                 "end_sync_instrument"
             ],
             "properties" : {
-                "time_base" :             {"type" : "string","description" : "time base used in OBS"},
-                "reference" :             {"$ref" : "#/definitions/synchronization_reference"},
-                "start_sync_reference" :  {"$ref" : "definitions.schema.json#/date-time-Z" },
-                "start_sync_instrument" : {"$ref" : "#/definitions/start_sync_instrument" },
-                "end_sync_reference" :    {"$ref" : "definitions.schema.json#/date-time-Z" },
-                "end_sync_instrument" :   {"$ref" : "definitions.schema.json#/date-time-Z" }
-            }
+                "time_base" :             {"type": "string","description" : "time base used in OBS"},
+                "reference" :             {"$ref": "#/definitions/synchronization_reference"},
+                "start_sync_reference" :  {"$ref": "definitions.schema.json#/date-time-Z" },
+                "start_sync_instrument" : {"$ref": "#/definitions/start_sync_instrument" },
+                "end_sync_reference" :    {"$ref": "definitions.schema.json#/date-time-Z" },
+                "end_sync_instrument" :   {"$ref": "definitions.schema.json#/date-time-Z" }
+            },
+            "additionalProperties" : false
         },
-        "clock_correction_leapseconds" : {
+        "clock_correction_leapseconds_list" : {
             "type" : "array",
             "description": "leapsecond objets",
-            "items" : {
+            "items" : { "$ref" : "#/definitions/clock_correction_leapsecond" }
+        },
+        "clock_correction_leapsecond" : {
                 "type" : "object",
                 "description" : "Leap-second information",
-                "required" : ["time",
-                              "type",
-                              "corrected_in_end_sync"
-                ],
+                "required" : ["time", "type", "corrected_in_end_sync"],
                 "properties" : {
-                    "time" :                      {"$ref" : "definitions.schema.json#/date-time-Z" },
-                    "type" :                      {"$ref" : "#/definitions/lpsec_type"},
-                    "description" :               {"$ref" : "#/definitions/lpsec_description" },
-                    "corrected_in_end_sync" :     {"$ref" : "#/definitions/lpsec_corrected_in_end_sync"},
-                    "corrected_in_basic_miniseed":{"$ref" : "#/definitions/lpsec_corrected_in_basic_miniseed" }
+                    "time" :                      {"$ref": "definitions.schema.json#/date-time-Z" },
+                    "type" :                      {"$ref": "#/definitions/lpsec_type"},
+                    "description" :               {"$ref": "#/definitions/lpsec_description" },
+                    "corrected_in_end_sync" :     {"$ref": "#/definitions/lpsec_corrected_in_end_sync"},
+                    "corrected_in_basic_miniseed":{"$ref": "#/definitions/lpsec_corrected_in_basic_miniseed" }
                 },
                 "additionalProperties": false
-            }
         },
-        "lpsec_type" : {
+       "lpsec_type" : {
             "type" : "string",
             "description" : "Leapsecond direction",
             "enum" : ["+","-"]
         },
         "lpsec_description" : {
-            "type" : "string",
-            "enum" : [
+            "type": "string",
+            "enum": [
                 "Positive leapsecond (a 61-second minute)",
                 "Negative leapsecond (a 59-second minute)"
             ]
         },
         "lpsec_corrected_in_end_sync" : {
-            "type" : "boolean",
-            "description" : "Was end_sync_instrument corrected for the leap second? (subtract one second if positive leapsecond, add one if negative)"
+            "type": "boolean",
+            "description": "True if end_sync_instrument was corrected for the leap second (subtracted one second if positive leapsecond, added one if negative)"
         },
         "lpsec_corrected_in_basic_miniseed" : {
-            "type" : "boolean",
-            "description" : "Was basic miniseed data corrected for the leap second?"
-        },
-        "sensors" : {
-            "type" : "object",
-            "description" : "Optional specification of sensors by component:location code",
-            "patternProperties": {
-                "^[A-Z]{3}:[0-9]{2}$": {"$ref" : "#/definitions/functional_component" }
-            }
-        },
-        "reference_code" : {
-            "anyOf": [
-                {
-                    "type": "string",
-                    "description": "reference code (if None, use existing reference_code (can only change serial number).  Otherwise, must correspond to a key in instrumentation or instrument_components)"
-                },
-                { "type" : "null" }
-            ]
-        },
-        "serial_number" : {
-            "anyOf": [
-                {
-                    "type": "string",
-                    "description": "serial number.  If this reference_code/serial_number combination is specified, use its specific values.  If not, will just fill in 'serial_number' field"
-                },
-                { "type" : "null" }
-            ]
-        },
-        "instruments": {
-           "type": "array",
-           "description":" list of instrument",
-           "minItems" : 1,
-           "items" : { "$ref" : "#/definitions/instrument"}
-        },
-        "instrument":
-        {
-             "type": "object",
-                    "description": "Instrument reference",
-                    "required": [
-                        "reference_code"  
-                    ],
-                    "properties" : {
-                        "reference_code":    {"$ref" : "#/definitions/reference_code" },
-                        "serial_number":     {"$ref" : "#/definitions/serial_number"},
-                        "channel_codes_locations": {
-                            "type" : "object",
-                            "description" : "specification by channel_location pairs",
-                            "patternProperties": {
-                                "^[A-Z]{3}_[0-9]{2}$": { "$ref": "#/definitions/channel_specification" 
-                        }
-                    }
-                }
-            }
-        },
-
-        "location_code" : {
-            "type" : "string",
-            "description" : "SEED location code",
-            "pattern" : "^[0-9]{2}$"
-        },
-        "channel_specification" : {
-            "type": "object",
-            "description": "specification of channel parameters",
-            "required" : ["datalogger_config"],
-            "properties" : {
-                "datalogger_config" : { 
-                    "type" : "string",
-                    "description" : "suffix of datalogger name corresponding to the sample rate" 
-                },
-                "start_date":  {"$ref" : "definitions.schema.json#/date-time-Z" },
-                "end_date":    {"$ref" : "definitions.schema.json#/date-time-Z" },
-                "sensor" : { "type" : "object" },
-                "das_component" : { "type" : "string" }
-            },
-            "additionalProperties" : false
-        },
-        "functional_component": {
-            "type": "object",
-            "description": "Reference to a specific functional component of an instrument)",
-            "required": ["reference_code", "serial_number"],
-            "properties": {
-                "reference_code": { "$ref": "#/definitions/reference_code" },
-                "serial_number":  { "$ref": "#/definitions/serial_number"}
-            }
+            "type": "boolean",
+            "description": "True if basic miniseed data is already corrected for the leap second"
         },
         "GeoJSON": {
             "type": "object",
-            "description": "Object position [longitude (deg), latitude (deg), elevation (m)]",
-            "required":["lat","lon","elev"],
+            "description": "Object position: lat and lon in deg, elevation in m",
+            "required": ["lat","lon","elev"],
             "properties": {
-                "lat": {"type": "number"},
-                "lon": {"type": "number"},
+                "lat":  {"type": "number"},
+                "lon":  {"type": "number"},
                 "elev": {"type" :"number"}
-            }
+            },
+            "additionalProperties" : false
         },
         "GeoJSON_m": {
             "type": "object",
-            "description": "Object uncertainties, all in meters [longitude (m), latitude (m), elevation (m)]",
-            "required":["lat","lon","elev"],
+            "description": "Object uncertainties in meters",
+            "required": ["lat","lon","elev"],
             "properties": {
-                "lat": {"type": "number"},
-                "lon": {"type": "number"},
+                "lat":  {"type": "number"},
+                "lon":  {"type": "number"},
                 "elev": {"type" :"number"}
-            }
+            },
+            "additionalProperties" : false
         }
-	}
+    }
 }

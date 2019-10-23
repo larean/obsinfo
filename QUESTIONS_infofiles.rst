@@ -24,7 +24,15 @@ for the basic principals behind these files.
       
   Another possibility would be to allow two types of network file: "full"
   (\*.network.yaml) and "obs" (\*.obsnetwork.yaml)
-    
+
+- **Should the software delay correction be specified in the
+  instrument_components:datalogger field?**
+    * Currently specified in the digital filter response file (easier to inject
+      into stages), but in fact it is not at all intrinsic to this filter.
+      Could even specify as samples if in top (generic) level, or seconds within
+      each configuration.  
+    * Would have to remove from the ``response:decimation_info`` field
+ 
 - **Allow instrument-components to be specified using other formats as well**
 
   Such as REF, for people who are used to using that

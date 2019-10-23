@@ -8,13 +8,13 @@ yaml_anchors:
     location_buc_drop: &LOC_BUC_DROP
         depth.m: 0
         geology: "unknown"
-        vault: "Sea floor"                    
+        vault: "Sea floor"
         uncertainties.m: {lon: 20, lat: 20, elev: 20}
         localisation_method: "Short baseline transponder, near-seafloor release"
     bbobs_62: &BBOBS1_62_REF
         code: "BBOBS1"
         config: "2012+"
-        base_channel_mods: {datalogger: {config: "62.5sps"}}
+        channel_mods: {base: {datalogger: {config: "62.5sps"}}}
 
 revision:
     authors:
@@ -25,11 +25,12 @@ revision:
     date: "2017-10-04"
 network:
     facility:
-        reference_name: "INSU-IPGP"
+        ref_name: "INSU-IPGP"
         full_name: "INSU-IPGP OBS Park"
-    campaign_reference_name: "MYCAMPAIGN"
-    general_information:
+    campaign_ref_name: "MYCAMPAIGN"
+    network_info:
         code: "4G"
+        name: "EMSO-MOMAR"
         start_date: "2007-07-01"
         end_date: "2025-12-31"
         description: "EMSO-MOMAR"
@@ -45,7 +46,7 @@ network:
             location_code: "00"
             instruments:
                 - ref:
-                        <<: *BBOBS_1_62_REF
+                        <<: *BBOBS1_62_REF
                         serial_number: "07"
             locations:
                 "00":
@@ -67,13 +68,14 @@ network:
             location_code: "00"
             instruments:
                 - ref:
-                        <<: *BBOBS_1_62
+                        <<: *BBOBS1_62_REF
                         serial_number: "07"
-                        base_channel_mods:
-                            datalogger: {config:  "62.5sps"}
-                            sensor: {serial_number: "Sphere06"}
                         channel_mods:
-                            "H_??": {sensor: {serial_number : "IP007"}}
+                            base:
+                                datalogger: {config:  "62.5sps"}
+                                sensor: {serial_number: "Sphere06"}
+                            by_orientation:
+                                "H": {sensor: {serial_number : "IP007"}}
             locations:
                 "00":
                     <<: *LOC_BUC_DROP

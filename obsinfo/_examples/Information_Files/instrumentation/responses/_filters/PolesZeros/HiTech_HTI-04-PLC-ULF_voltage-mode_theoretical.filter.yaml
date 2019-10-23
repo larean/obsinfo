@@ -1,5 +1,5 @@
 ---
-format_version: "0.106"
+format_version: "0.107"
 filter:
     type: "PolesZeros"
     units: "rad/s"
@@ -8,4 +8,4 @@ filter:
     poles:
         - [0.093928, 0.000]
 notes:
-    - From German (DEPAS) Station XML files (I still don't have better)
+    - "From German (DEPAS) Station XML files (I still don't have better)"

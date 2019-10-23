@@ -42,6 +42,11 @@ ______
     - Or only require a location code in instrumentation.yaml if there are
       duplicate channel codes?
 
+- Allow network file to specify orientation of each component (write test case
+  to confirm)
+
+- Add Response and Filter classes to instrument_components.py?
+
 - Code
 
    * ``In obsinfo-make_process_scripts_*``, should ``--append`` imply
@@ -59,8 +64,11 @@ ______
 - Change model naming from ``reference_code:model_config`` to 
   ``reference_code: MODEL_VERS``, ``config: CONFIG``.
   
-- Remove ``delay_correction_samples`` from ``instrument_components:datalogger``
-  ( I don't think it's used anymore anyway)
+- remove output_sample_rate from ``response:decimation_info`` (datalogger)
+  It's already in ``instrument_components:datalogger:configurations`` (but need
+  to be sure this value can be used to check the output sample rate.
+  Alternatively, verify that output_sample_rate = sample_rate
+
 
   
 - Make simpler network files in examples:

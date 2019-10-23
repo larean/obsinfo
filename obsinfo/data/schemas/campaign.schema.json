@@ -8,7 +8,7 @@
 	    "format_version" : {"$ref" : "#/definitions/format_version"},
 	    "revision" :       {"$ref" : "definitions.schema.json#/revision"},
 		"campaign":        {"$ref" : "#/definitions/campaign"},
-	    "notes" :          {"$ref" : "definitions.schema.json#/comments"},
+	    "notes" :          {"$ref" : "definitions.schema.json#/note_list"},
 	    "yaml_anchors" :   {"$ref" : "definitions.schema.json#/yaml_anchors"},
 	    "extras":          {"$ref" : "definitions.schema.json#/extras"}
 	},
@@ -34,11 +34,11 @@
 				"reference_name":        {"$ref" : "definitions.schema.json#/reference_name" },
 				"reference_scientist" :  {"$ref" : "definitions.schema.json#/author" },
 				"fdsn_network" :         {"$ref" : "#/definitions/fdsn_network" },
-				"OBS_facilities" :       {"$ref" : "#/definitions/OBS_facilities" },
+				"OBS_facilities" :       {"$ref" : "#/definitions/OBS_facilities_map" },
 				"data_distribution" :    {"$ref" : "#/definitions/data_distribution" },
 				"validation_methods" :   {"$ref" : "#/definitions/validation_methods" },
 				"expeditions" :          {"$ref" : "#/definitions/expeditions" },
-				"notes" :                {"$ref" : "definitions.schema.json#/notes"},
+				"notes" :                {"$ref" : "definitions.schema.json#/note_list"},
 	            "extras":                {"$ref" : "definitions.schema.json#/extras"}
 			},
 			"additionalProperties" : false
@@ -55,7 +55,7 @@
             },
             "additionalProperties" : false
         },
-        "OBS_facilities": {
+        "OBS_facilities_map": {
             "type": "object",
             "description": "List of OBS facilities and their stations",
             "patternProperties": {
@@ -67,14 +67,15 @@
             "type":"object",
             "title": "Facility name",
             "properties": {
-                "stations": {
-                    "type": "array", 
-                    "description":"List of stations deployed by the facility",
-                    "minItems": 1,
-                    "items": {  "type": "string" }
-                }
+                "stations": {"$ref" : "#/definitions/station_list"}
             }
         },
+        "station_list": {
+            "type": "array", 
+            "description": "List of stations deployed by the facility",
+            "minItems": 1,
+            "items": {  "type": "string" }
+        }
         "data_distribution": {
             "type": "object",
             "description": "Parameters related to data distribution",

@@ -1,3 +1,8 @@
+v0.107
+-----
+- ``delay_correction`` moved from ``response:decimation_info``
+  to ``instrument_components:configurations:{config}``
+
 v0.106
 ------
 

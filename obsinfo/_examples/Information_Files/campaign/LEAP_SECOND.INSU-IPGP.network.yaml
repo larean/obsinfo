@@ -1,0 +1,66 @@
+---
+format_version: "0.107"
+notes:
+    - "Leapsecond correction example"
+yaml_anchors:
+    obs_clock_correction_linear_defaults: &LINEAR_CLOCK_DEFAULTS
+        time_base: "Seascan MCXO, ~1e-8 nominal drift"
+        reference: "GPS"
+        start_sync_instrument: 0
+    location_defaults: &LOC_DEFAULTS
+        depth.m: 0
+        geology: "unknown"
+        vault: "Sea floor"                    
+revision:
+    authors:
+        -
+            first_name : "Wayne"
+            last_name : "Crawford"
+            email: "crawford@ipgp.fr"
+    date: "2017-10-04"
+network:
+    facility:
+        ref_name: "INSU-IPGP"
+        full_name: "INSU-IPGP OBS Park"
+    campaign_ref_name: "MYCAMPAIGN"
+    network_info:
+        code: "4G"
+        name: "LEAP-SECOND-TEST"
+        start_date: "2007-07-01"
+        end_date: "2025-12-31"
+        description: "Test leap second handling"
+        comments: ["Lucky Strike Volcano, North Mid-Atlantic Ridge"]
+    ref_files:
+        instrumentation: {$ref: "../instrumentation/instrumentation.yaml"}
+    stations:
+        "LPSCD":
+            site: "Lucky Strike Volcano Center"
+            notes: [ "original station name = LSJ4"]
+            start_date: "2016-07-01T12:00:00"
+            end_date: ~
+            location_code: "00"
+            instruments:
+                - ref:
+                    code: "SPOBS2"
+                    serial_number: "Station01"
+                    channel_mods: {base: {datalogger: {config: "62.5sps"}}}
+            locations:
+                "00":
+                    <<: *LOC_DEFAULTS
+                    uncertainties.m: {lon: 5, lat: 5, elev: 10}
+                    localisation_method: "Short baseline transponder, seafloor release"
+                    position: {lon: -32.280, lat: 37.290, elev: -1760}
+            processing:
+                - clock_corrections:
+                    linear_drift:
+                        <<: *LINEAR_CLOCK_DEFAULTS
+                        start_sync_reference: "2016-07-01T16:00:00Z"
+                        end_sync_reference:   "2017-07-01T15:35:00.555Z"
+                        end_sync_instrument:  "2017-07-01T15:35:00Z"
+                    leapseconds:
+                        -
+                            time: "2016-12-31T23:59:60Z"
+                            type: "+"
+                            description: "Positive leapsecond (a 61-second minute)"
+                            corrected_in_basic_miniseed: No
+                            corrected_in_end_sync: Yes

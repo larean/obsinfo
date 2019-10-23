@@ -2,7 +2,7 @@
     "format_version": {
         "description": "Version of this file's schema",
         "type": "string",
-        "pattern": "^0\\.106$"
+        "pattern": "^0\\.107$"
     },
     "author" : {
         "type": "object",
@@ -22,40 +22,30 @@
         "type": "object",
         "description": "Free-form object for additions to information files"
     },
-    "comments": {
+    "comment_list": {
         "type" : "array",
         "description" : "list of comments (should be included in output metadata)",
         "minItems": 0,
         "items" : {
-                "anyOf": [
-                    {
-                        "type": "string",
-                        "minimum": 2
-                    }, 
-                    {
-                        "type" : "object", 
-                        "required": ["value"],
-                        "properties" : {
-                        "value":{"type":"string"},
-                        "begin_effective_time" :{"$ref":"#/date-time-Z"},
-                        "end_effective_time" :{"$ref":"#/date-time-Z"},
-                        "authors" :{"type":"array","items": {"$ref": "#/author"}
-                        }
-                    }   
-                    }
-                ]
-            }
+            "anyOf": [
+                {"$ref":"#/_basic_comment"},
+                {"$ref":"#/_stationxml_comment"}
+            ]
+        }
     },
-    
-    "comment": {
+    "_basic_comment": {
+        "type": "string",
+        "minimum": 2
+    }, 
+    "_stationxml_comment": {
         "type" : "object", 
-        "required": ["comment"],
+        "required": ["value"],
         "properties" : {
-                        "comment":{"type":"string"},
-                        "BeginEffectiveTime" :{"$ref":"#/date-time-Z"},
-                        "EndEffectiveTime" :{"$ref":"#/date-time-Z"},
-                        "authors" :{"type":"array","items": {"$ref": "#/author"}}
-        }   
+            "value":                {"type":"string"},
+            "begin_effective_time": {"$ref": "#/date-time-Z"},
+            "end_effective_time":   {"$ref": "#/date-time-Z"},
+            "authors":              {"type": "array", "items": {"$ref": "#/author"}}
+        }
     },
     "date": {
         "type": "string",
@@ -65,11 +55,11 @@
     "date_or_null": {
         "anyOf": [
             {
-                "type" : "string",
-                "description" : "yyyy-mm-dd date",
-                "pattern" : "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+                "type": "string",
+                "description": "yyyy-mm-dd date",
+                "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
             },
-            {   "type" : "null" }
+            {   "type" : "null"}
         ]
     },
     "date-time-Z": {
@@ -79,52 +69,52 @@
                 "description": "Date-time in ISO format with Z for GMT+0. The Z is not required.",
                 "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]*)?[Z]*$"
             },
-            { "type" : "null" }
+            {"type" : "null"}
         ]
     },
     "email": {
         "type": "string",
         "format": "email"
     },
-    "notes": {
-        "type" : "array",
-        "description" : "list of notes (should not be included in output metadata)",
+    "note_list": {
+        "type": "array",
+        "description": "list of notes (should not be included in output metadata)",
         "minItems": 0,
-        "items" : { "type" : "string", "minLength" : 1 }
+        "items": {"type": "string", "minLength": 1 }
     },
     "extras": {
         "type" : "object",
         "description" : "open structure for values and fields that do not contribute to (current) FDSN data or metadata"
     },
     "phone": {
- 
-            "anyOf":[
-               { "type": "string",
+        "anyOf":[
+            {
+                "type": "string",
                 "description": "...",
                 "pattern": "^[0-9]+-[0-9]+$"
             },
             {
-
-        "type": "object",
-        "description": "...",
-        "properties":{
-            "CountryCode": "Integer",
-            "AreaNumber":"Integer" ,
-            "PhoneNumber": {"type":"string", "pattern": "^[0-9]+-[0-9]+$"}
+                "type": "object",
+                "description": "...",
+                "properties":{
+                    "CountryCode": "Integer",
+                    "AreaNumber":"Integer" ,
+                    "PhoneNumber": {"type":"string",
+                                    "pattern": "^[0-9]+-[0-9]+$"}
+                }
             }
-        }
         ]
     },
-    "reference_name": {
+    "ref_name": {
         "type": "string",
         "description": "campaign or facility reference name"
     },
     "revision": {
         "description": "Date provenance of instrumentation information",
         "type": "object",
-        "required": ["date","authors"],
+        "required": ["date", "authors"],
         "properties": {
-            "date": { "$ref": "#/date" },
+            "date": {"$ref": "#/date"},
             "authors": {
                 "type": "array",
                 "minItems" : 1,
@@ -133,7 +123,7 @@
         }
     },
     "string_or_null": { 
-        "type" : [ "string" , "null" ]
+        "type": ["string" , "null"]
     },
     "URI_and_revision": {
         "type": "object",
@@ -153,9 +143,9 @@
     "URI_ref": {
         "type": "object",
         "description": "URI to file containing information to be loaded here",
-        "required" : ["$ref"],
-        "properties" : { "$ref" : {"type":"string"} },
-        "additionalProperties" : false
+        "required": ["$ref"],
+        "properties": {"$ref": {"type": "string"}},
+        "additionalProperties": false
     },
     "website": {
         "type": "string",
@@ -166,6 +156,5 @@
             {"$ref": "#/date" },
             {"$ref": "#/date-time-Z"}
         ]
-
     }
 }

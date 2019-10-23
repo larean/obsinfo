@@ -1,2 +1,2 @@
-from .network import network
-from .station import station
+from .network import Network
+from .network import Station

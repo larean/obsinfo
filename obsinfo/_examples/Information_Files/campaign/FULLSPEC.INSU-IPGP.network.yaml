@@ -1,5 +1,5 @@
 ---
-format_version: "0.106"
+format_version: "0.107"
 notes:
     - "comments are put into StationXML"
     - "notes are not put in StationXML"
@@ -24,6 +24,15 @@ yaml_anchors:
         reference_code: "SPOBS2"
         base_channel_mods:
             datalogger: {config: "125sps"}
+    equipmenttype: &EQUIPMENTTYPE_EMPTY
+        type: ~
+        description: ~
+        manufacturer: ~
+        vendor: ~
+        model: ~
+        serial_number: ~
+        calibration_date: ~
+
 revision:
     authors:
         -
@@ -35,12 +44,13 @@ network:
     facility:
         ref_name: "INSU-IPGP"
         full_name: "INSU-IPGP OBS Park"
-    campaign_ref_name: "MYCAMPAIGN"
-    general_information:
+    campaign_ref_name: "FULLSPEC"
+    network_info:
         code: "4G"
+        name: "FULL-SPECIFICATION"
         start_date: "2007-07-01"
         end_date: "2025-12-31"
-        description: "EMSO-MOMAR"
+        description: "Full specification of instruments"
         comments: 
             - "Lucky Strike Volcano, North Mid-Atlantic Ridge"
     ref_files:
@@ -55,13 +65,13 @@ network:
             instruments:
                 -
                     instrument:
-                        serial_number: "04"
                         equipment:
                             <<: *EQUIPMENTTYPE_EMPTY
                             model: "SPOBS2"
                             type: "Short Period Ocean Bottom Seismometer"
                             description: "LCHEAPO 2000 4-ch SPOBS, L-28 3C geophone"
                             manufacturer: "Scripps Inst. Oceanography"
+                            serial_number: "04"
                         base_channel:
                             datalogger_ref:
                                 code: "LC2000_LOGGER"
@@ -96,16 +106,16 @@ network:
             site: "Lucky Strike Volcano East"
             start_date: "2015-04-22T12:00:00Z"
             end_date: "2016-05-28T21:01:00Z"
-            station_location: "00"
+            location_code: "00"
             instruments:
-                - 
-                    instrument:
+                -  instrument:
                         equipment:
                             <<: *EQUIPMENTTYPE_EMPTY
-                            model: "SPOBS2_mod"
+                            model: "SPOBS2_modified"
                             type: "Short Period Ocean Bottom Seismometer"
                             description: "LCHEAPO 2000 4-ch SPOBS, L-28 3C geophone"
                             manufacturer: "Scripps Inst. Oceanography"
+                            serial_number: "12"
                         base_channel:
                             datalogger_ref:
                                 code: "LC2000_LOGGER"
@@ -125,8 +135,6 @@ network:
                             "2": {orientation_code : "2"}
                             "3": {orientation_code : "1"}
                             "4": {orientation_code : "3"}
-                <<: *SPOBS2_125
-                  serial_number: "12"
             locations:
                 "00":
                     <<: *LOC_ACOUSTIC

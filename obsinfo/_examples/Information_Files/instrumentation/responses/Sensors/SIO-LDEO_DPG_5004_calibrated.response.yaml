@@ -1,7 +1,7 @@
 ---
 notes:
     - "Based on June 2007 laboratory Calibration with BB01 logger"
-format_version: "0.106"
+format_version: "0.107"
 response:
     stages:
         -

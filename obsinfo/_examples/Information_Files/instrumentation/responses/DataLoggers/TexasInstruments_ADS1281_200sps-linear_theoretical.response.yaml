@@ -1,19 +1,17 @@
 ---
-format_version: "0.106"
+format_version: "0.107"
 notes:
     - "From ads1281.pdf"
 yaml_anchors:
     base: &BASE
         gain :         {value: 1, frequency: 0}
-        input_units :  { name : "counts", description: "Digital Counts"}
-        output_units : { name : "counts", description: "Digital Counts"}
-        extras:
-            DBIRD_response_type : "THEORETICAL" 
+        input_units :  {name : "counts", description: "Digital Counts"}
+        output_units : {name : "counts", description: "Digital Counts"}
+        extras:        {DBIRD_response_type: "THEORETICAL"}
 response:
     decimation_info:
         input_sample_rate: 409600
         output_sample_rate: 200
-        delay_correction: True
     stages: 
         - 
             <<: *BASE

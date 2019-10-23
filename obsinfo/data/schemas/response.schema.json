@@ -9,7 +9,7 @@
 	    "revision" :       {"$ref" : "definitions.schema.json#/revision"},
 	    "response" :       {"$ref" : "#/definitions/response" },
         "yaml_anchors" :   {"$ref" : "definitions.schema.json#/yaml_anchors"},
-	    "notes" :          {"$ref" : "definitions.schema.json#/comments"},
+	    "notes" :          {"$ref" : "definitions.schema.json#/note_list"},
 	    "extras" :         {"$ref" : "definitions.schema.json#/extras"}
 	},
 	"additionalProperties" : false,
@@ -17,7 +17,7 @@
 	    "format_version" : {
 	        "anyOf": [
 	            {"$ref" : "definitions.schema.json#/format_version"},
-	            {"type": "string","pattern": "^0\\.106$","comment":"version of last change to this schema"}
+	            {"type": "string","pattern": "^0\\.107$","comment":"version of last change to this schema"}
             ]
 	    },
 	    "response" : {
@@ -25,7 +25,7 @@
 	        "description": "The Response Object (currently contains only stages)",
 	        "required" : ["stages"],
 	        "properties" : { 
-	            "stages" : {"$ref" : "#/definitions/stages"},
+	            "stages" : {"$ref" : "#/definitions/stage_list"},
 		        "extras":  {"$ref" : "definitions.schema.json#/extras" },
                 "decimation_info" : {"$ref" : "#/definitions/decimation_info"}
 	         },
@@ -39,18 +39,11 @@
                 "output_units":      { "$ref" : "#/definitions/stage_io_units" },
                 "input_sample_rate": { "type" : "number",  "description": "DecimationType:InputSampleRate"},
                 "output_sample_rate":{ "type" : "number",  "description": "DecimationType:OutputSampleRate"},
-                "delay_correction":  { "$ref" : "#/definitions/delay_correction" },
-                "notes" :            {"$ref" : "definitions.schema.json#/notes"}
+                "notes" :            {"$ref" : "definitions.schema.json#/note_list"}
             },
 	        "additionalProperties" : false
         },
-        "delay_correction": {
-            "anyOf" : [
-                {"type" : "number",  "description": "set correction=0 for all stage and set correction=delay_correction for the last stage"},
-                {"type" : "boolean",  "description": "if True, set correction=delay for each stage else  set correction=0 for each stage"}
-            ]
-        },
-	    "stages" : {
+	    "stage_list" : {
 	        "type" : "array",
 	        "minItems": 1,
 	        "description" : "list of response stages",
@@ -72,10 +65,9 @@
                 "decimation_factor":  { "type" : "integer", "description": "DecimationType:Factor"},
                 "output_sample_rate" :{ "type" : "number",  "description": "DecimationType:OutputSampleRate"},
                 "delay" :              { "type" : "number",  "description": "DecimationType:Delay"},
-                "filter" :            { "$ref" : "filter.schema.json#/definitions"},
+                "filter" :            { "$ref" : "filter_field.schema.json#/definitions"},
                 "calibration_date" :  { "$ref" : "definitions.schema.json#/date"},
-                "delay_corrected"   : {"type" : "boolean"},
-                "notes" :             {"$ref" : "definitions.schema.json#/notes"},
+                "notes" :             {"$ref" : "definitions.schema.json#/note_list"},
                 "extras":             {"$ref" : "#/definitions/extras"}
             },
 		    "additionalProperties" : true

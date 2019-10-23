@@ -22,8 +22,9 @@ import yaml
 
 # obsinfo modules
 from ..misc.info_files import load_information_file, root_symbol
+from ..misc.misc import dict_update
 from ..misc import FDSN
-from ..instrument_components import Instrument_components
+from .instrument_components import Instrument_components
 
 
 class Instrumentation:
@@ -46,43 +47,65 @@ class Instrumentation:
 
     def __repr__(self):
         return "<OBS_Instrumentation: facility={}>".format(
-            self.facility["reference_name"]
-        )
+            self.facility["reference_name"])
 
-    def __components_exist(self, components_dict, instrument,
-                           components, print_names, debug=False):
-        for das_component in instrument["das_components"].values():
-            if debug:
-                print(yaml.dump(das_component))
-            for key, values in das_component.items():
-                if "reference_code" in values:
-                    ref_code = values["reference_code"]
-                    if ref_code in components_dict:
-                        components_dict[ref_code]["n_cites"] = (
-                            components_dict[ref_code]["n_cites"] + 1
-                        )
+    def _count_components(self, counting_dict, instrument,
+                          components, debug=False):
+        """
+        Adds instrument components to a counting dictionary
+
+        Looks through instrument's 'base_channel' and 'das_channels' fields
+
+        :param counting_dict: dictionary with subfields "exists" and "n_cites"
+        :param instrument: instrument ref dictionary
+        :param components:
+        """
+        counting_dict = self._count_components_onechan(
+            counting_dict, instrument["base_channel"], components)
+        for das_channel in instrument["das_channels"].values():
+            counting_dict = self._count_components_onechan(counting_dict,
+                                                           das_channel,
+                                                           components)
+        return counting_dict
+
+    def _count_components_onechan(self, counting_dict, channel,
+                                  components, debug=False):
+        """
+        Adds channel components to a counting dictionary
+
+        :param counting_dict: dictionary with subfields "exists" and "n_cites"
+        :param channel: instrument channel ref dictionary
+        :param components:
+        """
+        if debug:
+            print(yaml.dump(channel))
+        for key, values in channel.items():
+            if "code" in values:
+                ref_code = values["code"]
+                if ref_code in counting_dict:
+                    counting_dict[ref_code]["n_cites"] += 1
+                else:
+                    counting_dict[ref_code] = dict(n_cites=1, exists=None,
+                                                   component_type=key,
+                                                   config_list=False)
+                    if debug:
+                        print("components=", components)
+                    component = components.get_component(key.split('_')[0],
+                                                         ref_code)
+                    if component:
+                        counting_dict[ref_code]["exists"] = True
+                        if type(component) == list:
+                            counting_dict[ref_code]["config_list"] = [
+                                x[len(ref_code) + 1] for x in component
+                            ]
                     else:
-                        components_dict[ref_code] = dict(n_cites=1,
-                                                         exists=None,
-                                                         component_type=key,
-                                                         config_list=False)
-                        if debug:
-                            print("components=", components)
-                        component = components.get_component(key, ref_code)
-                        if component:
-                            components_dict[ref_code]["exists"] = True
-                            if type(component) == list:
-                                components_dict[ref_code]["config_list"] = [
-                                    x[len(ref_code) + 1] for x in component
-                                ]
-                        else:
-                            components_dict[ref_code]["exists"] = False
-        return components_dict
+                        counting_dict[ref_code]["exists"] = False
+        return counting_dict
 
     def print_elements(self, debug=False):
         """ prints all instruments (descriptions and  serial numbers)
         """
-        for key, element in sorted(self.instruments["generic"].items()):
+        for key, element in sorted(self.instruments.items()):
             description = None
             if debug:
                 print(element)
@@ -97,32 +120,25 @@ class Instrumentation:
                 else:
                     description = "None provided"
             SNs = []
-            if "specific" in self.instruments:
-                if key in self.instruments["specific"]:
-                    SNs = sorted(self.instruments["specific"][key])
-            print(f'{key}: description="{description}", specified_SNs={SNs}')
+            configs = []
+            if "serial_numbers" in element:
+                SNs.extend(sorted(element["serial_numbers"]))
+            if "configurations" in element:
+                for config_name, config in element["configurations"].items():
+                    configs.append(config_name)
+                    if "serial_numbers" in config:
+                        SNs.extend(sorted(config["serial_numbers"]))
+            print(f'{key}: {description}')
+            print('  ' + yaml.dump({"configurations": configs},
+                                   indent=4), end='')
+            print('  ' + yaml.dump({"specified SNs": sorted(set(SNs))},
+                                   indent=4), end='')
+#             if "specific" in self.instruments:
+#                 if key in self.instruments["specific"]:
+#                     SNs = sorted(self.instruments["specific"][key])
+#             print(f'{key}: description="{description}", specified_SNs={SNs}')
 
-#     def verify_individuals(self):
-#         """ Verify that all "specific" instruments have a generic counterpart
-#
-#             returns true if so, false + error message if not
-#         """
-#         checksOut = True
-#         no_error_for_type = True
-#         if "specific" in self.instruments:
-#             for model in self.instruments["specific"].keys():
-#                 if model not in self.instruments["generic"]:
-#                     if no_error_for_type:
-#                         print("  {:>15}: ".format(block_type), end="")
-#                         no_error_for_type = False
-#                     checksOut = False
-#                     print(
-#                           15 * " "  +
-#                           f'"{:model}" is in "specific" but not in "generic"'
-#                     )
-#         return checksOut
-
-    def check_dependencies(self, print_names=False, debug=False):
+    def check_dependencies(self, print_names=False, debug=True):
         """ Verify that the components file exists and contains requested components
 
             Prints error message if anything fails
@@ -138,33 +154,32 @@ class Instrumentation:
         components = Instrument_components(comp_file)
         if debug:
             print("check_dependencies:components=", components)
-        components_dict = dict()
-        for instrument in self.instruments["generic"].values():
+        counting_dict = dict()
+        for key, instrument in self.instruments.items():
+            counting_dict = self._count_components(counting_dict,
+                                                   instrument, components,
+                                                   print_names)
             if debug:
-                print(yaml.dump(instrument))
-            components_dict = self.__components_exist(
-                components_dict, instrument, components, print_names
-            )
-        total_components = 0
-        total_found = 0
-        total_cites = 0
-        for ref_code, value in sorted(components_dict.items()):
+                print(key)
+                print(instrument)
+                print(yaml.dump(counting_dict))
+        total_components, total_found, total_cites = 0, 0, 0
+        for ref_code, value in sorted(counting_dict.items()):
             total_components = total_components + 1
             n_cites = value["n_cites"]
             total_cites = total_cites + n_cites
             if n_cites == 1:
-                cite_str = "1 cite"
+                cite_str = " 1 cite "
             else:
                 cite_str = f"{n_cites:2d} cites"
             if value["exists"]:
-                # comments = ""
                 total_found = total_found + 1
                 if print_names:
                     print(f"        FOUND ({cite_str}): {ref_code}")
             else:
                 print(f"    NOT FOUND ({cite_str}): {ref_code}")
         config_header_written = False
-        for ref_code, value in sorted(components_dict.items()):
+        for ref_code, value in sorted(counting_dict.items()):
             if value["config_list"]:
                 if not config_header_written:
                     print(" **Some component citations must be completed in "
@@ -228,7 +243,7 @@ class Instrument:
 #         specific = self.__get_specific_instrument(instrumentation)
 #         if specific:
 #             self.__load_specific_instrument(specific)
-#        self.__update_das_components(inst_dict)
+#        self.__update_das_channels(inst_dict)
         self.equipment = FDSN.equipment_type(inst["equipment"])
         if self.config_description:
             self.equipment.description = self.equipment.description +\
@@ -238,7 +253,7 @@ class Instrument:
     def __repr__(self):
         return f"<{__name__}: reference_code={self.reference_code}, " +\
                f"serial_number={self.serial_number}, " +\
-               f"{len(self.das_components):d} channels >"
+               f"{len(self.das_channels):d} channels >"
 
     def __get_instrument(self, instrumentation, ref_code):
 
@@ -305,61 +320,60 @@ class Instrument:
 #                     reference_code, serial_number)
 #             )
 
-    def __update_das_components(self, inst_dict, debug=False):
+    def __update_das_channels(self, inst_dict, debug=False):
         # INCORPORATE SPECIFIC CHANNEL VALUES
         for loc_key, value in inst_dict["channel_codes_locations"].items():
-            das_component = value.get("das_component", None)
-            dc_key = self.__find_dc_key(loc_key[2], das_component)
+            das_channel = value.get("das_channel", None)
+            dc_key = self.__find_dc_key(loc_key[2], das_channel)
             self.__insert_codes(dc_key, loc_key)
-            self.__update_das_component(dc_key, value)
+            self.__update_das_channel(dc_key, value)
 
-    def __find_dc_key(self, orientation_code, das_component=None, debug=False):
-        """ finds the das_component corresponding to the orientation code
+    def __find_dc_key(self, orientation_code, das_channel=None, debug=False):
+        """ finds the das_channel corresponding to the orientation code
 
             Also validates that the orientation code is possible and unique,
             using das_channel if necessary
         """
-        if das_component:
-            return das_component
+        if das_channel:
+            return das_channel
         dc_key = None
         das_orientation_codes = []
-        for key, value in self.das_components.items():
+        for key, value in self.das_channels.items():
             das_orientation_codes.append(value["orientation_code"])
             if value["orientation_code"] == orientation_code:
                 if dc_key:
                     raise NameError(
                         '"{}" is a non-unique orientation code '
                         "for this instrument\n"
-                        "You must specify das_component"
-                        'in each "channel_codes_locations" declaration'
+                        "You must use _by_das"
                         "".format(orientation_code)
                     )
-                if das_component:
-                    if das_component == key:
+                if das_channel:
+                    if das_channel == key:
                         dc_key = key
                 else:
                     dc_key = key
         if not dc_key:
             raise NameError(f"instrument {self.reference_code} : " +
-                            "No das_component with orientation code " +
+                            "No das_channel with orientation code " +
                             f"'{orientation_code}' found, " +
                             f"only {das_orientation_codes} found")
         return dc_key
 
     def __insert_codes(self, dc_key, chan_loc, debug=False):
-        """ inserts location and seed codes into the das_component
+        """ inserts location and seed codes into the das_channel
         """
         if debug:
             print(chan_loc)
             print(dc_key)
-            print(self.das_components[dc_key])
-        self.das_components[dc_key]["band_code"] = chan_loc[0]
-        self.das_components[dc_key]["inst_code"] = chan_loc[1]
-        self.das_components[dc_key]["location_code"] = chan_loc[4:6]
+            print(self.das_channels[dc_key])
+        self.das_channels[dc_key]["band_code"] = chan_loc[0]
+        self.das_channels[dc_key]["inst_code"] = chan_loc[1]
+        self.das_channels[dc_key]["location_code"] = chan_loc[4:6]
 
-    def __update_das_component(self, dc_key, chan_values, debug=False):
-        """ update a das_component with net:sta:loc:chan values """
-        dc = self.das_components[dc_key]
+    def __update_das_channel(self, dc_key, chan_values, debug=False):
+        """ update a das_channel with net:sta:loc:chan values """
+        dc = self.das_channels[dc_key]
         if "sample_rate" in chan_values:
             dc["sample_rate"] = chan_values["sample_rate"]
         if "serial_number" in chan_values:
@@ -383,7 +397,7 @@ class Instrument:
                 dc["datalogger"]["reference_code"] + "_" + dl_config
             )
 
-    def __inject_measurement_instrument_parameters(self, das_component,
+    def __inject_measurement_instrument_parameters(self, das_channel,
                                                    instrument_spec,
                                                    debug=False):
         """
@@ -393,10 +407,10 @@ class Instrument:
             print(instrument_spec)
         for key, values in instrument_spec.items():
             if "reference_code" in values:
-                self.das_components[das_component][key]["reference_code"] =\
+                self.das_channels[das_channel][key]["reference_code"] =\
                     values["reference_code"]
             if "serial_number" in values:
-                self.das_components[das_component][key]["serial_number"] =\
+                self.das_channels[das_channel][key]["serial_number"] =\
                     values["serial_number"]
 
     def load_components(self, components_file, referring_file=None):
@@ -409,7 +423,7 @@ class Instrument:
         """
         components = Instrument_components(components_file, referring_file)
 
-        for key in self.das_components:
+        for key in self.das_channels:
             self.fill_channel(key, components)
         self.resource_id = self.facility["reference_name"] +\
             components.revision["date"]
@@ -420,7 +434,7 @@ class Instrument:
             components is an OBS_Instrument_Components object
                     (direct from *_instrument_components.yaml)
         """
-        channel = self.das_components[channel_key]
+        channel = self.das_channels[channel_key]
         if debug:
             print("Channel=", channel)
         for block_type in ["datalogger", "preamplifier", "sensor"]:
@@ -459,23 +473,40 @@ class Instrument:
             "instrument_components/instrument_blocks",
             referring_file,
         )
-        sensors_generic = components["sensor"]["generic"]
-        sensors_specific = components["sensor"]["specific"]
-
+        sensors = components["sensor"]
         for channel, values in sensor_dict.items():
-            ref_code = values["reference_code"]
-            SN = values["serial_number"]
-            self.channels[channel]["sensor"] = sensors_generic[ref_code].copy()
-            self.channels[channel]["sensor"]["serial_number"] = SN
-            print("Setting {} {} SN to {}".format(channel, ref_code, SN))
-            if ref_code in sensors_specific:
-                if SN in sensors_specific[ref_code]:
-                    for key, value in sensors_specific[ref_code][SN].items():
-                        print("Setting {} to {}".format(key, value))
-                        self.channels[channel]["sensor"][key] = value
+            self._modify_sensor(sensors[values["ref_code"]], channel, values)
+
+    def _modify_sensor(self, sensor, channel, values):
+        """ Modify sensor within an instrument
+        Inputs:
+            sensors: dictionary of sensors from instrumnet_components file
+            channel: channel name?
+            values: channel values?
+        """
+        sensor = sensor.copy()
+        SN = values["serial_number"]
+        sensor["serial_number"] = SN
+        if "serial_numbers" in sensor:
+            if SN in sensor["serial_numbers"]:
+                sensor = dict_update(
+                    sensor,  sensor["serial_numbers"][SN])
+            del sensor["serial_numbers"]
+        if "configurations" in sensor:
+            if "config" in values:
+                if values["config"] in sensor["configurations"]:
+                    sensor_config = \
+                        sensor["configurations"][values["config"]]
+                    sensor = dict_update(sensor, sensor_config)
+                    if "serial_numbers" in sensor_config:
+                        if SN in sensor_config["serial_numbers"]:
+                            sensor = dict_update(
+                                sensor, sensor_config["serial_numbers"][SN])
+            del sensor["configurations"]
+        self.channels[channel]["sensor"] = sensor
 
     def fill_responses(self, debug=False):
-        for name, channel in self.das_components.items():
+        for name, channel in self.das_channels.items():
             if debug:
                 print(yaml.dump(channel))
             channel["sensor"].fill_responses()

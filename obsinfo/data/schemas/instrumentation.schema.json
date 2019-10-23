@@ -1,243 +1,205 @@
 {
-	"$schema": "http://json-schema.org/draft-04/schema#",
-	"title": "Instrumentation",
-	"description": "OBS facility instruments and their components",
-	"type": "object",
-	"required": [ "instrumentation","format_version" ],
-	"properties": {
-	    "format_version" : {"$ref" : "#/definitions/format_version"},
-	    "revision" :       {"$ref" : "definitions.schema.json#/revision"},
-		"instrumentation": {"$ref" : "#/definitions/instrumentation" },
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Instrumentation",
+    "description": "OBS facility instruments and their components",
+    "type": "object",
+    "required": [ "instrumentation","format_version" ],
+    "properties": {
+        "format_version" : {"$ref" : "#/definitions/format_version"},
+        "revision" :       {"$ref" : "definitions.schema.json#/revision"},
+        "instrumentation": {"$ref" : "#/definitions/instrumentation" },
         "yaml_anchors" :   {"$ref" : "definitions.schema.json#/yaml_anchors"},
-	    "notes" :          {"$ref" : "definitions.schema.json#/comments"},
-		"extras":          {"$ref" : "definitions.schema.json#/extras" }
-	},
+        "notes" :          {"$ref" : "definitions.schema.json#/note_list"},
+        "extras":          {"$ref" : "definitions.schema.json#/extras" }
+    },
     "additionalProperties" : false,
-	"definitions": {
-	    "format_version" : {
-	        "anyOf": [
-	            {"$ref" : "definitions.schema.json#/format_version"},
-	            {"type": "string","pattern": "^0\\.104$","comment":"version of last change to this schema"}
+    "definitions": {
+        "format_version" : {
+            "anyOf": [
+                {"$ref" : "definitions.schema.json#/format_version"},
+                {"type": "string","pattern": "^0\\.107$",
+                 "comment":"version of last change to this schema"}
             ]
-	    },
-		"instrumentation": {
-			"type": "object",
-			"required": [
-				"facility",
-				"instrument_components",
-				"instruments"
-			],
-			"properties": {
-				"facility":             {"$ref" : "#/definitions/facility" },
-				"instrument_components":{"$ref" : "definitions.schema.json#/URI_ref" },
-				"instruments":          {"$ref" : "#/definitions/instruments" },
-		        "extras":               {"$ref" : "definitions.schema.json#/extras" }
-			}
-		},
+        },
+        "instrumentation": {
+            "type": "object",
+            "required": ["facility", "instrument_components", "instruments"],
+            "properties": {
+                "facility":             {"$ref": "#/definitions/facility" },
+                "instrument_components":{"$ref": "definitions.schema.json#/URI_ref" },
+                "instruments":          {"$ref": "#/definitions/instruments_map" },
+                "extras":               {"$ref": "definitions.schema.json#/extras" }
+            },
+            "additionalProperties" : false
+        },
         "facility": { 
             "type": "object",
             "description": "OBS facility information",
-            "required": [
-                "reference_name",
-                "full_name", 
-                "email"
-            ],
+            "required": ["ref_name", "full_name", "email"],
             "properties": {
-                "reference_name": {"$ref" : "definitions.schema.json#/reference_name"},
-                "full_name":      { "type": "string"},
-                "email":          { "$ref" : "definitions.schema.json#/email"},
-                "website":        { "$ref" : "definitions.schema.json#/website" },
-                "phone_number":   { "$ref": "definitions.schema.json#/phone" }
-            }
-        },
-        "instruments": {
-            "type": "object",
-            "description": "Instruments, keyed by reference code",
-            "required": ["generic"],
-            "properties": {
-                "generic" :  { "$ref": "#/definitions/instruments_generic"},
-                "specific" : {  "$ref": "#/definitions/instruments_specific"}
+                "ref_name":     {"$ref" : "definitions.schema.json#/ref_name"},
+                "full_name":    {"type": "string"},
+                "email":        {"$ref": "definitions.schema.json#/email"},
+                "website":      {"$ref": "definitions.schema.json#/website"},
+                "phone_number": {"$ref": "definitions.schema.json#/phone"}
             },
-            "additionalProperties": false
+            "additionalProperties" : false
         },
-        "instruments_generic" : {
-            "description" : "Generic descriptions of instruments, keyed by instrument model_configuration",
+        "instruments_map": {
             "type": "object",
             "minProperties": 1,
+            "description": "Instruments, keyed by reference code",
             "patternProperties": {
-                "^[A-Za-z0-9_-]+$": { 
-                    "type": "object",
-                    "description": "Individual instrument",
-                    "required": [
-                        "equipment",
-                        "das_components"
-                    ],
-                    "properties": {
-                        "equipment":      { "$ref": "#/definitions/equipmentType"},
-                        "das_components": {  "$ref": "#/definitions/measurement_instruments_generic"}
-                    }
-                }
+                "^[A-Za-z0-9_-]+$": {"$ref": "#/definitions/instrument_struct"}
             }
         },
-        "das_components_generic": { 
+        "instrument_struct" : {
             "type": "object",
-            "description": "individual measurement instruments specified by das component (channel on a given das) and possibly separate connector named as component_connector)",
+            "description": "Individual instrument",
+            "required": ["equipment", "das_channels"],
+            "properties": {
+                "base_channel":  {"$ref": "#/definitions/base_channel_struct"},
+                "das_channels":  {"$ref": "#/definitions/das_channel_map"},
+                "equipment":      {"$ref": "#/definitions/equipmentType_struct"},
+                "configurations": {"$ref": "#/definitions/configurations_map"},
+                "serial_numbers": {"$ref": "#/definitions/serial_numbers_map"}
+            },
+            "additionalProperties" : false
+         },
+        "das_channel_map": { 
+            "type": "object",
+            "description": "Individual channels specified by das component",
             "patternProperties": {
-                "^[A-Za-z0-9]+$": {
-                    "type": "object",
-                    "description": "Each string must correspond to a component reference_code in the instrumentation_components file",
-                    "required": [
-                        "orientation_code",
-                        "datalogger",
-                        "sensor"
-                    ],
-                    "properties" : {
-                        "orientation_code" : { "$ref": "#/definitions/orientation_code"},
-                        "datalogger" :       { "$ref": "#/definitions/instrument_component_generic"},
-                        "preamplifier" :     { "$ref": "#/definitions/instrument_component_generic"},
-                        "sensor" :           { "$ref": "#/definitions/instrument_component_generic"}
-                    }
-                }
+                "^[A-Za-z0-9]+$": {"$ref": "#/definitions/das_channel_struct"}
             }
         },
-        "orientation_code" : {
+        "das_channel_modif_map": { 
+            "type": "object",
+            "description": "Individual channels for modification, specified by das component",
+            "patternProperties": {
+                "^[A-Za-z0-9]+$": {"$ref": "#/definitions/das_channel_modif_struct"}
+            }
+        },
+        "base_channel_struct": { 
+            "type": "object",
+            "description": "Base channel definition",
+            "required": ["datalogger_ref", "sensor_ref"],
+            "properties": {
+                "datalogger_ref":   {"$ref": "#/definitions/instrument_component_struct"},
+                "preamplifier_ref": {"$ref": "#/definitions/instrument_component_struct"},
+                "sensor_ref":       {"$ref": "#/definitions/instrument_component_struct"},
+                "location_code":    {"$ref": "#/definitions/location_code"}
+            },
+            "additionalProperties" : false
+        },
+        "base_channel_modif_struct": { 
+            "type": "object",
+            "description": "Base channel modification",
+            "properties": {
+                "datalogger_ref":   {"$ref": "#/definitions/instrument_component_norequire_struct"},
+                "location_code":    {"$ref": "#/definitions/location_code"},
+                "preamplifier_ref": {"$ref": "#/definitions/instrument_component_norequire_struct"},
+                "sensor_ref":       {"$ref": "#/definitions/instrument_component_norequire_struct"}
+            },
+            "additionalProperties" : false
+        },
+        "das_channel_struct": { 
+            "type": "object",
+            "description": "Specific das channel, builds on base measurement instrument",
+            "required": ["orientation_code"],
+            "properties" : {
+                "orientation_code": {"$ref": "#/definitions/orientation_code"},
+                "location_code":    {"$ref": "#/definitions/location_code"},
+                "datalogger_ref":   {"$ref": "#/definitions/instrument_component_struct"},
+                "preamplifier_ref": {"$ref": "#/definitions/instrument_component_struct"},
+                "sensor_ref":       {"$ref": "#/definitions/instrument_component_struct"}
+            },
+            "additionalProperties" : false
+        },
+        "das_channel_modif_struct": { 
+            "type": "object",
+            "description": "Specific das channel, builds on base measurement instrument",
+            "properties" : {
+                "orientation_code": {"$ref": "#/definitions/orientation_code"},
+                "location_code":    {"$ref": "#/definitions/location_code"},
+                "datalogger_ref":   {"$ref": "#/definitions/instrument_component_norequire_struct"},
+                "preamplifier_ref": {"$ref": "#/definitions/instrument_component_norequire_struct"},
+                "sensor_ref":       {"$ref": "#/definitions/instrument_component_norequire_struct"}
+            },
+            "additionalProperties" : false
+        },
+        "location_code" : {
             "type" : "string",
-            "pattern" : "^[A-Z0-9]$"
+            "description" : "SEED location code",
+            "pattern" : "^[0-9]{2}$"
         },
-        "instrument_component_generic" : {  
+        "orientation_code" : {"type": "string", "pattern": "^[A-Z0-9]$"},
+        "instrument_component_struct" : {  
             "type": "object",
-            "required": ["reference_code"],
-            "properties" : {  "reference_code" : {"type" : "string"} }
+            "required": ["code"],
+            "properties" : {
+                "code":          {"type": "string"},
+                "config":        {"type": "string"},
+                "serial_number": {"type": "string"}
+            },
+            "additionalProperties" : false
         },
-        "instruments_specific" : { 
-            "description" : "Specific descriptions of instruments, keyed by instrument model_configuration",
-            "type" : "object",
-            "minProperties" : 1,
+        "instrument_component_norequire_struct" : {  
+            "type": "object",
+            "properties" : {
+                "code":          {"type": "string"},
+                "config":        {"type": "string"},
+                "serial_number": {"type": "string"}
+            },
+            "additionalProperties" : false
+        },
+        "configurations_map"  : { 
+            "type": "object",
+            "description" : "Dictionary of configuration names for a given instrument",
             "patternProperties" : {
-                "^[A-Za-z0-9_-]+$": {
-                    "description" : "keys by serial number",
-                    "type" : "object",
-                    "minProperties" : 1,
-                    "patternProperties" : {
-                        "^[A-Za-z0-9_-]+$": { "$ref" : "#/definitions/instrument_specific" }
-                    }
-                }
+                "^[A-Za-z0-9_-]+$": {"$ref": "#/definitions/configuration_struct"}
             }
         },
-        "instrument_specific" : {
-            "anyOf" : [
-                {   "$ref" : "#/definitions/instrument_specific_equipment" },
-                {   "$ref" : "#/definitions/instrument_specific_by_das_components" }
-            ]
-        },
-        "instrument_specific_equipment" : {
-            "type" : "object",
-            "required" : ["equipment"],
-            "properties" : {
-                "equipment" : { "$ref" : "#/definitions/equipmentType_noRequired" }
-            }
-        },
-        "instrument_specific_by_das_components" : {
-            "type" : "object",
-            "required" : ["das_components"],
-            "properties" : {
-                "das_components" : { "$ref" : "#/definitions/measurement_instruments_specific" }
-            }
-        },
-        "measurement_instruments_generic": { 
+        "serial_numbers_map"  : { 
             "type": "object",
-            "description": "instrument measurement channels specified by das connector_component",
+            "description": "Dictionary of serial numbers for a given instrument",
             "patternProperties": {
-                "^[A-Za-z0-9]+$": {
-                    "type": "object",
-                    "description": "Each string must correspond to a component reference_code in the instrumentation_components file",
-                    "required": [
-                        "orientation_code",
-                        "datalogger",
-                        "sensor"
-                    ],
-                    "properties" : {
-                        "orientation_code" : { "$ref" : "#/definitions/orientation_code"},
-                        "datalogger" :       { "$ref" : "#/definitions/instrument_component_generic"},
-                        "preamplifier" :     { "$ref" : "#/definitions/instrument_component_generic"},
-                        "sensor":            { "$ref" : "#/definitions/instrument_component_generic"}
-                    }
-                }
+                "^[A-Za-z0-9_-]+$": {"$ref": "#/definitions/serial_number_struct"}
             }
         },
-        "measurement_instruments_specific": { 
+        "configuration_struct": { 
             "type": "object",
-            "description": "specific instrument measurement channels",
-            "patternProperties": {
-                "^[A-Za-z0-9]+$": {
-                    "type": "object",
-                    "description": "Each string is an orientation_code or das_connector_component",
-                    "properties": {
-                        "orientation_code": { "$ref" : "#/definitions/orientation_code"},
-                        "datalogger":       { "$ref" : "#/definitions/instrument_component_specific"},
-                        "preamplifier":     { "$ref" : "#/definitions/instrument_component_specific"},
-                        "sensor":           { "$ref" : "#/definitions/instrument_component_specific"}
-                    }
-                }
+            "description" : "Configuration-specific instrument properties",
+            "required" : ["config_description"],
+            "properties": {
+                "config_description": {"type": "string" },
+                "base_channel":      {"$ref": "#/definitions/base_channel_modif_struct"},
+                "das_channels":      {"$ref": "#/definitions/das_channel_modif_map"},
+                "serial_numbers":     {"$ref": "#/definitions/serial_numbers_map"}
+            },
+            "additionalProperties" : false
+        },
+        "serial_number_struct" : { 
+            "description" : "Serial_number-specific instrument properties",
+            "properties": {
+                "base_channel":  {"$ref": "#/definitions/base_channel_modif_struct"},
+                "das_channels":  {"$ref": "#/definitions/das_channel_modif_map"}
+            },
+            "additionalProperties" : false
+        },
+        "equipmentType_struct": {
+            "type": "object",
+            "required": ["type", "description", "manufacturer", "vendor",
+                         "model", "serial_number", "calibration_date"],
+            "properties": {
+                "type":             {"type": ["string", "null"]},
+                "description":      {"type": ["string", "null"]},
+                "manufacturer":     {"type": ["string", "null"]},
+                "vendor":           {"type": ["string", "null"]},
+                "model":            {"type": ["string", "null"]},
+                "serial_number":    {"type": ["string", "null"]},
+                "calibration_date": {"$ref": "definitions.schema.json#/date-time-Z"}
             }
-        },
-        "instrument_component_specific": { 
-            "anyOf": [
-                {"$ref": "#/definitions/equipmentType_noRequired"},
-                { "properties" : { "reference_code" : {"type" : "string"}}}
-            ]
-        },
-		"loggers_NRL": {
-			"type": "object",
-			"description": "Convenience definitions for creating Nominal Reference Library (not yet implemented)",
-			"required": ["loggers"],
-			"properties": {
-			    "datalogger_configs": {
-			        "type":"array",
-			        "items": {"type":"string"}
-			    },
-			    "loggers": {
-			        "type": "object",
-                    "patternProperties": {
-                        "^[A-Za-z0-9_-]+$": { 
-                            "type": "object",
-                            "description": "keys are NRL 'datalogger' names.  'datalogger' and 'preamplifier' names must be in instrumentation_components",
-                            "required": ["datalogger"],
-                            "properties": {
-                                "datalogger":   { "type": "string" },
-                                "preamplifier": { "type": "string" }
-                            }
-                        }
-                    }
-                }
-			}
-		},
-		"equipmentType": {
-			"type": "object",
-			"required": ["type", "description", "manufacturer", "vendor",
-				"model", "serial_number", "calibration_date"
-			],
-			"properties": {
-                "type":             { "type": ["string","null"] },
-                "description":      { "type": ["string","null"] },
-                "manufacturer":     { "type": ["string","null"] },
-                "vendor":           { "type": ["string","null"] },
-                "model":            { "type": ["string","null"] },
-                "serial_number":    { "type": ["string","null"] },
-                "calibration_date": { "$ref" : "definitions.schema.json#/date-time-Z"}
-			}
-		},
-		"equipmentType_noRequired": {
-			"type": "object",
-			"properties": {
-                "type":            { "type": ["string","null"] },
-                "description":     { "type": ["string","null"] },
-                "manufacturer":    { "type": ["string","null"] },
-                "vendor":          { "type": ["string","null"] },
-                "model":           { "type": "string" },
-                "serial_number":   { "type": ["string","null"] },
-                "calibration_date": {"$ref" : "definitions.schema.json#/date-time-Z"}
-			}
         }
-	}
+    }
 }

@@ -1,13 +1,13 @@
 ---
-format_version: "0.106"
+format_version: "0.107"
 filter:
     type: "PolesZeros"
     units: "rad/s"
     zeros:
         - [0.0, 0.0]
     poles:
-        - [0.546,  0.191]
-        - [4.40e4, 0.000]
+        - [0.546,   0.191]
+        - [4.40e+4, 0.000]
 notes:
     - "poles et zeros des HiTech HTI-90U dans OBS LCHEAPO current-mode preamplifier, 0.05-2500 Hz"
     - "Hydrophone+preamp response measured from 250-1000 Hz"

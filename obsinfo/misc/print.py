@@ -15,9 +15,9 @@ from .info_files import (
     VALID_TYPES,
     VALID_FORMATS,
 )
-from ..network import network
-from ..instrumentation import instrumentation
-from ..instrument_components import instrument_components
+from ..network import Network
+from ..instrumentation import Instrumentation
+from ..instrumentation import Instrument_components
 
 ################################################################################
 def print_summary(filename, format=None, type=None, verbose=False, debug=False):
@@ -39,15 +39,15 @@ def print_summary(filename, format=None, type=None, verbose=False, debug=False):
     if type == "network":
         if debug:
             print("Loading network")
-        instance = network(filename)
+        instance = Network(filename)
         if debug:
             print("Done")
         _print_summary_network(instance, filename)
     elif type == "instrumentation":
-        instance = instrumentation(filename)
+        instance = Instrumentation(filename)
         _print_summary_instrumentation(instance)
     elif type == "instrument_components":
-        instance = instrument_components(filename)
+        instance = Instrument_components(filename)
         _print_summary_instrument_components(instance)
     else:
         _print_summary_other(instance[type])
@@ -65,27 +65,25 @@ def _print_summary_network(network, network_file):
 ################################################################################
 def _print_summary_instrumentation(instrumentation):
     """ Print summary information about an instrumentation file """
-    print(f"FACILITY: {instrumentation.facility['reference_name']}")
-    print(f"REVISION: {instrumentation.revision}")
+    print(f"FACILITY: {instrumentation.facility['ref_name']}")
+    print(f"REVISION: ")
+    pp = pprint.PrettyPrinter(indent=1, depth=4, width=100, compact=True)
+    pp.pprint(instrumentation.revision)
     # PRINT INSTRUMENTS
     print(20 * "=")
     print("INSTRUMENTS:")
     instrumentation.print_elements()
 
-    # VERIFY THAT INSTRUMENTS & SENSORS LISTED IN "individuals" EXIST in "models"
-    print(20 * "=")
-    if instrumentation.verify_individuals():
-        print("All instruments have a generic counterpart")
-
     # VERIFY THAT REFERRED TO FILES EXIST
     print(20 * "=")
-    print("Checking dependencies on instrument_components_file")
+    print("Checking dependencies in instrument_components_file: "
+          f'"{instrumentation.components_file}"')
     file_exists, n_components, n_found, n_cites = instrumentation.check_dependencies(
         print_names=True
     )
     if not file_exists:
         print(
-            f"Instrument_Components file not found: {instrumentation.components_file}"
+            f"Instrument_Components file not found"
         )
     elif n_components == n_found:
         print(
@@ -115,11 +113,6 @@ def _print_summary_instrument_components(instance):
     print("SENSORS:")
     instance.print_elements("sensor")
 
-    # VERIFY THAT COMPONENTS LISTED IN "specific" EXIST in "generic"
-    print(10 * "=")
-    if instance.verify_individuals():
-        print("All specific components have a generic counterpart")
-
     # VERIFY THAT REFERRED TO FILES EXIST
     print(10 * "=")
     n_files, n_found, n_cites = instance.verify_source_files(print_names=True)
@@ -136,9 +129,9 @@ def _print_summary_instrument_components(instance):
 
 
 ################################################################################
-def _print_summary_other(instance):
+def _print_summary_other(instance,depth=4):
     """ Print summary information about a generic information file """
-    pp = pprint.PrettyPrinter(indent=1, depth=2, compact=True)
+    pp = pprint.PrettyPrinter(indent=1, depth=depth, compact=True)
     pp.pprint(instance)
 
 

@@ -1,7 +1,7 @@
 ---
 notes:
     - "Copied from DPG 5004 calibration"
-format_version: "0.106"
+format_version: "0.107"
 response:
     stages:
         -

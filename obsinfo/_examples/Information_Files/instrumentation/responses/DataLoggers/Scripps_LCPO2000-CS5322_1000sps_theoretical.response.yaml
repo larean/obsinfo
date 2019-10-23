@@ -1,5 +1,5 @@
 ---
-format_version: "0.106"
+format_version: "0.107"
 notes:
     - "From CS5322_Filter.pdf"
 yaml_anchors:
@@ -24,17 +24,9 @@ response:
     decimation_info:
         input_sample_rate: 32000
         output_sample_rate: 1000
-        delay_correction: 0.029
-        notes: 
-            - "Delay correction is hard-coded to 29 samples in LCHEAPO software"
     stages: 
-        - 
-            <<: *FIR2
-        -
-            <<: *FIR2
-        -
-            <<: *FIR2
-        -
-            <<: *FIR2
-        -
-            <<: *FIR3
+        -  <<: *FIR2
+        -  <<: *FIR2
+        -  <<: *FIR2
+        -  <<: *FIR2
+        -  <<: *FIR3

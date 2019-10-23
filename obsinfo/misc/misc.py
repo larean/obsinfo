@@ -1,19 +1,11 @@
 """ 
-Print complete stations from information in network.yaml file
-
-nomenclature:
-    A "measurement instrument" is a means of recording one physical parameter,
-        from sensor through dac
-    An "instrument" is composed of one or more measurement instruments
-    
-    version 0.99
-    
-I need to modify the code so that it treats a $ref as a placeholder for the associated object
+Miscellaneous routines
 """
 # Standard library modules
 import math as m
 import os.path
 import sys
+import warnings
 
 # Non-standard modules
 import obspy.core.util.obspy_types as obspy_types
@@ -21,10 +13,54 @@ import obspy.core.inventory as inventory
 import obspy.core.inventory.util as obspy_util
 from obspy.core.utcdatetime import UTCDateTime
 
-################################################################################
-# Miscellaneous Routines
-
-
+def dict_update(orig_dict, update_dict, allow_overwrite=True):
+    """
+    Update a dict with values in a second dict
+    
+    Assumes both dictionaries have the same structure, keeps values in
+    orig_dict that are not provided in update_dict, and updates or adds
+    values that are provided.  Drills recursively through dicts inside
+    the orig_dict, only changing fields specified in update_dict
+    
+    :param orig_dict: The original dictionary
+    :param update_dict: dictionary with fields to update_dict
+    :param allow_overwrite: allow a field that was originally a dict to be 
+                     overwritten by a field that is not a dict
+    :type allow_overwrite: bool
+    
+    >>> dict_update({'a': 'j', 'b': {'c': 5, 'd': 6}}, {'b': {'d': 2, 'e': 3}})
+    {'a': 'j', 'b': {'c': 5, 'd': 2, 'e': 3}}
+    
+    >>> dict_update({'a': 'j', 'b': {'c': 5, 'd': 6}}, {'a': 5, 'c': [1, 3]})
+    {'a': 5, 'b': {'c': 5, 'd': 6}, 'c': [1, 3]}
+    """
+    for key,value in update_dict.items():
+        if key not in orig_dict:
+            orig_dict[key] = value
+        else:
+            if isinstance(orig_dict[key],dict):
+                # if the original value is itself a dictionary
+                if isinstance(value,dict):
+                    # if replacement value is a dictionary, recurse
+                    orig_dict[key] = dict_update(orig_dict[key], value)
+                else:
+                    # if replacement value is not a dictionary
+                    if allow_overwrite:
+                        # replace & warn
+                        orig_dict[key] = value
+                        warnings.warn(
+                            f'input dict field "{key}" was a dict, ' +
+                            'replaced by a non-dict')
+                    else:
+                        # reject & warn
+                        warnings.warn(
+                            f'replacement field "{key}" not inserted into ' +
+                            'original because original was a dict and ' +
+                            'replacement was not')
+            else:
+                orig_dict[key] = value
+    return orig_dict
+    
 def calc_norm_factor(zeros, poles, norm_freq, pz_type, debug=False):
     """
     Calculate the normalization factor for give poles-zeros
@@ -60,7 +96,6 @@ def calc_norm_factor(zeros, poles, norm_freq, pz_type, debug=False):
     return A0
 
 
-##################################################
 def round_down_minute(date_time, min_offset):
     """
     Round down to nearest minute that is at least minimum_offset seconds earlier
@@ -71,7 +106,6 @@ def round_down_minute(date_time, min_offset):
     return dt
 
 
-##################################################
 def round_up_minute(date_time, min_offset):
     """
     Round up to nearest minute that is at least minimum_offset seconds later
@@ -82,7 +116,6 @@ def round_up_minute(date_time, min_offset):
     return dt
 
 
-##################################################
 def make_channel_code(
     channel_seed_codes,
     given_band_code,
@@ -92,11 +125,11 @@ def make_channel_code(
     debug=False,
 ):
     """
-        Make a channel code from sensor, instrument and network information
-        
-        channel_seed_codes is a dictionary from the instrument_component file
-        given_band, instrument, and orientation codes are from the network file
-        sample_rate is from the network_file
+    Make a channel code from sensor, instrument and network information
+
+    channel_seed_codes is a dictionary from the instrument_component file
+    given_band, instrument, and orientation codes are from the network file
+    sample_rate is from the network_file
     """
     band_base = channel_seed_codes["band_base"]
     if not len(band_base) == 1:
@@ -162,7 +195,6 @@ def make_channel_code(
     return channel_code
 
 
-##################################################
 def get_azimuth_dip(channel_seed_codes, orientation_code):
     " Returns azimuth and dip [value,error] pairs "
 
@@ -177,3 +209,7 @@ def get_azimuth_dip(channel_seed_codes, orientation_code):
             "component seed_codes.orientation".format(orientation_code)
         )
     return azimuth, dip
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()

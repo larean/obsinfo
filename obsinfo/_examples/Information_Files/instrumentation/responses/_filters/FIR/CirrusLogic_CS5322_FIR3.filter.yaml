@@ -1,6 +1,6 @@
 ---
-# 101 coefficients, linear phase filter
-format_version: "0.106"
+format_version: "0.107"
+notes: ["101 coefficients, linear phase filter"]
 filter:
     type: "FIR"
     symmetry: "NONE"

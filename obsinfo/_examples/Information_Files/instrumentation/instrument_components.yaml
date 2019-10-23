@@ -1,6 +1,5 @@
 ---
-# Example instrumentation_components file
-format_version: "0.106"
+format_version: "0.107"
 notes:
     - "Notes are associated with information but not put in final metadata"
 yaml_anchors:
@@ -28,16 +27,16 @@ instrument_components:
                     <<: *EQUIPMENT_EMPTY
                     model: "Trillium T240"
                     type: "Broadband seismometer"
-                    description: "Trillium T240 single-sided"
+                    description: "Trillium T240"
                     manufacturer: "Nanometrics, Inc"
                     vendor: "Nanometrics, Inc"
                 seed_codes:
                     band_base: "B"
                     instrument: "H"
                     orientation:
-                        "Z": {azimuth.deg: [0,0],    dip.deg: [-90,0]}
-                        "1": {azimuth.deg: [0,180],  dip.deg: [0,0]}
-                        "2": {azimuth.deg: [90,180], dip.deg: [0,0]}
+                        "Z": {azimuth.deg: [0, 0],    dip.deg: [-90, 0]}
+                        "1": {azimuth.deg: [0, 180],  dip.deg: [0, 0]}
+                        "2": {azimuth.deg: [90, 180], dip.deg: [0, 0]}
                 response_stages:
                     - $ref: "responses/Sensors/Trillium_T240_SN1-399-singlesided_theoretical.response.yaml"
                 configurations:
@@ -51,9 +50,9 @@ instrument_components:
                             "137": {}
                             "138": {}
                             "826": 
-                                response_stages: [ {$ref: "responses/Sensors/Trillium_T240_SN400-singlesided_theoretical.response.yaml"}]
+                                response_stages: [{$ref: "responses/Sensors/Trillium_T240_SN400-singlesided_theoretical.response.yaml"}]
                             "829": 
-                                response_stages: [ {$ref: "responses/Sensors/Trillium_T240_SN400-singlesided_theoretical.response.yaml"}]
+                                response_stages: [{$ref: "responses/Sensors/Trillium_T240_SN400-singlesided_theoretical.response.yaml"}]
                             "830": 
                                 response_stages: [ {$ref: "responses/Sensors/Trillium_T240_SN400-singlesided_theoretical.response.yaml"}]
                             "Sphere01": {equipment: {serial_number: "133"}}
@@ -62,21 +61,21 @@ instrument_components:
                             "Sphere04": {equipment: {serial_number: "138"}}
                             "Sphere05": {equipment: {serial_number: "137"}}
                             "Sphere06":
-                                response_stages: [ {$ref: "responses/Sensors/Trillium_T240_SN400-singlesided_theoretical.response.yaml"}]
+                                response_stages: [{$ref: "responses/Sensors/Trillium_T240_SN400-singlesided_theoretical.response.yaml"}]
                                 equipment: {serial_number: "830"}
                             "Sphere07": {equipment: {serial_number: "136"}}
                             "Sphere08":
-                                response_stages: [ {$ref: "responses/Sensors/Trillium_T240_SN400-singlesided_theoretical.response.yaml"}]
+                                response_stages: [{$ref: "responses/Sensors/Trillium_T240_SN400-singlesided_theoretical.response.yaml"}]
                                 equipment: {serial_number: "829"}
                             "Sphere09":
-                                response_stages: [ {$ref: "responses/Sensors/Trillium_T240_SN400-singlesided_theoretical.response.yaml"}]
+                                response_stages: [{$ref: "responses/Sensors/Trillium_T240_SN400-singlesided_theoretical.response.yaml"}]
                                 equipment: {serial_number: "826"}
-            "NANOMETRICS_TCOMPACT_SINGLESIDED":
+            "NANOMETRICS_TCOMPACT":
                 equipment:
                     <<: *EQUIPMENT_EMPTY
-                    model: "Trillium Compact (single-sided)"
+                    model: "Trillium Compact"
                     type: "Wideband seismometer"
-                    description: "Trillium Compact single-sided"
+                    description: "Trillium Compact"
                     manufacturer: "Nanometrics, Inc"
                     vendor: "Nanometrics, Inc"
                 seed_codes:
@@ -88,10 +87,10 @@ instrument_components:
                         "2": {azimuth.deg: [90,180], dip.deg: [0,0]}
                 response_stages:
                     - $ref: "responses/Sensors/Trillium_TCompact_singlesided_theoretical.response.yaml"
-                 configurations:
+                configurations:
                     "SINGLE-SIDED":
                         description: "Single=Sided connection (negative shorted to ground)"
-           "SIO_DPG":
+            "SIO_DPG":
                 notes: 
                     - >-
                         dip value assumes pressure gauge positive correponds to increasing pressure
@@ -207,7 +206,7 @@ instrument_components:
                 response_stages:
                     - $ref: "responses/Sensors/Sercel_L22D_LCHEAPO_theoretical.response.yaml"
         preamplifier:
-            "LCHEAPO_DPG-CARD": 
+            "LCHEAPO_DPG": 
                 equipment:
                     <<: *EQUIPMENT_EMPTY
                     type: "DPG Card"
@@ -216,7 +215,7 @@ instrument_components:
                     manufacturer: "SIO-IPGP"
                 response_stages:
                     - $ref: "responses/Preamplifiers/SIO-LDEO_DPG-Card__theoretical.response.yaml"
-            "LCHEAPO_BBOBS-GAIN": 
+            "LCHEAPO_BBOBS": 
                 equipment:
                     <<: *EQUIPMENT_EMPTY
                     type: "Analog gain card"
@@ -232,7 +231,7 @@ instrument_components:
                         description: "1x gain"
                         response_stages:
                             - $ref: "responses/Preamplifiers/INSU_BBOBS_gain1.0_theoretical.response.yaml"
-            "LCHEAPO_HYDRO-GAIN": 
+            "LCHEAPO_HYDRO": 
                 equipment:
                     <<: *EQUIPMENT_EMPTY
                     type: "Analog gain/filter card"
@@ -244,7 +243,7 @@ instrument_components:
                 configurations:
                     "16x":
                         description: "16x gain"
-            "LCHEAPO_GEOPHONE-GAIN_128X": 
+            "LCHEAPO_GEOPHONE": 
                 equipment:
                     <<: *EQUIPMENT_EMPTY
                     type: "Analog gain/filter card"
@@ -264,34 +263,41 @@ instrument_components:
                     description: "CS5321/22 delta-sigma A/D converter + FIR digital filter"
                     manufacturer: "Cirrus Logic"
                     model: "CS5321/22"
-                sample_rate: 62.5
-                response_stages:
-                    - $ref: "responses/DataLoggers/Scripps_LCPO2000-CS5321__theoretical.response.yaml"
-                    - $ref: "responses/DataLoggers/Scripps_LCPO2000-CS5322_62.5sps_theoretical.response.yaml"
+                notes: 
+                    - "Delay correction is hard-coded to 29 samples in LCHEAPO software"
                 configurations:
                     "62.5sps":
-                        description: "62.5 sps"
+                        config_description: "62.5 sps"
+                        sample_rate: 62.5
+                        delay_correction: 0.464
+                        response_stages:
+                            - $ref: "responses/DataLoggers/Scripps_LCPO2000-CS5321__theoretical.response.yaml"
+                            - $ref: "responses/DataLoggers/Scripps_LCPO2000-CS5322_62.5sps_theoretical.response.yaml"
                     "125sps":
-                        description: "125 sps"
+                        config_description: "125 sps"
                         sample_rate: 125
+                        delay_correction: 0.232
                         response_stages:
                             - $ref: "responses/DataLoggers/Scripps_LCPO2000-CS5321__theoretical.response.yaml"
                             - $ref: "responses/DataLoggers/Scripps_LCPO2000-CS5322_125sps_theoretical.response.yaml"
                     "250sps":
-                        description: "250 sps"
+                        config_description: "250 sps"
                         sample_rate: 250
+                        delay_correction: 0.116
                         response_stages:
                             - $ref: "responses/DataLoggers/Scripps_LCPO2000-CS5321__theoretical.response.yaml"
                             - $ref: "responses/DataLoggers/Scripps_LCPO2000-CS5322_250sps_theoretical.response.yaml"
                     "500sps":
-                        description: "500 sps"
+                        config_description: "500 sps"
                         sample_rate: 500
+                        delay_correction: 0.058
                         response_stages:
                             - $ref: "responses/DataLoggers/Scripps_LCPO2000-CS5321__theoretical.response.yaml"
                             - $ref: "responses/DataLoggers/Scripps_LCPO2000-CS5322_500sps_theoretical.response.yaml"
                     "1000sps":
-                        description: "1000 sps"
+                        config_description: "1000 sps"
                         sample_rate: 1000
+                        delay_correction: 0.029
                         response_stages:
                             - $ref: "responses/DataLoggers/Scripps_LCPO2000-CS5321__theoretical.response.yaml"
                             - $ref: "responses/DataLoggers/Scripps_LCPO2000-CS5322_1000sps_theoretical.response.yaml"

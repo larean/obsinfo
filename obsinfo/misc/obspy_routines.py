@@ -1,14 +1,5 @@
 """ 
-Print complete stations from information in network.yaml file
-
-nomenclature:
-    A "measurement instrument" is a means of recording one physical parameter,
-        from sensor through dac
-    An "instrument" is composed of one or more measurement instruments
-    
-    version 0.99
-    
-I need to modify the code so that it treats a $ref as a placeholder for the associated object
+ObsPy-specific routines
 """
 # Standard library modules
 import math as m
@@ -27,8 +18,6 @@ from obspy.core.utcdatetime import UTCDateTime
 from .misc import calc_norm_factor
 from ..network.util import create_comments
 
-################################################################################
-# OBSPY-specific
 
 last_output = None
 def response_with_sensitivity(resp_stages, sensitivity, debug=False):

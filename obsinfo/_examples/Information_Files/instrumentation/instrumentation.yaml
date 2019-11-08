@@ -27,21 +27,21 @@ instrumentation:
         full_name: "INSU-IPGP OBS facility"
         email: "obs@ipgp.fr"
         website: "http://parc-obs.insu.cnrs.fr"
-    instrument_components: {$ref: "instrument_components.yaml"}
+    ref_file:  {$ref: "../instrumentation/instrument_components.yaml"}
     instruments:
         "SPOBS1":
             base_channel:
-                datalogger_ref: {code: "LC2000_LOGGER"}
-                preamplifier_ref:
-                    code: "LCHEAPO_GEOPHONE"
+                datalogger: {ref_code: "LC2000_LOGGER"}
+                preamplifier:
+                    ref_code: "LCHEAPO_GEOPHONE"
                     config: "128x"
-                sensor_ref: {code: "SERCEL_L22"}
+                sensor: {ref_code: "SERCEL_L22"}
             das_channels:
                 "1":
                     orientation_code: "3"
                 "2":
                     orientation_code: "H"
-                    sensor_ref: {code: "HITECH_HTI90U"}
+                    sensor: {ref_code: "HITECH_HTI90U"}
             equipment:
                 <<: *EQUIPMENTTYPE_EMPTY
                 model: "SPOBS1"
@@ -56,18 +56,18 @@ instrumentation:
                 description: "LCHEAPO 2000 Short Period Ocean Bottom Seismometer, 4 channels, L-28 3C geophone"
                 manufacturer: "Scripps Inst. Oceanography"
             base_channel:
-                datalogger_ref: {code: "LC2000_LOGGER"}
-                preamplifier_ref:
-                    code: "LCHEAPO_GEOPHONE"
+                datalogger: {ref_code: "LC2000_LOGGER"}
+                preamplifier:
+                    ref_code: "LCHEAPO_GEOPHONE"
                     config: "128x"
-                sensor_ref: {code: "SERCEL_L28"}
+                sensor: {ref_code: "SERCEL_L28"}
             das_channels:
                 "1":
                     orientation_code : "H"
-                    preamplifier_ref:
-                        code: "LCHEAPO_HYDRO"
+                    preamplifier:
+                        ref_code: "LCHEAPO_HYDRO"
                         config: "16x"
-                    sensor_ref: {code: "HITECH_HTI90U"}
+                    sensor: {ref_code: "HITECH_HTI90U"}
                 "2": {orientation_code: "2"}
                 "3": {orientation_code: "1"}
                 "4": {orientation_code: "3"}
@@ -82,11 +82,11 @@ instrumentation:
                 vendor: ~
                 model: "HydroOct-1"
             base_channel:
-                datalogger_ref:  {code: "LC2000_LOGGER"}
-                preamplifier_ref:
-                    code: "LCHEAPO_HYDRO"
+                datalogger:  {ref_code: "LC2000_LOGGER"}
+                preamplifier:
+                    ref_code: "LCHEAPO_HYDRO"
                     config: "16x"
-                sensor_ref: {code: "HITECH_HTI90U"}
+                sensor: {ref_code: "HITECH_HTI90U"}
             das_channels:
                 "1": {orientation_code: "H", location_code: "00"}
                 "2": {orientation_code: "H", location_code: "01"}
@@ -101,12 +101,12 @@ instrumentation:
                 manufacturer: "Scripps Inst. Oceanography - INSU"
                 model: "BBOBS1"
             base_channel:
-                datalogger_ref:  {code: "LC2000_LOGGER"}
-                preamplifier_ref:
-                    code: "LCHEAPO_BBOBS"
+                datalogger:  {ref_code: "LC2000_LOGGER"}
+                preamplifier:
+                    ref_code: "LCHEAPO_BBOBS"
                     config: "0p225x"
-                sensor_ref: 
-                    code: "NANOMETRICS_T240"
+                sensor: 
+                    ref_code: "NANOMETRICS_T240"
                     config: "SINGLE-SIDED"
             das_channels:
                 "1": {orientation_code: "2"}
@@ -114,82 +114,82 @@ instrumentation:
                 "3": {orientation_code: "Z"}
                 "4":
                     orientation_code: "H"
-                    preamplifier_ref: {code: "LCHEAPO_DPG"}
-                    sensor_ref: {code: "SIO_DPG"}
+                    preamplifier: {ref_code: "LCHEAPO_DPG"}
+                    sensor: {ref_code: "SIO_DPG"}
             configurations:
                 "pre-2012":
                     config_description: "gain=0.225 on all sismo channels"
-                "2012-":
+                "2012+":
                     config_description: "gain=1.0 on vertical, 0.225 on horizontals"
                     das_channels:
                         "3":
-                            preamplifier_ref: {config: "1x"}
+                            preamplifier: {config: "1x"}
             serial_numbers:
                 "01":
                     base_channel:
-                        datalogger_ref:   {serial_number: "21"}
-                        preamplifier_ref: {serial_number: "21"}
-                        sensor_ref:       {serial_number: "Sphere01"}
+                        datalogger:   {serial_number: "21"}
+                        preamplifier: {serial_number: "21"}
+                        sensor:       {serial_number: "Sphere01"}
                     das_channels:
                         "4":
-                            sensor_ref: {serial_number: "5004"}                  
+                            sensor: {serial_number: "5004"}                  
                 "02":
                     base_channel:
-                        datalogger_ref:   {serial_number: "22"}
-                        preamplifier_ref: {serial_number: "22"}
-                        sensor_ref:       {serial_number: "Sphere02"}
+                        datalogger:   {serial_number: "22"}
+                        preamplifier: {serial_number: "22"}
+                        sensor:       {serial_number: "Sphere02"}
                     das_channels:
                         "4":
-                            sensor_ref: {serial_number: "5018"}                  
+                            sensor: {serial_number: "5018"}                  
                 "03":
                     base_channel:
-                        datalogger_ref:   {serial_number: "23"}
-                        preamplifier_ref: {serial_number: "23"}
-                        sensor_ref:       {serial_number: "Sphere03"}
+                        datalogger:   {serial_number: "23"}
+                        preamplifier: {serial_number: "23"}
+                        sensor:       {serial_number: "Sphere03"}
                     das_channels:
-                        "4": {sensor_ref: {serial_number: "5027"}}                   
+                        "4": {sensor: {serial_number: "5027"}}                   
                 "04":
                     base_channel:
-                        datalogger_ref:   {serial_number: "24"}
-                        preamplifier_ref: {serial_number: "24"}
-                        sensor_ref:       {serial_number: "Sphere04"}
+                        datalogger:   {serial_number: "24"}
+                        preamplifier: {serial_number: "24"}
+                        sensor:       {serial_number: "Sphere04"}
                     das_channels:
-                        "4": {sensor_ref: {serial_number: "IP004"}}                   
+                        "4": {sensor: {serial_number: "IP004"}}                   
                 "05":
                     base_channel:
-                        datalogger_ref:   {serial_number: "25"}
-                        preamplifier_ref: {serial_number: "25"}
-                        sensor_ref:       {serial_number: "Sphere05"}
+                        datalogger:   {serial_number: "25"}
+                        preamplifier: {serial_number: "25"}
+                        sensor:       {serial_number: "Sphere05"}
                     das_channels:
-                        "4": {sensor_ref: {serial_number: "IP005"}}                   
+                        "4": {sensor: {serial_number: "IP005"}}                   
                 "06":
                     base_channel:
-                        datalogger_ref:   {serial_number: "26"}
-                        preamplifier_ref: {serial_number: "26"}
-                        sensor_ref:       {serial_number: "Sphere06"}
+                        datalogger:   {serial_number: "26"}
+                        preamplifier: {serial_number: "26"}
+                        sensor:       {serial_number: "Sphere06"}
                     das_channels:
-                        "4": {sensor_ref: {serial_number: "IP006"}}                   
+                        "4": {sensor: {serial_number: "IP006"}}                   
                 "07":
                     base_channel:
-                        datalogger_ref:   {serial_number: "27"}
-                        preamplifier_ref: {serial_number: "27"}
-                        sensor_ref:       {serial_number: "Sphere07"}
+                        datalogger:   {serial_number: "27"}
+                        preamplifier: {serial_number: "27"}
+                        sensor:       {serial_number: "Sphere07"}
                     das_channels:
-                        "4": {sensor_ref: {serial_number: "IP007"}}                   
+                        "4": {sensor: {serial_number: "IP007"}}                   
                 "08":
                     base_channel:
-                        datalogger_ref:   {serial_number: "28"}
-                        preamplifier_ref: {serial_number: "28"}
-                        sensor_ref:       {serial_number: "Sphere02"}
+                        datalogger:   {serial_number: "28"}
+                        preamplifier: {serial_number: "28"}
+                        sensor:       {serial_number: "Sphere02"}
                     das_channels:
-                        "4": {sensor_ref: {serial_number: "LD013"}}                   
+                        "4": {sensor: {serial_number: "LD013"}}                   
                 "09":
                     base_channel:
-                        datalogger_ref:   {serial_number: "29"}
-                        preamplifier_ref: {serial_number: "29"}
-                        sensor_ref:       {serial_number: "Sphere09"}
+                        datalogger:   {serial_number: "29"}
+                        preamplifier: {serial_number: "29"}
+                        sensor:       {serial_number: "Sphere09"}
                     das_channels:
-                        "4": {sensor_ref: {serial_number: "LDxxx"}}                   
+                        "4": {sensor: {serial_number: "LDxxx"}}                   
         "WBOBS1":
             equipment:
                 <<: *EQUIPMENTTYPE_EMPTY
@@ -198,12 +198,12 @@ instrumentation:
                 manufacturer: "Scripps Inst. Oceanography - INSU"
                 model: "WBOBS1"
             base_channel:
-                datalogger_ref:  {code: "LC2000_LOGGER"}
-                preamplifier_ref:
-                    code: "LCHEAPO_BBOBS"
+                datalogger:  {ref_code: "LC2000_LOGGER"}
+                preamplifier:
+                    ref_code: "LCHEAPO_BBOBS"
                     config: "0p225x"
-                sensor_ref:
-                    code: "NANOMETRICS_TCOMPACT"
+                sensor:
+                    ref_code: "NANOMETRICS_TCOMPACT"
                     config: "SINGLESIDED"
             das_channels:
                 "1":
@@ -214,7 +214,7 @@ instrumentation:
                     orientation_code : "Z"
                 "4":
                     orientation_code : "H"
-                    preamplifier_ref: 
-                        code: "LCHEAPO_HYDRO"
+                    preamplifier: 
+                        ref_code: "LCHEAPO_HYDRO"
                         config: 16x"
-                    sensor_ref: {code: "HITECH_HTI90U"}
+                    sensor: {ref_code: "HITECH_HTI90U"}

@@ -50,8 +50,8 @@ network:
         start_date: "2007-07-01"
         end_date: "2025-12-31"
         description: "Selection of old and odd instruments"
-    ref_files:
-        instrumentation: {$ref: "../instrumentation/instrumentation.yaml"}
+    ref_file:  {$ref: "../instrumentation/instrumentation.yaml"}
+    ref_file_type: "instrumentation"
     stations:
         "SP_1":
             notes: ["Old SPOBS(TWO CHANNELS)"]
@@ -60,8 +60,8 @@ network:
             end_date: "2016-05-26T23:00:00Z"
             location_code: "00"
             instruments:
-                - ref:
-                    code: "SPOBS1"
+                -
+                    ref_code: "SPOBS1"
                     serial_number: "13"
                     channel_mods: {base: {datalogger: {config: "62.5sps"}}}
             locations:
@@ -69,8 +69,7 @@ network:
                     <<: *LOC_ACOUSTIC
                     position: {lon: -32.27909, lat: 37.31960, elev: -1798}
             processing:
-                - clock_corrections:
-                    linear_drift:
+                - clock_correct_linear_drift:
                         <<: *LINEAR_CLOCK_DEFAULTS
                         start_sync_reference: "2015-04-22T09:21:00Z"
                         end_sync_reference: "2016-05-28T22:59:00.1843Z"
@@ -82,8 +81,8 @@ network:
             end_date: "2016-05-28T15:37:00Z"
             location_code: "00"
             instruments:
-                - ref:
-                    code: "BBOBS1"
+                -
+                    ref_code: "BBOBS1"
                     config: "pre-2012"
                     serial_number: "02"
                     channel_mods: {base: {datalogger: {config: "62.5sps"}}}
@@ -105,8 +104,8 @@ network:
             end_date: "2016-05-28T15:37:00Z"
             location_code: "00"
             instruments:
-                - ref:
-                    code: "HydOct1"
+                -
+                    ref_code: "HydOct1"
                     serial_number: "01"
                     channel_mods:
                         base:
@@ -141,9 +140,13 @@ network:
                     <<: *LOC_BUC_DIRECT
                     position: {lon: -32.29756, lat: 37.26047, elev: -1877}
             processing:
-                - clock_corrections:
-                    linear_drift:
-                        <<: *LINEAR_CLOCK_DEFAULTS
-                        start_sync_reference: "2015-04-22T12:24:00"
-                        end_sync_reference: "2016-05-28T15:35:00.3660"
-                        end_sync_instrument: "2016-05-28T15:35:02"
+                - clock_correct_leapsecond:
+                    time: "2016-12-31T23:59:60Z"
+                    type: "+"
+                    description: "Positive leapsecond (a 61-second minute)"
+                    corrected_in_end_sync: Yes
+                - clock_correct_linear_drift:
+                    <<: *LINEAR_CLOCK_DEFAULTS
+                    start_sync_reference: "2015-04-22T12:24:00"
+                    end_sync_reference: "2016-05-28T15:35:00.3660"
+                    end_sync_instrument: "2016-05-28T15:35:02"

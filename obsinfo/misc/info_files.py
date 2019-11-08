@@ -24,7 +24,6 @@ VALID_TYPES = [
     "response",
     "filter",
 ]
-################################################################################
 
 
 def list_valid_types():
@@ -32,9 +31,6 @@ def list_valid_types():
     Returns a list of valid information file types
     """
     return VALID_TYPES
-
-
-################################################################################
 
 
 def get_information_file_type(filename):
@@ -48,8 +44,100 @@ def get_information_file_type(filename):
     print(f"Unknown type: {the_type}")
     sys.exit(1)
 
+def info_dict_configure(in_dict, config=None, serial_number=None):
+    """
+    Update an information file dict by configuration and/or serial number
+    
+    Assumes that the input dict has one (or both) of the fields "configurations"
+    and/or "serial_numbers" ("configurations" can also have "serial_numbers"
+    inside.
+    
+    Removes the "configurations" and "serial_numbers" fields from the dict
+    and updates its remaining fields with values provided in the following order:
+        1) serial_numbers/{serial_number}
+        2) configurations/{config}
+        3) configurations/{config}/serial_numbers/{serial_number}
+        
+    :param in_dict: input dictionary
+    :param config: the desired configuration
+    :param serial_number: the desired serial number
+    :type config, serial_number: str
+    :returns out_dict: dictionary modified for specific configuration and SN
+    """
+    if "serial_numbers" in in_dict:
+        if serial_number:
+            if serial_number in in_dict["serial_numbers"]:
+                in_dict = dict_update(in_dict, 
+                                      in_dict["serial_numbers"][serial_number])
+        del in_dict["serial_numbers"]
+    if "configurations" in in_dict:
+        if config:
+            if config in in_dict["configurations"]:
+                dict_config = in_dict["configurations"][config]
+                in_dict = dict_update(in_dict, dict_config)
+                if "serial_numbers" in dict_config:
+                    if serial_number:
+                        if serial_number in dict_config["serial_numbers"]:
+                            in_dict = dict_update(in_dict,
+                                dict_config["serial_numbers"][serial_number])
+            else:
+                raise NameError('Configuration "{}" absent from {}'.format(\
+                                config, in_dict["configurations"].keys()))
+        del in_dict["configurations"]
+    elif config:
+        print(f'Configuration "{config}" requested, but no configurations!')
+        # pprint.pprint(in_dict)
+    return in_dict
 
-################################################################################
+
+def dict_update(orig_dict, update_dict, allow_overwrite=True):
+    """
+    Update a dict with values in a second dict
+    
+    Assumes both dictionaries have the same structure, keeps values in
+    orig_dict that are not provided in update_dict, and updates or adds
+    values that are provided.  Drills recursively through dicts inside
+    the orig_dict, only changing fields specified in update_dict
+    
+    :param orig_dict: The original dictionary
+    :param update_dict: dictionary with fields to update_dict
+    :param allow_overwrite: allow a field that was originally a dict to be 
+                     overwritten by a field that is not a dict
+    :type allow_overwrite: bool
+    
+    >>> dict_update({'a': 'j', 'b': {'c': 5, 'd': 6}}, {'b': {'d': 2, 'e': 3}})
+    {'a': 'j', 'b': {'c': 5, 'd': 2, 'e': 3}}
+    
+    >>> dict_update({'a': 'j', 'b': {'c': 5, 'd': 6}}, {'a': 5, 'c': [1, 3]})
+    {'a': 5, 'b': {'c': 5, 'd': 6}, 'c': [1, 3]}
+    """
+    for key,value in update_dict.items():
+        if key not in orig_dict:
+            orig_dict[key] = value
+        else:
+            if isinstance(orig_dict[key],dict):
+                # if the original value is itself a dictionary
+                if isinstance(value,dict):
+                    # if replacement value is a dictionary, recurse
+                    orig_dict[key] = dict_update(orig_dict[key], value)
+                else:
+                    # if replacement value is not a dictionary
+                    if allow_overwrite:
+                        # replace & warn
+                        orig_dict[key] = value
+                        warnings.warn(
+                            f'input dict field "{key}" was a dict, ' +
+                            'replaced by a non-dict')
+                    else:
+                        # reject & warn
+                        warnings.warn(
+                            f'replacement field "{key}" not inserted into ' +
+                            'original because original was a dict and ' +
+                            'replacement was not')
+            else:
+                orig_dict[key] = value
+    return orig_dict
+    
 def validate(filename, format=None, type=None, verbose=False, quiet=False):
     """
     Validates a YAML or JSON file against schema
@@ -128,9 +216,6 @@ def validate(filename, format=None, type=None, verbose=False, quiet=False):
     return True
 
 
-################################################################################
-
-
 def get_information_file_format(filename):
     """
     Determines if the information file is in JSON or YAML format
@@ -145,7 +230,6 @@ def get_information_file_format(filename):
     sys.exit(1)
 
 
-##################################################
 def read_json_yaml(filename, format=None, debug=False):
     """ Reads a JSON or YAML file """
     if not format:
@@ -174,10 +258,8 @@ def read_json_yaml(filename, format=None, debug=False):
     return element
 
 
-##################################################
 def load_information_file(
-    reference, source_file=None, root_symbol=root_symbol, debug=False
-):
+    reference, source_file=None, root_symbol=root_symbol, debug=False):
     """
     Loads all (or part) of an information file
     
@@ -195,10 +277,8 @@ def load_information_file(
         filename preceding it. 
      - If it is at the end (or absent), then the entire file is loaded 
      
-    Based on JSON Pointers
-       
+    Based on JSON Pointers       
     """
-
     # Figure out filename, absolute path and path inside file
     filename = None
     if root_symbol in reference:
@@ -266,7 +346,6 @@ def load_information_file(
     return element, os.path.abspath(os.path.dirname(filename))
 
 
-################################################################################
 def _validate_script(argv=None):
     """
     Validate an obsinfo information file

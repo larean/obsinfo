@@ -13,54 +13,6 @@ import obspy.core.inventory as inventory
 import obspy.core.inventory.util as obspy_util
 from obspy.core.utcdatetime import UTCDateTime
 
-def dict_update(orig_dict, update_dict, allow_overwrite=True):
-    """
-    Update a dict with values in a second dict
-    
-    Assumes both dictionaries have the same structure, keeps values in
-    orig_dict that are not provided in update_dict, and updates or adds
-    values that are provided.  Drills recursively through dicts inside
-    the orig_dict, only changing fields specified in update_dict
-    
-    :param orig_dict: The original dictionary
-    :param update_dict: dictionary with fields to update_dict
-    :param allow_overwrite: allow a field that was originally a dict to be 
-                     overwritten by a field that is not a dict
-    :type allow_overwrite: bool
-    
-    >>> dict_update({'a': 'j', 'b': {'c': 5, 'd': 6}}, {'b': {'d': 2, 'e': 3}})
-    {'a': 'j', 'b': {'c': 5, 'd': 2, 'e': 3}}
-    
-    >>> dict_update({'a': 'j', 'b': {'c': 5, 'd': 6}}, {'a': 5, 'c': [1, 3]})
-    {'a': 5, 'b': {'c': 5, 'd': 6}, 'c': [1, 3]}
-    """
-    for key,value in update_dict.items():
-        if key not in orig_dict:
-            orig_dict[key] = value
-        else:
-            if isinstance(orig_dict[key],dict):
-                # if the original value is itself a dictionary
-                if isinstance(value,dict):
-                    # if replacement value is a dictionary, recurse
-                    orig_dict[key] = dict_update(orig_dict[key], value)
-                else:
-                    # if replacement value is not a dictionary
-                    if allow_overwrite:
-                        # replace & warn
-                        orig_dict[key] = value
-                        warnings.warn(
-                            f'input dict field "{key}" was a dict, ' +
-                            'replaced by a non-dict')
-                    else:
-                        # reject & warn
-                        warnings.warn(
-                            f'replacement field "{key}" not inserted into ' +
-                            'original because original was a dict and ' +
-                            'replacement was not')
-            else:
-                orig_dict[key] = value
-    return orig_dict
-    
 def calc_norm_factor(zeros, poles, norm_freq, pz_type, debug=False):
     """
     Calculate the normalization factor for give poles-zeros

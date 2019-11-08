@@ -93,17 +93,18 @@ during an experiment.  Fields are:
       datalogger configuration will have to be specified to indicate the
       sampling rate and perhaps any configurable gain or filtering.
     
-      :base: applied to all channels of the instrument.
+      :base: applied to all channels of the instrument.  Must include
+        datalogger configuration.
 
-      :by_orientation:{ORIENTATION_CODE}: applied to individual channels
+      **ONLY USE ONE OF THE FOLLOWING**
+      
+      :by_orientation/{ORIENTATION-CODE}: applied to individual channels
         (added to base_channel_mods). Channels are specified by their SEED
         orientation code (as specified in the instrumentation file)
       
-      :by_das:{DAS_CODE}: Same as above, but using the data acquisition code
+      :by_das/{DAS-CODE}: Same as above, but using the data acquisition code
         rather than the orientation code.  Used when a station has more than
-        one channel with the same orientation code.  If the channel has more
-        than one orientation code specified in the instrumentation file ('N'
-        and '1', for example), ``orientation code`` must also be set within this field
+        one channel with the same orientation code.
 
 *Should I add (or even force) ``instruments:[N]:ref:datalogger_config`` as a
 shortcut for ``instruments:[N]:ref:channel_mods:datalogger:config``?*

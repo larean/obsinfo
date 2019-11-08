@@ -11,7 +11,7 @@ revision:
             first_name: "Wayne"
             last_name: "Crawford"
 campaign:
-    reference_name: "MYCAMPAIGN"
+    ref_name: "MYCAMPAIGN"
     reference_scientist:
         first_name: "Ima"
         last_name: "Genie"

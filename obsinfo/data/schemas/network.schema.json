@@ -26,28 +26,26 @@
                 "facility",
                 "campaign_ref_name",
                 "network_info",
-                "ref_files",
+                "ref_file",
+                "ref_file_type",
                 "stations"
             ],
             "properties": {
-                "facility":             {"$ref": "#/definitions/facility"},
-                "campaign_ref_name":    {"$ref": "definitions.schema.json#/ref_name"},
-                "network_info" : {"$ref": "#/definitions/network_info"},
-                "ref_files" :           {"$ref": "#/definitions/ref_files"},
-                "stations" :            {"$ref": "#/definitions/stations_map"},
-                "notes" :               {"$ref": "definitions.schema.json#/note_list"},
-                "extras":               {"$ref": "definitions.schema.json#/extras" }
+                "facility":          {"$ref": "#/definitions/facility"},
+                "campaign_ref_name": {"$ref": "definitions.schema.json#/ref_name"},
+                "network_info":      {"$ref": "#/definitions/network_info"},
+                "ref_file":          {"$ref": "definitions.schema.json#/URI_ref"},
+                "ref_file_type":     {"$ref": "#/definitions/ref_file_type"},
+                "stations":          {"$ref": "#/definitions/stations_map"},
+                "notes":             {"$ref": "definitions.schema.json#/note_list"},
+                "extras":            {"$ref": "definitions.schema.json#/extras" }
             },
             "additionalProperties" : false
         },
-       "ref_files": {
-           "type": "object",
-           "description":"list of reference information files (instrumentation and/or instrument_components)",
-            "properties" : {
-                "instrumentation" :        {"$ref": "definitions.schema.json#/URI_ref"},
-                "instrument_components" :  {"$ref": "definitions.schema.json#/URI_ref"}
-            },
-            "additionalProperties": false
+        "ref_file_type": {
+            "description": "ref file type",
+            "type": "string",
+            "enum": ["instrumentation", "instrument_components"]
         },
         "facility" : {
             "description": "Facility information",
@@ -157,34 +155,18 @@
            "minItems" : 1,
            "items" : { 
                 "oneOf": [
-                    {"$ref": "#/definitions/instrument_tag"},
-                    {"$ref": "#/definitions/instrument_ref_tag"}
+                    {"$ref": "#/definitions/instrument_ref"},
+                    {"$ref": "instrumentation.schema.json#/definitions/instrument_struct"}
                 ]
             }
-        },
-        "instrument_ref_tag":
-        {
-            "type": "object",
-            "description": "Instrument reference tag",
-            "required": [ "ref" ],
-            "properties": {"ref": {"$ref": "#/definitions/instrument_ref"}},
-            "additionalProperties" : false
-        },
-        "instrument_tag":
-        {
-            "type": "object",
-            "description": "Instrument full definition tag",
-            "required": [ "instrument" ],
-            "properties": {"instrument": {"$ref": "instrumentation.schema.json#/definitions/instrument_struct"}},
-            "additionalProperties" : false
         },
         "instrument_ref":
         {
             "type": "object",
             "description": "Instrument reference",
-            "required": [ "code" ],
+            "required": [ "ref_code" ],
             "properties" : {
-                "code":          {"type": "string" },
+                "ref_code":      {"type": "string" },
                 "config":        {"type": "string" },
                 "serial_number": {"type": "string"},
                 "channel_mods":  {"$ref": "#/definitions/channel_mods"}
@@ -242,8 +224,46 @@
             "items": {
                 "type": "object",
                 "description": "other informations that will be appear as comments ",
-                "patternProperties": {"^[A-Za-z0-9_-]+$": {"type" : "object"}}
+                "properties": {
+                    "clock_correct_linear_drift": {"$ref": "#/definitions/clock_correction_linear"},
+                    "clock_correct_leapsecond":   {"$ref": "#/definitions/clock_correction_leapsecond"}
+                },
+                "additionalProperties" : true
             }
+        },
+        "clock_correction_linear": {
+            "type" : "object",
+            "description" : "Linear clock drift observed and any correction applied",
+            "required" : [
+                "time_base",
+                "reference",
+                "start_sync_reference",
+                "start_sync_instrument",
+                "end_sync_reference",
+                "end_sync_instrument"
+            ],
+            "properties" : {
+                "time_base" :             {"type": "string","description" : "time base used in OBS"},
+                "reference" :             {"$ref": "#/definitions/synchronization_reference"},
+                "start_sync_reference" :  {"$ref": "definitions.schema.json#/date-time-Z" },
+                "start_sync_instrument" : {"$ref": "#/definitions/start_sync_instrument" },
+                "end_sync_reference" :    {"$ref": "definitions.schema.json#/date-time-Z" },
+                "end_sync_instrument" :   {"$ref": "definitions.schema.json#/date-time-Z" }
+            },
+            "additionalProperties" : false
+        },
+        "clock_correction_leapsecond" : {
+                "type" : "object",
+                "description" : "Leap-second information",
+                "required" : ["time", "type", "corrected_in_end_sync"],
+                "properties" : {
+                    "time" :                 {"$ref": "definitions.schema.json#/date-time-Z" },
+                    "type" :                 {"$ref": "#/definitions/lpsec_type"},
+                    "description" :          {"$ref": "#/definitions/lpsec_description" },
+                    "corrected_in_end_sync": {"$ref": "#/definitions/lpsec_corrected_in_end_sync"},
+                    "corrected_in_data":     {"$ref": "#/definitions/lpsec_corrected_in_data" }
+                },
+                "additionalProperties": false
         },
         "synchronization_reference":  {
             "type": "string",
@@ -277,44 +297,10 @@
             "description": "list of linear drift corrections",
             "items": { "$ref" : "#/definitions/clock_correction_linear"}
         },
-        "clock_correction_linear": {
-            "type" : "object",
-            "description" : "Linear clock drift observed and any correction applied",
-            "required" : [
-                "time_base",
-                "reference",
-                "start_sync_reference",
-                "start_sync_instrument",
-                "end_sync_reference",
-                "end_sync_instrument"
-            ],
-            "properties" : {
-                "time_base" :             {"type": "string","description" : "time base used in OBS"},
-                "reference" :             {"$ref": "#/definitions/synchronization_reference"},
-                "start_sync_reference" :  {"$ref": "definitions.schema.json#/date-time-Z" },
-                "start_sync_instrument" : {"$ref": "#/definitions/start_sync_instrument" },
-                "end_sync_reference" :    {"$ref": "definitions.schema.json#/date-time-Z" },
-                "end_sync_instrument" :   {"$ref": "definitions.schema.json#/date-time-Z" }
-            },
-            "additionalProperties" : false
-        },
         "clock_correction_leapseconds_list" : {
             "type" : "array",
             "description": "leapsecond objets",
             "items" : { "$ref" : "#/definitions/clock_correction_leapsecond" }
-        },
-        "clock_correction_leapsecond" : {
-                "type" : "object",
-                "description" : "Leap-second information",
-                "required" : ["time", "type", "corrected_in_end_sync"],
-                "properties" : {
-                    "time" :                      {"$ref": "definitions.schema.json#/date-time-Z" },
-                    "type" :                      {"$ref": "#/definitions/lpsec_type"},
-                    "description" :               {"$ref": "#/definitions/lpsec_description" },
-                    "corrected_in_end_sync" :     {"$ref": "#/definitions/lpsec_corrected_in_end_sync"},
-                    "corrected_in_basic_miniseed":{"$ref": "#/definitions/lpsec_corrected_in_basic_miniseed" }
-                },
-                "additionalProperties": false
         },
        "lpsec_type" : {
             "type" : "string",
@@ -332,7 +318,7 @@
             "type": "boolean",
             "description": "True if end_sync_instrument was corrected for the leap second (subtracted one second if positive leapsecond, added one if negative)"
         },
-        "lpsec_corrected_in_basic_miniseed" : {
+        "lpsec_corrected_in_data" : {
             "type": "boolean",
             "description": "True if basic miniseed data is already corrected for the leap second"
         },

@@ -12,7 +12,7 @@ yaml_anchors:
         uncertainties.m: {lon: 20, lat: 20, elev: 20}
         localisation_method: "Short baseline transponder, near-seafloor release"
     bbobs_62: &BBOBS1_62_REF
-        code: "BBOBS1"
+        ref_code: "BBOBS1"
         config: "2012+"
         channel_mods: {base: {datalogger: {config: "62.5sps"}}}
 
@@ -36,8 +36,8 @@ network:
         description: "EMSO-MOMAR"
         comments: 
             - "Lucky Strike Volcano, North Mid-Atlantic Ridge"
-    ref_files:
-        instrumentation:  {$ref: "../instrumentation/instrumentation.yaml"}
+    ref_file:  {$ref: "../instrumentation/instrumentation.yaml"}
+    ref_file_type: "instrumentation"
     stations:
         "BB_1":
             site: "My favorite site"
@@ -45,9 +45,9 @@ network:
             end_date: "2016-05-28T15:37:00"
             location_code: "00"
             instruments:
-                - ref:
-                        <<: *BBOBS1_62_REF
-                        serial_number: "07"
+                -
+                    <<: *BBOBS1_62_REF
+                    serial_number: "07"
             locations:
                 "00":
                     <<: *LOC_BUC_DROP
@@ -67,22 +67,21 @@ network:
             end_date: "2016-05-28T15:37:00Z"
             location_code: "00"
             instruments:
-                - ref:
-                        <<: *BBOBS1_62_REF
-                        serial_number: "07"
-                        channel_mods:
-                            base:
-                                datalogger: {config:  "62.5sps"}
-                                sensor: {serial_number: "Sphere06"}
-                            by_orientation:
-                                "H": {sensor: {serial_number : "IP007"}}
+                -
+                    <<: *BBOBS1_62_REF
+                    serial_number: "07"
+                    channel_mods:
+                        base:
+                            datalogger: {config:  "62.5sps"}
+                            sensor: {serial_number: "Sphere06"}
+                        by_orientation:
+                            "H": {sensor: {serial_number : "IP007"}}
             locations:
                 "00":
                     <<: *LOC_BUC_DROP
                     position: {lon: -32.29756, lat: 37.26049, elev: -1887}
             processing:
-                - clock_corrections:
-                    linear_drift:
+                - clock_correct_linear_drift:
                         <<: *LINEAR_CLOCK_DEFAULTS
                         start_sync_reference: "2015-04-22T12:24:00"
                         end_sync_reference: "2016-05-28T15:35:00.3660"

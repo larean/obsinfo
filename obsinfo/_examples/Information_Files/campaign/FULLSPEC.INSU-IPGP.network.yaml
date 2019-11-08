@@ -21,7 +21,7 @@ yaml_anchors:
         uncertainties.m: {lon: 5, lat: 5, elev: 10}
         localisation_method: "Acoustic survey"
     spobs2_125: &SPOBS2_125
-        reference_code: "SPOBS2"
+        ref_code: "SPOBS2"
         base_channel_mods:
             datalogger: {config: "125sps"}
     equipmenttype: &EQUIPMENTTYPE_EMPTY
@@ -53,9 +53,8 @@ network:
         description: "Full specification of instruments"
         comments: 
             - "Lucky Strike Volcano, North Mid-Atlantic Ridge"
-    ref_files:
-        instrument_components:
-            $ref: "../instrumentation/instrument_components.yaml"
+    ref_file:  {$ref: "../instrumentation/instrument_components.yaml"}
+    ref_file_type: "instrument_components"
     stations:
         "LSVW":
             site: "Lucky Strike Volcano West"
@@ -64,40 +63,38 @@ network:
             location_code: "00"
             instruments:
                 -
-                    instrument:
-                        equipment:
-                            <<: *EQUIPMENTTYPE_EMPTY
-                            model: "SPOBS2"
-                            type: "Short Period Ocean Bottom Seismometer"
-                            description: "LCHEAPO 2000 4-ch SPOBS, L-28 3C geophone"
-                            manufacturer: "Scripps Inst. Oceanography"
-                            serial_number: "04"
-                        base_channel:
-                            datalogger_ref:
-                                code: "LC2000_LOGGER"
-                                config: "125sps"
-                            preamplifier_ref:
-                                code: "LCHEAPO_GEOPHONE"
-                                config: "128x"
-                            sensor_ref: {code: "SERCEL_L28"}
-                            location_code: "00"
-                        das_channels:
-                            "1":
-                                orientation_code : "H"
-                                preamplifier_ref:
-                                    code: "LCHEAPO_HYDRO"
-                                    config: "16x"
-                                sensor_ref: {code: "HITECH_HTI90U"}
-                            "2": {orientation_code : "2"}
-                            "3": {orientation_code : "1"}
-                            "4": {orientation_code : "3"}
+                    equipment:
+                        <<: *EQUIPMENTTYPE_EMPTY
+                        model: "SPOBS2"
+                        type: "Short Period Ocean Bottom Seismometer"
+                        description: "LCHEAPO 2000 4-ch SPOBS, L-28 3C geophone"
+                        manufacturer: "Scripps Inst. Oceanography"
+                        serial_number: "04"
+                    base_channel:
+                        datalogger:
+                            ref_code: "LC2000_LOGGER"
+                            config: "125sps"
+                        preamplifier:
+                            ref_code: "LCHEAPO_GEOPHONE"
+                            config: "128x"
+                        sensor: {ref_code: "SERCEL_L28"}
+                        location_code: "00"
+                    das_channels:
+                        "1":
+                            orientation_code : "H"
+                            preamplifier:
+                                ref_code: "LCHEAPO_HYDRO"
+                                config: "16x"
+                            sensor: {ref_code: "HITECH_HTI90U"}
+                        "2": {orientation_code : "2"}
+                        "3": {orientation_code : "1"}
+                        "4": {orientation_code : "3"}
             locations:
                 "00":
                     <<: *LOC_SURFACE_DROP
                     position: {lon: -32.32504, lat: 37.29744, elev: -2030}
             processing:
-                - clock_corrections:
-                    linear_drift:
+                - clock_correct_linear_drift:
                         <<: *LINEAR_CLOCK_DEFAULTS
                         start_sync_reference: "2015-04-21T21:06:00Z"
                         end_sync_reference: "2016-05-28T20:59:00.32Z"
@@ -108,40 +105,38 @@ network:
             end_date: "2016-05-28T21:01:00Z"
             location_code: "00"
             instruments:
-                -  instrument:
-                        equipment:
-                            <<: *EQUIPMENTTYPE_EMPTY
-                            model: "SPOBS2_modified"
-                            type: "Short Period Ocean Bottom Seismometer"
-                            description: "LCHEAPO 2000 4-ch SPOBS, L-28 3C geophone"
-                            manufacturer: "Scripps Inst. Oceanography"
-                            serial_number: "12"
-                        base_channel:
-                            datalogger_ref:
-                                code: "LC2000_LOGGER"
-                                config: "250sps"
-                            preamplifier_ref:
-                                code: "LCHEAPO_GEOPHONE"
-                                config: "64x"
-                            sensor_ref: {code: "SERCEL_L28"}
-                            location_code: "00"
-                        das_channels:
-                            "1":
-                                orientation_code : "H"
-                                preamplifier_ref:
-                                    code: "LCHEAPO_HYDRO"
-                                    config: "16x"
-                                sensor_ref: {code: "HITECH_HTI04-PLC-ULF"}
-                            "2": {orientation_code : "2"}
-                            "3": {orientation_code : "1"}
-                            "4": {orientation_code : "3"}
+                -
+                    equipment:
+                        <<: *EQUIPMENTTYPE_EMPTY
+                        model: "SPOBS2_modified"
+                        type: "Short Period Ocean Bottom Seismometer"
+                        description: "LCHEAPO 2000 4-ch SPOBS, L-28 3C geophone"
+                        manufacturer: "Scripps Inst. Oceanography"
+                        serial_number: "12"
+                    base_channel:
+                        datalogger:
+                            ref_code: "LC2000_LOGGER"
+                            config: "250sps"
+                        preamplifier:
+                            ref_code: "LCHEAPO_GEOPHONE"
+                        sensor: {ref_code: "SERCEL_L28"}
+                        location_code: "00"
+                    das_channels:
+                        "1":
+                            orientation_code : "H"
+                            preamplifier:
+                                ref_code: "LCHEAPO_HYDRO"
+                                config: "16x"
+                            sensor: {ref_code: "HITECH_HTI04-PLC-ULF"}
+                        "2": {orientation_code : "2"}
+                        "3": {orientation_code : "1"}
+                        "4": {orientation_code : "3"}
             locations:
                 "00":
                     <<: *LOC_ACOUSTIC
                     position: {lon: -32.02504, lat: 37.25744, elev: -2130}
             processing:
-                - clock_corrections:
-                    linear_drift:
+                - clock_correct_linear_drift:
                         <<: *LINEAR_CLOCK_DEFAULTS
                         start_sync_reference: "2015-04-21T21:06:00Z"
                         end_sync_reference: "2016-05-28T20:59:00.32Z"

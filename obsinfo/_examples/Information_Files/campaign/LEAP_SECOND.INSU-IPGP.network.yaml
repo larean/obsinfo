@@ -30,8 +30,8 @@ network:
         end_date: "2025-12-31"
         description: "Test leap second handling"
         comments: ["Lucky Strike Volcano, North Mid-Atlantic Ridge"]
-    ref_files:
-        instrumentation: {$ref: "../instrumentation/instrumentation.yaml"}
+    ref_file:  {$ref: "../instrumentation/instrumentation.yaml"}
+    ref_file_type: "instrumentation"
     stations:
         "LPSCD":
             site: "Lucky Strike Volcano Center"
@@ -40,8 +40,8 @@ network:
             end_date: ~
             location_code: "00"
             instruments:
-                - ref:
-                    code: "SPOBS2"
+                -
+                    ref_code: "SPOBS2"
                     serial_number: "Station01"
                     channel_mods: {base: {datalogger: {config: "62.5sps"}}}
             locations:
@@ -51,16 +51,13 @@ network:
                     localisation_method: "Short baseline transponder, seafloor release"
                     position: {lon: -32.280, lat: 37.290, elev: -1760}
             processing:
-                - clock_corrections:
-                    linear_drift:
-                        <<: *LINEAR_CLOCK_DEFAULTS
-                        start_sync_reference: "2016-07-01T16:00:00Z"
-                        end_sync_reference:   "2017-07-01T15:35:00.555Z"
-                        end_sync_instrument:  "2017-07-01T15:35:00Z"
-                    leapseconds:
-                        -
-                            time: "2016-12-31T23:59:60Z"
-                            type: "+"
-                            description: "Positive leapsecond (a 61-second minute)"
-                            corrected_in_basic_miniseed: No
-                            corrected_in_end_sync: Yes
+                - clock_correct_leapsecond:
+                    time: "2016-12-31T23:59:60"
+                    type: "+"
+                    description: "Positive leapsecond (a 61-second minute)"
+                    corrected_in_end_sync: Yes
+                - clock_correct_linear_drift:
+                    <<: *LINEAR_CLOCK_DEFAULTS
+                    start_sync_reference: "2016-07-01T16:00:00Z"
+                    end_sync_reference:   "2017-07-01T15:35:00.555Z"
+                    end_sync_instrument:  "2017-07-01T15:35:00Z"

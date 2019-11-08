@@ -88,23 +88,27 @@
             "description": "Basic sensor specification",
             "required": ["equipment", "response_stages", "seed_codes"],
             "properties": {
-                "notes":           {"$ref": "definitions.schema.json#/note_list"},
-                "equipment":       {"$ref": "#/definitions/equipmentType"},
-                "response_stages": {"$ref": "#/definitions/response_stage_list"},
-                "configurations":  {"$ref": "#/definitions/sensor_configs_map"},
-                "serial_numbers":  {"$ref": "#/definitions/sensor_serial_numbers_map"},
-                "seed_codes":      {"$ref": "#/definitions/seed_codes"}
+                "config_description": {"type": "string"},
+                "notes":              {"$ref": "definitions.schema.json#/note_list"},
+                "equipment":          {"$ref": "#/definitions/equipmentType"},
+                "response_stages":    {"$ref": "#/definitions/response_stage_list"},
+                "configurations":     {"$ref": "#/definitions/sensor_configs_map"},
+                "serial_numbers":     {"$ref": "#/definitions/sensor_serial_numbers_map"},
+                "seed_codes":         {"$ref": "#/definitions/seed_codes"}
             },
             "additionalProperties": false
         },
         "sensor_config": { 
             "description": "Configuration-specific sensor properties",
+            "required": ["config_description"],
             "properties": {
-                "equipment":       {"$ref": "#/definitions/equipmentType_noRequired"},
-                "response_stages": {"$ref": "#/definitions/response_stage_list"},
-                "serial_numbers":  {"$ref": "#/definitions/sensor_serial_numbers_map"},
-                "seed_codes":      {"$ref": "#/definitions/seed_codes"}
-            }
+                "config_description": {"type": "string"},
+                "equipment":          {"$ref": "#/definitions/equipmentType_noRequired"},
+                "response_stages":    {"$ref": "#/definitions/response_stage_list"},
+                "serial_numbers":     {"$ref": "#/definitions/sensor_serial_numbers_map"},
+                "seed_codes":         {"$ref": "#/definitions/seed_codes"}
+            },
+            "additionalProperties": false
         },
         "sensor_serial_number"  : { 
             "description" : "Serial number-specific sensor properties",
@@ -112,28 +116,36 @@
                 "equipment":       {"$ref": "#/definitions/equipmentType_noRequired"},
                 "response_stages": {"$ref": "#/definitions/response_stage_list"},
                 "seed_codes":      {"$ref": "#/definitions/seed_codes"}
-            }
+            },
+            "additionalProperties": false
         },
         "datalogger" : {
             "description": "Basic datalogger specification",
-            "required": ["equipment"],
+            "required": ["sample_rate","response_stages","equipment"],
             "properties": {
-                "notes":          {"$ref": "definitions.schema.json#/note_list"},
-                "equipment":      {"$ref": "#/definitions/equipmentType"},
-                "configurations": {"$ref": "#/definitions/datalogger_configs_map"},
-                "serial_numbers": {"$ref": "#/definitions/datalogger_serial_numbers_map"}
-            }
+                "notes":              {"$ref": "definitions.schema.json#/note_list"},
+                "equipment":          {"$ref": "#/definitions/equipmentType"},
+                "response_stages":    {"$ref": "#/definitions/response_stage_list"},
+                "sample_rate":        {"type": "number", "minimum": 0},
+                "delay_correction":   {"$ref": "#/definitions/delay_correction"},
+                "serial_numbers":     {"$ref": "#/definitions/datalogger_serial_numbers_map"},
+                "config_description": {"type": "string"},
+                "configurations":     {"$ref": "#/definitions/datalogger_configs_map"}
+            },
+            "additionalProperties": false
         },
         "datalogger_config" : { 
             "description": "Configuration-specific datalogger properties",
-            "required": ["sample_rate", "response_stages"],
+            "required": ["config_description"],
             "properties": {
-                "equipment":        {"$ref": "#/definitions/equipmentType"},
-                "response_stages":  {"$ref": "#/definitions/response_stage_list"},
-                "sample_rate":      {"type": "number", "minimum": 0},
-                "delay_correction": {"$ref": "#/definitions/delay_correction"},
-                "serial_numbers":   {"$ref": "#/definitions/datalogger_serial_numbers_map"}
-            }
+                "config_description": {"type": "string"},
+                "equipment":          {"$ref": "#/definitions/equipmentType"},
+                "response_stages":    {"$ref": "#/definitions/response_stage_list"},
+                "sample_rate":        {"type": "number", "minimum": 0},
+                "delay_correction":   {"$ref": "#/definitions/delay_correction"},
+                "serial_numbers":     {"$ref": "#/definitions/datalogger_serial_numbers_map"}
+            },
+            "additionalProperties": false
         },
         "datalogger_serial_number": { 
             "description": "Serial_number-specific datalogger properties",
@@ -142,33 +154,40 @@
                 "response_stages":  {"$ref": "#/definitions/response_stage_list"},
                 "sample_rate":      {"type": "number", "minimum": 0},
                 "delay_correction": {"$ref": "#/definitions/delay_correction"}
-            }
+            },
+            "additionalProperties": false
         },
         "preamplifier" : {
             "description": "Basic preamplifier specification",
             "required": ["equipment"],
             "properties": {
+                "config_description": {"type": "string"},
                 "notes":           {"$ref": "definitions.schema.json#/note_list"},
                 "equipment":       {"$ref": "#/definitions/equipmentType" },
                 "response_stages": {"$ref": "#/definitions/response_stage_list" },
                 "configurations":  {"$ref": "#/definitions/preamplifier_configs_map"},
                 "serial_numbers":  {"$ref": "#/definitions/preamplifier_serial_numbers_map"}
-            }
+            },
+            "additionalProperties": false
         },
         "preamplifier_config" : {
             "description" : "Configuration-specific preamplifier properties",
+            "required": ["config_description"],
             "properties": {
-                "equipment":       {"$ref": "#/definitions/equipmentType_noRequired"},
-                "response_stages": {"$ref": "#/definitions/response_stage_list"},
-                "serial_numbers":  {"$ref": "#/definitions/preamplifier_serial_numbers_map"}
-            }
+                "config_description": {"type": "string"},
+                "equipment":          {"$ref": "#/definitions/equipmentType_noRequired"},
+                "response_stages":    {"$ref": "#/definitions/response_stage_list"},
+                "serial_numbers":     {"$ref": "#/definitions/preamplifier_serial_numbers_map"}
+            },
+            "additionalProperties": false
         },
         "preamplifier_serial_number" : {
             "description" : "Serial number-specific preamplifier properties",
             "properties": {
                 "equipment":       {"$ref": "#/definitions/equipmentType_noRequired"},
                 "response_stages": {"$ref": "#/definitions/response_stage_list"}
-            }
+            },
+            "additionalProperties": false
         },
         "equipmentType": {
             "type": "object",
@@ -195,7 +214,8 @@
                 "model":            { "type": "string" },
                 "serial_number":    { "type": ["string","null"] },
                 "calibration_date": { "$ref" : "definitions.schema.json#/date-time-Z"}
-            }
+            },
+            "additionalProperties": false
         },
         "response_stage_list" : {
             "type" : "array",
@@ -214,7 +234,8 @@
                 "band_base":   {"$ref": "#/definitions/seed_band_base" },
                 "instrument":  {"$ref": "#/definitions/seed_instrument_code" },
                 "orientation": {"$ref": "#/definitions/seed_orientations_map" }
-            }
+            },
+            "additionalProperties": false
         },
         "seed_band_base" : {
             "type": "string",

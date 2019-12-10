@@ -323,120 +323,13 @@ class Instrument:
             inst_dict["das_channels"][das_key] = \
                 dict_update(inst_dict["base_channel"], chan_mods["base"])
         else:
-            inst_dict["das_channels"][das_key] = chan_mods["base"])
+            inst_dict["das_channels"][das_key] = chan_mods["base"]
         return inst_dict
-        
-#     def __init__(self, filename, inst_spec_dict, referring_file=None):
-#         """
-#         Load an instrument
-# 
-#         inst_mod["ref_code"] must be a valid code in the instrumentation.yaml
-#         file
-#         
-#         :param filename: Name of instrumentation.yaml file
-#         :param inst_spec_dict: A dictionary containing "ref_code", optional
-#                                "config" and "serial_number", and optional
-#                                "datalogger", "preamplifier" and "sensor" fields
-#                                with subfields to modify.
-#         """
-# 
-#         # print(60 * "=")
-#         # print(type(inst_mod_dict))
-#         # pprint.pprint(inst_mod_dict)
-# 
-#         instrumentation = Instrumentation(filename, referring_file)
-# 
-#         # SET ATTRIBUTES
-#         self.updated_from_serial_number = False
-#         self.config_description = None
-#         self.basepath = instrumentation.basepath
-#         self.format_version = instrumentation.format_version
-#         self.revision = instrumentation.revision
-#         self.facility = instrumentation.facility
-#         self.components_file = instrumentation.components_file
-# 
-#         # SET INSTRUMENT
-#         self.ref_code = inst_spec_dict["ref_code"]
-#         self.serial_number = inst_spec_dict.get("serial_number", None)
-#         inst_dict = self._get_instrument_dict(instrumentation, self.ref_code)
-#         self.equipment = FDSN.equipment_type(inst_dict["equipment"])
-#         self.equipment.serial_number = self.serial_number
-#         # SET SPECIFIC ATTRIBUTES (IF ANY)
-# #         print(60*'=')
-# #         pprint.pprint(inst_dict)
-#         inst_dict=info_dict_configure(inst_dict,
-#                                       inst_spec_dict.get('config',None),
-#                                       self.serial_number)
-# #         print(60*'=')
-# #         pprint.pprint(inst_dict)
-#         self.base_channel = inst_dict["base_channel"]
-#         self.das_channels = inst_dict["das_channels"]
-#         if 'config_description' in inst_dict:
-#             self.equipment.description = self.equipment.description +\
-#                 f" [config: {inst_dict['config_description']}]"
-# #        self._update_from_config(inst_dict, inst_spec_dict)
-# #         if 'config' in inst_dict:
-# #             self._update_from_config(inst_dict['config'], inst)
-# #             if 'serial_number' in inst_dict:
-# #                 self._update_from_serial_number(inst_dict['serial_number'],
-# #                                                 inst['configuration'])
-# #         if not self.updated_from_serial_number:
-# #             if 'serial_number' in inst_dict:
-# #                 self._update_from_serial_number(
-# #                     inst_dict['serial_number'], inst)
 
     def __repr__(self):
         return f"<{__name__}: ref_code={self.ref_code}, " +\
                f"serial_number={self.equipment.serial_number}, " +\
                f"{len(self.das_channels):d} channels >"
-
-
-#     def _update_from_config(self, inst_dict, inst_spec_dict):
-#         """
-#         Update an Instrument dictionary using values in inst_spec_dict
-#         
-#         :param inst_dict: complete instrument specification (from
-#                           instrumentation file)
-#         :param inst_spec_dict: modifications to make to inst_dict
-#         """
-# 
-#         if 'description' in inst_dict:
-#             self.equipment.description = self.equipment.description +\
-#                 f" [config: {inst_dict['description']}]"
-#         if 'base_channel' in inst_dict:
-#             self._update_base_channel(inst_dict['base_channel'])
-#         if 'das_channels' in inst_dict:
-#             self._update_das_channels(inst_dict['das_channels'])
-# 
-#     def _update_base_channel(self, new_base_info):
-#         """ Update instrument base_channel """
-#         # datalogger_ref, preamplifier_ref and/or sensor_ref
-#         for key, val in new_base_info.items():
-#             for subval in val.items():
-#                 self.base_channel[key][val] = subval
-# 
-#     def _update_das_channels(self, new_das_info):
-#         """ Update instrument das_channels """
-#         # das channel codes
-#         for channel_code, keys in new_das_info.items():
-#             if channel_code not in self.das_channels:
-#                 NameError(f"Unknown channel code: {channel_code}")
-#             for key, val in keys.items():
-#                 if key == 'orientation_code':
-#                     self.das_channels[channel_code].orientation_code = val
-#                 else:
-#                     for subval in val.items():
-#                         self.das_channels[channel_code][key][val] = subval
-
-#     def __update_das_channels(self, inst_dict, debug=False):
-#         """
-#         INCORPORATE SPECIFIC CHANNEL VALUES
-#         """
-#         for loc_key, value in inst_dict["channel_codes_locations"].items():
-#             das_channel = value.get("das_channel", None)
-#             dc_key = self.__find_dc_key(loc_key[2], das_channel)
-#             self.__insert_codes(dc_key, loc_key)
-#             self.__update_das_channel(dc_key, value)
 
 #     def __find_dc_key(self, orientation_code, das_channel=None, debug=False):
 #         """
@@ -473,72 +366,6 @@ class Instrument:
 #                             f"only {das_orientation_codes} found")
 #         return dc_key
 
-#     def __insert_codes(self, dc_key, chan_loc, debug=False):
-#         """ 
-#         Insert location and seed codes into a das_channel
-#         
-#         Very stupid, assumes an exact string format
-#         
-#         :param dc_key: das channel name
-#         :param chan_loc: channel and location in format 'CCC_LL'
-#         """
-#         if debug:
-#             print(chan_loc)
-#             print(dc_key)
-#             print(self.das_channels[dc_key])
-#         self.das_channels[dc_key]["band_code"] = chan_loc[0]
-#         self.das_channels[dc_key]["inst_code"] = chan_loc[1]
-#         self.das_channels[dc_key]["location_code"] = chan_loc[4:6]
-
-#     def __update_das_channel(self, dc_key, chan_values, debug=False):
-#         """
-#         Update a das_channel with SEED values stored in dictionary
-# 
-#         :param dc_key: das channel name
-#         :param chan_values: dictionary with fields "sample_rate",
-#                             "serial_number", "location_code", "start_date",
-#                             "end_date", "sensor", "datalogger", "preamplifier",
-#                             "datalogger_config"
-#         """
-#         dc = self.das_channels[dc_key]
-#         if "sample_rate" in chan_values:
-#             dc["sample_rate"] = chan_values["sample_rate"]
-#         if "serial_number" in chan_values:
-#             dc["equipment"].serial_number = chan_values["serial_number"]
-#         if "location_code" in chan_values:
-#             dc["location_code"] = chan_values["location_code"]
-#         if "start_date" in chan_values:
-#             dc["start_date"] = chan_values["start_date"]
-#         if "end_date" in chan_values:
-#             dc["end_date"] = chan_values["end_date"]
-# 
-#         for block_type in ["sensor", "datalogger", "preamplifier"]:
-#             if block_type in chan_values:
-#                 for key in chan_values[block_type]:
-#                     dc[block_type][key] = chan_values[block_type][key]
-#         if "datalogger_config" in chan_values:
-#             dl_config = chan_values["datalogger_config"]
-#             if debug:
-#                 print("ADDING datalogger_config ({})".format(dl_config))
-#             dc["datalogger"]["reference_code"] = (
-#                 dc["datalogger"]["reference_code"] + "_" + dl_config
-#             )
-
-#     def __inject_measurement_instrument_parameters(self, das_channel,
-#                                                    instrument_spec,
-#                                                    debug=False):
-#         """
-#         Read and inject specific values into a measurement instrument
-#         """
-#         if debug:
-#             print(instrument_spec)
-#         for key, values in instrument_spec.items():
-#             if "reference_code" in values:
-#                 self.das_channels[das_channel][key]["reference_code"] =\
-#                     values["reference_code"]
-#             if "serial_number" in values:
-#                 self.das_channels[das_channel][key]["serial_number"] =\
-#                     values["serial_number"]
 
     def load_components(self, components_file, referring_file=None):
         """
@@ -552,11 +379,11 @@ class Instrument:
 
         # print(self)
         for key, channel in self.das_channels.items():
-            # Inject base channel into das_channel
-            print(key)
-            print(channel)
-            channel = dict_update(channel, self.base_channel)
-            print(channel)
+#             # Inject base channel into das_channel
+#             print(key)
+#             print(channel)
+#             channel = dict_update(channel, self.base_channel)
+#             print(channel)
             self.fill_channel(key, components)
         self.resource_id = self.facility["ref_name"] +\
                            components.revision["date"]
@@ -571,9 +398,11 @@ class Instrument:
         channel = self.das_channels[channel_key]
         # print("Channel=", channel)
         for block_type in ["datalogger", "preamplifier", "sensor"]:
-            if block_type == "preamplifier" and block_type not in channel:
-                print('component type "{}" absent, ignored'.format(block_type))
-                continue  # to ignore empty  preamplifier
+            if block_type not in channel:
+                if block_type == "preamplifier":
+                    print(f'component type "{block_type}" absent, ignored')
+                    continue  # to ignore empty  preamplifier
+                raise NameError(f'component type "{block_type}" missing!')
             # print("Component=", block_type, channel[block_type])
             ref_code = channel[block_type]["ref_code"]
             serial_number = channel[block_type].get("serial_number", None)

@@ -1,6 +1,6 @@
 ---
 format_version: "0.107"
-notes: [ "notes aren't put into StationXML files, comments are"]
+notes: [ "comments are put in StationXML files, notes aren't"]
 yaml_anchors:
     equipmenttype: &EQUIPMENTTYPE_EMPTY
         type: ~

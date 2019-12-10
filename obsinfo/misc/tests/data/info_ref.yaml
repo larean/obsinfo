@@ -1,0 +1,10 @@
+---
+$ref_dir='./subdir/subsubdir'
+A: 'ayy'
+B:
+    $ref: 'Bref'
+    Bprime: 12
+C:
+    $ref: 'Cref.tester.yaml'
+D:
+    $ref: 'Dref.tester.yaml#bugger'

@@ -27,22 +27,22 @@ response:
             description : "DECIMATION - ADS1281 FIR1" 
             decimation_factor : 2
             filter: 
-                $ref: "../_filters/FIR/TexasInstruments_ADS1281_FIR1.filter.yaml#filter"
+                $ref: "FIR/TexasInstruments_ADS1281_FIR1.filter.yaml#filter"
         -
             <<: *BASE
             description : "DECIMATION - ADS1281 FIR2" 
             decimation_factor : 2
             filter: 
-                $ref: "../_filters/FIR/TexasInstruments_ADS1281_FIR2.filter.yaml#filter"
+                $ref: "FIR/TexasInstruments_ADS1281_FIR2.filter.yaml#filter"
         -
             <<: *BASE
             description : "DECIMATION - ADS1281 FIR3" 
             decimation_factor : 4
             filter: 
-                $ref: "../_filters/FIR/TexasInstruments_ADS1281_FIR3_LINEAR.filter.yaml#filter"
+                $ref: "FIR/TexasInstruments_ADS1281_FIR3_LINEAR.filter.yaml#filter"
         -
             <<: *BASE
             description : "DECIMATION - ADS1281 FIR4" 
             decimation_factor : 2
             filter: 
-                $ref: "../_filters/FIR/TexasInstruments_ADS1281_FIR4_LINEAR.filter.yaml#filter"
+                $ref: "FIR/TexasInstruments_ADS1281_FIR4_LINEAR.filter.yaml#filter"

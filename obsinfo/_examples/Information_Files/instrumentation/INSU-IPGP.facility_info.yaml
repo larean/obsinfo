@@ -1,0 +1,7 @@
+---
+format_version: "0.107"
+facility_info:
+    ref_name: "INSU-IPGP"
+    full_name: "INSU-IPGP OBS facility"
+    email: "obs@ipgp.fr"
+    website: "http://parc-obs.insu.cnrs.fr"

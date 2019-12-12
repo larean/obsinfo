@@ -7,30 +7,6 @@ yaml_anchors:
         time_base: "Seascan MCXO, ~1e-8 nominal drift"
         reference: "GPS"
         start_sync_instrument: 0
-    location_defaults: &LOC_DEFAULTS
-        depth.m: 0
-        geology: "unknown"
-        vault: "Sea floor"                    
-    location_buc_direct: &LOC_BUC_DIRECT
-        <<: *LOC_DEFAULTS
-        uncertainties.m: {lon: 5, lat: 5, elev: 10}
-        localisation_method: "Short baseline transponder, seafloor release"
-    location_buc_drop: &LOC_BUC_DROP
-        <<: *LOC_DEFAULTS
-        uncertainties.m: {lon: 20, lat: 20, elev: 20}
-        localisation_method: "Short baseline transponder, near-seafloor release"
-    location_surface_drop: &LOC_SURFACE_DROP
-        <<: *LOC_DEFAULTS
-        uncertainties.m: {lon: 200, lat: 200, elev: 20}
-        localisation_method: "Position is the sea-surface release point"
-    location_acoustic: &LOC_ACOUSTIC
-        <<: *LOC_DEFAULTS
-        uncertainties.m: {lon: 5, lat: 5, elev: 10}
-        localisation_method: "Acoustic survey"
-    location_airgun: &LOC_AIRGUN
-        <<: *LOC_DEFAULTS
-        uncertainties.m: {lon: 40, lat: 40, elev: 20}
-        localisation_method: "Airgun survey"
 
 revision:
     authors:
@@ -50,8 +26,7 @@ network:
         start_date: "2007-07-01"
         end_date: "2025-12-31"
         description: "Selection of old and odd instruments"
-    ref_file:  {$ref: "../instrumentation/instrumentation.yaml"}
-    ref_file_type: "instrumentation"
+    $ref_dir: "../instrumentation/"
     stations:
         "SP_1":
             notes: ["Old SPOBS(TWO CHANNELS)"]
@@ -61,12 +36,12 @@ network:
             location_code: "00"
             instruments:
                 -
-                    ref_code: "SPOBS1"
+                    $ref: "SPOBS1.instrumentation.yaml#instrumentation"
                     serial_number: "13"
                     channel_mods: {base: {datalogger: {config: "62.5sps"}}}
             locations:
                 "00":
-                    <<: *LOC_ACOUSTIC
+                    $ref: '../location_bases/ACOUSTIC_SURVEY.location_base.yaml#location_base'
                     position: {lon: -32.27909, lat: 37.31960, elev: -1798}
             processing:
                 - clock_correct_linear_drift:
@@ -82,13 +57,13 @@ network:
             location_code: "00"
             instruments:
                 -
-                    ref_code: "BBOBS1"
+                    $ref: "BBOBS1.instrumentation.yaml#instrumentation"
                     config: "pre-2012"
                     serial_number: "02"
                     channel_mods: {base: {datalogger: {config: "62.5sps"}}}
             locations:
                 "00":
-                    <<: *LOC_BUC_DROP
+                    $ref: '../location_bases/BUC_DROP.location_base.yaml#location_base'
                     position: {lon: -32.29756, lat: 37.26049, elev: -1887}
             processing:
                 - clock_corrections:
@@ -105,7 +80,7 @@ network:
             location_code: "00"
             instruments:
                 -
-                    ref_code: "HydOct1"
+                    $ref: "HYDOCT1.instrumentation.yaml#instrumentation"
                     serial_number: "01"
                     channel_mods:
                         base:
@@ -128,16 +103,16 @@ network:
                                     serial_number: "9601"
             locations:
                 "00":
-                    <<: *LOC_BUC_DIRECT
+                    $ref: '../location_bases/BUC_DIRECT.location_base.yaml#location_base'
                     position: {lon: -32.29756, lat: 37.26049, elev: -1887}
                 "01":
-                    <<: *LOC_BUC_DIRECT
+                    $ref: '../location_bases/BUC_DIRECT.location_base.yaml#location_base'
                     position: {lon: -32.29756, lat: 37.26051, elev: -1885}
                 "02":
-                    <<: *LOC_BUC_DIRECT
+                    $ref: '../location_bases/BUC_DIRECT.location_base.yaml#location_base'
                     position: {lon: -32.29758, lat: 37.26049, elev: -1889}
                 "03":
-                    <<: *LOC_BUC_DIRECT
+                    $ref: '../location_bases/BUC_DIRECT.location_base.yaml#location_base'
                     position: {lon: -32.29756, lat: 37.26047, elev: -1877}
             processing:
                 - clock_correct_leapsecond:

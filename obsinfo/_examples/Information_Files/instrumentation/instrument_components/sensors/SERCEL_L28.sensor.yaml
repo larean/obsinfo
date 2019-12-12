@@ -1,0 +1,29 @@
+---
+format_version: "0.107"
+revision: 
+    date: "2017-11-30"
+    authors: 
+        -
+            first_name: "Wayne"
+            last_name: "Crawford"
+            email: "crawford@ipgp.fr"
+$ref_dir: 'responses/'
+sensor:
+    notes: 
+        - "Not sure the sensor is 'high gain', but it is when combined with the LCHEAPO analog filter"
+        - "Geophone Z channel is positive DOWN"
+    equipment:
+        model: "L-28LB"
+        type: "Geophone"
+        description: "Sercel L-28LB 4.5 Hz 3C geophone"
+        manufacturer: "Sercel"
+        vendor: "various"
+    seed_codes:
+        band_base: "S"
+        instrument: "H"
+        orientation:
+            "3": {azimuth.deg: [0,0],    dip.deg: [90,0]}
+            "1": {azimuth.deg: [0,180],  dip.deg: [0,0]}
+            "2": {azimuth.deg: [90,180], dip.deg: [0,0]}
+    response_stages:
+        - $ref: "Sercel_L28LB_LCHEAPO_theoretical.response.yaml#response"

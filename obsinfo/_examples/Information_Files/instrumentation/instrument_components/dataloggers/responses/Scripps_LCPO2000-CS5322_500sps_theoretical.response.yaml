@@ -13,21 +13,20 @@ yaml_anchors:
         <<: *base
         description : "DECIMATION - CS5322 FIR2" 
         filter: 
-            $ref: "../_filters/FIR/CirrusLogic_CS5322_FIR2.filter.yaml#filter"
+            $ref: "FIR/CirrusLogic_CS5322_FIR2.filter.yaml#filter"
     fir3: &fir3
         <<: *base
         description : "DECIMATION - CS5322 FIR3 (linear phase)" 
         filter: 
-            $ref: "../_filters/FIR/CirrusLogic_CS5322_FIR3.filter.yaml#filter"
+            $ref: "FIR/CirrusLogic_CS5322_FIR3.filter.yaml#filter"
 response:
     decimation_info:
         input_sample_rate: 32000
-        output_sample_rate: 250
+        output_sample_rate: 500
     stages: 
-        -  <<: *fir2
-        -  <<: *fir2
-        -  <<: *fir2
-        -  <<: *fir2
-        -  <<: *fir2
-        -  <<: *fir2
-        -  <<: *fir3
+        - <<: *fir2
+        - <<: *fir2
+        - <<: *fir2
+        - <<: *fir2
+        - <<: *fir2
+        - <<: *fir3

@@ -1,0 +1,30 @@
+---
+format_version: "0.107"
+revision: 
+    date: "2017-11-30"
+    authors: 
+        -
+            first_name: "Wayne"
+            last_name: "Crawford"
+            email: "crawford@ipgp.fr"
+$ref_dir: 'responses/'
+sensor:
+    notes:
+        - >-
+            Pressure decrease (dilatation) = Positive output (email hitech for SN with
+            prefix of 220) => dip=90 (for upgoing waves)
+    equipment:
+        model: "HTI-90-U"
+        type: "Hydrophone"
+        description: >-
+                HiTech HTI-90-U hydrophone with integrated preamp,
+                serial number 220xxx, 0.05-2500 Hz
+        manufacturer: "HiTech, inc"
+        vendor: "various"
+    seed_codes:
+        band_base: "B"
+        instrument: "D"
+        orientation:
+            "H": {azimuth.deg: [0,0], dip.deg: [90,0]}
+    response_stages:
+        - $ref: "HiTech_HTI-90U_SIO-preamp_theoretical.response.yaml#response"

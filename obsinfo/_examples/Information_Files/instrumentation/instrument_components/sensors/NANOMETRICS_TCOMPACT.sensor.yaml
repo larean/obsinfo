@@ -1,0 +1,29 @@
+---
+format_version: "0.107"
+revision: 
+    date: "2017-11-30"
+    authors: 
+        -
+            first_name: "Wayne"
+            last_name: "Crawford"
+            email: "crawford@ipgp.fr"
+$ref_dir: 'responses/'
+sensor:
+    equipment:
+        model: "Trillium Compact"
+        type: "Wideband seismometer"
+        description: "Trillium Compact"
+        manufacturer: "Nanometrics, Inc"
+        vendor: "Nanometrics, Inc"
+    seed_codes:
+        band_base: "B"
+        instrument: "H"
+        orientation:
+            "Z": {azimuth.deg: [0, 0],    dip.deg: [-90, 0]}
+            "1": {azimuth.deg: [0, 180],  dip.deg: [0, 0]}
+            "2": {azimuth.deg: [90, 180], dip.deg: [0, 0]}
+    response_stages:
+        - $ref: "Trillium_TCompact_singlesided_theoretical.response.yaml#reponse"
+    configurations:
+        "SINGLE-SIDED":
+            config_description: "Single-Sided connection (negative shorted to ground)"

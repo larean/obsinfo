@@ -1,0 +1,13 @@
+---
+format_version: "0.107"
+revision: 
+    date: "2018-06-01"
+    authors:
+        - 
+            first_name: "Wayne"
+            last_name: "Crawford"
+            email: "crawford@ipgp.fr"
+location_base:
+    $ref: 'SEAFLOOR.location_base.yaml'
+    uncertainties.m: {lon: 200, lat: 200, elev: 20}
+    localisation_method: "Sea surface release point"

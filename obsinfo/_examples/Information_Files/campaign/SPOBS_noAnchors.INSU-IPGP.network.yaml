@@ -21,8 +21,7 @@ network:
         end_date: "2025-12-31"
         description: "Short Period OBS network"
         comments: ["Lucky Strike Volcano, North Mid-Atlantic Ridge"]
-    ref_file:  {$ref: "../instrumentation/instrumentation.yaml"}
-    ref_file_type: "instrumentation"
+    $ref_dir: "../instrumentation/instrumentation.yaml"
     stations:
         "LSVW":
             site: "Lucky Strike Volcano West"
@@ -31,17 +30,13 @@ network:
             location_code: "00"
             instruments:
                 -
-                    ref_code: "SPOBS2"
+                    $ref: "SPOBS2.instrumentation.yaml#instrumentation"
                     serial_number: "20"
                     channel_mods:
                         base: {datalogger: {config: "125sps"}}
             locations:
                 "00":
-                    depth.m: 0
-                    geology: "unknown"
-                    vault: "Sea floor"                    
-                    uncertainties.m: {lon: 200, lat: 200, elev: 20}
-                    localisation_method: "Position is the sea-surface release point"
+                    $ref: '../location_bases/SURFACE.location_base.yaml#location_base'
                     position: {lon: -32.32504, lat: 37.29744, elev: -2030}
             processing:
                 - clock_correction_linear_drift:
@@ -58,16 +53,12 @@ network:
             location_code: "00"
             instruments:
                 -
-                    ref_code: "SPOBS2"
+                    $ref: "SPOBS2.instrumentation.yaml#instrumentation"
                     serial_number: "12"
                     channel_mods: {base: {datalogger: {config: "125sps"}}}
             locations:
                 "00":
-                    depth.m: 0
-                    geology: "unknown"
-                    vault: "Sea floor"                    
-                    uncertainties.m: {lon: 10, lat: 10, elev: 5}
-                    localisation_method: "Acoustic pinger survey"
+                    $ref: '../location_bases/ACOUSTIC_SURVEY.location_base.yaml#location_base'
                     position: {lon: -32.02504, lat: 37.25744, elev: -2130}
             processing:
                 - clock_correct_linear_drift:

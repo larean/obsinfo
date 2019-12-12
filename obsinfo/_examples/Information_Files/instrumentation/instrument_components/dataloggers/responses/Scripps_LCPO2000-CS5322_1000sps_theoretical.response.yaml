@@ -14,12 +14,12 @@ yaml_anchors:
         <<: *BASE
         description : "DECIMATION - CS5322 FIR2" 
         filter: 
-            $ref: "../_filters/FIR/CirrusLogic_CS5322_FIR2.filter.yaml#filter"
+            $ref: "FIR/CirrusLogic_CS5322_FIR2.filter.yaml#filter"
     fir3: &FIR3
         <<: *BASE
         description : "DECIMATION - CS5322 FIR3 (linear phase)" 
         filter: 
-            $ref: "../_filters/FIR/CirrusLogic_CS5322_FIR3.filter.yaml#filter"
+            $ref: "FIR/CirrusLogic_CS5322_FIR3.filter.yaml#filter"
 response:
     decimation_info:
         input_sample_rate: 32000

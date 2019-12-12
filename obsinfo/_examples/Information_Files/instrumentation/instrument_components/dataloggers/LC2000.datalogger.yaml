@@ -1,0 +1,56 @@
+---
+format_version: "0.107"
+revision: 
+    date: "2017-11-30"
+    authors: 
+        -
+            first_name: "Wayne"
+            last_name: "Crawford"
+            email: "crawford@ipgp.fr"
+$ref_dir: 'responses/'
+datalogger:
+    equipment:
+        model: "CS5321/22"
+        type: "delta-sigma A/D converter + digital filter"
+        description: "CS5321/22 delta-sigma A/D converter + FIR digital filter"
+        manufacturer: "Cirrus Logic"
+        vendor: "various"
+    config_description: "DEFAULT (125 sps)"
+    sample_rate: 125
+    delay_correction.s: 0.232
+    response_stages:
+        - $ref: "Scripps_LCPO2000-CS5321__theoretical.response.yaml#response"
+        - $ref: "Scripps_LCPO2000-CS5322_125sps_theoretical.response.yaml#response"
+    notes: 
+        - "Delay correction is hard-coded to 29 samples in LCHEAPO software"
+    configurations:
+        "62.5sps":
+            config_description: "62.5 sps"
+            sample_rate: 62.5
+            delay_correction.s: 0.464
+            response_stages:
+                - $ref: "Scripps_LCPO2000-CS5321__theoretical.response.yaml#response"
+                - $ref: "Scripps_LCPO2000-CS5322_62.5sps_theoretical.response.yaml#response"
+        "125sps":
+            config_description: "125 sps"
+        "250sps":
+            config_description: "250 sps"
+            sample_rate: 250
+            delay_correction.s: 0.116
+            response_stages:
+                - $ref: "Scripps_LCPO2000-CS5321__theoretical.response.yaml#response"
+                - $ref: "Scripps_LCPO2000-CS5322_250sps_theoretical.response.yaml#response"
+        "500sps":
+            config_description: "500 sps"
+            sample_rate: 500
+            delay_correction.s: 0.058
+            response_stages:
+                - $ref: "Scripps_LCPO2000-CS5321__theoretical.response.yaml#response"
+                - $ref: "Scripps_LCPO2000-CS5322_500sps_theoretical.response.yaml#response"
+        "1000sps":
+            config_description: "1000 sps"
+            sample_rate: 1000
+            delay_correction.s: 0.029
+            response_stages:
+                - $ref: "Scripps_LCPO2000-CS5321__theoretical.response.yaml#response"
+                - $ref: "Scripps_LCPO2000-CS5322_1000sps_theoretical.response.yaml#response"

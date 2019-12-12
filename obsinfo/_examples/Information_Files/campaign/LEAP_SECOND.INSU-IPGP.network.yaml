@@ -30,8 +30,7 @@ network:
         end_date: "2025-12-31"
         description: "Test leap second handling"
         comments: ["Lucky Strike Volcano, North Mid-Atlantic Ridge"]
-    ref_file:  {$ref: "../instrumentation/instrumentation.yaml"}
-    ref_file_type: "instrumentation"
+    $ref_dir: "../instrumentation/"
     stations:
         "LPSCD":
             site: "Lucky Strike Volcano Center"
@@ -41,14 +40,12 @@ network:
             location_code: "00"
             instruments:
                 -
-                    ref_code: "SPOBS2"
+                    $ref: "SPOBS2.instrumentation.yaml#instrumentation"
                     serial_number: "Station01"
                     channel_mods: {base: {datalogger: {config: "62.5sps"}}}
             locations:
                 "00":
-                    <<: *LOC_DEFAULTS
-                    uncertainties.m: {lon: 5, lat: 5, elev: 10}
-                    localisation_method: "Short baseline transponder, seafloor release"
+                    $ref: '../location_bases/BUC_DIRECT.location_base.yaml#location_base'
                     position: {lon: -32.280, lat: 37.290, elev: -1760}
             processing:
                 - clock_correct_leapsecond:

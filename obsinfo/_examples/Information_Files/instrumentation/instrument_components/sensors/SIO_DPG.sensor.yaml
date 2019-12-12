@@ -1,0 +1,53 @@
+---
+format_version: "0.107"
+revision: 
+    date: "2017-11-30"
+    authors: 
+        -
+            first_name: "Wayne"
+            last_name: "Crawford"
+            email: "crawford@ipgp.fr"
+$ref_dir: 'responses/'
+sensor:
+    notes: 
+        - >-
+            dip value assumes pressure gauge positive correponds to increasing pressure
+            in upward compressional wave (seafloor up => pressure up)
+        - "orientation H=hydrophone, F=infrasound.  Which to use?"
+    equipment:
+        model: "DPG"
+        type: "Differential Pressure Gauge"
+        description: "Differential Pressure Gauge"
+        manufacturer: "various"
+        vendor: "various"
+    seed_codes:
+        band_base: "B"
+        instrument: "D"
+        orientation:
+            "H": {azimuth.deg: [0,0], dip.deg: [90,0]}
+            "F": {azimuth.deg: [0,0], dip.deg: [90,0]}
+    response_stages:
+        - $ref: "SIO-LDEO_DPG_generic_theoretical.response.yaml#response"
+    serial_numbers:
+        "5004": 
+            equipment: {manufacturer: "SIO"}
+            response_stages: [ {$ref: "SIO-LDEO_DPG_5004_calibrated.response.yaml#response"}]
+        "5018":
+            equipment: {manufacturer: "SIO"}
+            response_stages: [ {$ref: "SIO-LDEO_DPG_5018_calibrated.response.yaml#response"}]
+        "5027":
+            equipment: {manufacturer: "SIO"}
+        "IP004":
+            equipment: {manufacturer: "IPGP"}
+        "IP005":
+            equipment: {manufacturer: "IPGP"}
+        "IP006":
+            equipment: {manufacturer: "IPGP"}
+        "IP007":
+            equipment: {manufacturer: "IPGP"}
+        "LD013":
+            equipment: {manufacturer: "LDEO"}
+        "LDxxx":
+            equipment: 
+                manufacturer: "LDEO"
+                description: "DPG on lost BBOBS9, did not note serial number"

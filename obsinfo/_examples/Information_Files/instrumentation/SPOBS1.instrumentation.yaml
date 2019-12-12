@@ -1,0 +1,35 @@
+---
+format_version: "0.107"
+revision: 
+    date: "2018-06-01"
+    authors:
+        - 
+            first_name: "Wayne"
+            last_name: "Crawford"
+            email: "crawford@ipgp.fr"
+        - 
+            first_name: "Romuald"
+            last_name: "Daniel"
+            email: "rdaniel@ipgp.fr"
+facility:
+    $ref: "INSU-IPGP.facility_info.yaml#facility_info"
+$ref_dir:  "instrument_components/"
+instrument:
+    equipment:
+        model: "SPOBS1"
+        type: "Short Period Ocean Bottom Seismometer"
+        description: "LCHEAPO 2000 SPOBS, 2 channels, L-22 vertical geophone"
+        manufacturer: "Scripps Inst. Oceanography"
+        vendor: "Scripps Inst. Oceanography"
+    base_channel:
+        datalogger: {$ref: "dataloggers/LC2000.datalogger.yaml#datalogger"}
+        preamplifier:
+            $ref: "preamplifiers/LCHEAPO_GEOPHONE_128x.preamplifier.yaml#preamplifier"
+            config: "128x"
+        sensor: {$ref: "sensors/SERCEL_L22.sensor.yaml#sensor"}
+    das_channels:
+        "1":
+            orientation_code: "3"
+        "2":
+            orientation_code: "H"
+            sensor: {$ref: "sensors/HITECH_HTI90U.sensor.yaml#sensor"}

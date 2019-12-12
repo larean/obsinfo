@@ -17,7 +17,7 @@ datalogger:
         vendor: "various"
     config_description: "DEFAULT (125 sps)"
     sample_rate: 125
-    delay_correction.s: 0.232
+    delay_correction: 0.232
     response_stages:
         - $ref: "Scripps_LCPO2000-CS5321__theoretical.response.yaml#response"
         - $ref: "Scripps_LCPO2000-CS5322_125sps_theoretical.response.yaml#response"
@@ -27,7 +27,7 @@ datalogger:
         "62.5sps":
             config_description: "62.5 sps"
             sample_rate: 62.5
-            delay_correction.s: 0.464
+            delay_correction: 0.464
             response_stages:
                 - $ref: "Scripps_LCPO2000-CS5321__theoretical.response.yaml#response"
                 - $ref: "Scripps_LCPO2000-CS5322_62.5sps_theoretical.response.yaml#response"
@@ -36,21 +36,21 @@ datalogger:
         "250sps":
             config_description: "250 sps"
             sample_rate: 250
-            delay_correction.s: 0.116
+            delay_correction: 0.116
             response_stages:
                 - $ref: "Scripps_LCPO2000-CS5321__theoretical.response.yaml#response"
                 - $ref: "Scripps_LCPO2000-CS5322_250sps_theoretical.response.yaml#response"
         "500sps":
             config_description: "500 sps"
             sample_rate: 500
-            delay_correction.s: 0.058
+            delay_correction: 0.058
             response_stages:
                 - $ref: "Scripps_LCPO2000-CS5321__theoretical.response.yaml#response"
                 - $ref: "Scripps_LCPO2000-CS5322_500sps_theoretical.response.yaml#response"
         "1000sps":
             config_description: "1000 sps"
             sample_rate: 1000
-            delay_correction.s: 0.029
+            delay_correction: 0.029
             response_stages:
                 - $ref: "Scripps_LCPO2000-CS5321__theoretical.response.yaml#response"
                 - $ref: "Scripps_LCPO2000-CS5322_1000sps_theoretical.response.yaml#response"

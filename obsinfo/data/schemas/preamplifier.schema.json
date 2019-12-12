@@ -1,0 +1,102 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Instrument Components",
+    "description": "OBS facility instrument components",
+    "type": "object",
+    "required": ["format_version", "instrument_components"],
+    "properties": {
+        "format_version": {"$ref": "#/definitions/format_version"},
+        "revision":       {"$ref": "definitions.schema.json#/revision"},
+        "yaml_anchors":   {"$ref": "definitions.schema.json#/yaml_anchors"},
+        "notes":          {"$ref": "definitions.schema.json#/note_list"},
+        "preamplifier":   {"$ref": "#/definitions/preamplifier" },
+        "extras":         {"$ref": "definitions.schema.json#/extras"}
+    },
+    "additionalProperties" : false,
+    "definitions": {
+        "format_version" : {
+            "anyOf": [
+                {"$ref" : "definitions.schema.json#/format_version"},
+                {"type": "string","pattern": "^0\\.107$",
+                 "comment":"version of last change to this schema"}
+            ]
+        },
+        "preamplifier_configs_map": {
+            "description": "Map of configuration names for a given  preamplifier",
+            "patternProperties": {
+                "^[A-Za-z0-9_-]+$": {"$ref": "#/definitions/preamplifier_config"}
+            }
+        },
+        "preamplifier_serial_numbers_map": {
+            "description": "Map of serial numbers for a given preamplifier",
+            "patternProperties": {
+                "^[A-Za-z0-9_-]+$": {"$ref": "#/definitions/preamplifier_serial_number"}
+            }
+        },
+        "preamplifier" : {
+            "description": "Basic preamplifier specification",
+            "required": ["equipment"],
+            "properties": {
+                "config_description": {"type": "string"},
+                "notes":           {"$ref": "definitions.schema.json#/note_list"},
+                "equipment":       {"$ref": "#/definitions/equipmentType" },
+                "response_stages": {"$ref": "#/definitions/response_stage_list" },
+                "configurations":  {"$ref": "#/definitions/preamplifier_configs_map"},
+                "serial_numbers":  {"$ref": "#/definitions/preamplifier_serial_numbers_map"}
+            },
+            "additionalProperties": false
+        },
+        "preamplifier_config" : {
+            "description" : "Configuration-specific preamplifier properties",
+            "required": ["config_description"],
+            "properties": {
+                "config_description": {"type": "string"},
+                "equipment":          {"$ref": "#/definitions/equipmentType_noRequired"},
+                "response_stages":    {"$ref": "#/definitions/response_stage_list"},
+                "serial_numbers":     {"$ref": "#/definitions/preamplifier_serial_numbers_map"}
+            },
+            "additionalProperties": false
+        },
+        "preamplifier_serial_number" : {
+            "description" : "Serial number-specific preamplifier properties",
+            "properties": {
+                "equipment":       {"$ref": "#/definitions/equipmentType_noRequired"},
+                "response_stages": {"$ref": "#/definitions/response_stage_list"}
+            },
+            "additionalProperties": false
+        },
+        "equipmentType": {
+            "type": "object",
+            "required": ["type", "description", "manufacturer", "vendor",
+                           "model", "serial_number", "calibration_date"],
+            "properties": {
+                "type":             {"type": ["string","null"]},
+                "description":      {"type": ["string","null"]},
+                "manufacturer":     {"type": ["string","null"]},
+                "vendor":           {"type": ["string","null"]},
+                "model":            {"type": ["string","null"]},
+                "serial_number":    {"type": ["string","null"]},
+                "calibration_date": {"$ref" : "definitions.schema.json#/date-time-Z"}
+            },
+            "additionalProperties": false
+        },
+        "equipmentType_noRequired": {
+            "type": "object",
+            "properties": {
+                "type":             { "type": ["string","null"] },
+                "description":      { "type": ["string","null"] },
+                "manufacturer":     { "type": ["string","null"] },
+                "vendor":           { "type": ["string","null"] },
+                "model":            { "type": "string" },
+                "serial_number":    { "type": ["string","null"] },
+                "calibration_date": { "$ref" : "definitions.schema.json#/date-time-Z"}
+            },
+            "additionalProperties": false
+        },
+        "response_stage_list" : {
+            "type" : "array",
+            "description": "list of response-stage files#keys in JSON Pointers format",
+            "items" : { "$ref": "definitions.schema.json#/URI_ref"}
+        }
+    }
+}

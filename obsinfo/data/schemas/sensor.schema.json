@@ -5,12 +5,12 @@
     "type": "object",
     "required": ["format_version", "instrument_components"],
     "properties": {
-        "format_version" :       {"$ref": "#/definitions/format_version"},
-        "revision" :             {"$ref": "definitions.schema.json#/revision"},
-        "instrument_components": {"$ref": "#/definitions/instrument_components" },
-        "yaml_anchors" :         {"$ref": "definitions.schema.json#/yaml_anchors"},
-        "notes" :                {"$ref": "definitions.schema.json#/note_list"},
-        "extras" :               {"$ref": "definitions.schema.json#/extras"}
+        "format_version": {"$ref": "#/definitions/format_version"},
+        "revision" :      {"$ref": "definitions.schema.json#/revision"},
+        "yaml_anchors":   {"$ref": "definitions.schema.json#/yaml_anchors"},
+        "notes" :         {"$ref": "definitions.schema.json#/note_list"},
+        "sensor":         {"$ref": "#/definitions/sensor" },
+        "extras" :        {"$ref": "definitions.schema.json#/extras"}
     },
     "additionalProperties" : false,
     "definitions": {
@@ -21,33 +21,6 @@
                  "comment":"version of last change to this schema"}
             ]
         },
-        "instrument_components": { 
-            "type": "object",
-            "required": [
-                "instrument_blocks"
-            ],
-            "properties": {
-                "notes":             {"$ref": "definitions.schema.json#/note_list"},
-                "instrument_blocks": {"$ref": "#/definitions/instrument_blocks"},
-                "extras":            {"$ref": "definitions.schema.json#/extras"}
-            },
-            "additionalProperties": false
-        },
-        "instrument_blocks": {
-            "type": "object",
-            "description": "StationaXML instrument blocks",
-            "required": ["datalogger", "sensor"],
-            "properties": {
-                "datalogger":   {"$ref": "#/definitions/dataloggers_map"},
-                "preamplifier": {"$ref": "#/definitions/preamplifiers_map"},
-                "sensor":       {"$ref": "#/definitions/sensors_map"}
-            },
-            "additionalProperties": false
-        },
-        "sensors_map": { 
-            "description": "Map of sensor names",
-            "patternProperties": {"^[A-Za-z0-9_-]+$": {"$ref": "#/definitions/sensor"}}
-        },
         "sensor_configs_map": { 
             "description": "Map of configuration names for a given sensor",
             "patternProperties": {"^[A-Za-z0-9_-]+$": {"$ref": "#/definitions/sensor_config"}}
@@ -55,34 +28,6 @@
         "sensor_serial_numbers_map": { 
             "description": "Map of serial numbers for a given sensor",
             "patternProperties": {"^[A-Za-z0-9_-]+$": {"$ref": "#/definitions/sensor_serial_number"}}
-        },
-        "dataloggers_map": {
-            "description": "Map of datalogger names",
-            "patternProperties" : {"^[A-Za-z0-9_-]+$": {"$ref": "#/definitions/datalogger"}}
-        },
-        "datalogger_configs_map": {
-            "description": "Map of configuration names for a given datalogger",
-            "patternProperties": {"^[A-Za-z0-9_-]+$": {"$ref": "#/definitions/datalogger_config" }}
-        },
-        "datalogger_serial_numbers_map": {
-            "description": "Map of serial numbers for a given datalogger",
-            "patternProperties": {"^[A-Za-z0-9_-]+$": {"$ref": "#/definitions/datalogger_config" }}
-        },
-        "preamplifiers_map": {
-            "description": "Map of preamplifier ref codes",
-            "patternProperties": {"^[A-Za-z0-9_-]+$": {"$ref": "#/definitions/preamplifier" }}
-        },
-        "preamplifier_configs_map": {
-            "description": "Map of configuration names for a given  preamplifier",
-            "patternProperties": {
-                "^[A-Za-z0-9_-]+$": {"$ref": "#/definitions/preamplifier_config"}
-            }
-        },
-        "preamplifier_serial_numbers_map": {
-            "description": "Map of serial numbers for a given preamplifier",
-            "patternProperties": {
-                "^[A-Za-z0-9_-]+$": {"$ref": "#/definitions/preamplifier_serial_number"}
-            }
         },
         "sensor": { 
             "description": "Basic sensor specification",
@@ -116,76 +61,6 @@
                 "equipment":       {"$ref": "#/definitions/equipmentType_noRequired"},
                 "response_stages": {"$ref": "#/definitions/response_stage_list"},
                 "seed_codes":      {"$ref": "#/definitions/seed_codes"}
-            },
-            "additionalProperties": false
-        },
-        "datalogger" : {
-            "description": "Basic datalogger specification",
-            "required": ["sample_rate","response_stages","equipment"],
-            "properties": {
-                "notes":              {"$ref": "definitions.schema.json#/note_list"},
-                "equipment":          {"$ref": "#/definitions/equipmentType"},
-                "response_stages":    {"$ref": "#/definitions/response_stage_list"},
-                "sample_rate":        {"type": "number", "minimum": 0},
-                "delay_correction":   {"$ref": "#/definitions/delay_correction"},
-                "serial_numbers":     {"$ref": "#/definitions/datalogger_serial_numbers_map"},
-                "config_description": {"type": "string"},
-                "configurations":     {"$ref": "#/definitions/datalogger_configs_map"}
-            },
-            "additionalProperties": false
-        },
-        "datalogger_config" : { 
-            "description": "Configuration-specific datalogger properties",
-            "required": ["config_description"],
-            "properties": {
-                "config_description": {"type": "string"},
-                "equipment":          {"$ref": "#/definitions/equipmentType"},
-                "response_stages":    {"$ref": "#/definitions/response_stage_list"},
-                "sample_rate":        {"type": "number", "minimum": 0},
-                "delay_correction":   {"$ref": "#/definitions/delay_correction"},
-                "serial_numbers":     {"$ref": "#/definitions/datalogger_serial_numbers_map"}
-            },
-            "additionalProperties": false
-        },
-        "datalogger_serial_number": { 
-            "description": "Serial_number-specific datalogger properties",
-            "properties": {
-                "equipment":        {"$ref": "#/definitions/equipmentType"},
-                "response_stages":  {"$ref": "#/definitions/response_stage_list"},
-                "sample_rate":      {"type": "number", "minimum": 0},
-                "delay_correction": {"$ref": "#/definitions/delay_correction"}
-            },
-            "additionalProperties": false
-        },
-        "preamplifier" : {
-            "description": "Basic preamplifier specification",
-            "required": ["equipment"],
-            "properties": {
-                "config_description": {"type": "string"},
-                "notes":           {"$ref": "definitions.schema.json#/note_list"},
-                "equipment":       {"$ref": "#/definitions/equipmentType" },
-                "response_stages": {"$ref": "#/definitions/response_stage_list" },
-                "configurations":  {"$ref": "#/definitions/preamplifier_configs_map"},
-                "serial_numbers":  {"$ref": "#/definitions/preamplifier_serial_numbers_map"}
-            },
-            "additionalProperties": false
-        },
-        "preamplifier_config" : {
-            "description" : "Configuration-specific preamplifier properties",
-            "required": ["config_description"],
-            "properties": {
-                "config_description": {"type": "string"},
-                "equipment":          {"$ref": "#/definitions/equipmentType_noRequired"},
-                "response_stages":    {"$ref": "#/definitions/response_stage_list"},
-                "serial_numbers":     {"$ref": "#/definitions/preamplifier_serial_numbers_map"}
-            },
-            "additionalProperties": false
-        },
-        "preamplifier_serial_number" : {
-            "description" : "Serial number-specific preamplifier properties",
-            "properties": {
-                "equipment":       {"$ref": "#/definitions/equipmentType_noRequired"},
-                "response_stages": {"$ref": "#/definitions/response_stage_list"}
             },
             "additionalProperties": false
         },
@@ -298,14 +173,6 @@
                     "maximum" : 90
                 }
             ]
-        },
-        "delay_correction": {
-            "anyOf" : [
-                {"type" : "number",
-                 "description": "sets correction to this value for the last stage and 0 for all others"},
-                {"type" : "boolean",
-                 "description": "True: set correction=delay for each stage.  False: set correction=0 for each stage"}
-            ]
         }
-      }
+    }
 }

@@ -1,0 +1,119 @@
+0.5: INSTRUMENTATION file: 
+        - Add parameters allowing full specification of StationXML
+           <Equipment>, <Datalogger>, <Preamplifier> and <Sensor> fields.
+        - Add "dip" and "azimuth" for each channel.
+        - Made instances self-contained (at the expense of some streamlining).
+     All files (no effect on output):
+        - Made repeated node names UPPER_CASE
+0.6: CAMPAIGN file:
+        - added "version:"
+        - changed "name:" to "reference_name:"
+        - in "FDSN_network:"
+            added "description:"
+        - changed information in "OBS_facilities:" (previously "OBS_providers:")
+            changed "email:" to "contact:"
+            eliminated "representative:", "chief_engineer:" (in NETWORK file)
+            added "stations:"
+        - in "data_sample:"
+            eliminated "ordering:" (automatically by distance if source_latitude
+                                    and source_longitude provided, by station
+                                    name otherwise)
+    NETWORK file:
+        - Changed name to {CAMPAIGN}.{FACILITY}.network.yaml
+            Allows each facility to provide it's own stations' information
+        - Added "instrumentation-file:"
+        - Removed "network_info:"
+        - in "stations:"
+            changed key to be facility's station name
+            within each station:
+                - added "FDSN_name:"
+                - added "geology:", "vault:" and "site:"
+            
+    INSTRUMENTATION file:         
+        - Add "response_directory:" (absolute or relative pathname)
+        Serial numbers: changed default string from "Default" to "generic"
+                
+0.7: INSTRUMENTATION file:
+        - Removed "datalogger" type, because there are already "digitizer" and 
+          "digital filter" types that have no corresponding type in StationXML
+          (so the "digitizer" and "digital filter" types should be combined
+          in the StationXML "datalogger" type)
+0.8: Allow complete specification of StationXML using network + instrumentation files
+    NETWORK FILE
+        - Add "FDSN_network" to "network:" level
+        - Added "obs-specific" dictionary to stations, and collected all obs-specific information
+            - clock_correction_linear
+            - time_base
+            - localization_method
+            - clock_correction_leapsecond (NEW)
+        - Went back to using official station name as station[key]
+            - changed "FDSN_name" to "original_name" within station[key] dictionary
+    CAMPAIGN FILE
+        Renamed "FDSN_network" to "network" and simplified information (if it is
+        an FDSN network, the complimentary information should be found through FDSN
+        webservices)
+    ALL FILES:
+        - Split up "version" into a "format_version" (for the file format) and
+          "information_version" (for the information provided)
+            - "format_version" is now a base-level element 
+0.85: Simon Stahler says that AWI changes the seismometer/hydrophone/logger combination
+        for each deployment, so should be specifiable (by serial numbers) in network
+        file
+
+0.9: instrumentation file allows complete specification of instruments and sensors
+          (including serial-number specific variations)
+     network file allows one to build an instrument by taking it's base configuration
+          and changing the attached sensors.
+    Added schemas (using JSON-SCHEMA)
+
+0.93: Change component.response_file (string) to component.response_files (list of strings)
+      No longer put datalogger, sensor etc in separate "components" field under "models"
+0.95: Mods for interface with GeoAzur
+        - split instrumentation.yaml into components_sensor.yaml, components_datalogger and instrumentation.yaml
+        - also an azi_dip.yaml?????
+        - Add first_name and last_name to author fields
+        - Added campaign.network.description 
+        - remove variables from instrument_components.yaml (because GeoAzur can't use them)
+    Also creates valid StationXML (print_stationXML.py)
+0.96: Minor changes in structure of components file
+      Change in file paths in response_stages file
+    User changes: network.yaml "model" field changed to "reference_code"
+    First version that creates OCA JSON files
+0.97:  Changes based on discussion with OCA:
+    - Add das connector and component to instrument definition
+    - Add standard dip and azimuth to sensor definitions
+    - Add configurations to sensor definitions
+    - Adding digital_filter_suffix??? (instead of sample_rate and variables)
+    - Adding manufacturer name at instrumentation_yaml level
+    - Adding config to sensor definition
+    - Make response"include" file paths based on calling file
+0.98: Changes to remove repetition and concord more with StationXML and JSON Pointer formats
+    - all files
+        - Provide reference_name (for campaign and facility)
+        - Use JSON Pointer format (like in JSON-Schema) for ALL external files 
+            (e.g. $ref: "{filename}#{internal_path}" )
+        - Many small nomenclature changes
+    - instrument-components.yaml
+        - Removed facility description (leave only in instrumentation.yaml)
+        - Renamed "response_files" to "response_stages" and made a list (no more "sensor","ana_filt"...)
+        - In datalogger, added delay_correction_samples (will be added to last response stage correction)
+    - campaign.yaml
+        - Removed "network" information (available from FDSN and in network.yaml)
+            - now only provide "fdsn_network_code:"
+    - network.yaml
+        - "channel_locations" information are now provided individually (no more "channel_defaults")
+    - response files:
+        - renamed files using '_' instead of '#' as the separator
+        - renamed response.yaml to filter.yaml
+        - replaced input_sampling interval by input_sample_rate
+        - remove output_sampling_interval (calculate from input_sample_rate and decimation_factor)
+        - removed "response:corrected" (belongs at stage:delay_correction level)
+        - replaced "scaling_divisor" by "coefficient_divisor"
+            - this value should be confirmed by summing coefficients
+            - values passed on to stationXML should have this divisor applied
+    Never validated for StationXML creation (passed on to 0.98.1 before)
+    
+To Do: 
+    - allow URLs for the references to instrumentation_file (in *.network.yaml) and response_directory (in *.instrumentation.yaml)
+        - using JSON "hypermedia" (Olivier is looking at it)?
+        

@@ -1,20 +1,13 @@
 ---
 format_version: "0.107"
-notes:
-    - "comments are put into StationXML"
-    - "notes are not put in StationXML"
 yaml_anchors:
     obs_clock_correction_linear_defaults: &LINEAR_CLOCK_DEFAULTS
         time_base: "Seascan MCXO, ~1e-8 nominal drift"
         reference: "GPS"
         start_sync_instrument: 0
-
 revision:
     authors:
-        -
-            first_name : "Wayne"
-            last_name : "Crawford"
-            email: "crawford@ipgp.fr"
+        - $ref: '../instrumentation/Wayne_Crawford.author_info.yaml#author_info'
     date: "2017-10-04"
 network:
     facility:
@@ -29,7 +22,6 @@ network:
         description: "Full specification of instruments"
         comments: 
             - "Lucky Strike Volcano, North Mid-Atlantic Ridge"
-    $ref_dir: "../instrumentation/instrument_components/"
     stations:
         "LSVW":
             site: "Lucky Strike Volcano West"
@@ -46,20 +38,16 @@ network:
                         serial_number: "04"
                     base_channel:
                         datalogger:
-                            $ref: "dataloggers/LC2000.datalogger.yaml#datalogger"
-                            config: "125sps"
+                            $ref: "../instrumentation/dataloggers/LC2000.datalogger_125sps.yaml#datalogger"
                         preamplifier:
-                            $ref: "preamplifiers/LCHEAPO_GEOPHONE.preamplifier.yaml#preamplifier"
-                            config: "128x"
-                        sensor: {$ref: "sensors/SERCEL_L28.sensor.yaml#sensor"}
-                        location_code: "00"
+                            $ref: "../instrumentation/preamplifiers/LCHEAPO_GEOPHONE_128x.preamplifier.yaml#preamplifier"
+                        sensor: {$ref: "../instrumentation/sensors/SERCEL_L28.sensor.yaml#sensor"}
                     das_channels:
                         "1":
                             orientation_code : "H"
                             preamplifier:
-                                $ref: "preamplifiers/LCHEAPO_HYDRO.preamplifier.yaml#preamplifier"
-                                config: "16x"
-                            sensor: {$ref: "sensors/HITECH_HTI90U.sensor.yaml#sensor"}
+                                $ref: "../instrumentation/preamplifiers/LCHEAPO_HYDRO_16x.preamplifier.yaml#preamplifier"
+                            sensor: {$ref: "../instrumentation/sensors/HITECH_HTI90U.sensor.yaml#sensor"}
                         "2": {orientation_code : "2"}
                         "3": {orientation_code : "1"}
                         "4": {orientation_code : "3"}
@@ -89,19 +77,17 @@ network:
                         serial_number: "12"
                     base_channel:
                         datalogger:
-                            $ref: "dataloggers/LC2000.datalogger.yaml#datalogger"
+                            $config: "../instrumentation/dataloggers/LC2000.datalogger.configs.yaml#configs"
                             config: "250sps"
                         preamplifier:
-                            $ref: "preamplifiers/LCHEAPO_GEOPHONE.preamplifier.yaml#preamplifier"
-                        sensor: {$ref: "sensors/SERCEL_L28.sensor.yaml#sensor"}
-                        location_code: "00"
+                            $ref: "../instrumentation/preamplifiers/LCHEAPO_GEOPHONE.preamplifier.yaml#preamplifier"
+                        sensor: {$ref: "../instrumentation/sensors/SERCEL_L28.sensor.yaml#sensor"}
                     das_channels:
                         "1":
                             orientation_code : "H"
                             preamplifier:
-                                $ref: "preamplifier/LCHEAPO_HYDRO.preamplifier.yaml#preamplifier"
-                                config: "16x"
-                            sensor: {$ref: "sensors/HITECH_HTI04-PLC-ULF.sensor.yaml#sensor"}
+                                $ref: "../instrumentation/preamplifier/LCHEAPO_HYDRO_16x.preamplifier.yaml#preamplifier"
+                            sensor: {$ref: "../instrumentation/sensors/HITECH_HTI04-PLC-ULF.sensor.yaml#sensor"}
                         "2": {orientation_code : "2"}
                         "3": {orientation_code : "1"}
                         "4": {orientation_code : "3"}

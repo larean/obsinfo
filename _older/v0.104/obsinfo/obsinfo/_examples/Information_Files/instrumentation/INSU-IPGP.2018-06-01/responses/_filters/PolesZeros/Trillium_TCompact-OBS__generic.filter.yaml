@@ -1,0 +1,20 @@
+---
+format_version: "0.104"
+filter:
+    type: "PolesZeros"
+    units : "rad/s"
+    zeros :
+        -    [0.0, 0.0]
+        -    [0.0, 0.0]
+        - [-434.1, 0.0]
+    poles :
+        -   [-0.03691,  0.03712]
+        -   [-0.03691, -0.03712]
+        - [-371.2,      0.0]
+        - [-373.9,    475.5]
+        - [-373.9,   -475.5]
+        - [-588.4,   1508]
+        - [-588.4,  -1508]
+notes:
+    - " poles et zeros d'un Trillium Compact OBS"
+    - " from the Nanometrics document trilliumcompactobs_userguide_17060r3.pdf"

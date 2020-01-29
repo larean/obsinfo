@@ -1,0 +1,138 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"title": "Campaign",
+	"description": "Data collection campaign, to be filled in by chief scientist",
+	"type": "object",
+	"required": ["campaign","format_version"],
+	"properties": {
+	    "format_version" : {"$ref" : "definitions.schema.json#/format_version"},
+	    "revision" :       {"$ref" : "definitions.schema.json#/revision"},
+		"campaign":        {"$ref" : "#/definitions/campaign"},
+	    "notes" :          {"$ref" : "definitions.schema.json#/comments"},
+	    "yaml_anchors" :   {"$ref" : "definitions.schema.json#/yaml_anchors"},
+	    "extras":          {"$ref" : "definitions.schema.json#/extras"}
+	},
+    "additionalProperties" : false,
+	"definitions": {
+		"campaign": {
+			"type": "object",
+			"required": [
+				"reference_name",
+				"reference_scientist",
+				"OBS_facilities",
+				"data_distribution",
+				"fdsn_network_code",
+				"validation_methods"
+			],
+			"properties": {
+				"reference_name":        {"$ref" : "definitions.schema.json#/reference_name" },
+				"reference_scientist" :  {"$ref" : "definitions.schema.json#/author" },
+				"fdsn_network_code" :    {"type" : "string" },
+				"OBS_facilities" :       {"$ref" : "#/definitions/OBS_facilities" },
+				"data_distribution" :    {"$ref" : "#/definitions/data_distribution" },
+				"validation_methods" :   {"$ref" : "#/definitions/validation_methods" },
+				"expeditions" :          {"$ref" : "#/definitions/expeditions" },
+				"notes" :                {"$ref" : "definitions.schema.json#/notes"},
+	            "extras":                {"$ref" : "definitions.schema.json#/extras"}
+			},
+			"additionalProperties" : false
+		},
+        "OBS_facilities": {
+            "type": "object",
+            "description": "List of OBS facilities and their stations",
+            "patternProperties": {
+                "^.+$": {"$ref" : "#/definitions/OBS_facility"}
+            },
+            "additionalProperties" : false
+        },
+        "OBS_facility": {
+            "type":"object",
+            "title": "Facility name",
+            "properties": {
+                "stations": {
+                    "type": "array", 
+                    "description":"List of stations deployed by the facility",
+                    "minItems": 1,
+                    "items": {  "type": "string" }
+                }
+            }
+        },
+        "data_distribution": {
+            "type": "object",
+            "description": "Parameters related to data distribution",
+            "properties": {
+                "embargo_years": {
+                    "type": "integer",
+                    "description": "Requested years to embargo data (max 3 for RESIF)",
+                    "minimum": 0,
+                    "maximum": 10
+                }
+            }
+        },
+        "validation_methods": {
+            "type":"object",
+            "description":"information used to validate networ data/metadata",
+            "required": ["waveform_windows"],
+            "properties": {
+                "waveform_windows": {
+                    "type":"array",
+                    "description": "list of waveform windows to plot",
+                    "items": {  "$ref": "#/definitions/waveform_window" }
+                }
+            }
+        },
+        "waveform_window": {  
+            "type":"object",
+            "description": "waveform window to plot (SHOULD REQUIRE EITHER duration.s or duration.m, but I don't know how)",
+            "required": ["title","datetime"],
+            "properties":{
+                "title": {"type":"string"},
+                "datetime": {
+                    "description":"start of plot window" ,
+                    "type":"string",
+                    "format":"date-time"
+                },
+                "duration.s": {
+                    "description" : "number of seconds to plot" ,
+                    "type" : "integer"
+                },
+                "duration.min": {
+                    "description" : "number of minutes to plot" ,
+                    "type" : "integer"
+                },
+                "source_position": {
+                    "description":"position of source, used to plot waveforms by distance rather than alphabetically",
+                    "type":"array",
+                    "items": [
+                        { "type":"number", "description":"longitude" },
+                        { "type":"number", "description":"latitude" },
+                        { "type":"number", "description":"depth (km)" }
+                    ]
+                }
+            }
+        },				            
+        "expeditions": {
+            "type":"array",
+            "description": "list of OBS expeditions involved in the campaign",
+            "items": { "$ref": "#/definitions/expedition" }
+        },
+        "expedition" : {
+            "type":"object",
+            "description": "a shipboard expedition for OBS deployment, recovery and/or evaluation",
+            "required": ["name","ship_name","start_date"],
+            "properties":{
+                "name":      { "$ref": "definitions.schema.json#/string_or_null" },
+                "ship_name": { "$ref": "definitions.schema.json#/string_or_null" },
+                "comment":   { "$ref": "definitions.schema.json#/string_or_null" },
+                "report":    { 
+                    "anyOf": [
+                        {"type":"string", "format":"url"},
+                        {"type":"null"}
+                    ]
+                },
+                "start_date":  { "$ref": "definitions.schema.json#/date_or_null" },
+                "end_date":    { "$ref": "definitions.schema.json#/date_or_null" }
+            }
+        }
+	}
+}

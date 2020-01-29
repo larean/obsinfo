@@ -7,10 +7,6 @@ yaml_anchors:
         time_base: "Seascan MCXO, ~1e-8 nominal drift"
         reference: "GPS"
         start_sync_instrument: 0
-    SPOBS2_125: &SPOBS2_125
-        $ref: "SPOBS2.instrumentation.yaml#instrumentation"
-        base_channel_mods:
-            datalogger: {config: "125sps"}
 revision:
     authors:
         -
@@ -40,10 +36,10 @@ network:
             location_code: "00"
             instruments:
                 -
-                    <<: *SPOBS2_125
+                    $ref: "../instrumentation/SPOBS2.instrumentation.yaml#instrumentation"
+                    datalogger_config: "125sps"
                     serial_number: "20"
                     channel_mods:
-                        base: {datalogger: {config: "125sps"}}
                         by_orientation:
                             '1': {azimuth.deg: [33, 5]}
                             '2': {azimuth.deg: [123, 5]}
@@ -65,7 +61,8 @@ network:
             location_code: "00"
             instruments:
                 -
-                    <<: *SPOBS2_125
+                    $ref: "../instrumentation/SPOBS2.instrumentation.yaml#instrumentation"
+                    datalogger_config: "125sps"
                     serial_number: "12"
                     channel_mods:
                         base: {datalogger: {config: "125sps"}}

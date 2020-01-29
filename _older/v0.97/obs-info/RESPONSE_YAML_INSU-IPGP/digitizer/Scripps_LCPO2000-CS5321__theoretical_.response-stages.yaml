@@ -1,0 +1,16 @@
+---
+# From CS5321-22_F3.pdf
+stages:
+    -
+        # From CS5321-22_F3.pdf
+        description : "DIGITIZER - CS5321 Delta-Sigma A/D converter" #  optionel
+        DBIRD_response_type : "THEORETICAL" #  optionel
+        input_units : { name : "V", description: "Volts"}
+        output_units : { name : "COUNTS", description: "Digital Counts"}
+        output_sampling_interval : 3.125e-05 # 32kHz
+        gain : 
+            value: 1165084 #  counts/V
+        response:
+            type : "AD_CONVERSION"
+            input_full_scale : 9 #  9 V pp
+            output_full_scale : 10485760 #  4FFFFF@Vref and B00000@-Vref

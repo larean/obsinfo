@@ -30,10 +30,9 @@ network:
             location_code: "00"
             instruments:
                 -
-                    $ref: "SPOBS2.instrumentation.yaml#instrumentation"
+                    $ref: "../instrumentation/SPOBS2.instrumentation.yaml#instrumentation"
+                    datalogger_config: "125sps"
                     serial_number: "20"
-                    channel_mods:
-                        base: {datalogger: {config: "125sps"}}
             locations:
                 "00":
                     $ref: '../location_bases/SURFACE.location_base.yaml#location_base'
@@ -53,9 +52,9 @@ network:
             location_code: "00"
             instruments:
                 -
-                    $ref: "SPOBS2.instrumentation.yaml#instrumentation"
+                    $ref: "../instrumentation/SPOBS2.instrumentation.yaml#instrumentation"
+                    datalogger_config: "125sps"
                     serial_number: "12"
-                    channel_mods: {base: {datalogger: {config: "125sps"}}}
             locations:
                 "00":
                     $ref: '../location_bases/ACOUSTIC_SURVEY.location_base.yaml#location_base'

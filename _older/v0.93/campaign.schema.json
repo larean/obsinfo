@@ -1,0 +1,177 @@
+{
+	"$schema": "http://json-schema.org/draft-06/schema#",
+	"title": "Campaign",
+	"description": "Data collection campaign, to be filled in by chief scientist",
+	"type": "object",
+	"required": [
+		"format_version",
+		"campaign"
+	],
+	"properties": {
+		"format_version": {
+			"description": "Version of this file's schema",
+			"type": "string",
+			"pattern": "^0\\.92$"
+		},
+		"campaign": {
+			"type": "object",
+			"required": [
+				"revision",
+				"reference_name",
+				"reference_scientist",
+				"OBS_facilities",
+				"data_distribution",
+				"network",
+				"validation_methods"
+			],
+			"properties": {
+				"revision": {
+					"type": "object",
+					"title": "Information version ",
+					"description": "Source and date of the provided information",
+					"properties": {
+					    "date": { "$ref": "#/definitions/date" },
+					    "author": {"type":"string"}
+					}
+				},
+				"reference_name": {
+					"type": "string",
+					"description": "campaign name (used in filename, as well)"
+				},
+				"reference_scientist": {
+					"type": "object",
+					"description": "Scientist who will validate data",
+					"required": ["name","email"],
+					"properties": {
+					    "first_name": { "type": "string" },
+					    "last_name": { "type": "string" },
+					    "email": { "type": "string" },
+					    "institution": { "type": "string" },
+					    "telephone": { "type": ["string","null"] }
+					}
+				},
+				"network": {
+				    "type": "object",
+				    "description": "...",
+				    "required" : ["fdsn_code","start_date","end_date"],
+				    "properties": {
+						"fdsn_code": { "type": "string" },
+						"start_date": { "type": "string" },
+						"end_date": { "type": "string" }
+						"description": { "type": "string" }
+					}
+				},
+				"OBS_facilities": {
+					"type": "object",
+					"description": "List of OBS facilities and their stations",
+					"patternProperties": {
+					    "^.+$": {
+					        "type":"object",
+					        "title": "Facility name",
+					        "properties": {
+					            "email": {"type": "string"},
+					            "stations": {
+					                "type": "array", 
+					                "description":"List of stations deployed by the facility"
+					            }
+					        }
+					    }
+					}
+				},
+				"data_distribution": {
+				    "type": "object",
+				    "description": "Parameters related to data distribution",
+				    "properties": {
+				        "embargo_years": {
+				            "type": "integer",
+				            "description": "Requested years to embargo data (max 3 for RESIF)",
+				            "minimum": 0,
+				            "maximum": 10
+				        }
+				    }
+				},
+				"validation_methods": {
+				    "type":"object",
+				    "description":"information used to validate networ data/metadata",
+				    "required": ["waveform_windows"],
+				    "properties": {
+				        "waveform_window": {
+				            "type":"array",
+				            "description": "list of waveform windows to plot",
+				            "items": {
+				                "type":"object",
+				                "description": "waveform window to plot",
+				                "required": ["title","datetime","duration"],
+				                "properties":{
+				                    "title": {"type":"string"},
+				                    "date": {
+				                        "type":"string",
+				                        "description":"start of plot window" ,
+				                        "format":"date-time"
+				                    },
+				                    "duration_s": {
+				                        "type" : "integer",
+				                        "description" : "number of seconds to plot" 
+				                    },
+				                    "source_position": {
+				                        "type":"array",
+				                        "items": [
+				                            {
+				                                "type":"number",
+				                                "description":"longitude"
+				                            },
+				                            {
+				                                "type":"number",
+				                                "description":"latitude"
+				                            },
+				                            {
+				                                "type":"number",
+				                                "description":"elevation"
+				                            }
+				                        ],
+				                        "description":"position of source, used to plot waveforms by distance rather than alphabetically"
+				                    }
+				                }
+				            }				            
+				        }
+				    }
+				},
+				"expeditions": {
+                    "type":"array",
+                    "description": "list of shipgoing expeditions involved in data collection",
+                    "items": {
+                        "type":"object",
+                        "description": "expedition",
+                        "required": ["name","ship_name","start_date"],
+                        "properties":{
+                            "name":      { "anyOf" : [ {"type":"string"} , {"type":"null"} ]},
+                            "ship_name": { "anyOf" : [ {"type":"string"} , {"type":"null"} ]},
+                            "comment":   { "anyOf" : [ {"type":"string"} , {"type":"null"} ]},
+                            "report":    { 
+                                "anyOf": [
+                                    {"type":"string", "format":"url"},
+                                    {"type":"null"}
+                                ]
+                            },
+                            "start_date":  { "$ref": "#/definitions/date" },
+                            "end_date":    { "$ref": "#/definitions/date" }
+                        }
+                    }
+				}
+			}
+		}
+	},
+	"definitions": {
+        "date": {
+            "anyOf": [
+                {
+                    "type" : "string",
+                    "description" : "yyyy-mm-dd date",
+                    "pattern" : "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+                },
+                {   "type" : "null" }
+            ]
+        }
+	}
+
+}

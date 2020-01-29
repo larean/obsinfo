@@ -7,16 +7,9 @@ yaml_anchors:
         time_base: "Seascan MCXO, ~1e-8 nominal drift"
         reference: "GPS"
         start_sync_instrument: 0
-    location_defaults: &LOC_DEFAULTS
-        depth.m: 0
-        geology: "unknown"
-        vault: "Sea floor"                    
 revision:
     authors:
-        -
-            first_name : "Wayne"
-            last_name : "Crawford"
-            email: "crawford@ipgp.fr"
+        - $ref: '../instrumentation/Wayne_Crawford.author_info.yaml#author_info'
     date: "2017-10-04"
 network:
     facility:
@@ -30,7 +23,6 @@ network:
         end_date: "2025-12-31"
         description: "Test leap second handling"
         comments: ["Lucky Strike Volcano, North Mid-Atlantic Ridge"]
-    $ref_dir: "../instrumentation/"
     stations:
         "LPSCD":
             site: "Lucky Strike Volcano Center"
@@ -40,7 +32,7 @@ network:
             location_code: "00"
             instruments:
                 -
-                    $ref: "SPOBS2.instrumentation.yaml#instrumentation"
+                    $ref: "../instrumentation/SPOBS2.instrumentation.yaml#instrumentation"
                     serial_number: "Station01"
                     channel_mods: {base: {datalogger: {config: "62.5sps"}}}
             locations:

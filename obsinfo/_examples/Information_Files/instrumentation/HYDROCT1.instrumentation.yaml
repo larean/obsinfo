@@ -3,17 +3,10 @@ format_version: "0.107"
 revision: 
     date: "2018-06-01"
     authors:
-        - 
-            first_name: "Wayne"
-            last_name: "Crawford"
-            email: "crawford@ipgp.fr"
-        - 
-            first_name: "Romuald"
-            last_name: "Daniel"
-            email: "rdaniel@ipgp.fr"
+        -   $ref: "Wayne_Crawford.author_info.yaml#author_info"
+        -   $ref: "Romuald_Daniel.author_info.yaml#author_info"
 facility:
     $ref: "./INSU-IPGP.facility_info.yaml#facility_info"
-$ref_dir:  "instrument_components/"
 instrument:
     equipment:
         model: "HYDROCT1"
@@ -22,10 +15,8 @@ instrument:
         manufacturer: "INSU-IPGP"
         vendor: ~
     base_channel:
-        datalogger: {$ref: "dataloggers/LC2000.datalogger.yaml#datalogger"}
-        preamplifier:
-            $ref: "preamplifiers/LCHEAPO_HYDRO.preamplifier.yaml#preamplifier"
-            config: "16x"
+        datalogger: {$config: "dataloggers/LC2000.datalogger.configs.yaml#configs"}
+        preamplifier: {$ref: "preamplifiers/LCHEAPO_HYDRO_16x.preamplifier.yaml#preamplifier"}
         sensor: {$ref: "sensors/HITECH_HTI90U.sensor.yaml#sensor"}
     das_channels:
         "1":

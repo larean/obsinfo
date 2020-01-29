@@ -1,0 +1,16 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"title": "Filter File",
+	"description": "Independent file for filter description.",
+	"type": "object",
+	"required": [ "filter", "format_version"],
+	"properties": {
+	    "format_version" : {"$ref" : "definitions.schema.json#/format_version"},
+	    "revision" :       {"$ref" : "definitions.schema.json#/revision"},
+	    "filter" :         {"$ref" : "filter.schema.json#/filter"},
+	    "notes" :          {"$ref" : "definitions.schema.json#/comments"},
+        "yaml_anchors" :   {"$ref" : "definitions.schema.json#/yaml_anchors"},
+        "extras" :         {"$ref" : "definitions.schema.json#/extras"}
+	},
+	"additionalProperties" : false
+}

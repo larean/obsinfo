@@ -1,0 +1,166 @@
+---
+# To be completed by one OBS facility involved in the campaign
+# Used both for data transformation and metadata construction
+# DEFAULTS (Building blocks for stations)
+object_definitions:
+    station: &DEFAULT_STATION
+        site: ~
+        FDSN_name: ~
+        start_date: ~
+        end_date: ~
+        sample_rate: 62.5
+        time_base: "Seascan MCXO, ~1e-8 nominal drift"
+        comment_list:
+
+    location_methods:
+        loc_acoustic: &LOC_ACOUSTIC
+            loc_type: "Acoustic"
+            lat_uncert_m: 5
+            lon_uncert_m: 5
+            elev_uncert_m: 10
+            depth: 0
+            geology: "unknown"
+            vault: "Sea floor"
+        loc_surface: &LOC_SURFACE
+            loc_type: "Surface"
+            lat_uncert_m: 200
+            lon_uncert_m: 200
+            elev_uncert_m: 20
+            depth: 0
+            geology: "unknown"
+            vault: "Sea floor"
+        loc_buc_direct: &LOC_BUC_DIRECT
+            loc_type: "Short baseline transponder, seafloor release"
+            lat_uncert_m: 5
+            lon_uncert_m: 5
+            elev_uncert_m: 10
+            depth: 0
+            geology: "unknown"
+            vault: "Sea floor"
+        loc_buc_drop: &LOC_BUC_DROP
+            loc_type: "Short baseline transponder, near-seafloor release"
+            lat_uncert_m: 20
+            lon_uncert_m: 20
+            elev_uncert_m: 20
+            depth: 0
+            geology: "unknown"
+            vault: "Sea floor"
+
+network:
+    version: "0.6 (20170915_WCC)"
+    instrumentation_file: "INSU-IPGP.instrumentation.yaml"
+    stations:
+        # Stations are listed by the name used by the facility.
+        # miniSEED files are expected to be in directories of the same name.
+        # "FDSN_name" is the final official station name (if different)
+        "I1":
+            <<: *DEFAULT_STATION
+            instrument:
+                model: "SPOBS2"
+                serial_number: "13"
+            FDSN_name: "LSVNI"
+            site: "Lucky Strike volcano North"
+            clock_correction_linear:
+                reference: "GPS"
+                start_sync_reference: "2015-04-22T09:21:00Z"
+                start_sync_instrument: "0"
+                end_sync_reference: "2016-05-28T22:59:00.1843Z"
+                end_sync_instrument: "2016-05-28T22:59:02Z"
+            start_date: "2015-04-23T10:00:00Z"
+            end_date: "2016-05-26T23:00:00Z"
+            location_codes:
+                "00":
+                    <<: *LOC_BUC_DROP
+                    latitude: 37.31960
+                    longitude: -32.27909
+                    elevation: -1798
+        "I2":
+            <<: *DEFAULT_STATION
+            instrument:
+                model: "SPOBS2"
+                serial_number: "20"
+            FDSN_name: "LSVWI"
+            site: "Lucky Strike volcano West"
+            clock_correction_linear:
+                reference: "GPS"
+                start_sync_reference: "2015-04-21T21:06:00Z"
+                start_sync_instrument: "0"
+                end_sync_reference: "2016-05-28T20:59:00.32Z"
+                end_sync_instrument: "2016-05-28T20:59:03Z"
+            start_date: "2015-04-22T12:00:00Z"
+            end_date: "2016-05-28T21:01:00Z"
+            location_codes:
+                "00":
+                    <<: *LOC_BUC_DROP
+                    latitude: 37.29744
+                    longitude: -32.32504
+                    elevation: -2030
+                    depth: 0
+        "ISW":
+            <<: *DEFAULT_STATION
+            instrument:
+                model: "SPOBS2"
+                serial_number: "Station02"
+            Comments_Time: >
+                "Linear clock drift, end GPS sync not provided (see R Daniel)"
+            FDSN_name: "LSVCI"
+            site: "Lucky Strike volcano summit"
+            clock_correction_linear:
+                reference: "GPS"
+                start_sync_reference: "2015-04-20T15:35:00Z"
+                start_sync_instrument: "0"
+                end_sync_reference: ~
+                end_sync_instrument: ~
+            start_date: "2015-04-24T12:00:00Z"
+            end_date: ~
+            location_codes:
+                "00":
+                    <<: *LOC_BUC_DIRECT
+                    latitude: 37.2912
+                    longitude: -32.2798
+                    elevation: -1750
+                    depth: 0
+        "I4":
+            <<: *DEFAULT_STATION
+            instrument:
+                model: "SPOBS2"
+                serial_number: "04"
+            FDSN_name: "LSVEI"
+            site: "Lucky Strike volcano East"
+            clock_correction_linear:
+                reference: "GPS"
+                start_sync_reference: "2015-04-17T14:38:00Z"
+                start_sync_instrument: "0"
+                end_sync_reference: "2016-05-28T17:58:31.7374Z"
+                end_sync_instrument: "2016-05-28T17:58:30Z"
+            start_date: "2015-04-19T12:00:00Z"
+            end_date: "2016-05-28T18:00:00Z"
+            location_codes:
+                "00":
+                    <<: *LOC_BUC_DROP
+                    latitude: 37.2806
+                    longitude: -32.2417
+                    elevation: -1640
+                    depth: 0
+        "I7":
+            <<: *DEFAULT_STATION
+            instrument:
+                model: "SPOBS2"
+                serial_number: "07"
+            FDSN_name: "LSVSI"
+            site: "Lucky Strike volcano South"
+            clock_correction_linear:
+                reference: "GPS"
+                start_sync_reference: "2015-04-22T12:24:00Z"
+                start_sync_instrument: "0"
+                end_sync_reference: "2016-05-28T15:35:00.3660Z"
+                end_sync_instrument: "2016-05-28T15:35:02Z"
+            start_date: "2015-04-23T10:00:00Z"
+            end_date: "2016-05-28T15:37:00Z"
+            location_codes:
+                "00":
+                    <<: *LOC_BUC_DROP
+                    latitude: 37.26049
+                    longitude: -32.29756
+                    elevation: -1887
+                    depth: 0

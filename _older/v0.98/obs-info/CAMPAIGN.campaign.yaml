@@ -1,0 +1,66 @@
+---
+remarks:
+    - "This file should be filled in by the reference scientist"
+campaign:
+    format_version: "0.98"
+    revision: 
+        date: "2017-09-14"
+        authors: 
+            -
+                first_name: "Wayne"
+                last_name: "Crawford"
+    reference_name: "CAMPAIGN"
+    reference_scientist:
+        first_name: "Albert"
+        last_name: "Einstein"
+        institution: "Institut de Physique du Globe de Paris"
+        email: "einstein@ipgp.fr"
+        telephone: ~
+    OBS_facilities:
+        # Use facility_reference_names: e.g. "INSU-IPGP","Geoazur","DEPAS"
+        "INSU-IPGP":
+            stations: 
+                - 'LSVCI'
+                - 'LSVNI'
+                - 'LSVSI'
+                - 'LSVEI'
+                - 'LSVWI'
+    data_distribution:
+        embargo_years: 3
+    fdsn_network_code: "4G"
+    validation_methods:
+        waveform_windows:
+            # Specify 1-3 time intervals during the campaign for plotting
+            -
+                title: "M1 local earthquake"
+                datetime: ~
+                duration_s: 300
+                source_position: [358.250, -16.701, 36.4]
+            -
+                title: "M5 regional earthquake"
+                datetime: ~,
+                duration_s: 600
+            -
+                title: "M7 teleseism"
+                datetime: ~
+                duration_s: 3600
+    # OPTIONAL NODES
+    expeditions:
+        -
+            name: ~
+            ship_name: ~
+            start_date: ~
+            end_date: ~
+            comment: "Deployment"
+        -
+            name: ~
+            ship_name: Archipelago
+            start_date: "2016-05-27"
+            end_date: "2016-05-29"
+            comment: "Recuperation 4 autonomous stations"
+        -
+            name: ~
+            ship_name: ~
+            start_date: ~
+            end_date: ~
+            comment: "Recuperation central station (LSVCI)"

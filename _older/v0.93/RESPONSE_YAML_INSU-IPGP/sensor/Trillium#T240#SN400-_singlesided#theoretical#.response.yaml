@@ -1,0 +1,13 @@
+---
+stages:
+    -
+      description : "SENSOR - TRILLIUM 240 SN400+ (SINGLE-SIDED)" # optionel
+      DBIRD_response_type : "THEORETICAL" # optionel
+      input_units :  {name: "M/S", description: "VELOCITY"}
+      output_units : {name: "V", description: "VOLTS"}
+      gain : 
+        value: 594.5
+        frequency: 1.
+      response:
+        type : "PolesZeros"
+        include:  "sensor/include/Trillium#T240#SN400-#.pz.rad.yaml"

@@ -1,0 +1,13 @@
+---
+format_version: "0.98.1"
+stages:
+    -
+        description : "PREAMPLIFIER: SPOBS geophone x128"
+        DBIRD_response_type : "THEORETICAL" #  optionel
+        input_units : {name: "V", description: "VOLTS"}
+        output_units : {name: "V", description: "VOLTS"}
+        gain : 
+            value : 128
+            frequency : 10.
+        filter :
+            type : "ANALOG"

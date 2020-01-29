@@ -1,0 +1,14 @@
+---
+network_lc2ms:
+    version: "0.4 (20170906_WCC)"
+    stations:
+        "I1":
+            model: "SPOBS2"
+        "I2":
+            model: "SPOBS2"
+        "ISW":
+            model: "SPOBS2"
+        "I4":
+            model: "SPOBS2"
+        "I7":
+            model: "SPOBS2"

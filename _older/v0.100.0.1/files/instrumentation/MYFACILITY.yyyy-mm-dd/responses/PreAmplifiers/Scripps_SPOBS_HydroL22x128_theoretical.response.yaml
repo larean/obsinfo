@@ -1,0 +1,18 @@
+---
+format_version: "0.100"
+stages :
+    -
+        description : "PREAMPLIFIER: SPOBS hydrophone or L22 x128"
+        DBIRD_response_type : "THEORETICAL" 
+        input_units : {name: "V", description: "VOLTS"}
+        output_units : {name: "V", description: "VOLTS"}
+        gain : 
+            value : 128
+            frequency : 10
+        filter :
+            type : "PolesZeros"
+            units : "rad/s"
+            zeros :
+                - [0, 0]
+            poles :
+                - [-6.667, 0]

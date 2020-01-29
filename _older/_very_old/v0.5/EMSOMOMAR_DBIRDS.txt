@@ -1,0 +1,285 @@
+********************4G.LSVEI********************
+version 2
+originating_organization "INSU-IPGP OBS Park" "obs_ipgp@insu.cnrs.fr" "http://parc-obs.insu.cnrs.fr" ""
+
+begin_network
+  NET1 "4G" "EMSO-MOMAR" "4G@resif.fr" 2007-07-01 2025-12-31 "None"
+end_network
+
+begin_station
+  LSVEI 2015-04-19T12:00:00Z 2016-05-28T18:00:00Z (37.2806 0.000180) (-32.2417 0.000226) (-1640 20) "Lucky Strike Volcano"
+  Contact obs_ipgp@insu.cnrs.fr
+  Owner INSU-IPGP OBS Park
+  #Equipment "Short Period Ocean Bottom Seismometer" "LCHEAPO 2000 Short Period Ocean Bottom Seismometer, 4 channels, L-28 3C geophone" "Scripps Inst. Oceanography" "None" "SPOBS2" "04"
+  #Comment ""Linear clock drift corrected using GPS sync at deployment start and end""
+  #Comment "Time base = Seascan MCXO, ~1e-9 nominal drift; Start sync GPS=2015-04-17T14:38:00Z, inst=0; End sync GPS=2016-05-28T17:58:31.7374Z, inst=2016-05-28T17:58:30Z"
+  #Comment "Location is based on: Short baseline transponder, near-seafloor release"
+
+  begin_location
+    LOC1 "00" (37.2806 0.000180) (-32.2417 0.000226) (-1640 20) "seafloor" "unknown"
+  end_location
+
+  #begin_datalogger
+  #  LOGGER "OBS datalogger" "LCHEAPO 2000 with CS5321/22 delta-sigma A/D" "Scripps Institution of Oceanography" "None" "LC2000" "04"
+  #end_datalogger
+
+  begin_sensor
+    SEN1 "Sercel L-28LB 4.5 Hz 3C geophone" "04" "sensor/Sercel#L28LB#obs#theoretical#" 0.0 0.0
+    #SEN1 "Geophone" "Sercel L-28LB 4.5 Hz 3C geophone" "Sercel" "None" "L-28LB" "04" "sensor/Sercel#L28LB#obs#theoretical#" 0.0 0.0
+    SEN2 "HiTech HTI-90-U hydrophone with integrated preamp, 0.05-2500 Hz" "04" "sensor/HiTech#HTI-90U#SIO_preamp#theoretical#" 0.0 -90.0
+    #SEN2 "Hydrophone" "HiTech HTI-90-U hydrophone with integrated preamp, 0.05-2500 Hz" "HiTech, inc" "None" "HTI-90-U" "04" "sensor/HiTech#HTI-90U#SIO_preamp#theoretical#" 0.0 -90.0
+    SEN3 "Sercel L-28LB 4.5 Hz 3C geophone" "04" "sensor/Sercel#L28LB#obs#theoretical#" 0.0 90.0
+    #SEN3 "Geophone" "Sercel L-28LB 4.5 Hz 3C geophone" "Sercel" "None" "L-28LB" "04" "sensor/Sercel#L28LB#obs#theoretical#" 0.0 90.0
+  end_sensor
+
+  begin_ana_filter
+    AFILT1 "SIO gain/filter card, seismo channel (128x)" "04" "ana_filter/Scripps#SPOBS#HydroL22x128#theoretical#"
+    #AFILT1 "Analog gain/filter card" "SIO gain/filter card, seismo channel (128x)" "SIO or IPGP" "None" "None" "04" "ana_filter/Scripps#SPOBS#HydroL22x128#theoretical#"
+    AFILT2 "SIO gain/filter card, hydro channel (16x)" "04" "ana_filter/Scripps#SPOBS#HydroL22x16#theoretical#"
+    #AFILT2 "Analog gain/filter card" "SIO gain/filter card, hydro channel (16x)" "SIO or IPGP" "None" "None" "04" "ana_filter/Scripps#SPOBS#HydroL22x16#theoretical#"
+  end_ana_filter
+
+  begin_digitizer
+    DIGI "CS5321 delta-sigma A/D converter" "04" "digitizer/Scripps#LCPO2000_CS5321##theoretical#"
+    #DIGI "delta-sigma A/D converter" "CS5321 delta-sigma A/D converter" "Cirrus Logic" "None" "CS5321" "04" "digitizer/Scripps#LCPO2000_CS5321##theoretical#"
+  end_digitizer
+
+  begin_decimation
+    DECIM "CS5322 digital FIR filter" "04" "dig_filter/Scripps#LCPO2000_CS5322#62.5sps#theoretical#"
+    #DECIM "FIR digital filter chip" "CS5322 digital FIR filter" "Cirrus Logic" "None" "CS5322" "04" "dig_filter/Scripps#LCPO2000_CS5322#62.5sps#theoretical#"
+  end_decimation
+
+  begin_channel
+    NOT DONE YET!!!!!!!!!
+    MUST ADAPT BAND CODES TO SAMPLING RATE
+  end_channel
+
+end_station
+********************4G.LSVSI********************
+version 2
+originating_organization "INSU-IPGP OBS Park" "obs_ipgp@insu.cnrs.fr" "http://parc-obs.insu.cnrs.fr" ""
+
+begin_network
+  NET1 "4G" "EMSO-MOMAR" "4G@resif.fr" 2007-07-01 2025-12-31 "None"
+end_network
+
+begin_station
+  LSVSI 2015-04-23T10:00:00Z 2016-05-28T15:37:00Z (37.26049 0.000180) (-32.29756 0.000226) (-1887 20) "Lucky Strike Volcano"
+  Contact obs_ipgp@insu.cnrs.fr
+  Owner INSU-IPGP OBS Park
+  #Equipment "Short Period Ocean Bottom Seismometer" "LCHEAPO 2000 Short Period Ocean Bottom Seismometer, 4 channels, L-28 3C geophone" "Scripps Inst. Oceanography" "None" "SPOBS2" "07"
+  #Comment ""Linear clock drift corrected using GPS sync at deployment start and end""
+  #Comment "Time base = Seascan MCXO, ~1e-9 nominal drift; Start sync GPS=2015-04-22T12:24:00Z, inst=0; End sync GPS=2016-05-28T15:35:00.3660Z, inst=2016-05-28T15:35:02Z"
+  #Comment "Location is based on: Short baseline transponder, near-seafloor release"
+
+  begin_location
+    LOC1 "00" (37.26049 0.000180) (-32.29756 0.000226) (-1887 20) "seafloor" "unknown"
+  end_location
+
+  #begin_datalogger
+  #  LOGGER "OBS datalogger" "LCHEAPO 2000 with CS5321/22 delta-sigma A/D" "Scripps Institution of Oceanography" "None" "LC2000" "07"
+  #end_datalogger
+
+  begin_sensor
+    SEN1 "Sercel L-28LB 4.5 Hz 3C geophone" "07" "sensor/Sercel#L28LB#obs#theoretical#" 0.0 0.0
+    #SEN1 "Geophone" "Sercel L-28LB 4.5 Hz 3C geophone" "Sercel" "None" "L-28LB" "07" "sensor/Sercel#L28LB#obs#theoretical#" 0.0 0.0
+    SEN2 "HiTech HTI-90-U hydrophone with integrated preamp, 0.05-2500 Hz" "07" "sensor/HiTech#HTI-90U#SIO_preamp#theoretical#" 0.0 -90.0
+    #SEN2 "Hydrophone" "HiTech HTI-90-U hydrophone with integrated preamp, 0.05-2500 Hz" "HiTech, inc" "None" "HTI-90-U" "07" "sensor/HiTech#HTI-90U#SIO_preamp#theoretical#" 0.0 -90.0
+    SEN3 "Sercel L-28LB 4.5 Hz 3C geophone" "07" "sensor/Sercel#L28LB#obs#theoretical#" 0.0 90.0
+    #SEN3 "Geophone" "Sercel L-28LB 4.5 Hz 3C geophone" "Sercel" "None" "L-28LB" "07" "sensor/Sercel#L28LB#obs#theoretical#" 0.0 90.0
+  end_sensor
+
+  begin_ana_filter
+    AFILT1 "SIO gain/filter card, seismo channel (128x)" "07" "ana_filter/Scripps#SPOBS#HydroL22x128#theoretical#"
+    #AFILT1 "Analog gain/filter card" "SIO gain/filter card, seismo channel (128x)" "SIO or IPGP" "None" "None" "07" "ana_filter/Scripps#SPOBS#HydroL22x128#theoretical#"
+    AFILT2 "SIO gain/filter card, hydro channel (16x)" "07" "ana_filter/Scripps#SPOBS#HydroL22x16#theoretical#"
+    #AFILT2 "Analog gain/filter card" "SIO gain/filter card, hydro channel (16x)" "SIO or IPGP" "None" "None" "07" "ana_filter/Scripps#SPOBS#HydroL22x16#theoretical#"
+  end_ana_filter
+
+  begin_digitizer
+    DIGI "CS5321 delta-sigma A/D converter" "07" "digitizer/Scripps#LCPO2000_CS5321##theoretical#"
+    #DIGI "delta-sigma A/D converter" "CS5321 delta-sigma A/D converter" "Cirrus Logic" "None" "CS5321" "07" "digitizer/Scripps#LCPO2000_CS5321##theoretical#"
+  end_digitizer
+
+  begin_decimation
+    DECIM "CS5322 digital FIR filter" "07" "dig_filter/Scripps#LCPO2000_CS5322#62.5sps#theoretical#"
+    #DECIM "FIR digital filter chip" "CS5322 digital FIR filter" "Cirrus Logic" "None" "CS5322" "07" "dig_filter/Scripps#LCPO2000_CS5322#62.5sps#theoretical#"
+  end_decimation
+
+  begin_channel
+    NOT DONE YET!!!!!!!!!
+    MUST ADAPT BAND CODES TO SAMPLING RATE
+  end_channel
+
+end_station
+********************4G.LSVCI********************
+version 2
+originating_organization "INSU-IPGP OBS Park" "obs_ipgp@insu.cnrs.fr" "http://parc-obs.insu.cnrs.fr" ""
+
+begin_network
+  NET1 "4G" "EMSO-MOMAR" "4G@resif.fr" 2007-07-01 2025-12-31 "None"
+end_network
+
+begin_station
+  LSVCI 2015-04-24T12:00:00Z None (37.2912 0.000045) (-32.2798 0.000057) (-1750 10) "Lucky Strike Volcano"
+  Contact obs_ipgp@insu.cnrs.fr
+  Owner INSU-IPGP OBS Park
+  #Equipment "Short Period Ocean Bottom Seismometer" "LCHEAPO 2000 Short Period Ocean Bottom Seismometer, 4 channels, L-28 3C geophone" "Scripps Inst. Oceanography" "None" "SPOBS2" "Station02"
+  #Comment ""Linear clock drift corrected using GPS sync at deployment start and end""
+  #Comment "Time base = Seascan MCXO, ~1e-9 nominal drift; Start sync GPS=2015-04-20T15:35:00Z, inst=0; End sync GPS=None, inst=None"
+  #Comment "Location is based on: Short baseline transponder, seafloor release"
+
+  begin_location
+    LOC1 "00" (37.2912 0.000045) (-32.2798 0.000057) (-1750 10) "seafloor" "unknown"
+  end_location
+
+  #begin_datalogger
+  #  LOGGER "OBS datalogger" "LCHEAPO 2000 with CS5321/22 delta-sigma A/D" "Scripps Institution of Oceanography" "None" "LC2000" "Station02"
+  #end_datalogger
+
+  begin_sensor
+    SEN1 "Sercel L-28LB 4.5 Hz 3C geophone" "Station02" "sensor/Sercel#L28LB#obs#theoretical#" 0.0 0.0
+    #SEN1 "Geophone" "Sercel L-28LB 4.5 Hz 3C geophone" "Sercel" "None" "L-28LB" "Station02" "sensor/Sercel#L28LB#obs#theoretical#" 0.0 0.0
+    SEN2 "HiTech HTI-90-U hydrophone with integrated preamp, 0.05-2500 Hz" "Station02" "sensor/HiTech#HTI-90U#SIO_preamp#theoretical#" 0.0 -90.0
+    #SEN2 "Hydrophone" "HiTech HTI-90-U hydrophone with integrated preamp, 0.05-2500 Hz" "HiTech, inc" "None" "HTI-90-U" "Station02" "sensor/HiTech#HTI-90U#SIO_preamp#theoretical#" 0.0 -90.0
+    SEN3 "Sercel L-28LB 4.5 Hz 3C geophone" "Station02" "sensor/Sercel#L28LB#obs#theoretical#" 0.0 90.0
+    #SEN3 "Geophone" "Sercel L-28LB 4.5 Hz 3C geophone" "Sercel" "None" "L-28LB" "Station02" "sensor/Sercel#L28LB#obs#theoretical#" 0.0 90.0
+  end_sensor
+
+  begin_ana_filter
+    AFILT1 "SIO gain/filter card, seismo channel (128x)" "Station02" "ana_filter/Scripps#SPOBS#HydroL22x128#theoretical#"
+    #AFILT1 "Analog gain/filter card" "SIO gain/filter card, seismo channel (128x)" "SIO or IPGP" "None" "None" "Station02" "ana_filter/Scripps#SPOBS#HydroL22x128#theoretical#"
+    AFILT2 "SIO gain/filter card, hydro channel (16x)" "Station02" "ana_filter/Scripps#SPOBS#HydroL22x16#theoretical#"
+    #AFILT2 "Analog gain/filter card" "SIO gain/filter card, hydro channel (16x)" "SIO or IPGP" "None" "None" "Station02" "ana_filter/Scripps#SPOBS#HydroL22x16#theoretical#"
+  end_ana_filter
+
+  begin_digitizer
+    DIGI "CS5321 delta-sigma A/D converter" "Station02" "digitizer/Scripps#LCPO2000_CS5321##theoretical#"
+    #DIGI "delta-sigma A/D converter" "CS5321 delta-sigma A/D converter" "Cirrus Logic" "None" "CS5321" "Station02" "digitizer/Scripps#LCPO2000_CS5321##theoretical#"
+  end_digitizer
+
+  begin_decimation
+    DECIM "CS5322 digital FIR filter" "Station02" "dig_filter/Scripps#LCPO2000_CS5322#62.5sps#theoretical#"
+    #DECIM "FIR digital filter chip" "CS5322 digital FIR filter" "Cirrus Logic" "None" "CS5322" "Station02" "dig_filter/Scripps#LCPO2000_CS5322#62.5sps#theoretical#"
+  end_decimation
+
+  begin_channel
+    NOT DONE YET!!!!!!!!!
+    MUST ADAPT BAND CODES TO SAMPLING RATE
+  end_channel
+
+end_station
+********************4G.LSVWI********************
+version 2
+originating_organization "INSU-IPGP OBS Park" "obs_ipgp@insu.cnrs.fr" "http://parc-obs.insu.cnrs.fr" ""
+
+begin_network
+  NET1 "4G" "EMSO-MOMAR" "4G@resif.fr" 2007-07-01 2025-12-31 "None"
+end_network
+
+begin_station
+  LSVWI 2015-04-22T12:00:00Z 2016-05-28T21:01:00Z (37.29744 0.000180) (-32.32504 0.000226) (-2030 20) "Lucky Strike Volcano"
+  Contact obs_ipgp@insu.cnrs.fr
+  Owner INSU-IPGP OBS Park
+  #Equipment "Short Period Ocean Bottom Seismometer" "LCHEAPO 2000 Short Period Ocean Bottom Seismometer, 4 channels, L-28 3C geophone" "Scripps Inst. Oceanography" "None" "SPOBS2" "20"
+  #Comment ""Linear clock drift corrected using GPS sync at deployment start and end""
+  #Comment "Time base = Seascan MCXO, ~1e-9 nominal drift; Start sync GPS=2015-04-21T21:06:00Z, inst=0; End sync GPS=2016-05-28T20:59:00.32Z, inst=2016-05-28T20:59:03Z"
+  #Comment "Location is based on: Short baseline transponder, near-seafloor release"
+
+  begin_location
+    LOC1 "00" (37.29744 0.000180) (-32.32504 0.000226) (-2030 20) "seafloor" "unknown"
+  end_location
+
+  #begin_datalogger
+  #  LOGGER "OBS datalogger" "LCHEAPO 2000 with CS5321/22 delta-sigma A/D" "Scripps Institution of Oceanography" "None" "LC2000" "20"
+  #end_datalogger
+
+  begin_sensor
+    SEN1 "Sercel L-28LB 4.5 Hz 3C geophone" "20" "sensor/Sercel#L28LB#obs#theoretical#" 0.0 0.0
+    #SEN1 "Geophone" "Sercel L-28LB 4.5 Hz 3C geophone" "Sercel" "None" "L-28LB" "20" "sensor/Sercel#L28LB#obs#theoretical#" 0.0 0.0
+    SEN2 "HiTech HTI-90-U hydrophone with integrated preamp, 0.05-2500 Hz" "20" "sensor/HiTech#HTI-90U#SIO_preamp#theoretical#" 0.0 -90.0
+    #SEN2 "Hydrophone" "HiTech HTI-90-U hydrophone with integrated preamp, 0.05-2500 Hz" "HiTech, inc" "None" "HTI-90-U" "20" "sensor/HiTech#HTI-90U#SIO_preamp#theoretical#" 0.0 -90.0
+    SEN3 "Sercel L-28LB 4.5 Hz 3C geophone" "20" "sensor/Sercel#L28LB#obs#theoretical#" 0.0 90.0
+    #SEN3 "Geophone" "Sercel L-28LB 4.5 Hz 3C geophone" "Sercel" "None" "L-28LB" "20" "sensor/Sercel#L28LB#obs#theoretical#" 0.0 90.0
+  end_sensor
+
+  begin_ana_filter
+    AFILT1 "SIO gain/filter card, seismo channel (128x)" "20" "ana_filter/Scripps#SPOBS#HydroL22x128#theoretical#"
+    #AFILT1 "Analog gain/filter card" "SIO gain/filter card, seismo channel (128x)" "SIO or IPGP" "None" "None" "20" "ana_filter/Scripps#SPOBS#HydroL22x128#theoretical#"
+    AFILT2 "SIO gain/filter card, hydro channel (16x)" "20" "ana_filter/Scripps#SPOBS#HydroL22x16#theoretical#"
+    #AFILT2 "Analog gain/filter card" "SIO gain/filter card, hydro channel (16x)" "SIO or IPGP" "None" "None" "20" "ana_filter/Scripps#SPOBS#HydroL22x16#theoretical#"
+  end_ana_filter
+
+  begin_digitizer
+    DIGI "CS5321 delta-sigma A/D converter" "20" "digitizer/Scripps#LCPO2000_CS5321##theoretical#"
+    #DIGI "delta-sigma A/D converter" "CS5321 delta-sigma A/D converter" "Cirrus Logic" "None" "CS5321" "20" "digitizer/Scripps#LCPO2000_CS5321##theoretical#"
+  end_digitizer
+
+  begin_decimation
+    DECIM "CS5322 digital FIR filter" "20" "dig_filter/Scripps#LCPO2000_CS5322#62.5sps#theoretical#"
+    #DECIM "FIR digital filter chip" "CS5322 digital FIR filter" "Cirrus Logic" "None" "CS5322" "20" "dig_filter/Scripps#LCPO2000_CS5322#62.5sps#theoretical#"
+  end_decimation
+
+  begin_channel
+    NOT DONE YET!!!!!!!!!
+    MUST ADAPT BAND CODES TO SAMPLING RATE
+  end_channel
+
+end_station
+********************4G.LSVNI********************
+version 2
+originating_organization "INSU-IPGP OBS Park" "obs_ipgp@insu.cnrs.fr" "http://parc-obs.insu.cnrs.fr" ""
+
+begin_network
+  NET1 "4G" "EMSO-MOMAR" "4G@resif.fr" 2007-07-01 2025-12-31 "None"
+end_network
+
+begin_station
+  LSVNI 2015-04-23T10:00:00Z 2016-05-26T23:00:00Z (37.3196 0.000180) (-32.27909 0.000226) (-1798 20) "Lucky Strike Volcano"
+  Contact obs_ipgp@insu.cnrs.fr
+  Owner INSU-IPGP OBS Park
+  #Equipment "Short Period Ocean Bottom Seismometer" "LCHEAPO 2000 Short Period Ocean Bottom Seismometer, 4 channels, L-28 3C geophone" "Scripps Inst. Oceanography" "None" "SPOBS2" "13"
+  #Comment ""Linear clock drift corrected using GPS sync at deployment start and end""
+  #Comment "Time base = Seascan MCXO, ~1e-9 nominal drift; Start sync GPS=2015-04-22T09:21:00Z, inst=0; End sync GPS=2016-05-28T22:59:00.1843Z, inst=2016-05-28T22:59:02Z"
+  #Comment "Location is based on: Short baseline transponder, near-seafloor release"
+
+  begin_location
+    LOC1 "00" (37.3196 0.000180) (-32.27909 0.000226) (-1798 20) "seafloor" "unknown"
+  end_location
+
+  #begin_datalogger
+  #  LOGGER "OBS datalogger" "LCHEAPO 2000 with CS5321/22 delta-sigma A/D" "Scripps Institution of Oceanography" "None" "LC2000" "13"
+  #end_datalogger
+
+  begin_sensor
+    SEN1 "Sercel L-28LB 4.5 Hz 3C geophone" "13" "sensor/Sercel#L28LB#obs#theoretical#" 0.0 0.0
+    #SEN1 "Geophone" "Sercel L-28LB 4.5 Hz 3C geophone" "Sercel" "None" "L-28LB" "13" "sensor/Sercel#L28LB#obs#theoretical#" 0.0 0.0
+    SEN2 "HiTech HTI-90-U hydrophone with integrated preamp, 0.05-2500 Hz" "13" "sensor/HiTech#HTI-90U#SIO_preamp#theoretical#" 0.0 -90.0
+    #SEN2 "Hydrophone" "HiTech HTI-90-U hydrophone with integrated preamp, 0.05-2500 Hz" "HiTech, inc" "None" "HTI-90-U" "13" "sensor/HiTech#HTI-90U#SIO_preamp#theoretical#" 0.0 -90.0
+    SEN3 "Sercel L-28LB 4.5 Hz 3C geophone" "13" "sensor/Sercel#L28LB#obs#theoretical#" 0.0 90.0
+    #SEN3 "Geophone" "Sercel L-28LB 4.5 Hz 3C geophone" "Sercel" "None" "L-28LB" "13" "sensor/Sercel#L28LB#obs#theoretical#" 0.0 90.0
+  end_sensor
+
+  begin_ana_filter
+    AFILT1 "SIO gain/filter card, seismo channel (128x)" "13" "ana_filter/Scripps#SPOBS#HydroL22x128#theoretical#"
+    #AFILT1 "Analog gain/filter card" "SIO gain/filter card, seismo channel (128x)" "SIO or IPGP" "None" "None" "13" "ana_filter/Scripps#SPOBS#HydroL22x128#theoretical#"
+    AFILT2 "SIO gain/filter card, hydro channel (16x)" "13" "ana_filter/Scripps#SPOBS#HydroL22x16#theoretical#"
+    #AFILT2 "Analog gain/filter card" "SIO gain/filter card, hydro channel (16x)" "SIO or IPGP" "None" "None" "13" "ana_filter/Scripps#SPOBS#HydroL22x16#theoretical#"
+  end_ana_filter
+
+  begin_digitizer
+    DIGI "CS5321 delta-sigma A/D converter" "13" "digitizer/Scripps#LCPO2000_CS5321##theoretical#"
+    #DIGI "delta-sigma A/D converter" "CS5321 delta-sigma A/D converter" "Cirrus Logic" "None" "CS5321" "13" "digitizer/Scripps#LCPO2000_CS5321##theoretical#"
+  end_digitizer
+
+  begin_decimation
+    DECIM "CS5322 digital FIR filter" "13" "dig_filter/Scripps#LCPO2000_CS5322#62.5sps#theoretical#"
+    #DECIM "FIR digital filter chip" "CS5322 digital FIR filter" "Cirrus Logic" "None" "CS5322" "13" "dig_filter/Scripps#LCPO2000_CS5322#62.5sps#theoretical#"
+  end_decimation
+
+  begin_channel
+    NOT DONE YET!!!!!!!!!
+    MUST ADAPT BAND CODES TO SAMPLING RATE
+  end_channel
+
+end_station

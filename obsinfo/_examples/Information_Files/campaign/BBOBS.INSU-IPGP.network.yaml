@@ -5,32 +5,17 @@ yaml_anchors:
         time_base: "Seascan MCXO, ~1e-8 nominal drift"
         reference: "GPS"
         start_sync_instrument: 0
-    bbobs_62: &BBOBS1_62_REF
-        $ref: "BBOBS1.instrumentation.yaml#instrumentation"
-        config: "2012+"
-        channel_mods: {base: {datalogger: {config: "62.5sps"}}}
-
 revision:
     authors:
-        -
-            first_name : "Wayne"
-            last_name : "Crawford"
-            email: "crawford@ipgp.fr"
-    date: "2017-10-04"
+        - $ref: '../instrumentation/Wayne_Crawford.author_info.yaml#author_info'
+    date: "2019-12-19"
 network:
     facility:
         ref_name: "INSU-IPGP"
         full_name: "INSU-IPGP OBS Park"
     campaign_ref_name: "MYCAMPAIGN"
     network_info:
-        code: "4G"
-        name: "EMSO-MOMAR"
-        start_date: "2007-07-01"
-        end_date: "2025-12-31"
-        description: "EMSO-MOMAR"
-        comments: 
-            - "Lucky Strike Volcano, North Mid-Atlantic Ridge"
-    $ref_dir:  "../instrumentation/"
+        $ref: "EMSO-MOMAR.network_info.yaml#network_info"
     stations:
         "BB_1":
             site: "My favorite site"
@@ -39,7 +24,8 @@ network:
             location_code: "00"
             instruments:
                 -
-                    <<: *BBOBS1_62_REF
+                    base: {$ref: "../instrumentation/BBOBS1_2012+.instrumentation.yaml#instrumentation"}
+                    datalogger_config: "62.5sps"
                     serial_number: "07"
             locations:
                 "00":
@@ -50,25 +36,26 @@ network:
                     linear_drift:
                         <<: *LINEAR_CLOCK_DEFAULTS
                         start_sync_reference: "2015-04-23T11:20:00"
+                        start_sync_instrument: 0
                         end_sync_reference: "2016-05-27T14:00:00.2450"
                         end_sync_instrument: "22016-05-27T14:00:00"
         "BB_2":
-            notes: 
-                - "Example of changing the sensor from the default"
+            notes: ["An example of changing the sensor"]
             site: "My other favorite site"
             start_date: "2015-04-23T10:00:00Z"
             end_date: "2016-05-28T15:37:00Z"
             location_code: "00"
             instruments:
                 -
-                    <<: *BBOBS1_62_REF
-                    serial_number: "07"
-                    channel_mods:
-                        base:
-                            datalogger: {config:  "62.5sps"}
-                            sensor: {serial_number: "Sphere06"}
-                        by_orientation:
-                            "H": {sensor: {serial_number : "IP007"}}
+                    base: {$ref: "../instrumentation/BBOBS1_2012+.instrumentation.yaml#instrumentation"}
+                    mods:
+                        datalogger_config: "62.5sps"
+                        serial_number: "07"
+                        channel_mods:
+                            base:
+                                sensor: {serial_number: "Sphere06"}
+                            by_orientation:
+                                "H": {sensor: {serial_number : "IP007"}}
             locations:
                 "00":
                     $ref: '../location_bases/BUC_DROP.location_base.yaml#location_base'
@@ -77,5 +64,6 @@ network:
                 - clock_correct_linear_drift:
                         <<: *LINEAR_CLOCK_DEFAULTS
                         start_sync_reference: "2015-04-22T12:24:00"
+                        start_sync_instrument: 0
                         end_sync_reference: "2016-05-28T15:35:00.3660"
                         end_sync_instrument: "2016-05-28T15:35:02"

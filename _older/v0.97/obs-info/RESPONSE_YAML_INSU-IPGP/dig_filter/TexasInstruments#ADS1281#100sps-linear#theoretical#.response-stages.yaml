@@ -1,0 +1,47 @@
+---
+notes:
+    - "From ads1281.pdf"
+
+stages: 
+    - 
+        description : "DECIMATION - ADS1281 SINC - 128x" 
+        notes: 
+            - "SINC FILTER NOT MODELED IN STATIONXML??, just input/output"
+            - "Assumes f_clk = 1.6384 MHz (standard = 4.096 MHz)"
+        decimation_factor : 128
+        input_sampling_interval : 409600
+        output_sampling_interval : 3200
+        response:
+            type : "DIGITAL"
+    -
+        description : "DECIMATION - ADS1281 FIR1" 
+        decimation_factor : 2
+        input_sampling_interval : 3200
+        output_sampling_interval : 1600
+        response:
+            type : "FIR"
+            include: "include/TexasInstruments_ADS1281_FIR1.yaml"
+    -
+        description : "DECIMATION - ADS1281 FIR2" 
+        decimation_factor : 2
+        input_sampling_interval : 1600
+        output_sampling_interval : 800
+        response:
+            type : "FIR"
+            include: "include/TexasInstruments_ADS1281_FIR2.yaml"
+    -
+        description : "DECIMATION - ADS1281 FIR3" 
+        decimation_factor : 4
+        input_sampling_interval : 800
+        output_sampling_interval : 200
+        response:
+            type : "FIR"
+            include: "include/TexasInstruments_ADS1281_FIR3_LINEAR.yaml"
+    -
+        description : "DECIMATION - ADS1281 FIR4" 
+        decimation_factor : 2
+        input_sampling_interval : 200
+        output_sampling_interval : 100
+        response:
+            type : "FIR"
+            include: "include/TexasInstruments_ADS1281_FIR4_LINEAR.yaml"

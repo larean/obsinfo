@@ -1,0 +1,16 @@
+---
+response:
+    type: "FIR"
+    symmetry: "ODD"
+    delay: 7
+    scaling_divisor: 8388608
+    corrected: Yes
+    coefficients:
+        - -10944
+        - 0
+        - 103807
+        - 0
+        - -507903
+        - 0
+        - 2512192
+        - 4194304

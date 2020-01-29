@@ -19,7 +19,7 @@ from obsinfo.misc.info_files import validate
 
 class TestADDONSMethods(unittest.TestCase):
     """
-    Test suite for nordic io operations.
+    Test suite for obsinfo operations.
     """
     def setUp(self):
         self.path = os.path.dirname(os.path.abspath(inspect.getfile(

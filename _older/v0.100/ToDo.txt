@@ -1,0 +1,9 @@
+Instruments should specify the delay applied and the obs-info code should verify
+that this correction corresponds to the delay predicted from the digital filter
+offets and/or stage delays
+    - Set delay to 0
+    - If offset is specified, calculate delay from it and input_sample_rate
+    - If delay is specified, compare to calculated delay, send error if different
+    - If delay is not specified, set it to the calculated value
+    - Sum all of the delays
+    - Compare with any provided delay value

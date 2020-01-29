@@ -1,8 +1,0 @@
----
-test1: howdy
-test2: dowdy
-tester:
-    blink: 103
-    stink: 209
-bugger:
-    lugger: False

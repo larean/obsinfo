@@ -1,0 +1,64 @@
+---
+# Ce fichier sera edité par le chercheur responsable
+campaign:
+  reference_name: EMSO-MOMAR2016
+  version: "2017-09-14"
+  reference_scientist:
+    name: "Mathilde Cannat"
+    institution: "Institut de Physique du Globe de Paris"
+    email: cannat@ipgp.fr
+    telephone: ~
+  OBS_facilities:
+    # Use facility reference names: "INSU-IPGP","Geoazur", 
+    #      "DEPAS", or "Geomar"
+    "INSU-IPGP":
+      contact: parc-obs@insu.fr
+      stations: 
+        - 'LSVCI'
+        - 'LSVNI'
+        - 'LSVSI'
+        - 'LSVEI'
+        - 'LSVWI'
+  FDSN_network:
+    code: 4G
+    name: EMSO-MOMAR
+    description: "Lucky Strike Volcano local observatory"
+    DOI: ~
+    URL: "http://www.fdsn.org/networks/detail/4G_2007/"
+    email: 4G@resif.fr
+    telephone: ~
+    start_date: 2007-07-01
+    end_date: 2025-12-31
+  event_samples:
+    # Specify 1-3 events during the campaign for plotting
+    "TITLE_1":
+      date: ~
+      duration: ~
+      source_latitude: ~
+      source_longitude: ~
+    "TITLE_2":
+      date: ~
+      duration: ~
+    "TITLE_3":
+      date: ~
+      duration: ~
+  # OPTIONAL NODES
+  expeditions:
+    -
+      name: ~
+      ship: ~
+      start_date": ~
+      end_date": ~
+      comments: "Deployment"
+    -
+      name: ~
+      ship: Archipelago
+      start_date: ~
+      end_date: ~
+      comments: "Recuperation"
+    -
+      name: ~
+      ship: Archipelago
+      start_date: ~
+      end_date: ~
+      comments: "Recuperation"

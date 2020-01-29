@@ -1,0 +1,393 @@
+---
+remarks:
+    - "To be completed by the OBS facility"
+    - "Example instrumentation_components.yaml file"
+    - "Channels are specified by the three component SEED code followed by a colon and the two component location code (location '00' should be used for the station # and for sensors on or very near the station)"
+    - "The first character (Band Code) of the SEED channel code should be 'B' (broadband: sensor with highpass corner >= 10 s) or 'S' (short-period, corner < 10s)."
+    - "Software reading this file should be be able to convert this # to the appropriate band code based on the station sampling rate"
+
+repeated_nodes:
+    equipmenttype: &EQUIPMENTTYPE_EMPTY
+        type: ~
+        description: ~
+        manufacturer: ~
+        vendor: ~
+        model: ~
+        serial_number: ~
+        calibration_date: ~
+
+instrumentation:
+    format_version: "0.96"
+    revision: 
+        date: "2017-11-30"
+        author: 
+            first_name: "Wayne"
+            last_name: "Crawford"
+            email: "crawford@ipgp.fr"
+    facility:
+        reference_name: "INSU-IPGP"
+        full_name: "INSU-IPGP OBS Park"
+        email: "obs_ipgp@insu.cnrs.fr"
+        website: "http://parc-obs.insu.cnrs.fr"
+    components_file: "FACILITY.instrument_components.yaml"
+    variables:
+        - "sample_rate"
+    azi_dip:
+        "SEISMOMETER_Z": 
+            azimuth: "0.0"
+            dip: "-90.0"
+        "GEOPHONE_Z":  
+            azimuth: "0.0"
+            dip: "90.0"
+            note: "Geophone Z channel, positive DOWN"
+        "SEISMOMETER_12":   
+            azimuth: "0.0" 
+            dip: "0.0"
+            note: "Non-oriented horizontal seismometer or geophone"
+        "HYDROPHONE": 
+            azimuth: "0.0"
+            dip: "-90.0"
+            note: >-
+                assumes hydrophone positive correponds to increasing pressure
+                in upward compressional wave (seafloor up => pressure up)
+        "DPG":
+            azimuth: "0.0"
+            dip: "-90.0"
+            note: >-
+                assumes DPG positive correponds to increasing pressure
+                in upward compressional wave (seafloor up => pressure up)
+    instruments:
+        generic:
+            "SPOBS1":
+                equipment:
+                    <<: *EQUIPMENTTYPE_EMPTY
+                    model: "SPOBS1"
+                    type: "Short Period Ocean Bottom Seismometer"
+                    description: >-
+                         "LCHEAPO 2000 Short Period Ocean Bottom Seismometer,
+                         2 channels, L-22 vertical geophone"
+                    manufacturer: "Scripps Inst. Oceanography"
+                channels:
+                    "SDH:00":
+                        datalogger: {reference_code: "LC2000-{sample_rate}"}
+                        preamplifier: {reference_code: "HYDRO_GAIN_16X"}
+                        sensor: {reference_code: "PRESSURE_HTI_90U"}
+                        azi_dip: {reference_code: "HYDROPHONE"}
+                    "SH3:00":
+                        datalogger: {reference_code: "LC2000-{sample_rate}"}
+                        preamplifier: {reference_code: "GEOPHONE_GAIN_128X"}
+                        sensor: {reference_code: "VELOCITY_SERCEL_L22"}
+                        azi_dip: {reference_code: "GEOPHONE_Z"}
+            "SPOBS2":
+                equipment:
+                    <<: *EQUIPMENTTYPE_EMPTY
+                    model: "SPOBS2"
+                    type: "Short Period Ocean Bottom Seismometer"
+                    description: >-
+                         "LCHEAPO 2000 Short Period Ocean Bottom Seismometer,
+                         4 channels, L-28 3C geophone"
+                    manufacturer: "Scripps Inst. Oceanography"
+                channels:
+                    "SH3:00":
+                        datalogger:  {reference_code: "LC2000-{sample_rate}"}
+                        preamplifier:  {reference_code: "GEOPHONE_GAIN_128X"}
+                        sensor:  {reference_code: "VELOCITY_SERCEL_L28"}
+                        azi_dip:    {reference_code: "GEOPHONE_Z"}
+                    "SH1:00":
+                        datalogger:  {reference_code: "LC2000-{sample_rate}"}
+                        preamplifier:  {reference_code: "GEOPHONE_GAIN_128X"}
+                        sensor:  {reference_code: "VELOCITY_SERCEL_L28"}
+                        azi_dip: {reference_code: "SEISMOMETER_12"}
+                    "SH2:00":
+                        datalogger: {reference_code: "LC2000-{sample_rate}"}
+                        preamplifier: {reference_code: "GEOPHONE_GAIN_128X"}
+                        sensor: {reference_code: "VELOCITY_SERCEL_L28"}
+                        azi_dip:    {reference_code: "SEISMOMETER_12"}
+                    "SDH:00":
+                        datalogger: {reference_code: "LC2000-{sample_rate}"}
+                        preamplifier: {reference_code: "HYDRO_GAIN_16X"}
+                        sensor: {reference_code: "PRESSURE_HTI_90U"}
+                        azi_dip:    {reference_code: "HYDROPHONE"}
+            "HydroOctopus":
+                equipment:
+                    <<: *EQUIPMENTTYPE_EMPTY
+                    type: "Multi-hydrophone antenna"
+                    description: >-
+                         "LCHEAPO 2000 Hydro-octopus,
+                         4 channels, HTI-90U hydrophones"
+                    manufacturer: "INSU-IPGP"
+                    vendor: ~
+                    model: "HydroOct-1"
+                channels:
+                    "BDH:00":
+                        datalogger:  {reference_code: "LC2000-{sample_rate}"}
+                        preamplifier: {reference_code: "HYDRO_GAIN_16X"}
+                        sensor: {reference_code: "PRESSURE_HTI_90U"}
+                        azi_dip: {reference_code: "HYDROPHONE"}
+                    "BDH:01":
+                        datalogger: {reference_code: "LC2000-{sample_rate}"}
+                        preamplifier: {reference_code: "HYDRO_GAIN_16X"}
+                        sensor: {reference_code: "PRESSURE_HTI_90U"}
+                        azi_dip:  {reference_code: "HYDROPHONE"}
+                    "BDH:02":
+                        datalogger: {reference_code: "LC2000-{sample_rate}"}
+                        preamplifier: {reference_code: "HYDRO_GAIN_16X"}
+                        sensor: {reference_code: "PRESSURE_HTI_90U"}
+                        azi_dip: {reference_code: "HYDROPHONE"}
+                    "BDH:03":
+                        datalogger:  {reference_code: "LC2000-{sample_rate}"}
+                        preamplifier: {reference_code: "HYDRO_GAIN_16X"}
+                        sensor: {reference_code: "PRESSURE_HTI_90U"}
+                        azi_dip: {reference_code: "HYDROPHONE"}
+            "BBOBS1_1":
+                equipment:
+                    <<: *EQUIPMENTTYPE_EMPTY
+                    type: "Broadband Ocean Bottom Seismometer"
+                    description: >-
+                          "LCHEAPO 2000 Broadband Ocean Bottom Seismometer, 
+                          configuration 1: all channels preamp gain = 0.225.
+                          valid before 2012-11" 
+                    manufacturer: "Scripps Inst. Oceanography - INSU"
+                    model: "BBOBS1_1"
+                channels:
+                    "BDH:00":
+                        datalogger: {reference_code: "LC2000-{sample_rate}"}
+                        preamplifier: {reference_code: "DPG_CARD"}
+                        sensor: {reference_code: "PRESSURE_DPG"}
+                        azi_dip: {reference_code: "DPG"}
+                    "BH1:00":
+                        datalogger:  {reference_code: "LC2000-{sample_rate}"}
+                        preamplifier: {reference_code: "BBOBS_CARD_0P225X"}
+                        sensor: {reference_code: "VELOCITY_T240_SS"}
+                        azi_dip: {reference_code: "SEISMOMETER_12"}
+                    "BH2:00":
+                        datalogger:  {reference_code: "LC2000-{sample_rate}"}
+                        preamplifier: {reference_code: "BBOBS_CARD_0P225X"}
+                        sensor: {reference_code: "VELOCITY_T240_SS"}
+                        azi_dip: {reference_code: "SEISMOMETER_12"}
+                    "BHZ:00":
+                        datalogger:  {reference_code: "LC2000-{sample_rate}"}
+                        preamplifier: {reference_code: "BBOBS_CARD_0P225X"}
+                        sensor: {reference_code: "VELOCITY_T240_SS"}
+                        azi_dip: {reference_code: "SEISMOMETER_Z"}
+            "BBOBS1_2":
+                equipment:
+                    <<: *EQUIPMENTTYPE_EMPTY
+                    type: "Broadband Ocean Bottom Seismometer"
+                    description: >-
+                          "LCHEAPO 2000 Broadband Ocean Bottom Seismometer, 
+                          configuration 2: vertical channel preamp gain = 1.0.
+                          valid from 2012-11 on" 
+                    manufacturer: "Scripps Inst. Oceanography - INSU"
+                    model: "BBOBS1_2"
+                channels:
+                    "BDH:00":
+                        datalogger: {reference_code: "LC2000-{sample_rate}"}
+                        preamplifier: {reference_code: "DPG_CARD"}
+                        sensor: {reference_code: "PRESSURE_DPG"}
+                        azi_dip: {reference_code: "DPG"}
+                    "BH1:00":
+                        datalogger: {reference_code: "LC2000-{sample_rate}"}
+                        preamplifier: {reference_code: "BBOBS_CARD_0P225X"}
+                        sensor: {reference_code: "VELOCITY_T240_SS"}
+                        azi_dip: {reference_code: "SEISMOMETER_12"}
+                    "BH2:00":
+                        datalogger:  {reference_code: "LC2000-{sample_rate}"}
+                        preamplifier: {reference_code: "BBOBS_CARD_0P225X"}
+                        sensor: {reference_code: "VELOCITY_T240_SS"}
+                        azi_dip: {reference_code: "SEISMOMETER_12"}
+                    "BHZ:00":
+                        datalogger:  {reference_code: "LC2000-{sample_rate}"}
+                        preamplifier: {reference_code: "BBOBS_CARD_1X"}
+                        sensor: {reference_code: "VELOCITY_T240_SS"}
+                        azi_dip: {reference_code: "SEISMOMETER_Z"}
+        specific:
+            "BBOBS1_1":
+                "01":
+                    channels:
+                        "BH1:00": &BBOSBS1_1_01_SISMO
+                            preamplifier: {serial_number: "21"}
+                            datalogger: {serial_number: "21"}
+                            sensor:     {serial_number: "Sphere01"}
+                        "BH2:00":
+                            <<: *BBOSBS1_1_01_SISMO
+                        "BHZ:00":
+                            <<: *BBOSBS1_1_01_SISMO
+                        "BDH:00":
+                            preamplifier: { serial_number: "21"}
+                            datalogger: { serial_number: "21"}
+                            sensor:     { serial_number: "5004"}                    
+                "02":
+                    channels:
+                        "BH1:00": &BBOSBS1_1_02_SISMO
+                            datalogger: { serial_number: "22"}
+                            preamplifier: { serial_number: "22"}
+                            sensor:     { serial_number: "Sphere02"}
+                        "BH2:00":
+                            <<: *BBOSBS1_1_02_SISMO
+                        "BHZ:00":
+                            <<: *BBOSBS1_1_02_SISMO
+                        "BDH:00":
+                            datalogger: {  serial_number: "22"}
+                            preamplifier: {  serial_number: "22"}
+                            sensor:     { serial_number: "5018"}                    
+                "03":
+                    channels:
+                        "BH1:00": &BBOSBS1_1_03_SISMO
+                            datalogger: {  serial_number: "23"}
+                            preamplifier: {  serial_number: "23"}
+                            sensor:     { serial_number: "Sphere03"}
+                        "BH2:00":
+                            <<: *BBOSBS1_1_03_SISMO
+                        "BHZ:00":
+                            <<: *BBOSBS1_1_03_SISMO
+                        "BDH:00":
+                            datalogger: {  serial_number: "23"}
+                            preamplifier: {  serial_number: "23"}
+                            sensor:     { serial_number: "5027"}                    
+            "BBOBS1_2":
+                "01":
+                    channels:
+                        "BDH:00":
+                            preamplifier: {  serial_number: "21"}
+                            datalogger: {  serial_number: "21"}
+                            sensor:     { serial_number: "5004"}                    
+                        "BH1:00": &BBOSBS1_2_01_SISMO
+                            preamplifier: {  serial_number: "21"}
+                            datalogger: {  serial_number: "21"}
+                            sensor:     { serial_number: "Sphere01"}
+                        "BH2:00":
+                            <<: *BBOSBS1_2_01_SISMO
+                        "BHZ:00":
+                            <<: *BBOSBS1_2_01_SISMO
+                "02":
+                    channels:
+                        "BDH:00":
+                            datalogger: {  serial_number: "22"}
+                            preamplifier: {  serial_number: "22"}
+                            sensor:     { serial_number: "5018"}                    
+                        "BH1:00": &BBOSBS1_2_02_SISMO
+                            datalogger: {  serial_number: "22"}
+                            preamplifier: {  serial_number: "22"}
+                            sensor:     { serial_number: "Sphere02"}
+                        "BH2:00":
+                            <<: *BBOSBS1_2_02_SISMO
+                        "BHZ:00":
+                            <<: *BBOSBS1_2_02_SISMO
+                "03":
+                    channels:
+                        "BDH:00":
+                            datalogger: {  serial_number: "23"}
+                            preamplifier: {  serial_number: "23"}
+                            sensor:     { serial_number: "5027"}                    
+                        "BH1:00": &BBOSBS1_2_03_SISMO
+                            datalogger: {  serial_number: "23"}
+                            preamplifier: {  serial_number: "23"}
+                            sensor:     { serial_number: "Sphere03"}
+                        "BH2:00":
+                            <<: *BBOSBS1_2_03_SISMO
+                        "BHZ:00":
+                            <<: *BBOSBS1_2_03_SISMO
+                "04":
+                    channels:
+                        "BDH:00":
+                            datalogger: {  serial_number: "24"}
+                            preamplifier: {  serial_number: "24"}
+                            sensor:     { serial_number: "IP004"}                    
+                        "BH1:00": &BBOSBS1_2_04_SISMO
+                            datalogger: {  serial_number: "24"}
+                            preamplifier: {  serial_number: "24"}
+                            sensor:     { serial_number: "Sphere04"}
+                        "BH2:00":
+                            <<: *BBOSBS1_2_04_SISMO
+                        "BHZ:00":
+                            <<: *BBOSBS1_2_04_SISMO
+                "05":
+                    channels:
+                        "BDH:00":
+                            datalogger: {  serial_number: "25"}
+                            preamplifier: {  serial_number: "25"}
+                            sensor:     { serial_number: "IP005"}                    
+                        "BH1:00": &BBOSBS1_2_05_SISMO
+                            datalogger: {  serial_number: "25"}
+                            preamplifier: {  serial_number: "25"}
+                            sensor:     { serial_number: "Sphere05"}
+                        "BH2:00":
+                            <<: *BBOSBS1_2_05_SISMO
+                        "BHZ:00":
+                            <<: *BBOSBS1_2_05_SISMO
+                "06":
+                    channels:
+                        "BDH:00":
+                            datalogger: {  serial_number: "26"}
+                            preamplifier: {  serial_number: "26"}
+                            sensor:     { serial_number: "IP006"}                    
+                        "BH1:00": &BBOSBS1_2_06_SISMO
+                            datalogger: {  serial_number: "26"}
+                            preamplifier: {  serial_number: "26"}
+                            sensor:     { serial_number: "Sphere06"}
+                        "BH2:00":
+                            <<: *BBOSBS1_2_06_SISMO
+                        "BHZ:00":
+                            <<: *BBOSBS1_2_06_SISMO
+                "07":
+                    channels:
+                        "BDH:00":
+                            datalogger: {  serial_number: "27"}
+                            preamplifier: {  serial_number: "27"}
+                            sensor:     { serial_number: "IP007"}                    
+                        "BH1:00": &BBOSBS1_2_07_SISMO
+                            datalogger: {  serial_number: "27"}
+                            preamplifier: {  serial_number: "27"}
+                            sensor:     { serial_number: "Sphere07"}
+                        "BH2:00":
+                            <<: *BBOSBS1_2_07_SISMO
+                        "BHZ:00":
+                            <<: *BBOSBS1_2_07_SISMO
+                "08":
+                    channels:
+                        "BDH:00":
+                            datalogger: {  serial_number: "28"}
+                            preamplifier: {  serial_number: "28"}
+                            sensor:     { serial_number: "LD013"}                    
+                        "BH1:00": &BBOSBS1_2_08_SISMO
+                            datalogger: {  serial_number: "28"}
+                            preamplifier: {  serial_number: "28"}
+                            sensor:     { serial_number: "Sphere08"}
+                        "BH2:00":
+                            <<: *BBOSBS1_2_08_SISMO
+                        "BHZ:00":
+                            <<: *BBOSBS1_2_08_SISMO
+                "09":
+                    channels:
+                        "BDH:00":
+                            # Instrument lost before I wrote down DPG number
+                            datalogger: {  serial_number: "29"}
+                            preamplifier: {  serial_number: "29"}
+                            sensor:     { serial_number: "LDxxx"}                    
+                        "BH1:00": &BBOSBS1_2_09_SISMO
+                            datalogger: {  serial_number: "29"}
+                            preamplifier: {  serial_number: "29"}
+                            sensor:     { serial_number: "Sphere09"}
+                        "BH2:00":
+                            <<: *BBOSBS1_2_09_SISMO
+                        "BHZ:00":
+                            <<: *BBOSBS1_2_09_SISMO
+    
+            
+loggers_NRL: # Convenience definitions for Nominal Reference Library loggers. 
+    LC2000_DPG-{sampling_rate}:
+        datalogger: "LC2000-{sampling_rate}"
+        preamplifier: "DPG_CARD"
+    LC2000_HYDROPHONE-{sampling_rate}:
+        datalogger: "LC2000-{sampling_rate}"
+        preamplifier: "HYDRO_GAIN_16X"
+    LC2000_GEOPHONE-{sampling_rate}:
+        datalogger: "LC2000-{sampling_rate}"
+        preamplifier: "GEOPHONE_GAIN_128X"
+    LC2000_BBOBSx1-{sampling_rate}:
+        datalogger: "LC2000-{sampling_rate}"
+        preamplifier: "BBOBS_CARD_1X"
+    LC2000_BBOVBSx0p225-{sampling_rate}:
+        datalogger: "LC2000-{sampling_rate}"
+        preamplifier: "BBOBS_CARD_0P225X"

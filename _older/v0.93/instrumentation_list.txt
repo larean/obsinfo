@@ -1,0 +1,64 @@
+
+FILENAME: INSU-IPGP.instrumentation.yaml
+FACILITY: INSU-IPGP
+REVISION: 2017-11-30 (Wayne Crawford)
+
+INSTRUMENTS:
+' model': BBOBS1_1
+description: '"LCHEAPO 2000 Broadband Ocean Bottom Seismometer,  configuration
+  1: all channels preamp gain = 0.225. valid before 2012-11" '
+specified_serial_numbers: ['01', '02', '03']
+
+' model': BBOBS1_2
+description: '"LCHEAPO 2000 Broadband Ocean Bottom Seismometer,  configuration
+  2: vertical channel preamp gain = 1.0. valid from 2012-11 on" '
+specified_serial_numbers: ['01', '02', '03', '04', '05', '06', '07', 08,
+  09]
+
+' model': HydroOctopus
+description: '"LCHEAPO 2000 Hydro-octopus, 4 channels, HTI-90U hydrophones"'
+specified_serial_numbers: [XX]
+
+' model': SPOBS1
+description: '"LCHEAPO 2000 Short Period Ocean Bottom Seismometer, 2 channels,
+  L-22 vertical geophone"'
+specified_serial_numbers: []
+
+' model': SPOBS2
+description: '"LCHEAPO 2000 Short Period Ocean Bottom Seismometer, 4 channels,
+  L-28 3C geophone"'
+specified_serial_numbers: []
+
+
+SENSORS:
+' model': PRESSURE_DPG
+description: Differential Pressure Gauge
+specified_serial_numbers: ['5004', '5018', '5027', IP004, IP005, IP006,
+  IP007, LD013, LDxxx]
+
+' model': PRESSURE_HTI_04-PLC-ULF
+description: '"HiTech HTI-04-PLC-ULF hydrophone, 0.01-XXX Hz"'
+specified_serial_numbers: []
+
+' model': PRESSURE_HTI_90U
+description: '"HiTech HTI-90-U hydrophone with integrated preamp, 0.05-2500
+  Hz"'
+specified_serial_numbers: []
+
+' model': VELOCITY_SERCEL_L22
+description: Sercel L-22 2 Hz vertical geophone
+specified_serial_numbers: []
+
+' model': VELOCITY_SERCEL_L28
+description: Sercel L-28LB 4.5 Hz 3C geophone
+specified_serial_numbers: []
+
+' model': VELOCITY_T240_SS
+description: Trillium T240 single-sided
+specified_serial_numbers: ['132', '133', '134', '136', '137', '138', '826',
+  '829', '830', Sphere01, Sphere02, Sphere03, Sphere04, Sphere05, Sphere06,
+  Sphere07, Sphere08, Sphere09]
+
+CROSS-CHECKING INDIVIDUALS AND MODELS
+       instrument: All individuals exist in models
+           sensor: All individuals exist in models

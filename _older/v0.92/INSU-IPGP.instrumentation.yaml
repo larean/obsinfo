@@ -1,0 +1,614 @@
+---
+# To be completed by the OBS facility
+#
+# Channels are specified by the three component SEED code followed by a colon
+# and the two component location code (location "00" should be used for the station
+# and for sensors on or very near the station)
+# The first character (Band Code) of the SEED channel code should be "B" 
+# (broadband: sensor with highpass corner >= 10 s) or "S" (short-period,
+# corner < 10s). Software reading this file should be be able to convert this
+# to the appropriate band code based on the station sampling rate
+#
+# If you use the text "{sample_rate}" in the digital filter DBIRD_file name,
+# it should be substituted by the station sample_rate specified in the NETWORK file
+
+format_version: "0.92"
+
+repeated_nodes:
+    equipmenttype: &EQUIPMENTTYPE_EMPTY
+        # FIELDS IN STATIONXML EQUIPMENTTYPE
+        type: ~
+        description: ~
+        manufacturer: ~
+        vendor: ~
+        model: ~
+        serial_number: ~
+        calibration_date: ~
+
+instrumentation:
+    revision: 
+        date: "2017-11-27"
+        author: "Wayne Crawford"
+    facility:
+        reference_name: "INSU-IPGP"
+        full_name: "INSU-IPGP OBS Park"
+        email: "obs_ipgp@insu.cnrs.fr"
+        website: "http://parc-obs.insu.cnrs.fr"
+    response_format: "RESPONSE_YAML"
+    response_directory: "RESPONSE_YAML_INSU-IPGP"
+    variables:
+        # VARIABLES THAT MUST BE SPECIFIED IN THE NETWORK FILE AND THEIR DEFAULT VALUES
+        # The station creator will look for this key at the station level and
+        # stuff it's value into any text within the instrument that has the same
+        # key between curly brackets (for example, "*{sample_rate}*")
+        - "sample_rate"
+    models:
+        # GENERIC VERSIONS OF INSTRUMENTS AND THEIR COMPONENTS
+        # SPECIFIED BY MODEL
+        component:
+            # Digitizer and digital filter are not specified in StationXML
+            # so I combine them in the "DataLogger" element
+            digitizer:
+                LC2000:
+                    <<: *EQUIPMENTTYPE_EMPTY
+                    type: "delta-sigma A/D converter"
+                    description: "CS5321 delta-sigma A/D converter"
+                    manufacturer: "Cirrus Logic"
+                    model: "CS5321"
+                    response_file: 
+                        "digitizer/Scripps#LCPO2000_CS5321##theoretical#.response.yaml"
+            digital_filter:
+                LC2000:
+                    <<: *EQUIPMENTTYPE_EMPTY
+                    type: "FIR digital filter chip"
+                    description: "CS5322 digital FIR filter"
+                    manufacturer: "Cirrus Logic"
+                    model: "CS5322"
+                    response_file:
+                        "dig_filter/Scripps#LCPO2000_CS5322#{sample_rate}sps#theoretical#.response.yaml"
+            datalogger:
+                LC2000:
+                    <<: *EQUIPMENTTYPE_EMPTY
+                    type: "delta-sigma A/D converter + digital filter"
+                    description: "CS5321/22 delta-sigma A/D converter + FIR digital filter"
+                    manufacturer: "Cirrus Logic"
+                    model: "CS5321/22"
+                    response_file: 
+                        "dig_filter/Scripps#LCPO2000_CS5321-2#{sample_rate}sps#theoretical#.response.yaml"
+            ana_filter:
+                DPG_CARD: 
+                    <<: *EQUIPMENTTYPE_EMPTY
+                    type: "DPG_Card"
+                    description: "Differential Pressure Gauge Card"
+                    manufacturer: "SIO-LDEO"
+                    response_file:
+                        "ana_filter/SIO_LDEO#DPG_Card##theoretical#.response.yaml"
+                BBOBS_CARD_0P225X: 
+                    <<: *EQUIPMENTTYPE_EMPTY
+                    type: "Analog gain card"
+                    description: "INSU BBOBS gain card :0.225x"
+                    manufacturer: "SIO or IPGP"
+                    response_file:
+                        "ana_filter/INSU#BBOBS#gain0.225#theoretical#.response.yaml"
+                BBOBS_CARD_1X: 
+                    <<: *EQUIPMENTTYPE_EMPTY
+                    type: "Analog gain card"
+                    description: "INSU BBOBS gain card : 1x"
+                    manufacturer: "SIO or IPGP"
+                    response_file:
+                        "ana_filter/INSU#BBOBS#gain1.0#theoretical#.response.yaml"
+                HYDRO_GAIN_16X: 
+                    <<: *EQUIPMENTTYPE_EMPTY
+                    type: "Analog gain/filter card"
+                    description: "SIO gain/filter card, hydro channel (16x)"
+                    manufacturer: "SIO or IPGP"
+                    response_file:
+                        "ana_filter/Scripps#SPOBS#HydroL22x16#theoretical#.response.yaml"
+                GEOPHONE_GAIN_128X: 
+                    <<: *EQUIPMENTTYPE_EMPTY
+                    type: "Analog gain/filter card"
+                    description: "SIO gain/filter card, seismo channel (128x)"
+                    manufacturer: "SIO or IPGP"
+                    response_file:
+                        "ana_filter/Scripps#SPOBS#HydroL22x128#theoretical#.response.yaml"
+            sensor:
+                VELOCITY_T240_SS:
+                    ## SINGLE-SIDED TRILLIUM T240
+                    <<: *EQUIPMENTTYPE_EMPTY
+                    model: "Trillium T240 (single-sided)"
+                    type: "Broadband seismometer"
+                    description: "Trillium T240 single-sided"
+                    manufacturer: "Nanometrics, Inc"
+                    vendor: "Nanometrics, Inc"
+                    "response_file" : "sensor/Trillium#T240#SN1-399_singlesided#theoretical#.response.yaml"
+                PRESSURE_DPG:
+                    <<: *EQUIPMENTTYPE_EMPTY
+                    model: "DPG"
+                    type: "Differential Pressure Gauge"
+                    description: "Differential Pressure Gauge"
+                    response_file: "sensor/SIO-LDEO#DPG#generic#theoretical#.response.yaml"
+                PRESSURE_HTI_90U: 
+                    <<: *EQUIPMENTTYPE_EMPTY
+                    model: "HTI-90-U"
+                    type: "Hydrophone"
+                    description: >-
+                            "HiTech HTI-90-U hydrophone with integrated preamp,
+                            0.05-2500 Hz"
+                    manufacturer: "HiTech, inc"
+                    response_file: "sensor/HiTech#HTI-90U#SIO_preamp#theoretical#.response.yaml"
+                PRESSURE_HTI_04-PLC-ULF: 
+                    <<: *EQUIPMENTTYPE_EMPTY
+                    model: "HTI-04-PLC-ULF"
+                    type: "Hydrophone"
+                    description: >-
+                            "HiTech HTI-04-PLC-ULF hydrophone,
+                            0.01-XXX Hz"
+                    manufacturer: "HiTech, inc"
+                    response_file: "sensor/HiTech#HTI-90U#SIO_preamp#theoretical#.yaml"
+                    calibration_date: ~
+                VELOCITY_SERCEL_L28: 
+                    <<: *EQUIPMENTTYPE_EMPTY
+                    model: "L-28LB"
+                    type: "Geophone"
+                    description: "Sercel L-28LB 4.5 Hz 3C geophone"
+                    manufacturer: "Sercel"
+                    response_file: "sensor/Sercel#L28LB#obs#theoretical#.response.yaml"
+                VELOCITY_SERCEL_L22:
+                    <<: *EQUIPMENTTYPE_EMPTY
+                    type: "Geophone"
+                    description: "Sercel L-22 2 Hz vertical geophone"
+                    manufacturer: "Sercel"
+                    model: "L-22D"
+                    response_file: "sensor/Sercel#L22D#LCHEAPO#theoretical#.response.yaml"
+            azi_dip:
+                # Standard configurations for sensor azimuth, dip
+                SEISMOMETER_Z: 
+                    azimuth: "0.0"
+                    dip: "-90.0"
+                GEOPHONE_Z: 
+                    # Geophone Z channel is positive DOWN
+                    azimuth: "0.0"
+                    dip: "90.0"
+                SEISMOMETER_12: 
+                    # Non-oriented horizontal seismometer or geophone
+                    azimuth: "0.0"
+                    dip: "0.0"
+                HYDROPHONE: 
+                    # assumes hydrophone positive correponds to increasing pressure
+                    # in upward compressional wave (seafloor up => pressure up)
+                    azimuth: "0.0"
+                    dip: "-90.0"
+                DPG:
+                    # assumes DPG positive correponds to increasing pressure
+                    # in upward compressional wave (seafloor up => pressure up)
+                    azimuth: "0.0"
+                    dip: "-90.0"
+        instrument:
+            "SPOBS1":
+                equipment:
+                    <<: *EQUIPMENTTYPE_EMPTY
+                    type: "Short Period Ocean Bottom Seismometer"
+                    description: >-
+                         "LCHEAPO 2000 Short Period Ocean Bottom Seismometer,
+                         2 channels, L-22 vertical geophone"
+                    manufacturer: "Scripps Inst. Oceanography"
+                    vendor: ~
+                    model: "SPOBS1"
+                channels:
+                    "SDH:00":
+                        datalogger: "LC2000"
+                        ana_filter: "HYDRO_GAIN_16X"
+                        sensor:     "PRESSURE_HTI_90U"
+                        azi_dip:    "HYDROPHONE"
+                    "SH3:00":
+                        datalogger: "LC2000"
+                        ana_filter: "GEOPHONE_GAIN_128X"
+                        sensor:     "VELOCITY_SERCEL_L22"
+                        azi_dip:    "GEOPHONE_Z"
+            "SPOBS2":
+                equipment:
+                    <<: *EQUIPMENTTYPE_EMPTY
+                    type: "Short Period Ocean Bottom Seismometer"
+                    description: >-
+                         "LCHEAPO 2000 Short Period Ocean Bottom Seismometer,
+                         4 channels, L-28 3C geophone"
+                    manufacturer: "Scripps Inst. Oceanography"
+                    vendor: ~
+                    model: "SPOBS2"
+                channels:
+                    "SH3:00":
+                        datalogger: "LC2000"
+                        ana_filter: "GEOPHONE_GAIN_128X"
+                        sensor:     "VELOCITY_SERCEL_L28"
+                        azi_dip:    "GEOPHONE_Z"
+                    "SH1:00":
+                        datalogger: "LC2000"
+                        ana_filter: "GEOPHONE_GAIN_128X"
+                        sensor:     "VELOCITY_SERCEL_L28"
+                        azi_dip:    "SEISMOMETER_12"
+                    "SH2:00":
+                        datalogger: "LC2000"
+                        ana_filter: "GEOPHONE_GAIN_128X"
+                        sensor:     "VELOCITY_SERCEL_L28"
+                        azi_dip:    "SEISMOMETER_12"
+                    "SDH:00":
+                        datalogger: "LC2000"
+                        ana_filter: "HYDRO_GAIN_16X"
+                        sensor:     "PRESSURE_HTI_90U"
+                        azi_dip:    "HYDROPHONE"
+            "HydroOctopus":
+                equipment:
+                    <<: *EQUIPMENTTYPE_EMPTY
+                    type: "Multi-hydrophone antenna"
+                    description: >-
+                         "LCHEAPO 2000 Hydro-octopus,
+                         4 channels, HTI-90U hydrophones"
+                    manufacturer: "INSU-IPGP"
+                    vendor: ~
+                    model: "HydroOct-1"
+                channels:
+                    "BDH:00":
+                        datalogger: "LC2000"
+                        ana_filter: "HYDRO_GAIN_16X"
+                        sensor:     "PRESSURE_HTI_90U"
+                        azi_dip:    "HYDROPHONE"
+                    "BDH:01":
+                        datalogger: "LC2000"
+                        ana_filter: "HYDRO_GAIN_16X"
+                        sensor:     "PRESSURE_HTI_90U"
+                        azi_dip:    "HYDROPHONE"
+                    "BDH:02":
+                        datalogger: "LC2000"
+                        ana_filter: "HYDRO_GAIN_16X"
+                        sensor:     "PRESSURE_HTI_90U"
+                        azi_dip:    "HYDROPHONE"
+                    "BDH:03":
+                        datalogger: "LC2000"
+                        ana_filter: "HYDRO_GAIN_16X"
+                        sensor:     "PRESSURE_HTI_90U"
+                        azi_dip:    "HYDROPHONE"
+            "BBOBS1_1":
+                equipment:
+                    <<: *EQUIPMENTTYPE_EMPTY
+                    type: "Broadband Ocean Bottom Seismometer"
+                    description: >-
+                          "LCHEAPO 2000 Broadband Ocean Bottom Seismometer, 
+                          configuration 2: all channels preamp gain = 0.225.
+                          valid before 2012-11" 
+                    manufacturer: "Scripps Inst. Oceanography - INSU"
+                    model: "BBOBS1_1"
+                channels:
+                    "BDH:00":
+                        datalogger: "LC2000"
+                        ana_filter: "DPG_CARD"
+                        sensor:     "PRESSURE_DPG"
+                        azi_dip:     "DPG"
+                    "BH1:00":
+                        datalogger: "LC2000"
+                        ana_filter: "BBOBS_CARD_0P225X"
+                        sensor:     "VELOCITY_T240_SS"
+                        azi_dip:    "SEISMOMETER_12"
+                    "BH2:00":
+                        datalogger: "LC2000"
+                        ana_filter: "BBOBS_CARD_0P225X"
+                        sensor:     "VELOCITY_T240_SS"
+                        azi_dip:    "SEISMOMETER_12"
+                    "BHZ:00":
+                        datalogger: "LC2000"
+                        ana_filter: "BBOBS_CARD_0P225X"
+                        sensor:     "VELOCITY_T240_SS"
+                        azi_dip:    "SEISMOMETER_Z"
+            "BBOBS1_2":
+                equipment:
+                    <<: *EQUIPMENTTYPE_EMPTY
+                    type: "Broadband Ocean Bottom Seismometer"
+                    description: >-
+                          "LCHEAPO 2000 Broadband Ocean Bottom Seismometer, 
+                          configuration 2: vertical channel preamp gain = 1.0.
+                          valid from 2012-11 on" 
+                    manufacturer: "Scripps Inst. Oceanography - INSU"
+                    model: "BBOBS1_2"
+                channels:
+                    "BDH:00":
+                        datalogger: "LC2000"
+                        ana_filter: "DPG_CARD"
+                        sensor:     "PRESSURE_DPG"
+                        azi_dip:     "DPG"
+                    "BH1:00":
+                        datalogger: "LC2000"
+                        ana_filter: "BBOBS_CARD_0P225X"
+                        sensor:     "VELOCITY_T240_SS"
+                        azi_dip:    "SEISMOMETER_12"
+                    "BH2:00":
+                        datalogger: "LC2000"
+                        ana_filter: "BBOBS_CARD_0P225X"
+                        sensor:     "VELOCITY_T240_SS"
+                        azi_dip:    "SEISMOMETER_12"
+                    "BHZ:00":
+                        datalogger: "LC2000"
+                        ana_filter: "BBOBS_CARD_1X"
+                        sensor:     "VELOCITY_T240_SS"
+                        azi_dip:    "SEISMOMETER_Z"
+    individuals:
+        # SPECIFIC VERSIONS OF INSTRUMENTS AND SENSORS
+        # SPECIFIED BY MODEL, THEN SERIAL NUMBER
+        sensor:
+            TRILLIUM_T240_SS:
+                "132": &T240_SS_1-399
+                    response_file:
+                        "sensor/Trillium#T240#SN1-399_singlesided#theoretical#.response.yaml"
+                "133": 
+                    <<: *T240_SS_1-399
+                "134": 
+                    <<: *T240_SS_1-399
+                "136": 
+                    <<: *T240_SS_1-399
+                "137": 
+                    <<: *T240_SS_1-399
+                "138": 
+                    <<: *T240_SS_1-399
+                "826": &T240_SS_400PLUS
+                    <<: *T240_SS_1-399
+                "829": 
+                    <<: *T240_SS_400PLUS
+                "830": 
+                    <<: *T240_SS_400PLUS
+                # Can also specify by sphere #:
+                "Sphere01":
+                    <<: *T240_SS_1-399
+                    serial_number: "133"
+                "Sphere02":
+                    <<: *T240_SS_1-399
+                    serial_number: "132"
+                "Sphere03":
+                    <<: *T240_SS_1-399
+                    serial_number: "134"
+                "Sphere04":
+                    <<: *T240_SS_1-399
+                    serial_number: "138"
+                "Sphere05":
+                    <<: *T240_SS_1-399
+                    serial_number: "137"
+                "Sphere06":
+                    <<: *T240_SS_400PLUS
+                    serial_number: "830"
+                "Sphere07":
+                    <<: *T240_SS_1-399
+                    serial_number: "136"
+                "Sphere08":
+                    <<: *T240_SS_400PLUS
+                    serial_number: "829"
+                "Sphere09":
+                    <<: *T240_SS_400PLUS
+                    serial_number: "826"
+            PRESSURE_DPG:
+                "5004": 
+                    manufacturer: "SIO"
+                    response_file: "sensor/SIO-LDEO#DPG#5004#theoretical#.response.yaml"
+                    calibration_date: "2007"
+                "5018":
+                    manufacturer: "SIO"
+                    response_file: "sensor/SIO-LDEO#DPG#5018#theoretical#.response.yaml"
+                    calibration_date: "2007"
+                "5027":
+                    manufacturer: "SIO"
+                "IP004":
+                    manufacturer: "IPGP"
+                "IP005":
+                    manufacturer: "IPGP"
+                "IP006":
+                    manufacturer: "IPGP"
+                "IP007":
+                    manufacturer: "IPGP"
+                "LD013":
+                    manufacturer: "LDEO"
+                "LD???":
+                    pressure_manufacturer: "LDEO"
+            PRESSURE_HTI_90U: {}
+            PRESSURE_HTI_04-PLC-ULF: {}
+            GEOPHONE_SERCEL_L28: {}
+            GEOPHONE_SERCEL_L22: {}
+        instrument:
+            # Specific serial numbers.  
+            # If you give a value, it will use it
+            # If you use a variable name in brackets, it will expect a value in the network file
+            # If you set to None ("~"), will set to None
+            # If the type is not specified, will use existing type and only update serial number
+            # If the type is specified, will use specified type and also search format_version
+            #   specific case of that type corresponding to the serial number (necessary
+            #   if has a custom instrument response, for example)
+            "SPOBS1": {}
+            "SPOBS2": {}
+            "BBOBS1_1":
+                "01":
+                    "BH1:00": &BBOSBS1_1_01_SISMO
+                        ana_filter: { model: ~, serial_number: "21"}
+                        datalogger: { model: ~, serial_number: "21"}
+                        sensor:     { model: "TRILLIUM_T240_SS", serial_number: "Sphere01"}
+                    "BH2:00":
+                        <<: *BBOSBS1_1_01_SISMO
+                    "BHZ:00":
+                        <<: *BBOSBS1_1_01_SISMO
+                    "BDH:00":
+                        ana_filter: { model: ~, serial_number: "21"}
+                        datalogger: { model: ~, serial_number: "21"}
+                        sensor:     { model: "DPG", serial_number: "5004"}                    
+                "02":
+                    "BH1:00": &BBOSBS1_1_02_SISMO
+                        datalogger: { model: ~, serial_number: "22"}
+                        ana_filter: { model: ~, serial_number: "22"}
+                        sensor:     { model: "TRILLIUM_T240_SS", serial_number: "Sphere02"}
+                    "BH2:00":
+                        <<: *BBOSBS1_1_02_SISMO
+                    "BHZ:00":
+                        <<: *BBOSBS1_1_02_SISMO
+                    "BDH:00":
+                        datalogger: { model: ~, serial_number: "22"}
+                        ana_filter: { model: ~, serial_number: ~}
+                        sensor:     { model: "DPG", serial_number: "5018"}                    
+                "03":
+                    "BH1:00": &BBOSBS1_1_03_SISMO
+                        datalogger: { model: ~, serial_number: "23"}
+                        ana_filter: { model: ~, serial_number: "23"}
+                        sensor:     { model: "TRILLIUM_T240_SS", serial_number: "Sphere03"}
+                    "BH2:00":
+                        <<: *BBOSBS1_1_03_SISMO
+                    "BHZ:00":
+                        <<: *BBOSBS1_1_03_SISMO
+                    "BDH:00":
+                        datalogger: { model: ~, serial_number: "23"}
+                        ana_filter: { model: ~, serial_number: ~}
+                        sensor:     { model: "DPG", serial_number: "5027"}                    
+            "BBOBS1_2":
+                "01":
+                    "BDH:00":
+                        ana_filter: { model: ~, serial_number: "21"}
+                        datalogger: { model: ~, serial_number: "21"}
+                        sensor:     { model: "DPG", serial_number: "5004"}                    
+                    "BH1:00": &BBOSBS1_2_01_SISMO
+                        ana_filter: { model: ~, serial_number: "21"}
+                        datalogger: { model: ~, serial_number: "21"}
+                        sensor:     { model: "TRILLIUM_T240_SS", serial_number: "Sphere01"}
+                    "BH2:00":
+                        <<: *BBOSBS1_2_01_SISMO
+                    "BHZ:00":
+                        <<: *BBOSBS1_2_01_SISMO
+                "02":
+                    "BDH:00":
+                        datalogger: { model: ~, serial_number: "22"}
+                        ana_filter: { model: ~, serial_number: ~}
+                        sensor:     { model: "DPG", serial_number: "5018"}                    
+                    "BH1:00": &BBOSBS1_2_02_SISMO
+                        datalogger: { model: ~, serial_number: "22"}
+                        ana_filter: { model: ~, serial_number: "22"}
+                        sensor:     { model: "TRILLIUM_T240_SS", serial_number: "Sphere02"}
+                    "BH2:00":
+                        <<: *BBOSBS1_2_02_SISMO
+                    "BHZ:00":
+                        <<: *BBOSBS1_2_02_SISMO
+                "03":
+                    "BDH:00":
+                        datalogger: { model: ~, serial_number: "23"}
+                        ana_filter: { model: ~, serial_number: ~}
+                        sensor:     { model: "DPG", serial_number: "5027"}                    
+                    "BH1:00": &BBOSBS1_2_03_SISMO
+                        datalogger: { model: ~, serial_number: "23"}
+                        ana_filter: { model: ~, serial_number: "23"}
+                        sensor:     { model: "TRILLIUM_T240_SS", serial_number: "Sphere03"}
+                    "BH2:00":
+                        <<: *BBOSBS1_2_03_SISMO
+                    "BHZ:00":
+                        <<: *BBOSBS1_2_03_SISMO
+                "04":
+                    "BDH:00":
+                        datalogger: { model: ~, serial_number: "24"}
+                        ana_filter: { model: ~, serial_number: ~}
+                        sensor:     { model: "DPG", serial_number: "IP004"}                    
+                    "BH1:00": &BBOSBS1_2_04_SISMO
+                        datalogger: { model: ~, serial_number: "24"}
+                        ana_filter: { model: ~, serial_number: "24"}
+                        sensor:     { model: "TRILLIUM_T240_SS", serial_number: "Sphere04"}
+                    "BH2:00":
+                        <<: *BBOSBS1_2_04_SISMO
+                    "BHZ:00":
+                        <<: *BBOSBS1_2_04_SISMO
+                "05":
+                    "BDH:00":
+                        datalogger: { model: ~, serial_number: "25"}
+                        ana_filter: { model: ~, serial_number: ~}
+                        sensor:     { model: "DPG", serial_number: "IP005"}                    
+                    "BH1:00": &BBOSBS1_2_05_SISMO
+                        datalogger: { model: ~, serial_number: "25"}
+                        ana_filter: { model: ~, serial_number: "25"}
+                        sensor:     { model: "TRILLIUM_T240_SS", serial_number: "Sphere05"}
+                    "BH2:00":
+                        <<: *BBOSBS1_2_05_SISMO
+                    "BHZ:00":
+                        <<: *BBOSBS1_2_05_SISMO
+                "06":
+                    "BDH:00":
+                        datalogger: { model: ~, serial_number: "26"}
+                        ana_filter: { model: ~, serial_number: ~}
+                        sensor:     { model: "DPG", serial_number: "IP006"}                    
+                    "BH1:00": &BBOSBS1_2_06_SISMO
+                        datalogger: { model: ~, serial_number: "26"}
+                        ana_filter: { model: ~, serial_number: "26"}
+                        sensor:     { model: "TRILLIUM_T240_SS", serial_number: "Sphere06"}
+                    "BH2:00":
+                        <<: *BBOSBS1_2_06_SISMO
+                    "BHZ:00":
+                        <<: *BBOSBS1_2_06_SISMO
+                "07":
+                    "BDH:00":
+                        datalogger: { model: ~, serial_number: "27"}
+                        ana_filter: { model: ~, serial_number: ~}
+                        sensor:     { model: "DPG", serial_number: "IP007"}                    
+                    "BH1:00": &BBOSBS1_2_07_SISMO
+                        datalogger: { model: ~, serial_number: "27"}
+                        ana_filter: { model: ~, serial_number: "27"}
+                        sensor:     { model: "TRILLIUM_T240_SS", serial_number: "Sphere07"}
+                    "BH2:00":
+                        <<: *BBOSBS1_2_07_SISMO
+                    "BHZ:00":
+                        <<: *BBOSBS1_2_07_SISMO
+                "08":
+                    "BDH:00":
+                        datalogger: { model: ~, serial_number: "28"}
+                        ana_filter: { model: ~, serial_number: ~}
+                        sensor:     { model: "DPG", serial_number: "LD013"}                    
+                    "BH1:00": &BBOSBS1_2_08_SISMO
+                        datalogger: { model: ~, serial_number: "28"}
+                        ana_filter: { model: ~, serial_number: "28"}
+                        sensor:     { model: "TRILLIUM_T240_SS", serial_number: "Sphere08"}
+                    "BH2:00":
+                        <<: *BBOSBS1_2_08_SISMO
+                    "BHZ:00":
+                        <<: *BBOSBS1_2_08_SISMO
+                "09":
+                    "BDH:00":
+                        # Instrument lost before I wrote down DPG number
+                        datalogger: { model: ~, serial_number: "29"}
+                        ana_filter: { model: ~, serial_number: ~}
+                        sensor:     { model: "DPG", serial_number: "LDxxx"}                    
+                    "BH1:00": &BBOSBS1_2_09_SISMO
+                        datalogger: { model: ~, serial_number: "29"}
+                        ana_filter: { model: ~, serial_number: "29"}
+                        sensor:     { model: "TRILLIUM_T240_SS", serial_number: "Sphere09"}
+                    "BH2:00":
+                        <<: *BBOSBS1_2_09_SISMO
+                    "BHZ:00":
+                        <<: *BBOSBS1_2_09_SISMO
+            "HydroOctopus":
+                "XX":
+                    # I don't have any values, just showing as an example
+                    "BDH:00": &HYDROOCTOPUS_XX
+                        datalogger: { model: ~, serial_number: ~}
+                        ana_filter: { model: ~, serial_number: ~}
+                        sensor:     { model: ~, serial_number: ~}
+                    "BDH:01":
+                        <<: *HYDROOCTOPUS_XX
+                        sensor:     { model: ~, serial_number: ~ }
+                    "BDH:02":
+                        <<: *HYDROOCTOPUS_XX
+                        sensor:     { model: ~, serial_number: ~}
+                    "BDH:03":
+                        <<: *HYDROOCTOPUS_XX
+                        sensor:     { model: ~, serial_number: ~}
+    
+            
+loggers_NRL: # Convenience definitions for Nominal Reference Library loggers. 
+    LC2000_DPG:
+        datalogger: "LC2000"
+        ana_filter: "DPG_CARD"
+    LC2000_HYDROPHONE:
+        datalogger: "LC2000"
+        ana_filter: "HYDRO_GAIN_16X"
+    LC2000_GEOPHONE:
+        datalogger: "LC2000"
+        ana_filter: "GEOPHONE_GAIN_128X"
+    LC2000_BBOBSx1:
+        datalogger: "LC2000"
+        ana_filter: "BBOBS_CARD_1X"
+    LC2000_BBOVBSx0p225:
+        datalogger: "LC2000"
+        ana_filter: "BBOBS_CARD_0P225X"

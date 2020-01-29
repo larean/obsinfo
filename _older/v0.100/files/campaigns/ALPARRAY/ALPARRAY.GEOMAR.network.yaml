@@ -1,0 +1,93 @@
+---
+# Example network file
+# Network files should be completed by OBS facilities involved in a campaign
+notes:
+    - "Notes are associated with information but not put in final metadata"
+definitions:
+    obs_clock_correction_linear_defaults: &LINEAR_CLOCK_DEFAULTS
+        time_base: "Seascan MCXO, ~1e-8 nominal drift"
+        reference: "GPS"
+        start_sync_instrument: 0
+    location_defaults: &LOC_DEFAULTS
+        depth.m: 0
+        geology: "unknown"
+        vault: "Sea floor"                    
+    location_uncertainty_surface_drop: &LOC_UNCERT_SURFACE_DROP
+        uncertainties.m: [200, 200, 20]
+        localisation_method: "Position is the sea-surface release point"
+    location_uncertainty_buc_acoustic: &LOC_UNCERT_ACOUSTIC
+        uncertainties.m: [5, 5, 10]
+        localisation_method: "Acoustic survey"
+    location_uncertainty_buc_airgun: &LOC_UNCERT_AIRGUN
+        uncertainties.m: [40, 40, 20]
+        localisation_method: "Airgun survey"
+
+format_version: "0.100"
+revision:
+    authors:
+        -
+            first_name : "Wayne"
+            last_name : "Crawford"
+            email: "crawford@ipgp.fr"
+    date: "2017-10-04"
+network:
+    facility_reference_name: "GEOMAR"
+    campaign_reference_name: "ALPARRAY-OBS"
+    general_information:
+        code: "XX"
+        start_date: "2007-07-01"
+        end_date: "2025-12-31"
+        description: "Alparray"
+        comments: 
+            - "AlpArray OBS deployments"
+    instrumentation:
+        $ref: "../../instrumentation/GEOMAR.2018-mm-dd/instrumentation.yaml"
+    stations:
+        "A401A":
+            site: "Blah Blah Blah"
+            start_date: "2015-04-22T12:00:00Z"
+            end_date: "2016-05-28T21:01:00Z"
+            location_code: "00"
+            instrument:
+                reference_code: "LOBSTER"
+                serial_number: "20"
+                channel_locations:
+                    "HDH_00" : {sample_rate: 100, datalogger_config: "100"}
+                    "EHZ_00" : {sample_rate: 100, datalogger_config: "100"}
+                    "EH1_00" : {sample_rate: 100, datalogger_config: "100"}
+                    "EH2_00" : {sample_rate: 100, datalogger_config: "100"}
+            locations:
+                "00":
+                    <<: *LOC_DEFAULTS
+                    <<: *LOC_UNCERT_SURFACE_DROP
+                    position: [-32.32504, 37.29744, -2030]
+            clock_corrections:
+                linear_drift:
+                    <<: *LINEAR_CLOCK_DEFAULTS
+                    start_sync_reference: "2015-04-21T21:06:00Z"
+                    end_sync_reference: "2016-05-28T20:59:00.32Z"
+                    end_sync_instrument: "2016-05-28T20:59:03Z"
+        "A402A":
+            site: "Blah Blah Blah"
+            start_date: "2015-04-22T12:00:00Z"
+            end_date: "2016-05-28T21:01:00Z"
+            location_code: "00"
+            instrument:
+                reference_code: "LOBSTER"
+                serial_number: "20"
+                channel_locations:
+                    "HDH_00" : {sample_rate: 100, datalogger_config: "100"}
+                    "EHZ_00" : {sample_rate: 100, datalogger_config: "100"}
+                    "EH1_00" : {sample_rate: 100, datalogger_config: "100"}
+                    "EH2_00" : {sample_rate: 100, datalogger_config: "100"}
+            locations:
+                "00":
+                    <<: *LOC_DEFAULTS
+                    <<: *LOC_UNCERT_SURFACE_DROP
+                    position: [-32.32504, 37.29744, -2030]
+            clock_corrections:
+                linear_drift:
+                    <<: *LINEAR_CLOCK_DEFAULTS
+                    start_sync_reference: "2015-04-21T21:06:00Z"
+                    end_sync_reference: "2016-05-28T20:59:00.32Z"
+                    end_sync_instrument: "2016-05-28T20:59:03Z"

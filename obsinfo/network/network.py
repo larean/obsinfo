@@ -385,7 +385,7 @@ def _make_stationXML_script(argv=None):
             os.mkdir(args.dest_path)
 
     # READ IN NETWORK INFORMATION
-    net = network(args.network_file)
+    net = Network(args.network_file)
     # print(net)
 
     for station in net.stations:

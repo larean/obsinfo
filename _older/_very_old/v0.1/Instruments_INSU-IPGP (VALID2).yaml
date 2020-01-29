@@ -1,0 +1,239 @@
+---
+# DEFINITIONS FOR DIGITIZER, DIGITAL FILTER (COMMON TO ALL)
+
+defaultDigAndFilter: &DEF_DF
+  ? [ "?DH","?H1","?H2","?HZ" ]
+  :
+    Digitizer:
+      Name: "LC2000 CS5321"
+      DBIRD-File: "digitizer/Scripps#LCPO2000_CS5321##theoretical#"
+    Digital_Filter:
+      Name: "LC2000 CS5322"
+      DBIRD-File: "dig_filter/Scripps#LCPO2000_CS5322#{samplerate}sps#theoretical#"
+  
+#DEFINITIONS FOR ANALOG FILTER
+Configurations:
+  # Selection par OBS [type, configuration]
+  ? ["BBOBS1",1]
+  : 
+    <<: *DEF_DF
+    Comments: "pre-2012, 0.225 gain on all sismo channels"
+    Analog_Filter:
+      # Selection par channel
+      ? "?DH"
+      :
+        Name: "SIO-LDEO DPG Card"
+        DBIRD-File: "ana_filter/SIO_LDEO#DPG_Card##theoretical#"
+      ? ["?H1","?H2","?HZ"]
+      : 
+        Name: "INSU BBOBS gain card :0.225x"
+        DBIRD-File: "ana_filter/INSU#BBOBS#gain0.225#theoretical#"
+  ? ["BBOBS1",2]
+  : 
+#   OBSType: "BBOBS1"
+#   Configuration: "2"
+    <<: *DEF_DF
+    Comments: "2012+, 0.225 gain on horizontals, 1x gain on verticals"
+    Analog_Filter:
+      - 
+        Channel: "?DH"
+        Name: "SIO-LDEO DPG Card"
+        DBIRD-File: "ana_filter/SIO_LDEO#DPG_Card##theoretical#"
+      - 
+        Channel: [ "?H1","?H2" ]
+        Name: "INSU BBOBS gain card :0.225x"
+        DBIRD-File: "ana_filter/INSU#BBOBS#gain0.225#theoretical#"
+      - 
+        Channel: "?HZ"
+        Name: "INSU BBOBS gain card :1.0x"
+        DBIRD-File: "ana_filter/INSU#BBOBS#gain1.0#theoretical#"
+  ? ["SPOBS1",1]
+  : 
+#   OBSType: "SPOBS1"
+#   Configuration: "1"
+    <<: *DEF_DF
+    Channels: [ "?DH","?HZ" ]
+    Comments: "2 channels, L-22 vertical geophone"
+    Analog_Filter:
+      - 
+        Channel: "?DH"
+        Name: "SIO gain/filter card, hydro channel (16x)"
+        DBIRD-File: "ana_filter/Scripps#SPOBS#HydroL22x16#theoretical#"
+      - 
+        Channel: "?HZ"
+        Name: "SIO gain/filter card, seismo channel (128x)"
+        DBIRD-File: "ana_filter/Scripps#SPOBS#HydroL22x128#theoretical#"
+  ? ["SPOBS2",1]
+  : 
+#   OBSType: "SPOBS2"
+#   Configuration: "1"
+    <<: *DEF_DF
+    Comments: "4 channels, L-28 3C geophone"
+    Analog_Filter:
+      - 
+        Channel: "?DH"
+        Name: "SIO gain/filter card, hydro channel (16x)"
+        DBIRD-File: "ana_filter/Scripps#SPOBS#HydroL22x16#theoretical#"
+      - 
+        Channel: [ "?H1","?H2","?HZ" ]
+        Name: "SIO gain/filter card, seismo channel (128x)"
+        DBIRD-File: "ana_filter/Scripps#SPOBS#HydroL22x128#theoretical#"
+                   
+
+# FINALLY, SENSOR DEFINITIONS (CAN BE DIFFERENT FOR EACH OBS)
+
+# DEFAULT VALUES        
+defaultT240: &defaultT240
+  Name: "Trillium T240 single-sided"
+  SerialNumber: "???"
+T240_1-399: &T240_1-399
+  <<: *defaultT240
+  DBIRD-File: "sensor/Trillium#T240#SN1-399_singlesided#theoretical#"
+T240_400plus: &T240_400plus
+  <<: *defaultT240
+  DBIRD-File: "sensor/Trillium#T240#SN400-_singlesided#theoretical#"
+  
+defaultDPG: &DEFAULTDPG
+  Name: "Differential Pressure Gauge"
+  SerialNumber: "???"
+  DBIRD-File: "sensor/SIO-LDEO#DPG#generic#theoretical#"
+
+# INDIVIDUAL INSTRUMENT SPECIFICATIONS
+Sensors:
+  ? ["BBOBS1","01"]
+  :
+#   OBSType: "BBOBS1"
+#   SerialNumber: "01"
+    - 
+      Channel: [ "?H1","?H2","?HZ" ]
+      <<: *T240_1-399
+      SerialNumber: "133"
+    - 
+      Channel: "?DH"
+      <<: *DEFAULTDPG
+      SerialNumber: "5004"
+      DBIRD-File: "sensor/SIO-LDEO#DPG#5004#theoretical#"
+  ? ["BBOBS1","02"]
+  :
+#   OBSType: "BBOBS1"
+#   SerialNumber: "02"
+    - 
+      Channel: [ "?H1","?H2","?HZ" ]
+      <<: *T240_1-399
+      SerialNumber: "132"
+    - 
+      Channel: "?DH"
+      <<: *DEFAULTDPG
+      SerialNumber: "5018"
+      DBIRD-File: "sensor/SIO-LDEO#DPG#5018#theoretical#"
+  ? ["BBOBS1","03"]
+  :
+#   OBSType: "BBOBS1"
+#   SerialNumber: "03"
+    - 
+      Channel: [ "?H1","?H2","?HZ" ]
+      <<: *T240_1-399
+      SerialNumber: "134"
+    - 
+      Channel: "?DH"
+      <<: *DEFAULTDPG
+      SerialNumber: "5027"
+  ? ["BBOBS1","04"]
+  :
+#   OBSType: "BBOBS1"
+#   SerialNumber: "04"
+    - 
+      Channel: [ "?H1","?H2","?HZ" ]
+      <<: *T240_1-399
+      SerialNumber: "138"
+    - 
+      Channel: "?DH"
+      <<: *DEFAULTDPG
+      SerialNumber: "IP004"
+  ? ["BBOBS1","05"]
+  :
+#   OBSType: "BBOBS1"
+#   SerialNumber: "05"
+    - 
+      Channel: [ "?H1","?H2","?HZ" ]
+      <<: *T240_1-399
+      SerialNumber: "137"
+    - 
+      Channel: "?DH"
+      <<: *DEFAULTDPG
+      SerialNumber: "IP005"
+  ? ["BBOBS1","06"]
+  :
+#   OBSType: "BBOBS1"
+#   SerialNumber: "06"
+    - 
+      Channel: [ "?H1","?H2","?HZ" ]
+      <<: *T240_400plus
+      SerialNumber: "830"
+    - 
+      Channel: "?DH"
+      <<: *DEFAULTDPG
+      SerialNumber: "IP006"
+  ? ["BBOBS1","07"]
+  :
+#   OBSType: "BBOBS1"
+#   SerialNumber: "07"
+    - 
+      Channel: [ "?H1","?H2","?HZ" ]
+      <<: *T240_1-399
+      SerialNumber: "136"
+    - 
+      Channel: "?DH"
+      <<: *DEFAULTDPG
+      SerialNumber: "IP007"
+  ? ["BBOBS1","08"]
+  :
+#   OBSType: "BBOBS1"
+#   SerialNumber: "08"
+    - 
+      Channel: [ "?H1","?H2","?HZ" ]
+      <<: *T240_400plus
+      SerialNumber: "829"
+    - 
+      Channel: "?DH"
+      <<: *DEFAULTDPG
+      SerialNumber: "LD013"
+  ? ["BBOBS1","09"]
+  :
+#   OBSType: "BBOBS1"
+#   SerialNumber: "09"
+    - 
+      Channel: [ "?H1","?H2","?HZ" ]
+      <<: *T240_400plus
+      SerialNumber: "826"
+    - 
+      Channel: "?DH"
+      <<: *DEFAULTDPG
+  ? ["SPOBS1",["01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20"]]
+  :
+#   OBSType: "SPOBS1"
+#   SerialNumbers: [ "01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20" ]
+    - 
+      Channel: "?HZ"
+      Name: "Sercel L-22 2 Hz vertical geophone"
+      SerialNumber: "???"
+      DBIRD-File: "sensor/Sercel#L22D#LCHEAPO#theoretical#"
+    - 
+      Channel: "?DH"
+      Name: "HiTech HTI-90-U 0.05-2500 Hz"
+      SerialNumber: "???"
+      DBIRD-File: "sensor/HiTech#HTI-90U#SIO_preamp#theoretical#"
+  ? ["SPOBS2",["01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20"]]
+  :
+#   OBSType: "SPOBS2"
+#   SerialNumbers: [ "01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20" ]
+    - 
+      Channel: "?HZ"
+      Name: "Sercel L-28 4.5 Hz 3C geophone"
+      SerialNumber: "???"
+      DBIRD-File: "sensor/Sercel#L28LB#obs#theoretical#"
+    - 
+      Channel: "?DH"
+      Name: "HiTech HTI-90-U 0.05-2500 Hz"
+      SerialNumber: "???"
+      DBIRD-File: "sensor/HiTech#HTI-90U#SIO_preamp#theoretical#"

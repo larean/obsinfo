@@ -1,0 +1,718 @@
+{
+    "network": {
+        "fdsn_code": "4G",
+        "temporary": true,
+        "open_date": "2007-07-01T00:00:00",
+        "close_date": "2025-12-31T00:00:00",
+        "description": "EMSO-MOMAR",
+        "comments": {
+            "value": "Lucky Strike Volcano, North Mid-Atlantic Ridge",
+            "authors": [
+                "auth1"
+            ]
+        }
+    },
+    "comment_authors": {
+        "auth1": {
+            "firstname": "Wayne",
+            "lastname": "Crawford",
+            "emails": [
+                "crawford@ipgp.fr"
+            ],
+            "phones": []
+        }
+    },
+    "stations": [
+        {
+            "iris_code": "SP_1",
+            "site": "Lucky Strike Volcano North",
+            "comments": [
+                "Hydrophone did not work",
+                "{'initial_name': 'I1'}",
+                "{'obs-specific': {'clock_correction_linear': {'time_base': 'Seascan MCXO, ~1e-8 nominal drift', 'reference': 'GPS', 'start_sync_instrument': 0, 'start_sync_reference': '2015-04-22T09:21:00Z', 'end_sync_reference': '2016-05-28T22:59:00.1843Z', 'end_sync_instrument': '2016-05-28T22:59:02Z'}}}"
+            ],
+            "open_date": "2015-04-23T10:00:00Z",
+            "close_date": "2016-05-26T23:00:00Z",
+            "longitude": -32.27909,
+            "latitude": 37.3196,
+            "altitude": -1798,
+            "altitude_unit": "m",
+            "first_install": "2015-04-23T10:00:00Z",
+            "channels": [
+                {
+                    "location_code": "00",
+                    "iris_code": "SDH",
+                    "sensor": "sensor_1",
+                    "sensor_component": "H",
+                    "das": "das_1",
+                    "das_connector": "?1?",
+                    "das_component": "?1?",
+                    "das_digital_filter": "LC2000-62.5",
+                    "azimuth": "0.0",
+                    "dip": "-90.0",
+                    "data_format": "STEIM1",
+                    "polarity_reversal": true,
+                    "open_date": "2015-04-23T10:00:00Z",
+                    "close_date": "2016-05-26T23:00:00Z",
+                    "channel_flags": "CG"
+                },
+                {
+                    "location_code": "00",
+                    "iris_code": "SH3",
+                    "sensor": "sensor_2",
+                    "sensor_component": "3",
+                    "das": "das_1",
+                    "das_connector": "?1?",
+                    "das_component": "?1?",
+                    "das_digital_filter": "LC2000-62.5",
+                    "azimuth": "0.0",
+                    "dip": "90.0",
+                    "data_format": "STEIM1",
+                    "polarity_reversal": false,
+                    "open_date": "2015-04-23T10:00:00Z",
+                    "close_date": "2016-05-26T23:00:00Z",
+                    "channel_flags": "CG"
+                }
+            ],
+            "installed_devices": {
+                "sensor_1": {
+                    "metatype": "sensor",
+                    "manufacturer": "HiTech, inc",
+                    "model": "HiTech, inc",
+                    "serial_number": null,
+                    "azimuth_error": 180,
+                    "dip_error": 1,
+                    "local_depth": "0??",
+                    "vault": "seafloor",
+                    "config": "?single?"
+                },
+                "anafilter_1": {
+                    "metatype": "anafilter",
+                    "manufacturer": "SIO or IPGP",
+                    "model": "SIO or IPGP",
+                    "serial_number": null
+                },
+                "das_1": {
+                    "metatype": "das",
+                    "manufacturer": "Cirrus Logic",
+                    "model": "Cirrus Logic",
+                    "serial_number": null
+                },
+                "sensor_2": {
+                    "metatype": "sensor",
+                    "manufacturer": "Sercel",
+                    "model": "Sercel",
+                    "serial_number": null,
+                    "azimuth_error": 180,
+                    "dip_error": 1,
+                    "local_depth": "0??",
+                    "vault": "seafloor",
+                    "config": "?single?"
+                }
+            }
+        },
+        {
+            "iris_code": "SP_2",
+            "site": "Lucky Strike Volcano West",
+            "comments": [
+                "{'initial_name': 'I2'}",
+                "{'obs-specific': {'clock_correction_linear': {'time_base': 'Seascan MCXO, ~1e-8 nominal drift', 'reference': 'GPS', 'start_sync_instrument': 0, 'start_sync_reference': '2015-04-21T21:06:00Z', 'end_sync_reference': '2016-05-28T20:59:00.32Z', 'end_sync_instrument': '2016-05-28T20:59:03Z'}}}"
+            ],
+            "open_date": "2015-04-22T12:00:00Z",
+            "close_date": "2016-05-28T21:01:00Z",
+            "longitude": -32.32504,
+            "latitude": 37.29744,
+            "altitude": -2030,
+            "altitude_unit": "m",
+            "first_install": "2015-04-22T12:00:00Z",
+            "channels": [
+                {
+                    "location_code": "00",
+                    "iris_code": "SDH",
+                    "sensor": "sensor_1",
+                    "sensor_component": "H",
+                    "das": "das_1",
+                    "das_connector": "?1?",
+                    "das_component": "?1?",
+                    "das_digital_filter": "LC2000-62.5",
+                    "azimuth": "0.0",
+                    "dip": "-90.0",
+                    "data_format": "STEIM1",
+                    "polarity_reversal": true,
+                    "open_date": "2015-04-22T12:00:00Z",
+                    "close_date": "2016-05-28T21:01:00Z",
+                    "channel_flags": "CG"
+                },
+                {
+                    "location_code": "00",
+                    "iris_code": "SH1",
+                    "sensor": "sensor_2",
+                    "sensor_component": "1",
+                    "das": "das_1",
+                    "das_connector": "?1?",
+                    "das_component": "?1?",
+                    "das_digital_filter": "LC2000-62.5",
+                    "azimuth": "0.0",
+                    "dip": "0.0",
+                    "data_format": "STEIM1",
+                    "polarity_reversal": false,
+                    "open_date": "2015-04-22T12:00:00Z",
+                    "close_date": "2016-05-28T21:01:00Z",
+                    "channel_flags": "CG"
+                },
+                {
+                    "location_code": "00",
+                    "iris_code": "SH2",
+                    "sensor": "sensor_2",
+                    "sensor_component": "2",
+                    "das": "das_1",
+                    "das_connector": "?1?",
+                    "das_component": "?1?",
+                    "das_digital_filter": "LC2000-62.5",
+                    "azimuth": "0.0",
+                    "dip": "0.0",
+                    "data_format": "STEIM1",
+                    "polarity_reversal": false,
+                    "open_date": "2015-04-22T12:00:00Z",
+                    "close_date": "2016-05-28T21:01:00Z",
+                    "channel_flags": "CG"
+                },
+                {
+                    "location_code": "00",
+                    "iris_code": "SH3",
+                    "sensor": "sensor_2",
+                    "sensor_component": "3",
+                    "das": "das_1",
+                    "das_connector": "?1?",
+                    "das_component": "?1?",
+                    "das_digital_filter": "LC2000-62.5",
+                    "azimuth": "0.0",
+                    "dip": "90.0",
+                    "data_format": "STEIM1",
+                    "polarity_reversal": false,
+                    "open_date": "2015-04-22T12:00:00Z",
+                    "close_date": "2016-05-28T21:01:00Z",
+                    "channel_flags": "CG"
+                }
+            ],
+            "installed_devices": {
+                "sensor_1": {
+                    "metatype": "sensor",
+                    "manufacturer": "HiTech, inc",
+                    "model": "HiTech, inc",
+                    "serial_number": null,
+                    "azimuth_error": 180,
+                    "dip_error": 1,
+                    "local_depth": "0??",
+                    "vault": "seafloor",
+                    "config": "?single?"
+                },
+                "anafilter_1": {
+                    "metatype": "anafilter",
+                    "manufacturer": "SIO or IPGP",
+                    "model": "SIO or IPGP",
+                    "serial_number": null
+                },
+                "das_1": {
+                    "metatype": "das",
+                    "manufacturer": "Cirrus Logic",
+                    "model": "Cirrus Logic",
+                    "serial_number": null
+                },
+                "sensor_2": {
+                    "metatype": "sensor",
+                    "manufacturer": "Sercel",
+                    "model": "Sercel",
+                    "serial_number": null,
+                    "azimuth_error": 180,
+                    "dip_error": 1,
+                    "local_depth": "0??",
+                    "vault": "seafloor",
+                    "config": "?single?"
+                }
+            }
+        },
+        {
+            "iris_code": "BB_1",
+            "site": "Lucky Strike Volcano Fake BBOBS",
+            "comments": [
+                "{'obs-specific': {'clock_correction_linear': {'time_base': 'Seascan MCXO, ~1e-8 nominal drift', 'reference': 'GPS', 'start_sync_instrument': 0, 'start_sync_reference': '2015-04-22T12:24:00Z', 'end_sync_reference': '2016-05-28T15:35:00.3660Z', 'end_sync_instrument': '2016-05-28T15:35:02Z'}}}"
+            ],
+            "open_date": "2015-04-23T10:00:00Z",
+            "close_date": "2016-05-28T15:37:00Z",
+            "longitude": -32.29756,
+            "latitude": 37.26049,
+            "altitude": -1887,
+            "altitude_unit": "m",
+            "first_install": "2015-04-23T10:00:00Z",
+            "channels": [
+                {
+                    "location_code": "00",
+                    "iris_code": "BDH",
+                    "sensor": "sensor_1",
+                    "sensor_component": "H",
+                    "das": "das_1",
+                    "das_connector": "?1?",
+                    "das_component": "?1?",
+                    "das_digital_filter": "LC2000-62.5",
+                    "azimuth": "0.0",
+                    "dip": "-90.0",
+                    "data_format": "STEIM1",
+                    "polarity_reversal": true,
+                    "open_date": "2015-04-23T10:00:00Z",
+                    "close_date": "2016-05-28T15:37:00Z",
+                    "channel_flags": "CG"
+                },
+                {
+                    "location_code": "00",
+                    "iris_code": "BH1",
+                    "sensor": "sensor_2",
+                    "sensor_component": "1",
+                    "das": "das_1",
+                    "das_connector": "?1?",
+                    "das_component": "?1?",
+                    "das_digital_filter": "LC2000-62.5",
+                    "azimuth": "0.0",
+                    "dip": "0.0",
+                    "data_format": "STEIM1",
+                    "polarity_reversal": false,
+                    "open_date": "2015-04-23T10:00:00Z",
+                    "close_date": "2016-05-28T15:37:00Z",
+                    "channel_flags": "CG"
+                },
+                {
+                    "location_code": "00",
+                    "iris_code": "BH2",
+                    "sensor": "sensor_2",
+                    "sensor_component": "2",
+                    "das": "das_1",
+                    "das_connector": "?1?",
+                    "das_component": "?1?",
+                    "das_digital_filter": "LC2000-62.5",
+                    "azimuth": "0.0",
+                    "dip": "0.0",
+                    "data_format": "STEIM1",
+                    "polarity_reversal": false,
+                    "open_date": "2015-04-23T10:00:00Z",
+                    "close_date": "2016-05-28T15:37:00Z",
+                    "channel_flags": "CG"
+                },
+                {
+                    "location_code": "00",
+                    "iris_code": "BHZ",
+                    "sensor": "sensor_2",
+                    "sensor_component": "Z",
+                    "das": "das_1",
+                    "das_connector": "?1?",
+                    "das_component": "?1?",
+                    "das_digital_filter": "LC2000-62.5",
+                    "azimuth": "0.0",
+                    "dip": "-90.0",
+                    "data_format": "STEIM1",
+                    "polarity_reversal": true,
+                    "open_date": "2015-04-23T10:00:00Z",
+                    "close_date": "2016-05-28T15:37:00Z",
+                    "channel_flags": "CG"
+                }
+            ],
+            "installed_devices": {
+                "sensor_1": {
+                    "metatype": "sensor",
+                    "manufacturer": null,
+                    "model": null,
+                    "serial_number": "5018",
+                    "azimuth_error": 180,
+                    "dip_error": 1,
+                    "local_depth": "0??",
+                    "vault": "seafloor",
+                    "config": "?single?"
+                },
+                "anafilter_1": {
+                    "metatype": "anafilter",
+                    "manufacturer": "SIO-IPGP",
+                    "model": "SIO-IPGP",
+                    "serial_number": "22"
+                },
+                "das_1": {
+                    "metatype": "das",
+                    "manufacturer": "Cirrus Logic",
+                    "model": "Cirrus Logic",
+                    "serial_number": "22"
+                },
+                "sensor_2": {
+                    "metatype": "sensor",
+                    "manufacturer": "Nanometrics, Inc",
+                    "model": "Nanometrics, Inc",
+                    "serial_number": "Sphere02",
+                    "azimuth_error": 180,
+                    "dip_error": 1,
+                    "local_depth": "0??",
+                    "vault": "seafloor",
+                    "config": "?single?"
+                },
+                "anafilter_2": {
+                    "metatype": "anafilter",
+                    "manufacturer": "SIO or IPGP",
+                    "model": "SIO or IPGP",
+                    "serial_number": "22"
+                }
+            }
+        },
+        {
+            "iris_code": "BB_2",
+            "site": "Lucky Strike Volcano Fake BBOBS",
+            "comments": [
+                "{'obs-specific': {'clock_correction_linear': {'time_base': 'Seascan MCXO, ~1e-8 nominal drift', 'reference': 'GPS', 'start_sync_instrument': 0, 'start_sync_reference': '2015-04-22T12:24:00Z', 'end_sync_reference': '2016-05-28T15:35:00.3660Z', 'end_sync_instrument': '2016-05-28T15:35:02Z'}}}"
+            ],
+            "open_date": "2015-04-23T10:00:00Z",
+            "close_date": "2016-05-28T15:37:00Z",
+            "longitude": -32.29756,
+            "latitude": 37.26049,
+            "altitude": -1887,
+            "altitude_unit": "m",
+            "first_install": "2015-04-23T10:00:00Z",
+            "channels": [
+                {
+                    "location_code": "00",
+                    "iris_code": "BDH",
+                    "sensor": "sensor_1",
+                    "sensor_component": "H",
+                    "das": "das_1",
+                    "das_connector": "?1?",
+                    "das_component": "?1?",
+                    "das_digital_filter": "LC2000-62.5",
+                    "azimuth": "0.0",
+                    "dip": "-90.0",
+                    "data_format": "STEIM1",
+                    "polarity_reversal": true,
+                    "open_date": "2015-04-23T10:00:00Z",
+                    "close_date": "2016-05-28T15:37:00Z",
+                    "channel_flags": "CG"
+                },
+                {
+                    "location_code": "00",
+                    "iris_code": "BH1",
+                    "sensor": "sensor_2",
+                    "sensor_component": "1",
+                    "das": "das_1",
+                    "das_connector": "?1?",
+                    "das_component": "?1?",
+                    "das_digital_filter": "LC2000-62.5",
+                    "azimuth": "0.0",
+                    "dip": "0.0",
+                    "data_format": "STEIM1",
+                    "polarity_reversal": false,
+                    "open_date": "2015-04-23T10:00:00Z",
+                    "close_date": "2016-05-28T15:37:00Z",
+                    "channel_flags": "CG"
+                },
+                {
+                    "location_code": "00",
+                    "iris_code": "BH2",
+                    "sensor": "sensor_2",
+                    "sensor_component": "2",
+                    "das": "das_1",
+                    "das_connector": "?1?",
+                    "das_component": "?1?",
+                    "das_digital_filter": "LC2000-62.5",
+                    "azimuth": "0.0",
+                    "dip": "0.0",
+                    "data_format": "STEIM1",
+                    "polarity_reversal": false,
+                    "open_date": "2015-04-23T10:00:00Z",
+                    "close_date": "2016-05-28T15:37:00Z",
+                    "channel_flags": "CG"
+                },
+                {
+                    "location_code": "00",
+                    "iris_code": "BHZ",
+                    "sensor": "sensor_2",
+                    "sensor_component": "Z",
+                    "das": "das_1",
+                    "das_connector": "?1?",
+                    "das_component": "?1?",
+                    "das_digital_filter": "LC2000-62.5",
+                    "azimuth": "0.0",
+                    "dip": "-90.0",
+                    "data_format": "STEIM1",
+                    "polarity_reversal": true,
+                    "open_date": "2015-04-23T10:00:00Z",
+                    "close_date": "2016-05-28T15:37:00Z",
+                    "channel_flags": "CG"
+                }
+            ],
+            "installed_devices": {
+                "sensor_1": {
+                    "metatype": "sensor",
+                    "manufacturer": null,
+                    "model": null,
+                    "serial_number": "IP007",
+                    "azimuth_error": 180,
+                    "dip_error": 1,
+                    "local_depth": "0??",
+                    "vault": "seafloor",
+                    "config": "?single?"
+                },
+                "anafilter_1": {
+                    "metatype": "anafilter",
+                    "manufacturer": "SIO-IPGP",
+                    "model": "SIO-IPGP",
+                    "serial_number": "27"
+                },
+                "das_1": {
+                    "metatype": "das",
+                    "manufacturer": "Cirrus Logic",
+                    "model": "Cirrus Logic",
+                    "serial_number": "27"
+                },
+                "sensor_2": {
+                    "metatype": "sensor",
+                    "manufacturer": "Nanometrics, Inc",
+                    "model": "Nanometrics, Inc",
+                    "serial_number": "Sphere07",
+                    "azimuth_error": 180,
+                    "dip_error": 1,
+                    "local_depth": "0??",
+                    "vault": "seafloor",
+                    "config": "?single?"
+                },
+                "anafilter_2": {
+                    "metatype": "anafilter",
+                    "manufacturer": "SIO or IPGP",
+                    "model": "SIO or IPGP",
+                    "serial_number": "27"
+                }
+            }
+        },
+        {
+            "iris_code": "HOCT",
+            "site": "Lucky Strike Volcano Fake HydroOctopus",
+            "comments": [
+                "{'obs-specific': {'clock_correction_linear': {'time_base': 'Seascan MCXO, ~1e-8 nominal drift', 'reference': 'GPS', 'start_sync_instrument': 0, 'start_sync_reference': '2015-04-22T12:24:00Z', 'end_sync_reference': '2016-05-28T15:35:00.3660Z', 'end_sync_instrument': '2016-05-28T15:35:02Z'}}}"
+            ],
+            "open_date": "2015-04-23T10:00:00Z",
+            "close_date": "2016-05-28T15:37:00Z",
+            "longitude": -32.29756,
+            "latitude": 37.26049,
+            "altitude": -1887,
+            "altitude_unit": "m",
+            "first_install": "2015-04-23T10:00:00Z",
+            "channels": [
+                {
+                    "location_code": "00",
+                    "iris_code": "BDH",
+                    "sensor": "sensor_1",
+                    "sensor_component": "H",
+                    "das": "das_1",
+                    "das_connector": "?1?",
+                    "das_component": "?1?",
+                    "das_digital_filter": "LC2000-62.5",
+                    "azimuth": "0.0",
+                    "dip": "-90.0",
+                    "data_format": "STEIM1",
+                    "polarity_reversal": true,
+                    "open_date": "2015-04-23T10:00:00Z",
+                    "close_date": "2016-05-28T15:37:00Z",
+                    "channel_flags": "CG"
+                },
+                {
+                    "location_code": "01",
+                    "iris_code": "BDH",
+                    "sensor": "sensor_1",
+                    "sensor_component": "H",
+                    "das": "das_1",
+                    "das_connector": "?1?",
+                    "das_component": "?1?",
+                    "das_digital_filter": "LC2000-62.5",
+                    "azimuth": "0.0",
+                    "dip": "-90.0",
+                    "data_format": "STEIM1",
+                    "polarity_reversal": true,
+                    "open_date": "2015-04-23T10:00:00Z",
+                    "close_date": "2016-05-28T15:37:00Z",
+                    "channel_flags": "CG"
+                },
+                {
+                    "location_code": "02",
+                    "iris_code": "BDH",
+                    "sensor": "sensor_1",
+                    "sensor_component": "H",
+                    "das": "das_1",
+                    "das_connector": "?1?",
+                    "das_component": "?1?",
+                    "das_digital_filter": "LC2000-62.5",
+                    "azimuth": "0.0",
+                    "dip": "-90.0",
+                    "data_format": "STEIM1",
+                    "polarity_reversal": true,
+                    "open_date": "2015-04-23T10:00:00Z",
+                    "close_date": "2016-05-28T15:37:00Z",
+                    "channel_flags": "CG"
+                },
+                {
+                    "location_code": "03",
+                    "iris_code": "BDH",
+                    "sensor": "sensor_1",
+                    "sensor_component": "H",
+                    "das": "das_1",
+                    "das_connector": "?1?",
+                    "das_component": "?1?",
+                    "das_digital_filter": "LC2000-62.5",
+                    "azimuth": "0.0",
+                    "dip": "-90.0",
+                    "data_format": "STEIM1",
+                    "polarity_reversal": true,
+                    "open_date": "2015-04-23T10:00:00Z",
+                    "close_date": "2016-05-28T15:37:00Z",
+                    "channel_flags": "CG"
+                }
+            ],
+            "installed_devices": {
+                "sensor_1": {
+                    "metatype": "sensor",
+                    "manufacturer": "HiTech, inc",
+                    "model": "HiTech, inc",
+                    "serial_number": null,
+                    "azimuth_error": 180,
+                    "dip_error": 1,
+                    "local_depth": "0??",
+                    "vault": "seafloor",
+                    "config": "?single?"
+                },
+                "anafilter_1": {
+                    "metatype": "anafilter",
+                    "manufacturer": "SIO or IPGP",
+                    "model": "SIO or IPGP",
+                    "serial_number": null
+                },
+                "das_1": {
+                    "metatype": "das",
+                    "manufacturer": "Cirrus Logic",
+                    "model": "Cirrus Logic",
+                    "serial_number": null
+                }
+            }
+        },
+        {
+            "iris_code": "LPSCD",
+            "site": "Lucky Strike Volcano Center",
+            "comments": [
+                "{'initial_name': 'LSJ4'}",
+                "{'obs-specific': {'clock_correction_linear': {'time_base': 'Seascan MCXO, ~1e-8 nominal drift', 'reference': 'GPS', 'start_sync_instrument': 0, 'start_sync_reference': '2016-07-01T15:35:00Z', 'end_sync_reference': '2017-07-01T15:35:00.555Z', 'end_sync_instrument': '2017-07-01T15:35:00Z'}, 'clock_correction_leapsecond': {'time': '2016-12-31T23:59:60Z', 'description': 'Positive leapsecond (a 61-second minute)', 'end_sync_instrument_corrected': true}}}"
+            ],
+            "open_date": "2016-07-01T12:00:00Z",
+            "close_date": null,
+            "longitude": -32.28,
+            "latitude": 37.29,
+            "altitude": -1760,
+            "altitude_unit": "m",
+            "first_install": "2016-07-01T12:00:00Z",
+            "channels": [
+                {
+                    "location_code": "00",
+                    "iris_code": "SDH",
+                    "sensor": "sensor_1",
+                    "sensor_component": "H",
+                    "das": "das_1",
+                    "das_connector": "?1?",
+                    "das_component": "?1?",
+                    "das_digital_filter": "LC2000-62.5",
+                    "azimuth": "0.0",
+                    "dip": "-90.0",
+                    "data_format": "STEIM1",
+                    "polarity_reversal": true,
+                    "open_date": "2016-07-01T12:00:00Z",
+                    "close_date": null,
+                    "channel_flags": "CG"
+                },
+                {
+                    "location_code": "00",
+                    "iris_code": "SH1",
+                    "sensor": "sensor_2",
+                    "sensor_component": "1",
+                    "das": "das_1",
+                    "das_connector": "?1?",
+                    "das_component": "?1?",
+                    "das_digital_filter": "LC2000-62.5",
+                    "azimuth": "0.0",
+                    "dip": "0.0",
+                    "data_format": "STEIM1",
+                    "polarity_reversal": false,
+                    "open_date": "2016-07-01T12:00:00Z",
+                    "close_date": null,
+                    "channel_flags": "CG"
+                },
+                {
+                    "location_code": "00",
+                    "iris_code": "SH2",
+                    "sensor": "sensor_2",
+                    "sensor_component": "2",
+                    "das": "das_1",
+                    "das_connector": "?1?",
+                    "das_component": "?1?",
+                    "das_digital_filter": "LC2000-62.5",
+                    "azimuth": "0.0",
+                    "dip": "0.0",
+                    "data_format": "STEIM1",
+                    "polarity_reversal": false,
+                    "open_date": "2016-07-01T12:00:00Z",
+                    "close_date": null,
+                    "channel_flags": "CG"
+                },
+                {
+                    "location_code": "00",
+                    "iris_code": "SH3",
+                    "sensor": "sensor_2",
+                    "sensor_component": "3",
+                    "das": "das_1",
+                    "das_connector": "?1?",
+                    "das_component": "?1?",
+                    "das_digital_filter": "LC2000-62.5",
+                    "azimuth": "0.0",
+                    "dip": "90.0",
+                    "data_format": "STEIM1",
+                    "polarity_reversal": false,
+                    "open_date": "2016-07-01T12:00:00Z",
+                    "close_date": null,
+                    "channel_flags": "CG"
+                }
+            ],
+            "installed_devices": {
+                "sensor_1": {
+                    "metatype": "sensor",
+                    "manufacturer": "HiTech, inc",
+                    "model": "HiTech, inc",
+                    "serial_number": null,
+                    "azimuth_error": 180,
+                    "dip_error": 1,
+                    "local_depth": "0??",
+                    "vault": "seafloor",
+                    "config": "?single?"
+                },
+                "anafilter_1": {
+                    "metatype": "anafilter",
+                    "manufacturer": "SIO or IPGP",
+                    "model": "SIO or IPGP",
+                    "serial_number": null
+                },
+                "das_1": {
+                    "metatype": "das",
+                    "manufacturer": "Cirrus Logic",
+                    "model": "Cirrus Logic",
+                    "serial_number": null
+                },
+                "sensor_2": {
+                    "metatype": "sensor",
+                    "manufacturer": "Sercel",
+                    "model": "Sercel",
+                    "serial_number": null,
+                    "azimuth_error": 180,
+                    "dip_error": 1,
+                    "local_depth": "0??",
+                    "vault": "seafloor",
+                    "config": "?single?"
+                }
+            }
+        }
+    ]
+}

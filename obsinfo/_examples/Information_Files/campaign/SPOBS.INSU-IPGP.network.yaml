@@ -5,15 +5,9 @@ yaml_anchors:
         time_base: "Seascan MCXO, ~1e-8 nominal drift"
         reference: "GPS"
         start_sync_instrument: 0
-    SPOBS2_125: &SPOBS2_125
-        $ref: "SPOBS2.instrumentation.yaml#instrumentation"
-        channel_mods: {base: {datalogger: {config: "125sps"}}}
 revision:
     authors:
-        -
-            first_name : "Wayne"
-            last_name : "Crawford"
-            email: "crawford@ipgp.fr"
+        - $ref: '../instrumentation/Wayne_Crawford.author_info.yaml#author_info'
     date: "2017-10-04"
 network:
     facility:
@@ -27,7 +21,6 @@ network:
         end_date: "2025-12-31"
         description: "Short period OBS network example"
         comments: ["Lucky Strike Volcano, North Mid-Atlantic Ridge"]
-    $ref_dir: "../instrumentation/"
     stations:
         "LSVW":
             site: "Lucky Strike Volcano West"
@@ -36,7 +29,8 @@ network:
             location_code: "00"
             instruments:
                 -
-                    <<: *SPOBS2_125
+                    $ref: "../instrumentation/SPOBS2.instrumentation.yaml#instrumentation"
+                    datalogger_config: "125sps"
                     serial_number: "20"
             locations:
                 "00":
@@ -55,7 +49,8 @@ network:
             location_code: "00"
             instruments:
                 -
-                    <<: *SPOBS2_125
+                    $ref: "../instrumentation/SPOBS2.instrumentation.yaml#instrumentation"
+                    datalogger_config: "125sps"
                     serial_number: "12"
             locations:
                 "00":

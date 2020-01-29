@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Functions to test the lcheapo functions
+Functions to test obsinfo/misc functions
 """
 from __future__ import (absolute_import, division, print_function,
                         unicode_literals)
@@ -10,6 +10,7 @@ from future.builtins import *  # NOQA @UnusedWildImport
 import os
 import glob
 import unittest
+import obsinfo.misc.yamlref
 import inspect
 import xml.etree.ElementTree as ET
 from CompareXMLTree import XmlTree
@@ -19,7 +20,7 @@ from obsinfo.misc.info_files import validate
 
 class TestADDONSMethods(unittest.TestCase):
     """
-    Test suite for nordic io operations.
+    Test suite for misc obsinfo operations.
     """
     def setUp(self):
         self.path = os.path.dirname(os.path.abspath(inspect.getfile(
@@ -104,6 +105,29 @@ class TestADDONSMethods(unittest.TestCase):
                                             "*.filter.yaml")):
             self.assertTrue(validate(fname,quiet=True))
 
+    def test_yamlref_load(self):
+        """
+        Test yamlref reading of identical json and yaml files
+        """
+        with open(os.path.join(self.testing_path, 'test_noref.yaml')) as fp:
+            a = obsinfo.misc.yamlref.load(fp)
+        with open(os.path.join(self.testing_path, 'test_noref.json')) as fp:
+            b = obsinfo.misc.yamlref.load(fp)
+        self.assertTrue(a == b)
+
+    def test_yamlref_replacerefs(self):
+        """
+        Test yamlref replacing of "$ref"s
+        """
+        infile = os.path.join(self.testing_path, 'test_ref.yaml')
+        with open(infile) as fp:
+            a = obsinfo.misc.yamlref.load(fp, base_uri=f'file://{infile}')
+        infile = os.path.join(self.testing_path, 'test_noref.yaml')
+        with open(infile) as fp:
+            b = obsinfo.misc.yamlref.load(fp)
+        print(a)
+        print(b)
+        self.assertTrue(a == b)
 
 def suite():
     return unittest.makeSuite(TestADDONSMethods, 'test')

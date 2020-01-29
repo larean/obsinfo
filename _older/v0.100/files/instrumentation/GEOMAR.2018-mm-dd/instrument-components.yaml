@@ -1,0 +1,121 @@
+---
+# Example instrumentation_components file
+notes:
+    - "Notes are associated with information but not put in final metadata"
+definitions:
+    equipment_type: &EQUIPMENT_EMPTY
+        type: ~
+        description: ~
+        manufacturer: ~
+        vendor: ~
+        model: ~
+        serial_number: ~
+        calibration_date: ~
+    datalogger_kum_6d6: &EQUIPMENT_DATALOGGER_KUM_6D6
+        <<: *EQUIPMENT_EMPTY
+        type: "delta-sigma A/D converter + digital filter"
+        description: "KUM 6D6 datalogger"
+        manufacturer: "KUM"
+        model: "6D6"
+    datalogger_kum_6d6: &EQUIPMENT_DATALOGGER_KUM_MBS
+        <<: *EQUIPMENT_EMPTY
+        type: "delta-sigma A/D converter + digital filter"
+        description: "KUM MBS datalogger"
+        manufacturer: "KUM"
+        model: "MBS"
+
+format_version: "0.100"
+revision: 
+    date: "2017-11-30"
+    authors: 
+        -
+            first_name: "Wayne"
+            last_name: "Crawford"
+            email: "crawford@ipgp.fr"
+instrument_components:
+    instrument_blocks:
+        sensor:
+            generic: # keys = MAKE_MODEL_CONFIG
+                "NANOMETRICS_TRILLIUM_COMPACT":
+                    equipment:
+                        <<: *EQUIPMENT_EMPTY
+                        model: "Trillium Compact"
+                        type: "Wideband seismometer"
+                        description: "Trillium Compact Seismometer"
+                        manufacturer: "Nanometrics, Inc"
+                        vendor: "Nanometrics, Inc"
+                    seed_codes:
+                        band_base: "B"
+                        instrument: "H"
+                        orientation:
+                            "Z": {azimuth.deg: [0,0],    dip.deg: [90,0]}
+                            "1": {azimuth.deg: [0,180],  dip.deg: [0,0]}
+                            "2": {azimuth.deg: [90,180], dip.deg: [0,0]}
+                    response_stages:
+                        - $ref: "responses/Sensors/Trillium_Compact__theoretical.response.yaml"
+                "HITECH_HTI04-PLC-ULF": 
+                    notes: 
+                        - >-
+                            dip value assumes hydrophone positive correponds to increasing pressure
+                            in upward compressional wave (seafloor up => pressure up)
+                    equipment:
+                        <<: *EQUIPMENT_EMPTY
+                        model: "HTI-04-PLC-ULF"
+                        type: "Hydrophone"
+                        description: >-
+                                "HiTech HTI-04-PLC-ULF hydrophone, 0.01-XXX Hz"
+                        manufacturer: "HiTech, inc"
+                    seed_codes:
+                        band_base: "B"
+                        instrument: "D"
+                        orientation:
+                            "H": {azimuth.deg: [0,0], dip.deg: [90,0]}
+                    response_stages:
+                        - $ref: "responses/Sensors/HiTech_HTI-04-PLC-ULF_voltage-mode_theoretical.response.yaml"
+           specific:
+        preamplifier:
+            generic: # keys = MAKE_MODEL_CONFIG
+                "1xGain": 
+                    equipment:
+                        <<: *EQUIPMENT_EMPTY
+                        type: "Digital Gain"
+                        description: "Digital Input Gain Stage"
+                        model: "1x_Gain"
+                        manufacturer: "KUM"
+                    response_stages:
+                        - $ref: "responses/Preamplifiers/XXXX_XXXX_1xgain_theoretical.response.yaml"
+                "4xGain": 
+                    equipment:
+                        <<: *EQUIPMENT_EMPTY
+                        type: "Digital Gain"
+                        description: "Digital Input Gain Stage"
+                        model: "4x_Gain"
+                        manufacturer: "KUM"
+                    response_stages:
+                        - $ref: "responses/Preamplifiers/XXXX_XXXX_4xgain_theoretical.response.yaml"
+        datalogger:
+            generic: # keys = MAKE_MODEL_CONFIG
+                "KUM_6D6_LOGGER_50":
+                    equipment:
+                        <<: *EQUIPMENT_DATALOGGER_KUM_6D6
+                    delay_correction_samples: 29
+                    response_stages:
+                        - $ref: "responses/DataLoggers/KUM_6D6_50sps-minphase_theoretical.response.yaml"
+                "KUM_6D6_LOGGER_100":
+                    equipment:
+                        <<: *EQUIPMENT_DATALOGGER_KUM_6D6
+                    delay_correction_samples: 29
+                    response_stages:
+                        - $ref: "responses/DataLoggers/KUM_6D6_100sps-minphase_theoretical.response.yaml"
+                "KUM_MBS_LOGGER_50":
+                    equipment:
+                        <<: *EQUIPMENT_DATALOGGER_KUM_MBS
+                    delay_correction_samples: 29
+                    response_stages:
+                         - $ref: "responses/DataLoggers/KUM_MBS_50sps-minphase_theoretical.response.yaml"
+                "KUM_MBS_LOGGER_100":
+                    equipment:
+                        <<: *EQUIPMENT_DATALOGGER_KUM_MBS
+                    delay_correction_samples: 29
+                    response_stages:
+                        - $ref: "responses/DataLoggers/KUM_MBS_100sps-minphase_theoretical.response.yaml"

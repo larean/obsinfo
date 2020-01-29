@@ -16,45 +16,42 @@ Existing questions can be found/modified in QUESTIONS_infofiles.rst
 Information files
 ======================
 
-The system is based on "`information files`_" in JSON or YAML format, filled in
-by appropriate actors and broken down into different categories to remove
-redundancy and simplify input as much as possible.
+The system is based on "`information files`_" in JSON or YAML format, which can
+be used to create StationXML files and to record data preparation steps.  The
+files duplicate the StationXML format where possible, deviating where necessary
+to reduce redundancy and to add functionality (see "`information files`_")
 
-There are 4 main file types:
+There are 2 main file types:
 
 +---------------------------+-----------------------+-----------------+---------------+
 |    Name                   |    Description        |     Filled by   | When filled   |
 +===========================+=======================+=================+===============+
-| **campaign**              | Lists of stations     |                 |               |
-|                           | facilities and        |                 |               |
-|                           | participants, plus    | Chief scientist | after a data  |
-|                           | desired verification. |                 | collection    |
-|                           | NOT NEEDED FOR        |                 | campaign      |
-|                           | PROCESSING            |                 |               |
-+---------------------------+-----------------------+-----------------+---------------+
 | **network**               | Deployed stations,    |                 | after a       |
 |                           | their instruments     | OBS facility    | campaign      |
 |                           | and parameters        |                 |               |
 +---------------------------+-----------------------+-----------------+---------------+
-| **instrumentation**       | Instrument            | OBS facility    | new/changed   |
-|                           | description           |                 | instruments   |
-+---------------------------+-----------------------+-----------------+---------------+
-| **instrument_components** | Description of basic  | OBS facility    | when there    |
-|                           | components (sensors,  | -or-            | are new       |
-|                           | digitizers,           | component       | components or |
-|                           | amplifiers/filters)   | manufacturer    | calibrations  |
+| **instrumentation**       | Instrument and        | OBS facility    | new/changed   |
+|      or                   | component             | and/or          | instruments,  |
+| **instrument_components** | descriptions          | component       | components, or|
+|                           |                       | manufacturers   | calibrations  |
 +---------------------------+-----------------------+-----------------+---------------+
 
-There can also be **response** and **filter** files to simplify the input of
-repeated elements in **instrument_components** files.
+Each of these files can have subfiles referenced using the `JSONref`_ protocol.
+This allows, for example, one to make **response** and **filter** files to
+avoid repetition. 
 
-Only the **campaign** and **network** files are OBS-specific.
-The **instrumentation** files and their subfiles could be replaced by existing
-standards such as RESP files or the NRL (Nominal Response Library), but obsinfo provides 
-a simpler and more standards-compliant way to specify the components, and 
-it can automatically calculate response sensitivities based on gains and filter
-characteristics (using obsPy).  obsinfo instrumentation files could also be used to
-make RESP-files and NRL directories, if so desired. 
+In principal (not yet implemented), the **instrument_components** files could
+be replaced by RESP files or references to the NRL (Nominal Response Library),
+but obsinfo provides a simpler and more standards-compliant way to specify
+the components, and it can automatically calculate response sensitivities based
+on gains and filter characteristics.  **Instrumentation** files should also be
+able to make RESP-files and NRL directories (not implemented). 
+
+A third type of Information File is the **campaign** file, which allows the
+chief scientist to specify all of the stations and OBS facilities used
+for a given experiment, as well as periods of data that they would like to
+see in order to validate the data preparation.  For the moment, obsinfo doesn't
+do anything with these files, but can validate them.
 
 Python code
 ======================
@@ -144,3 +141,5 @@ Use `reStructuredText
 
 .. _information files: information_files.rst
 .. _TO DO: ToDo.rst
+
+.. _JSONref: <https://tools.ietf.org/id/draft-pbryan-zyp-json-ref-03.html>

@@ -1,0 +1,13 @@
+---
+stages:
+    -
+      description : "SENSOR - L22D GEOPHONE"
+      DBIRD_response_type : "THEORETICAL" # optionel
+      input_units :  {name: "M/S", description: "VELOCITY"}
+      output_units : {name: "V", description: "VOLTS"}
+      gain : 
+        value: 36.7
+        frequency: 1
+      response:
+        type : "PolesZeros"
+        include:  "sensor/include/Sercel#L22D#LCHEAPO#.pz.rad.yaml"

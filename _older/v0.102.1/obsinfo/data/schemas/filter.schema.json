@@ -1,0 +1,153 @@
+{
+    "filter": {
+        "oneOf": [
+            { "$ref" : "#/definitions/filter_POLESZEROS"},
+            { "$ref" : "#/definitions/filter_FIR"},
+            { "$ref" : "#/definitions/filter_COEFFICIENTS"},
+            { "$ref" : "#/definitions/filter_RESPONSELIST"},
+            { "$ref" : "#/definitions/filter_A2D"}
+        ]
+    },
+	"definitions": {
+        "filter_POLESZEROS": {
+	        "type" : "object",
+	        "description" : "Poles-zeros response formulation",
+            "required" : [
+                "type",
+                "poles",
+                "zeros"
+            ],
+            "properties": {
+                "type" : { "enum" : [ "PolesZeros" ] },
+                "units" : {
+                    "type" : "string",
+                    "enum" : ["rad/s", "hz", "z-transform"],
+                    "default" : "rad/s"
+                },
+                "normalization_frequency": {
+                    "type": "number",
+                    "description": "If undefined, will use gain.frequency",
+                    "minimum" : 0.0
+                },
+                "normalization_factor": {
+                    "type": "number"
+                },
+                "poles": {
+                    "description": "Instrument poles (rad/s)",
+                    "type": "array",
+                    "items" : {
+                        "type":"array",
+                        "description" : "real and complex parts",
+                        "minItems" : 2,
+                        "maxItems" : 2,
+                        "items": { "type" : "number" }
+                    }
+                },
+                "zeros": {
+                    "description": "Instrument zeros (rad/s)",
+                    "type": "array",
+                    "items" : {
+                        "type":"array",
+                        "description" : "real and complex parts",
+                        "minItems" : 2,
+                        "maxItems" : 2,
+                        "items": { "type" : "number" }
+                    }
+                }
+            }
+        },
+        "filter_FIR": {
+	        "type" : "object",
+	        "description" : "FIR response formulation",
+	        "required" : [
+	            "type",
+	            "symmetry",
+                "coefficients"
+            ],
+	        "properties" : {
+	            "type" : { "enum" : [ "FIR" ] },
+	            "symmetry" : {
+	                "type" : "string",
+	                "enum" : ["NONE", "EVEN", "ODD"]
+	            },
+                "coefficients": {
+                    "type": "array",
+                    "minItems": 0,
+                    "items" : { "type" : "number" }
+                }
+            }
+        },
+        "filter_COEFFICIENTS": {
+	        "type" : "object",
+	        "description" : "Coefficients response formulation (often used for FIRs)",
+	        "required" : [
+	            "type",
+	            "transfer_function_type",
+                "numerators",
+                "denominators"
+            ],
+	        "properties" : {
+	            "type" : { "enum" : [ "Coefficients" ] },
+	            "transfer_function_type" : {
+	                "type" : "string",
+	                "enum" : [
+	                    "ANALOG (RADIANS/SECOND)",
+	                    "ANALOG (HERTZ)",
+	                    "DIGITAL"
+	                ]
+	            },
+                "numerator_coefficients": {
+                    "type": "array",
+                    "minItems": 0,
+                    "items" : { "type" : "number" }
+                },
+                "denominator_coefficients": {
+                    "type": "array",
+                    "minItems": 0,
+                    "items" : { "type" : "number" }
+                }
+            }
+        },
+        "filter_RESPONSELIST": {
+	        "type" : "object",
+	        "description" : "Response list formulation",
+	        "required" : [ "type", "elements" ],
+	        "properties" : {
+	            "type" : { "enum" : [ "ResponseList" ] },
+	            "elements" : {
+	                "type" : "array",
+	                "items" : {
+	                    "type" : "array",
+	                    "description" : "[frequency (Hz), amplitude, phase (degrees)]",
+	                    "minItems": 3,
+	                    "maxItems": 3
+	                }
+	            }
+            }
+        },
+        "filter_POLYNOMIAL": {
+	        "type" : "object",
+	        "description" : "NOT IMPLEMENTED",
+	        "required" : [ "type" ],
+	        "properties" : {
+	            "type" : { "enum" : [ "Polynomial" ] }
+	        }
+        },
+        "filter_A2D": {
+	        "type" : "object",
+	        "description" : "A/D specifics",
+	        "required" : [ "type" ],
+	        "properties" : {
+	            "type" : { "enum" : [ "AD_CONVERSION" ] },
+                "input_full_scale": {
+                    "description": "Used for AD_CONVERSION, ...",
+                    "type": "number"
+                },
+                "output_full_scale": {
+                    "description": "Used for AD_CONVERSION, ...",
+                    "type": "number"
+                }
+            }
+        }
+	}
+}

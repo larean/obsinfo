@@ -1,0 +1,240 @@
+---
+remarks:
+    - "Example instrumentation_components.yaml file"
+    
+repeated_nodes:
+    equipment_type: &EQUIPMENT_EMPTY
+        type: ~
+        description: ~
+        manufacturer: ~
+        vendor: ~
+        model: ~
+        serial_number: ~
+        calibration_date: ~
+    datalogger_lc2000: &EQUIPMENT_DATALOGGER_LC2000
+        <<: *EQUIPMENT_EMPTY
+        type: "delta-sigma A/D converter + digital filter"
+        description: "CS5321/22 delta-sigma A/D converter + FIR digital filter, 62.5 sps"
+        manufacturer: "Cirrus Logic"
+        model: "CS5321/22"
+
+instrumentation_components:
+    format_version: "0.95"
+    revision: 
+        date: "2017-11-30"
+        author: 
+            first_name: "Wayne"
+            last_name: "Crawford"
+            email: "crawford@ipgp.fr"
+    facility:
+        reference_name: "INSU-IPGP"
+        full_name: "INSU-IPGP OBS Park"
+        email: "obs_ipgp@insu.cnrs.fr"
+        website: "http://parc-obs.insu.cnrs.fr"
+    response_format: "RESPONSE_YAML"
+    response_directory: "RESPONSE_YAML_INSU-IPGP"
+    models:
+        generic:
+            datalogger:
+                "LC2000-62.5":
+                    equipment:
+                        <<: *EQUIPMENT_DATALOGGER_LC2000
+                    response:
+                        digitizer: "digitizer/Scripps#LCPO2000_CS5321##theoretical#.response.yaml"
+                        digital_filter: "dig_filter/Scripps#LCPO2000_CS5322#62.5sps#theoretical#.response.yaml"
+                "LC2000-125":
+                    equipment:
+                        <<: *EQUIPMENT_DATALOGGER_LC2000
+                    response:
+                        digitizer: "digitizer/Scripps#LCPO2000_CS5321##theoretical#.response.yaml"
+                        digital_filter: "dig_filter/Scripps#LCPO2000_CS5322#125sps#theoretical#.response.yaml"
+                "LC2000-250":
+                    equipment:
+                        <<: *EQUIPMENT_DATALOGGER_LC2000
+                    response:
+                        digitizer: "digitizer/Scripps#LCPO2000_CS5321##theoretical#.response.yaml"
+                        digital_filter: "dig_filter/Scripps#LCPO2000_CS5322#250sps#theoretical#.response.yaml"
+                "LC2000-500":
+                    equipment:
+                        <<: *EQUIPMENT_DATALOGGER_LC2000
+                    response:
+                        digitizer: "digitizer/Scripps#LCPO2000_CS5321##theoretical#.response.yaml"
+                        digital_filter: "dig_filter/Scripps#LCPO2000_CS5322#500sps#theoretical#.response.yaml"
+                "LC2000-1000":
+                    equipment:
+                        <<: *EQUIPMENT_DATALOGGER_LC2000
+                    response:
+                        digitizer: "digitizer/Scripps#LCPO2000_CS5321##theoretical#.response.yaml"
+                        digital_filter: "dig_filter/Scripps#LCPO2000_CS5322#1000sps#theoretical#.response.yaml"
+            preamplifier:
+                "DPG_CARD": 
+                    equipment:
+                        <<: *EQUIPMENT_EMPTY
+                        type: "DPG_Card"
+                        description: "Differential Pressure Gauge Card"
+                        manufacturer: "SIO-IPGP"
+                    response:
+                        analog_filter: "ana_filter/SIO_LDEO#DPG_Card##theoretical#.response.yaml"
+                "BBOBS_CARD_0P225X": 
+                    equipment:
+                        <<: *EQUIPMENT_EMPTY
+                        type: "Analog gain card"
+                        description: "INSU BBOBS gain card : 0.225x"
+                        manufacturer: "SIO or IPGP"
+                    response:
+                        analog_filter: "ana_filter/INSU#BBOBS#gain0.225#theoretical#.response.yaml"
+                "BBOBS_CARD_1X": 
+                    equipment:
+                        <<: *EQUIPMENT_EMPTY
+                        type: "Analog gain card"
+                        description: "INSU BBOBS gain card : 1x"
+                        manufacturer: "SIO or IPGP"
+                    response:
+                        analog_filter: "ana_filter/INSU#BBOBS#gain1.0#theoretical#.response.yaml"
+                "HYDRO_GAIN_16X": 
+                    equipment:
+                        <<: *EQUIPMENT_EMPTY
+                        type: "Analog gain/filter card"
+                        description: "SIO gain/filter card, hydro channel (16x)"
+                        manufacturer: "SIO or IPGP"
+                    response:
+                        analog_filter: "ana_filter/Scripps#SPOBS#HydroL22x16#theoretical#.response.yaml"
+                "GEOPHONE_GAIN_128X": 
+                    equipment:
+                        <<: *EQUIPMENT_EMPTY
+                        type: "Analog gain/filter card"
+                        description: "SIO gain/filter card, seismo channel (128x)"
+                        manufacturer: "SIO or IPGP"
+                    response:
+                        analog_filter: "ana_filter/Scripps#SPOBS#HydroL22x128#theoretical#.response.yaml"
+            sensor:
+                "VELOCITY_T240_SS":
+                    equipment:
+                        <<: *EQUIPMENT_EMPTY
+                        model: "Trillium T240 (single-sided)"
+                        type: "Broadband seismometer"
+                        description: "Trillium T240 single-sided"
+                        manufacturer: "Nanometrics, Inc"
+                        vendor: "Nanometrics, Inc"
+                    response:
+                        sensor: "sensor/Trillium#T240#SN1-399_singlesided#theoretical#.response.yaml"
+                "PRESSURE_DPG":
+                    equipment:
+                        <<: *EQUIPMENT_EMPTY
+                        model: "DPG"
+                        type: "Differential Pressure Gauge"
+                        description: "Differential Pressure Gauge"
+                    response:
+                        sensor: "sensor/SIO-LDEO#DPG#generic#theoretical#.response.yaml"
+                "PRESSURE_HTI_90U": 
+                    equipment:
+                        <<: *EQUIPMENT_EMPTY
+                        model: "HTI-90-U"
+                        type: "Hydrophone"
+                        description: >-
+                                "HiTech HTI-90-U hydrophone with integrated preamp,
+                                0.05-2500 Hz"
+                        manufacturer: "HiTech, inc"
+                    response:
+                        sensor: "sensor/HiTech#HTI-90U#SIO_preamp#theoretical#.response.yaml"
+                "PRESSURE_HTI_04-PLC-ULF": 
+                    equipment:
+                        <<: *EQUIPMENT_EMPTY
+                        model: "HTI-04-PLC-ULF"
+                        type: "Hydrophone"
+                        description: >-
+                                "HiTech HTI-04-PLC-ULF hydrophone,
+                                0.01-XXX Hz"
+                        manufacturer: "HiTech, inc"
+                    response:
+                        sensor: "sensor/HiTech#HTI-04-PLC-ULF#voltage-mode#theoretical#.response.yaml"
+                "VELOCITY_SERCEL_L28": 
+                    equipment:
+                        <<: *EQUIPMENT_EMPTY
+                        model: "L-28LB"
+                        type: "Geophone"
+                        description: "Sercel L-28LB 4.5 Hz 3C geophone"
+                        manufacturer: "Sercel"
+                    response:
+                        sensor: "sensor/Sercel#L28LB#obs#theoretical#.response.yaml"
+                "VELOCITY_SERCEL_L22":
+                    equipment:
+                        <<: *EQUIPMENT_EMPTY
+                        type: "Geophone"
+                        description: "Sercel L-22 2 Hz vertical geophone"
+                        manufacturer: "Sercel"
+                        model: "L-22D"
+                    response:
+                        sensor: "sensor/Sercel#L22D#LCHEAPO#theoretical#.response.yaml"
+        specific:
+            sensor:
+                "VELOCITY_T240_SS":
+                    # Can specify sensors by their serial # or the sphere they are in
+                    "132":
+                        response: {sensor: "sensor/Trillium#T240#SN1-399_singlesided#theoretical#.response.yaml"}
+                    "133": 
+                        response: {sensor: "sensor/Trillium#T240#SN1-399_singlesided#theoretical#.response.yaml"}
+                    "134": 
+                        response: {sensor: "sensor/Trillium#T240#SN1-399_singlesided#theoretical#.response.yaml"}
+                    "136": 
+                        response: {sensor: "sensor/Trillium#T240#SN1-399_singlesided#theoretical#.response.yaml"}
+                    "137": 
+                        response: {sensor: "sensor/Trillium#T240#SN1-399_singlesided#theoretical#.response.yaml"}
+                    "138": 
+                        response: {sensor: "sensor/Trillium#T240#SN1-399_singlesided#theoretical#.response.yaml"}
+                    "826": 
+                        response: {sensor: "sensor/Trillium#T240#SN1400-_singlesided#theoretical#.response.yaml"}
+                    "829": 
+                        response: {sensor: "sensor/Trillium#T240#SN1400-_singlesided#theoretical#.response.yaml"}
+                    "830": 
+                        response: {sensor: "sensor/Trillium#T240#SN1400-_singlesided#theoretical#.response.yaml"}
+                    "Sphere01":
+                        response: {sensor: "sensor/Trillium#T240#SN1-399_singlesided#theoretical#.response.yaml"}
+                        equipment: {serial_number: "133"}
+                    "Sphere02":
+                        response: {sensor: "sensor/Trillium#T240#SN1-399_singlesided#theoretical#.response.yaml"}
+                        equipment: {serial_number: "132"}
+                    "Sphere03":
+                        response: {sensor: "sensor/Trillium#T240#SN1-399_singlesided#theoretical#.response.yaml"}
+                        equipment: {serial_number: "134"}
+                    "Sphere04":
+                        response: {sensor: "sensor/Trillium#T240#SN1-399_singlesided#theoretical#.response.yaml"}
+                        equipment: {serial_number: "138"}
+                    "Sphere05":
+                        response: {sensor: "sensor/Trillium#T240#SN1-399_singlesided#theoretical#.response.yaml"}
+                        equipment: {serial_number: "137"}
+                    "Sphere06":
+                        response: {sensor: "sensor/Trillium#T240#SN1400-_singlesided#theoretical#.response.yaml"}
+                        equipment: {serial_number: "830"}
+                    "Sphere07":
+                        response: {sensor: "sensor/Trillium#T240#SN1-399_singlesided#theoretical#.response.yaml"}
+                        equipment: {serial_number: "136"}
+                    "Sphere08":
+                        response: {sensor: "sensor/Trillium#T240#SN1400-_singlesided#theoretical#.response.yaml"}
+                        equipment: {serial_number: "829"}
+                    "Sphere09":
+                        response: {sensor: "sensor/Trillium#T240#SN1400-_singlesided#theoretical#.response.yaml"}
+                        equipment: {serial_number: "826"}
+                "PRESSURE_DPG":
+                    "5004": 
+                        equipment: {manufacturer: "SIO"}
+                        response: {sensor: "sensor/SIO-LDEO#DPG#5004#calibrated#.response.yaml"}
+                    "5018":
+                        equipment: {manufacturer: "SIO"}
+                        response: {sensor: "sensor/SIO-LDEO#DPG#5018#calibrated#.response.yaml"}
+                    "5027":
+                        equipment: {manufacturer: "SIO"}
+                    "IP004":
+                        equipment: {manufacturer: "IPGP"}
+                    "IP005":
+                        equipment: {manufacturer: "IPGP"}
+                    "IP006":
+                        equipment: {manufacturer: "IPGP"}
+                    "IP007":
+                        equipment: {manufacturer: "IPGP"}
+                    "LD013":
+                        equipment: {manufacturer: "LDEO"}
+                    "LDxxx":
+                        equipment: 
+                            manufacturer: "LDEO"
+                            description: "DPG on lost BBOBS9, did not note #"

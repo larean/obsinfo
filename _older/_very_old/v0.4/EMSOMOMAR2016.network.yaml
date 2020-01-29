@@ -1,0 +1,138 @@
+---
+# DEFAULTS (Building blocks for stations)
+repeated_nodes:
+    station: &default_station
+        start_sync_inst: "0"
+        sample_rate: 62.5
+        time_base: "Seascan MCXO, ~1e-9 nominal drift"
+        comments_time: >
+            "Linear clock drift corrected using GPS sync
+            at deployment start and end"
+        comments_other:
+
+    location_methods:
+        loc_acoustic: &loc_acoustic
+            loc_type: "Acoustic"
+            lat_uncert_m: 5
+            lon_uncert_m: 5
+            elev_uncert_m: 10
+        loc_surface: &loc_surface
+            loc_type: "Surface"
+            lat_uncert_m: 200
+            lon_uncert_m: 200
+            elev_uncert_m: 20
+        loc_buc_direct: &loc_buc_direct
+            loc_type: "Short baseline transponder, seafloor release"
+            lat_uncert_m: 5
+            lon_uncert_m: 5
+            elev_uncert_m: 10
+        loc_buc_drop: &loc_buc_drop
+            loc_type: "Short baseline transponder, near-seafloor release"
+            lat_uncert_m: 20
+            lon_uncert_m: 20
+            elev_uncert_m: 20
+    instrument_types:
+        insu-spobs2: &insu-spobs2
+            facility: "INSU-IPGP"
+            model: "SPOBS2"
+
+network:
+    version: "0.4 (20170906_WCC)"
+    network_info:
+        code: "4G"
+        location: "Lucky Strike Volcano"
+    stations:
+        # Instruments are specified in {facility}.instrumentation.yaml
+        # and referenced by name and serial number
+        "LSVNI":
+            <<: *default_station
+            instrument:
+                <<: *insu-spobs2
+                serial_number: "13"
+            name_old: "I1"
+            start_sync_GPS: "2015-04-22T09:21:00Z"
+            end_sync_GPS: "2016-05-28T22:59:00.1843Z"
+            end_sync_inst: "2016-05-28T22:59:02Z"
+            start_date: "2015-04-23T10:00:00Z"
+            end_date: "2016-05-26T23:00:00Z"
+            location_codes:
+                "00":
+                    <<: *loc_buc_drop
+                    latitude: 37.31960
+                    longitude: -32.27909
+                    elevation: -1798
+                    depth: 0
+        "LSVWI":
+            <<: *default_station
+            instrument:
+                <<: *insu-spobs2
+                serial_number: "20"
+            name_old: "I2"
+            start_sync_GPS: "2015-04-21T21:06:00Z"
+            end_sync_GPS: "2016-05-28T20:59:00.32Z"
+            end_sync_inst: "2016-05-28T20:59:03Z"
+            start_date: "2015-04-22T12:00:00Z"
+            end_date: "2016-05-28T21:01:00Z"
+            location_codes:
+                "00":
+                    <<: *loc_buc_drop
+                    latitude: 37.29744
+                    longitude: -32.32504
+                    elevation: -2030
+                    depth: 0
+        "LSVCI":
+            <<: *default_station
+            instrument:
+                <<: *insu-spobs2
+                serial_number: "Station02"
+            Comments_Time: >
+                "Linear clock drift, end GPS sync not provided (see R Daniel)"
+            name_old: "ISW"
+            start_sync_GPS: "2015-04-20T15:35:00Z"
+            end_sync_GPS: ~
+            end_sync_inst: ~
+            start_date: "2015-04-24T12:00:00Z"
+            end_date: ~
+            location_codes:
+                "00":
+                    <<: *loc_buc_direct
+                    latitude: 37.2912
+                    longitude: -32.2798
+                    elevation: -1750
+                    depth: 0
+        "LSVEI":
+            <<: *default_station
+            instrument:
+                <<: *insu-spobs2
+                serial_number: "04"
+            name_old: "I4"
+            start_sync_GPS: "2015-04-17T14:38:00Z"
+            end_sync_GPS: "2016-05-28T17:58:31.7374Z"
+            end_sync_inst: "2016-05-28T17:58:30Z"
+            start_date: "2015-04-19T12:00:00Z"
+            end_date: "2016-05-28T18:00:00Z"
+            location_codes:
+                "00":
+                    <<: *loc_buc_drop
+                    latitude: 37.2806
+                    longitude: -32.2417
+                    elevation: -1640
+                    depth: 0
+        "LSVSI":
+            <<: *default_station
+            instrument:
+                <<: *insu-spobs2
+                serial_number: "07"
+            name_old: "I7"
+            start_sync_GPS: "2015-04-22T12:24:00Z"
+            end_sync_GPS: "2016-05-28T15:35:00.3660Z"
+            end_sync_inst: "2016-05-28T15:35:02Z"
+            start_date: "2015-04-23T10:00:00Z"
+            end_date: "2016-05-28T15:37:00Z"
+            location_codes:
+                "00":
+                    <<: *loc_buc_drop
+                    latitude: 37.26049
+                    longitude: -32.29756
+                    elevation: -1887
+                    depth: 0

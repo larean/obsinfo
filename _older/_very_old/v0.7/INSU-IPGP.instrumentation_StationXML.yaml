@@ -1,0 +1,162 @@
+---
+# To be completed by the OBS facility
+#
+# Alternative format where the instrument responses are specified
+# in a StationXML file (the same could be done for Dataless, or RESP if specified
+# by channel)
+#
+# The code to use this format has not been written.
+
+instrumentation:
+    facility:
+        reference_name: "INSU-IPGP"
+        full_name: "INSU-IPGP OBS Park"
+        email: "obs_ipgp@insu.cnrs.fr"
+        website: "http://parc-obs.insu.cnrs.fr"
+        director: "Wayne Crawford"
+        chief_engineer: "Romuald Daniel"
+        phone_number: ""
+    version: "v0.6 2017-09-17 WCC"
+    response_format: "StationXML"
+    response_directory: "1_StationXML/Instruments"
+    instruments:
+        # First level = model, second level = serial number
+        # "generic" serial number is used for all unlisted serial numbers
+        # Given serial number will only be injected into Equipment/Serial Number field
+        "SPOBS1":
+            "generic":
+                StationXML_file: "SPOBS1_{sample_rate}sps.xml"
+        "SPOBS2":
+            "generic":
+                StationXML_file: "SPOBS2_{sample_rate}sps.xml"
+        "BBOBS1_1":
+            "01":
+                StationXML_file: "BB01_{sample_rate}sps-pre2012.xml"
+            "02":
+                StationXML_file: "BB02_{sample_rate}sps-pre2012.xml"
+            "03":
+                StationXML_file: "BB03_{sample_rate}sps-pre2012.xml"
+        "BBOBS1_2":
+            "01":
+                StationXML_file: "BB01_{sample_rate}sps.xml"
+            "02":
+                StationXML_file: "BB02_{sample_rate}sps.xml"
+            "03":
+                StationXML_file: "BB03_4_5_7_{sample_rate}sps.xml"
+                modifications:
+                    channels:
+                        "BDH:00": 
+                            sensor:
+                                serial_number: "5027"
+                                manufacturer: "SIO"
+                        "BH1:00": 
+                            sensor:
+                                serial_number: "134"
+                        "BH2:00": 
+                            sensor:
+                                serial_number: "134"
+                        "BHZ:00": 
+                            sensor:
+                                serial_number: "134"
+            "04":
+                StationXML_file: "BB03_4_5_7_{sample_rate}sps.xml"
+                modifications:
+                    channels:
+                        "BDH:00": 
+                            sensor:
+                                serial_number: "IP004"
+                                manufacturer: "IPGP"
+                        "BH1:00": 
+                            sensor:
+                                serial_number: "138"
+                        "BH2:00": 
+                            sensor:
+                                serial_number: "138"
+                        "BHZ:00": 
+                            sensor:
+                                serial_number: "138"
+            "05":
+                StationXML_file: "BB03_4_5_7_{sample_rate}sps.xml"
+                modifications:
+                    channels:
+                        "BDH:00": 
+                            sensor:
+                                serial_number: "IP005"
+                                manufacturer: "IPGP"
+                        "BH1:00": 
+                            sensor:
+                                serial_number: "137"
+                        "BH2:00": 
+                            sensor:
+                                serial_number: "137"
+                        "BHZ:00": 
+                            sensor:
+                                serial_number: "137"
+            "06":
+                StationXML_file: "BB06_8_9_{sample_rate}sps.xml"
+                modifications:
+                    channels:
+                        "BDH:00": 
+                            sensor:
+                                serial_number: "IP006"
+                                manufacturer: "IPGP"
+                        "BH1:00": 
+                            sensor:
+                                serial_number: "830"
+                        "BH2:00": 
+                            sensor:
+                                serial_number: "830"
+                        "BHZ:00": 
+                            sensor:
+                                serial_number: "830"
+            "07":
+                StationXML_file: "BB03_4_5_7_{sample_rate}sps.xml"
+                modifications:
+                    channels:
+                        "BDH:00": 
+                            sensor:
+                                serial_number: "IP007"
+                                manufacturer: "IPGP"
+                        "BH1:00": 
+                            sensor:
+                                serial_number: "136"
+                        "BH2:00": 
+                            sensor:
+                                serial_number: "136"
+                        "BHZ:00": 
+                            sensor:
+                                serial_number: "136"
+            "08":
+                StationXML_file: "BB06_8_9_{sample_rate}sps.xml"
+                modifications:
+                    channels:
+                        "BDH:00": 
+                            sensor:
+                                serial_number: "LD013"
+                                manufacturer: "LDEO"
+                        "BH1:00": 
+                            sensor:
+                                serial_number: "829"
+                        "BH2:00": 
+                            sensor:
+                                serial_number: "829"
+                        "BHZ:00": 
+                            sensor:
+                                serial_number: "829"
+            "09":
+                StationXML_file: "BB06_8_9_{sample_rate}sps.xml"
+                modifications:
+                    channels:
+                        "BDH:00": 
+                            sensor:
+                                serial_number: ~
+                                manufacturer: "LDEO"
+                        "BH1:00": 
+                            sensor:
+                                serial_number: "826"
+                        "BH2:00": 
+                            sensor:
+                                serial_number: "826"
+                        "BHZ:00": 
+                            sensor:
+                                serial_number: "826"

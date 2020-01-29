@@ -1,0 +1,16 @@
+---
+format_version: "0.107"
+revision: 
+    date: "2017-11-30"
+    authors: 
+        -   $ref: "../Wayne_Crawford.author_info.yaml#author_info"
+$ref_dir: 'responses/'
+preamplifier:
+    equipment:
+        model: "GEOPHONE-GAIN"
+        type: "Analog gain/filter card"
+        description: "SIO gain/filter card (128x), seismo channel"
+        manufacturer: "SIO or IPGP"
+        vendor: ~
+    response_stages:
+        - $ref: "INSU_SPOBS_L28x128_theoretical.response.yaml#response"

@@ -1,0 +1,9 @@
+---
+# From German (DEPAS) Station XML files (I still don't have better)
+response:
+    type: "PolesZeros"
+    units: : "rad/s"
+    zeros:
+        - 0.0,0.0
+    poles:
+        - 0.043098,0.000

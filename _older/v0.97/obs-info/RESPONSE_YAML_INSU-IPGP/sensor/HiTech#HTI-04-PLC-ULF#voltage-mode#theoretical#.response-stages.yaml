@@ -1,0 +1,14 @@
+---
+stages:
+    -
+      # From RHUM-RUM German stationXMLs
+      description : "SENSOR - HITECH HTI-04-PLC-ULF HYDROPHONE" # optionel
+      DBIRD_response_type : "THEORETICAL" # optionel
+      input_units :  {name: "PA", description: "PRESSURE"}
+      output_units : {name: "V", description: "VOLTS"}
+      gain : 
+        value: 0.000195
+        frequency: 1
+      response:
+        type: "PolesZeros"
+        include:  "include/HiTech#HTI-04-PLC-ULF#voltage-mode#theoretical#.response.yaml"

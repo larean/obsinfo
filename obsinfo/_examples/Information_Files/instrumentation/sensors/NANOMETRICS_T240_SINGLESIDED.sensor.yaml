@@ -1,0 +1,50 @@
+---
+format_version: "0.107"
+revision: 
+    date: "2017-11-30"
+    authors: 
+        - $ref: "Wayne_Crawford.author_info.yaml#author_info"
+sensor:
+    equipment:
+        model: "Trillium T240"
+        type: "Broadband seismometer"
+        description: "Trillium T240 seismomter, single-sided connection (negative shorted to ground)"
+        manufacturer: "Nanometrics, Inc"
+        vendor: "Nanometrics, Inc"
+    seed_codes:
+        band_base: "B"
+        instrument: "H"
+        orientation:
+            "Z": {azimuth.deg: [0, 0],    dip.deg: [-90, 0]}
+            "1": {azimuth.deg: [0, 180],  dip.deg: [0, 0]}
+            "2": {azimuth.deg: [90, 180], dip.deg: [0, 0]}
+    response_stages:
+        - $ref: "responses/Trillium_T240_SN1-399-singlesided_theoretical.response.yaml#reponse"
+    serial_numbers:
+        "132": {}
+        "133": {}
+        "134": {}
+        "136": {}
+        "137": {}
+        "138": {}
+        "826": 
+            response_stages: [{$ref: "responses/Trillium_T240_SN400-singlesided_theoretical.response.yaml#reponse"}]
+        "829": 
+            response_stages: [{$ref: "responses/Trillium_T240_SN400-singlesided_theoretical.response.yaml#reponse"}]
+        "830": 
+            response_stages: [ {$ref: "responses/Trillium_T240_SN400-singlesided_theoretical.response.yaml#reponse"}]
+        "Sphere01": {equipment: {serial_number: "133"}}
+        "Sphere02": {equipment: {serial_number: "132"}}
+        "Sphere03": {equipment: {serial_number: "134"}}
+        "Sphere04": {equipment: {serial_number: "138"}}
+        "Sphere05": {equipment: {serial_number: "137"}}
+        "Sphere06":
+            response_stages: [{$ref: "responses/Trillium_T240_SN400-singlesided_theoretical.response.yaml#reponse"}]
+            equipment: {serial_number: "830"}
+        "Sphere07": {equipment: {serial_number: "136"}}
+        "Sphere08":
+            response_stages: [{$ref: "responses/Trillium_T240_SN400-singlesided_theoretical.response.yaml#reponse"}]
+            equipment: {serial_number: "829"}
+        "Sphere09":
+            response_stages: [{$ref: "responses/Trillium_T240_SN400-singlesided_theoretical.response.yaml#reponse"}]
+            equipment: {serial_number: "826"}

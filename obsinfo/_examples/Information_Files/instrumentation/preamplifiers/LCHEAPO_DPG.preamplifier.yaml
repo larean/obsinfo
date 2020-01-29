@@ -1,0 +1,15 @@
+---
+format_version: "0.107"
+revision: 
+    date: "2017-11-30"
+    authors: 
+        -   $ref: "../Wayne_Crawford.author_info.yaml#author_info"
+preamplifier:
+    equipment:
+        model: "DPG-Card"
+        type: "DPG Card"
+        description: "Differential Pressure Gauge Card"
+        manufacturer: "SIO-IPGP"
+        vendor: ~
+    response_stages:
+        - $ref: "SIO-LDEO_DPG-Card__theoretical.response.yaml#response"

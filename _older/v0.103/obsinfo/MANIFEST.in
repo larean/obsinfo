@@ -1,0 +1,3 @@
+recursive include obsinfo/_examples *.yaml README.txt
+include obsinfo-*.py
+include obsinfo/data/schemas/*.json

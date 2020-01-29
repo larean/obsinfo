@@ -1,0 +1,242 @@
+---
+notes:
+    - "To be completed by an OBS facility involved in the campaign"
+    - "Example network file, with some examples of special cases"
+    - "'notes:' are not put into StationXML files.  'comments:' are"
+repeated_nodes:
+    obs_clock_correction_linear_defaults: &LINEAR_CLOCK_DEFAULTS
+        time_base: "Seascan MCXO, ~1e-8 nominal drift"
+        reference: "GPS"
+        start_sync_instrument: 0
+    location_defaults: &LOC_DEFAULTS
+        depth: 0
+        geology: "unknown"
+        vault: "Sea floor"                    
+    location_uncertainty_buc_acoustic: &LOC_UNCERT_ACOUSTIC
+        uncertainties_m: [5, 5, 10]
+        localisation_method: "Acoustic survey"
+
+network:
+    format_version: "0.97"
+    facility: "INSU-IPGP"
+    revision:
+        authors:
+            -
+                first_name : "Wayne"
+                last_name : "Crawford"
+                email: "crawford@ipgp.fr"
+        date: "2018-02-24"
+    network_info:
+        code: "Z3"
+        start_date: "2015-07-01"
+        end_date: "2020-12-31"
+        description: "ALPARRAY-OBS"
+        comments: 
+            - "ALPARRAY-OBS - Ligurian Sea and North West Mediterranean Sea"
+    instrumentation_file: "FACILITY.instrumentation.yaml"
+    stations:
+        # Stations are listed by official station name.
+        # miniSEED files should be be in directories of the same name.
+
+        "A413A":
+            notes: 
+                - "A413A - ALPARRAY-OBS"
+            site: "N/W Mediterranean Sea"
+            start_date: "2017-06-23T12:00:00Z"
+            end_date: "2018-02-15T15:41:00Z"
+            location_code: "00"
+            instrument:
+                reference_code: "BBOBS1_2"
+                serial_number: "03"
+                channel_standard: {sample_rate: 62.5, datalogger_config: "62"}
+                channel_locations:
+                    "BDH_00" : {}
+                    "BHZ_00" : {}
+                    "BH1_00" : {}
+                    "BH2_00" : {}
+            locations:
+                "00":
+                    <<: *LOC_DEFAULTS
+                    <<: *LOC_UNCERT_ACOUSTIC
+                    position: [5.3101, 41.9422, -2293]
+            supplements:
+                obs-specific:
+                    clock_correction_linear:
+                        <<: *LINEAR_CLOCK_DEFAULTS
+                        start_sync_reference: "2017-06-21T21:41:00Z"
+                        end_sync_reference: "2018-02-15T17:45:00.6974Z"
+                        end_sync_instrument: "2018-02-15T17:45:00.00Z"
+
+        "A401A":
+            notes: 
+                - "A401A - ALPARRAY-OBS"
+            site: "N/W Mediterranean Sea"
+            start_date: "2017-06-22T02:00:00Z"
+            end_date: "2018-02-16T00:00:00Z"
+            location_code: "00"
+            instrument:
+                reference_code: "BBOBS1_2"
+                serial_number: "02"
+                channel_standard: {sample_rate: 62.5, datalogger_config: "62"}
+                channel_locations:
+                    "BDH_00" : {}
+                    "BHZ_00" : {}
+                    "BH1_00" : {}
+                    "BH2_00" : {}
+            locations:
+                "00":
+                    <<: *LOC_DEFAULTS
+                    <<: *LOC_UNCERT_ACOUSTIC
+                    position: [5.0198, 42.6470, -1619]
+            supplements:
+                obs-specific:
+                    clock_correction_linear:
+                        <<: *LINEAR_CLOCK_DEFAULTS
+                        start_sync_reference: "2017-06-21T06:36:00Z"
+                        end_sync_reference: "2018-02-16T01:44:00.1461Z"
+                        end_sync_instrument: "2018-02-16T01:44:00.00Z"
+
+        "A429A":
+            notes: 
+                - "A429A - ALPARRAY-OBS"
+            site: "N/W Mediterranean Sea"
+            start_date: "2017-06-25T10:00:00Z"
+            end_date: "2018-02-22T17:09:00Z"
+            location_code: "00"
+            instrument:
+                reference_code: "BBOBS1_2"
+                serial_number: "05"
+                channel_standard: {sample_rate: 62.5, datalogger_config: "62"}
+                channel_locations:
+                    "BDH_00" : {}
+                    "BHZ_00" : {}
+                    "BH1_00" : {}
+                    "BH2_00" : {}
+            locations:
+                "00":
+                    <<: *LOC_DEFAULTS
+                    <<: *LOC_UNCERT_ACOUSTIC
+                    position: [7.5188, 41.9447, -2766]
+            supplements:
+                obs-specific:
+                    clock_correction_linear:
+                        <<: *LINEAR_CLOCK_DEFAULTS
+                        start_sync_reference: "2017-06-23T01:04:00Z"
+                        end_sync_reference: "2018-02-22T20:34:01.74Z"
+                        end_sync_instrument: "2018-02-22T20:34:00.00Z"   
+
+        "A425A":
+            notes: 
+                - "A425A - ALPARRAY-OBS"
+            site: "N/W Mediterranean Sea"
+            start_date: "2017-06-24T11:00:00Z"
+            end_date: "2018-02-21T04:00:00Z"
+            location_code: "00"
+            instrument:
+                reference_code: "BBOBS1_2"
+                serial_number: "06"
+                channel_standard: {sample_rate: 62.5, datalogger_config: "62"}
+                channel_locations:
+                    "BDH_00" : {}
+                    "BHZ_00" : {}
+                    "BH1_00" : {}
+                    "BH2_00" : {}
+            locations:
+                "00":
+                    <<: *LOC_DEFAULTS
+                    <<: *LOC_UNCERT_ACOUSTIC
+                    position: [8.0738, 42.6478, -2708]
+            supplements:
+                obs-specific:
+                    clock_correction_linear:
+                        <<: *LINEAR_CLOCK_DEFAULTS
+                        start_sync_reference: "2017-06-23T08:57:00Z"
+                        end_sync_reference: "2018-02-21T06:10:00.6995Z"
+                        end_sync_instrument: "2018-02-21T06:10:00.00Z" 
+
+        "A419A":
+            notes: 
+                - "A419A - ALPARRAY-OBS"
+            site: "N/W Mediterranean Sea"
+            start_date: "2017-06-25T10:00:00Z"
+            end_date: "2018-02-19T04:27:00Z"
+            location_code: "00"
+            instrument:
+                reference_code: "BBOBS1_2"
+                serial_number: "07"
+                channel_standard: {sample_rate: 62.5, datalogger_config: "62"}
+                channel_locations:
+                    "BDH_00" : {}
+                    "BHZ_00" : {}
+                    "BH1_00" : {}
+                    "BH2_00" : {}
+            locations:
+                "00":
+                    <<: *LOC_DEFAULTS
+                    <<: *LOC_UNCERT_ACOUSTIC
+                    position: [8.602, 43.2913, -2585]
+            supplements:
+                obs-specific:
+                    clock_correction_linear:
+                        <<: *LINEAR_CLOCK_DEFAULTS
+                        start_sync_reference: "2017-06-23T16:18:00Z"
+                        end_sync_reference: "2018-02-19T06:27:01.9933Z"
+                        end_sync_instrument: "2018-02-19T06:27:01.00Z"
+
+        "A416A":
+            notes: 
+                - "A416A - ALPARRAY-OBS"
+            site: "N/W Mediterranean Sea"
+            start_date: "2017-06-26T10:00:00Z"
+            end_date: "2018-02-17T01:52:00Z"
+            location_code: "00"
+            instrument:
+                reference_code: "BBOBS1_2"
+                serial_number: "08"
+                channel_standard: {sample_rate: 62.5, datalogger_config: "62"}
+                channel_locations:
+                    "BDH_00" : {}
+                    "BHZ_00" : {}
+                    "BH1_00" : {}
+                    "BH2_00" : {}
+            locations:
+                "00":
+                    <<: *LOC_DEFAULTS
+                    <<: *LOC_UNCERT_ACOUSTIC
+                    position: [6.9627, 42.6479, -2631]
+            supplements:
+                obs-specific:
+                    clock_correction_linear:
+                        <<: *LINEAR_CLOCK_DEFAULTS
+                        start_sync_reference: "2017-06-24T18:28:00Z"
+                        end_sync_reference: "2018-02-17T04:02:00.0894Z"
+                        end_sync_instrument: "2018-02-17T04:02:00.00Z" 
+
+        "A422A":
+            notes: 
+                - "A422A - ALPARRAY-OBS"
+            site: "N/W Mediterranean Sea"
+            start_date: "2017-06-23T12:00:00Z"
+            end_date: "2018-02-23T00:15:00Z"
+            location_code: "00"
+            instrument:
+                reference_code: "BBOBS1_2"
+                serial_number: "04"
+                channel_standard: {sample_rate: 62.5, datalogger_config: "62"}
+                channel_locations:
+                    "BDH_00" : {}
+                    "BHZ_00" : {}
+                    "BH1_00" : {}
+                    "BH2_00" : {}
+            locations:
+                "00":
+                    <<: *LOC_DEFAULTS
+                    <<: *LOC_UNCERT_ACOUSTIC
+                    position: [6.4101, 41.9439, -2545]
+            supplements:
+                obs-specific:
+                    clock_correction_linear:
+                        <<: *LINEAR_CLOCK_DEFAULTS
+                        start_sync_reference: "2017-06-22T06:38:00Z"
+                        end_sync_reference: "2018-02-23T02:20:00.6673Z"
+                        end_sync_instrument: "2018-02-23T02:20:00.00Z"     

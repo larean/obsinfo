@@ -1,0 +1,66 @@
+---
+# This file should be filled in by the reference scientist
+format_version: "0.92"
+
+campaign:
+    revision: 
+        date: "2017-09-14"
+        author: "Wayne Crawford"
+    reference_name: EMSO-MOMAR2016
+    reference_scientist:
+        name: "Mathilde Cannat"
+        institution: "Institut de Physique du Globe de Paris"
+        email: cannat@ipgp.fr
+        telephone: ~
+    OBS_facilities:
+        # Use reference names: e.g. "INSU-IPGP","Geoazur","DEPAS"
+        "INSU-IPGP":
+            email: parc-obs@insu.fr
+            stations: 
+                - 'LSVCI'
+                - 'LSVNI'
+                - 'LSVSI'
+                - 'LSVEI'
+                - 'LSVWI'
+    data_distribution:
+        embargo_years: 3
+    network:
+        fdsn_code: "4G"
+        start_date: "2007-07-01"
+        end_date: "2025-12-31"
+    validation_methods:
+        waveform_windows:
+            # Specify 1-3 time intervals during the campaign for plotting
+            -
+                title: ~
+                date: ~
+                duration_s: ~
+                source_position: ~
+            -
+                title: ~,
+                date: ~,
+                duration_s: ~
+            -
+                title: ~
+                date: ~
+                duration_s: ~
+    # OPTIONAL NODES
+    expeditions:
+        -
+            name: ~
+            ship_name: ~
+            start_date: ~
+            end_date: ~
+            comment: "Deployment"
+        -
+            name: ~
+            ship_name: Archipelago
+            start_date: "2016-05-27"
+            end_date: "2016-05-29"
+            comment: "Recuperation 4 autonomous stations"
+        -
+            name: ~
+            ship_name: ~
+            start_date: ~
+            end_date: ~
+            comment: "Recuperation central station (LSVCI)"

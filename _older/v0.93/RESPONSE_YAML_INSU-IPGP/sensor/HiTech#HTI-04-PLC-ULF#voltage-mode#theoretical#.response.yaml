@@ -1,0 +1,14 @@
+---
+stages:
+    -
+      # -194 dB re 1V/uPa WITHOUT AMPLI
+      description : "SENSOR - HITECH HTI-04-PLC-ULF HYDROPHONE" # optionel
+      DBIRD_response_type : "THEORETICAL" # optionel
+      input_units :  {name: "PA", description: "PRESSURE"}
+      output_units : {name: "V", description: "VOLTS"}
+      gain : 
+        value: 0.00057
+        frequency: 100
+      response:
+        type: "PolesZeros"
+        include:  "sensor/include/HiTech#HTI-04-PLC-ULF#voltage-mode#.pz.rad.yaml"

@@ -1,0 +1,28 @@
+---
+A: 
+    my_string: 'A_string'
+    my_bool: True
+    my_null: ~
+    my_null_json: null
+    my_list:
+        - 10
+        - 20
+        - 30
+B:
+    my_string: 'howdy'
+    my_obj:
+        obj_string: "hello"
+        obj_num: 209
+C:
+    my_string: 'aloha'
+    my_obj:
+        my_obj_string: "kenavo"
+        my_obj_num: 29
+D:
+    my_string: 'konichiwa'
+    my_obj:
+        my_obj_string: "bonjour"
+        my_obj_num: 17
+        my_obj_obj:
+            my_obj_string: "gday"
+            my_obj_num: 00

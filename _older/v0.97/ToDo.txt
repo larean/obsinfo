@@ -1,0 +1,11 @@
+- Simplify response files:
+    - change input_sampling_interval to input_sample_rate
+    - remove output_sample_rate (should be calculated from decimation_factor)
+- change "response:corrected" to "response:delay_correction"
+
+Options suggested by JM Saurel:
+  - remove scaling_divisor: it should perhaps simply be expressed as "gain" and
+    in any case it should be calculable from the sum of the coefficients
+        - Currently state gain=1 and then use the scaling_divisor to make it so
+  - Reorganize reponse files in "PolesZeros/", "FIR/", "Coefficients/",
+    "Polynomial/" directories (instead of ana_filt, dig_filt...)

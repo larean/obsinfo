@@ -1,0 +1,5 @@
+Should add a part verifying that the referred files exist
+
+Codes that get/use filenames from the information files don't work when
+not in same directory as the information files (which is why print_network.py,
+print_stationXML.py and print_oca_json.py are all in the information file dir)

@@ -1,0 +1,60 @@
+--- 
+campaign: 
+  name: EMSO-MOMAR2016
+  reference_scientist: 
+    name: "Mathilde Cannat"
+    institution: "Institut de Physique du Globe de Paris"
+    email: cannat@ipgp.fr
+    telephone: ~
+  OBS_providers: 
+    - 
+      name: "INSU-IPGP OBS park"
+      email: parc-obs@insu.fr
+      representative: "Wayne Crawford <crawford@ipgp.fr>"
+      chief_engineer: "Romuald Daniel <rdaniel@ipgp.fr>"
+  network: 
+    FDSN_code: 4G
+    name: EMSO-MOMAR
+    DOI: ~
+    URL: "http://www.fdsn.org/networks/detail/4G_2007/"
+    email: 4G@resif.fr
+    telephone: ~
+    start_date: 2007-07-01
+    end_date: 2025-12-31
+  # Specify 1-3 events during the campaign for plotting (helps to confirm synchronisation and amplitudes)
+  data_sample: 
+    - 
+      date: ~
+      duration: ~
+      title: ~
+      source_latitude: ~
+      source_longitude: ~
+      ordering: ['name','distance']
+    - 
+      date: ~
+      duration: ~
+      title: ~
+    - 
+      date: ~
+      duration: ~
+      title: ~
+  # All following fields/information are optional
+  expeditions: 
+    - 
+      name: ~
+      ship: ~
+      start_date": ~
+      end_date": ~
+      comments: Deployment
+    - 
+      name: ~
+      ship: Archipelago
+      start_date: ~
+      end_date: ~
+      comments: Recuperation
+    - 
+      name: ~
+      ship: Archipelago
+      start_date: ~
+      end_date: ~
+      comments: Recuperation

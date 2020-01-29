@@ -1,0 +1,228 @@
+---
+# To be completed by one OBS facility involved in the campaign
+# Used both for data transformation and metadata construction
+# DEFAULTS (Building blocks for stations)
+object_definitions:
+    station: &DEFAULT_STATION_VALUES
+        sample_rate: 62.5
+        comment_list: []     
+    obs_clock_correction_linear_defaults: &LINEAR_CLOCK_DEFAULTS
+        time_base: "Seascan MCXO, ~1e-8 nominal drift"
+        reference: "GPS"
+        start_sync_instrument: 0
+    location_defaults: &LOC_DEFAULTS
+            depth: 0
+            geology: "unknown"
+            vault: "Sea floor"                    
+    location_uncertainties:
+        uncert_buc_direct: &LOC_UNCERT_BUC_DIRECT
+            uncertainties_m: [5, 5, 10]
+            localisation_method: >-
+                    "Short baseline transponder, seafloor release"
+        uncert_buc_drop: &LOC_UNCERT_BUC_DROP
+            uncertainties_m: [20, 20, 20]
+            localisation_method: >-
+                     "Short baseline transponder, near-seafloor release"
+
+format_version: "0.92"
+network:
+    revision:
+        author: "Wayne Crawford"
+        date: "2017-10-04"
+    network_code: "4G"
+    instrumentation_file: "INSU-IPGP.instrumentation.yaml"
+    stations:
+        # Stations are listed by official station name.
+        # miniSEED files should be be in directories of the same name.
+        "LSVNI":
+            <<: *DEFAULT_STATION_VALUES
+            site: "Lucky Strike Volcano North"
+            start_date: "2015-04-23T10:00:00Z"
+            end_date: "2016-05-26T23:00:00Z"
+            instrument:
+                model: "SPOBS2"
+                serial_number: "13"
+            comment_list:
+                - "Hydrophone did not work"
+            locations:
+                "00":
+                    <<: *LOC_DEFAULTS
+                    <<: *LOC_UNCERT_BUC_DROP
+                    position: [-32.27909, 37.31960, -1798]
+            supplements:
+                initial_name: "I1"
+                obs-specific:
+                    clock_correction_linear:
+                        <<: *LINEAR_CLOCK_DEFAULTS
+                        start_sync_reference: "2015-04-22T09:21:00Z"
+                        end_sync_reference: "2016-05-28T22:59:00.1843Z"
+                        end_sync_instrument: "2016-05-28T22:59:02Z"
+        "LSVWI":
+            <<: *DEFAULT_STATION_VALUES
+            site: "Lucky Strike Volcano West"
+            start_date: "2015-04-22T12:00:00Z"
+            end_date: "2016-05-28T21:01:00Z"
+            instrument:
+                model: "SPOBS2"
+                serial_number: "20"
+            locations:
+                "00":
+                    <<: *LOC_DEFAULTS
+                    <<: *LOC_UNCERT_BUC_DROP
+                    position: [-32.32504, 37.29744, -2030]
+            supplements:
+                initial_name: "I2"
+                obs-specific:
+                    clock_correction_linear:
+                        <<: *LINEAR_CLOCK_DEFAULTS
+                        start_sync_reference: "2015-04-21T21:06:00Z"
+                        end_sync_reference: "2016-05-28T20:59:00.32Z"
+                        end_sync_instrument: "2016-05-28T20:59:03Z"
+        "LSVCI":
+            <<: *DEFAULT_STATION_VALUES
+            site: "Lucky Strike Volcano Center"
+            start_date: "2015-04-24T12:00:00Z"
+            end_date: ~
+            instrument:
+                model: "SPOBS2"
+                serial_number: "Station02"
+            comment_list:
+                - "R Daniel should have end date and end_sync times"
+            locations:
+                "00":
+                    <<: *LOC_DEFAULTS
+                    <<: *LOC_UNCERT_BUC_DIRECT
+                    position: [-32.2798, 37.2912, -1750]
+            supplements:
+                initial_name: "ISW"
+                obs-specific:
+                    clock_correction_linear:
+                        <<: *LINEAR_CLOCK_DEFAULTS
+                        start_sync_reference: "2015-04-20T15:35:00Z"
+                        end_sync_reference: ~
+                        end_sync_instrument: ~
+        "LSVEI":
+            <<: *DEFAULT_STATION_VALUES
+            site: "Lucky Strike Volcano East"
+            start_date: "2015-04-19T12:00:00Z"
+            end_date: "2016-05-28T18:00:00Z"
+            instrument:
+                model: "SPOBS2"
+                serial_number: "04"
+            locations:
+                "00":
+                    <<: *LOC_DEFAULTS
+                    <<: *LOC_UNCERT_BUC_DROP
+                    position: [-32.2417, 37.2806, -1640]
+            supplements:
+                initial_name: "I4"
+                obs-specific:
+                    clock_correction_linear:
+                        <<: *LINEAR_CLOCK_DEFAULTS
+                        start_sync_reference: "2015-04-17T14:38:00Z"
+                        end_sync_reference: "2016-05-28T17:58:31.7374Z"
+                        end_sync_instrument: "2016-05-28T17:58:30Z"
+        "LSVSI":
+            <<: *DEFAULT_STATION_VALUES
+            site: "Lucky Strike Volcano South"
+            start_date: "2015-04-23T10:00:00Z"
+            end_date: "2016-05-28T15:37:00Z"
+            instrument:
+                model: "SPOBS2"
+                serial_number: "07"
+            locations:
+                "00":
+                    <<: *LOC_DEFAULTS
+                    <<: *LOC_UNCERT_BUC_DROP
+                    position: [-32.29756, 37.26049, -1887]
+            supplements:
+                initial_name: "I7"
+                obs-specific:
+                    clock_correction_linear:
+                        <<: *LINEAR_CLOCK_DEFAULTS
+                        start_sync_reference: "2015-04-22T12:24:00Z"
+                        end_sync_reference: "2016-05-28T15:35:00.3660Z"
+                        end_sync_instrument: "2016-05-28T15:35:02Z"
+        "LSVZI":
+            # FAKE ENTRY TO SHOW HOW TO SPECIFY SERIAL NUMBERS
+            <<: *DEFAULT_STATION_VALUES
+            site: "Lucky Strike Volcano Fake BBOBS"
+            start_date: "2015-04-23T10:00:00Z"
+            end_date: "2016-05-28T15:37:00Z"
+            instrument:
+                model: "BBOBS1_2"
+                serial_number: "07"
+            sensors:
+                "BDH":
+                    "model" : "DPG"
+                    "serial_number" : "IP007"
+                "BH1": 
+                    "model" : "TRILLIUM_T240_SS" 
+                    "serial_number" : "Sphere06"
+                "BH2": 
+                    "model" : "TRILLIUM_T240_SS"
+                    "serial_number" : "Sphere06"
+                "BHZ": 
+                    "model" : "TRILLIUM_T240_SS" 
+                    "serial_number" : "Sphere06"
+            locations:
+                "00":
+                    <<: *LOC_DEFAULTS
+                    <<: *LOC_UNCERT_BUC_DROP
+                    position: [-32.29756, 37.26049, -1887]
+            supplements:
+                initial_name: "I7"
+                obs-specific:
+                    clock_correction_linear:
+                        <<: *LINEAR_CLOCK_DEFAULTS
+                        start_sync_reference: "2015-04-22T12:24:00Z"
+                        end_sync_reference: "2016-05-28T15:35:00.3660Z"
+                        end_sync_instrument: "2016-05-28T15:35:02Z"
+        "LSVHI":
+            # FAKE ENTRY TO SHOW HOW TO SPECIFY MULTIPLE IDENTICAL SENSORS
+            <<: *DEFAULT_STATION_VALUES
+            site: "Lucky Strike Volcano Fake HydroOctopus"
+            start_date: "2015-04-23T10:00:00Z"
+            end_date: "2016-05-28T15:37:00Z"
+            station_location: "00"
+            instrument:
+                model: "HydroOctopus"
+                serial_number: "01"
+            sensors:
+                "BDH:00": 
+                    "model" : "PRESSURE_HTI_04-PLC-ULF"
+                    "serial_number" : "4500"
+                "BDH:01":
+                    "model" : "PRESSURE_HTI_04-PLC-ULF"
+                    "serial_number" : "4501"
+                "BDH:02": 
+                    "model" : "PRESSURE_HTI_04-PLC-ULF"
+                    "serial_number" : "4502"
+                "BDH:03": 
+                    "model" : "PRESSURE_HTI_90U"
+                    "serial_number" : "9601"
+            locations:
+                "00":
+                    <<: *LOC_DEFAULTS
+                    <<: *LOC_UNCERT_BUC_DIRECT
+                    position: [-32.29756, 37.26049, -1887]
+                "01":
+                    <<: *LOC_DEFAULTS
+                    <<: *LOC_UNCERT_BUC_DROP
+                    position: [-32.29756, 37.26051, -1885]
+                "02":
+                    <<: *LOC_DEFAULTS
+                    <<: *LOC_UNCERT_BUC_DROP
+                    position: [-32.29758, 37.26049, -1889]
+                "03":
+                    <<: *LOC_DEFAULTS
+                    <<: *LOC_UNCERT_BUC_DROP
+                    position: [-32.29756, 37.26047, -1877]
+            supplements:
+                initial_name: "I7"
+                obs-specific:
+                    clock_correction_linear:
+                        <<: *LINEAR_CLOCK_DEFAULTS
+                        start_sync_reference: "2015-04-22T12:24:00Z"
+                        end_sync_reference: "2016-05-28T15:35:00.3660Z"
+                        end_sync_instrument: "2016-05-28T15:35:02Z"

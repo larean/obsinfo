@@ -1,0 +1,16 @@
+Options suggested by JM Saurel:
+  - Reorganize reponse files in "PolesZeros/", "FIR/", "Coefficients/",
+    "Polynomial/" directories (instead of ana_filt, dig_filt...)
+    
+Instruments should specify the delay applied and the obs-info code should verify
+that this correction corresponds to the delay predicted from the digital filter
+offets and/or stage delays
+    - Set delay to 0
+    - If offset is specified, calculate delay from it and input_sample_rate
+    - If delay is specified, compare to calculated delay, send error if different
+    - If delay is not specified, set it to the calculated value
+    - Sum all of the delays
+    - Compare with any provided delay value
+    
+Add possibility of adding UCUM units to values (for example, 
+        longitude error might be assumed to be in degrees but could specify "10 m", for example)

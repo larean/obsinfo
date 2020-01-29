@@ -1,153 +1,276 @@
-======================================
+*******************
 Information files
-======================================
+*******************
 
+Basic principals
+==========================
 
-Basic principals of information files
-======================================
+- In JSON or YAML format
 
-- They are in JSON or YAML
-- All the information that obsinfo will read is in a base level field with the
-  same name as the information file type (``"network"``, ``"instrumentation"``,
-  ...)
-     
-  - The ``extras``  subfield is for fields that are not defined in the schema.
-
-- The base level also has the following fields:
+- Base-level fields:
 
   - ``format_version`` (REQUIRED): version of the information file format
   - ``revision`` (REQUIRED): Who made the file and when
-  - ``notes``: Notes about the contents that will not be saved/transferred
-    elsewhere
-  - ``yaml_anchors``: used to define the YAML anchors (a section of data that
-    can be named an inserted elsewhere, allowing the user to avoid typing
-    redundancy/errors)
+  - {LEVEL}: where ``LEVEL`` is one of the levels described below
 
-- External files are referenced using "$ref" and the JSON Pointers syntax, but we do NOT
-  use JSON pointers, allowing us to partially read files downstream and to use YAML in
-  addition to JSON
+- Optional fields:
 
-Network files
-======================================
+  - ``notes``: Notes that will not be translated into the StationXML file.
+    Can be at almost any level
+  - ``extras``: Fields that don't exist in the definition, but maybe should.
+    Can be at almost any level
+  - ``yaml_anchors``: At base level.  Used to define YAML anchors (groups
+    of objects that can be inserted elsewhere, reducing redundancy/errors)
 
-Theses are the files that specify the stations deployed by an OBS facility
-during an experiment.  Fields are:
+External files are referenced using
 
-:general_information: Fields that correspond to FDSN network information.  If there is already
-   an FDSN network defined, the contents of these fields should match the
-   FDSN values
+  - "$ref" for hard-coded files.  This uses the
+    `JSON Pointers <https://tools.ietf.org/html/rfc6901>`_ model, but
+    can read YAML files as well.
+  - "$config" for files that should be evaluated at run time.  A separate
+    "config" parameter must be provided, at which time a "$ref" is constructed
+    as "{`$config:value}/config`".  This is most often used to provide data
+    loggger configurations.
+
+Network Level
+==========================
+
+Specify the stations deployed by an OBS facility during an experiment.  You
+could specify the entire station/instrument/response in this file, but
+JSON References are generally used to specify instruments or instrument
+components.
+Fields are:
+
+:`facility`: Basic information about the OBS facility.  ``ref_name`` should
+    match the second field in the filename.  ``full_name`` will be
+    put in the StationXML file
+  
+:`campaign_ref_name`: Should match the ``ref_name`` field in the Campaign file
    
-:campaign_ref_name: Should match the first part of the filename and
-  the ``ref_name`` field in the Campaign file
+:`network_info`: FDSN network information.  If you have declared a network
+    with FDSN, the contents of these fields should match the
+    values on the FDSN website
    
-:facility: Basic information about the OBS facility.  ``ref_name`` should
-  match the second field in the filename.  ``full_name`` will be put in the
-  StationXML file
-  
-:ref_files: Files that the ``station:{STATION}:instruments`` fields will refer
-  to.  ``instrument_components`` is needed if any of the instruments are
-  fully described, ``instrumentation`` if any are described by reference.
-  
-:stations: the main field.  Subfields are station names.
+:`stations`: descriptions of each station.  Subfields are objects with key = 
+    {`STATION_NAME`} and value = `Station Level`_ object.
 
-:stations\:{STATION}:  Description of one station.  The information here goes
-  almost directly into stationXML.
+Station Level
+==========================
+
+Description of one station.
   
-  :site: StationXML "site" field
+:`site`: StationXML "site" field
   
-  :start_date: StationXML station "start_date" field.  Will also be used for
+:`start_date`: StationXML station "start_date" field.  Will also be used for
     channels if they are not separately entered
     
-  :end_date: Counterpart of "start_date".
+:`end_date`: Counterpart of "start_date".
   
-  :location_code: StationXML station "location_code".  Will be used for channels
-    if they are not separately entered.
+:`location_code`: Station location code.  Will also be used for
+    channels if they are not separately entered.
+
+:`locations`: descriptions of each location code:  fields are the same
+    as in StationXML except ``uncertainties.m`` (all values are in
+    meters) and ``localisation_method`` (description of how the
+    location was determined)
     
-  :locations: descriptions of each "location_code":  fields are the same
-    as in StationXML except ``uncertainties.m`` (all values are in meters) and
-    ``localisation_method`` (description of how the location was determined)
+:`processing`: Provenance information about how the data was transformed from
+    raw to the final version.  There is no corresponds field in
+    StationXML, so subfields are saved as StationXML comments
     
-  :processing: Provenance information about how the data was transformed from
-    raw to the final version.  Corresponds to nothing in StationXML, so the
-    subfields are saved in StationXML comments
+:`extras`: Information that has no other place in the Network file schema.
+    Subfields are saved to StationXML comments.
+
+:`instruments`: List of instruments making up the station. In the list below,
+   later fields can modify earlier ones
     
-  :extras: Information that has no other place in the Network file schema.
-    For new fields.  Subfields are saved to StationXML comments.
+    :`base`: Full instrument description (see `Instrumentation Level`_)
+      
+    :`datalogger_config`: shortcut for `channel_mods:base:datalogger:config`
+          
+    :`serial_number`: Instrument serial number: if it corresponds to a field
+        under "`serial_numbers`" at the **Instrumentation Level**, will use
+        the modifications specified there.
+                  
+    :`channel_mods`: [*optional*] Modifications to instrument channels.
+                    
+        :`base`: Modifications applied to all channels.
+        
+        :`by_orientation/{ORIENTATION-CODE}`: Modifications applied to
+          individual channels, specified by their SEED orientation code (see
+          **Instrument_Component Level** Sensor-specific fields)
+      
+        :`by_das/{DAS-CODE}`: Modifications applied to individual channels,
+          specified using the data acquisition channel code.
+          Use only when a station has more than one channel
+          with the same orientation code.  Do not use if you have specified
+          `by_orientation`
 
-  :instruments: List of instruments making up the station.  Often just one
-    element.  Each element is either an instrument reference ("ref") or a full
-    instrument description.  Full instrument descriptions are described under
-    "Instrumentation files".  Instrument references contain:
+Instrumentation Level
+==========================
+
+Specify a scientfic instrument (OBS, field station), from sensor to datalogger
+
+Fields are:
+
+:`equipment`: Corresponds to StationXML Equipment object
+  
+:`base_channel`: Description of one channel.  Should correspond to the most
+                 common channel on the instrumentation (for example) a seismometer
+                 channel on an ocean-bottom seismometer.  Has subfields
+                 "`datalogger`", "`preamplifier`" and "`sensor`" (see 
+                 `Instrument_Component Level`_ for details)
+:`das_channels`: descriptions of individual channels. Has required subfield
+                 `orientation_code` and optional subfields `preamplifier`, 
+                 `sensor` and `datalogger`, where the provided values replace
+                 those in `base_channel`
+
+:`configurations`: optional configurations. 
+      
+:`serial_numbers`: changes to configurations based on serial number.  Possible
+                   fields are `equipment`, `base_channel` and `das_channel`, 
+                   for which  the provided values replace those given in
+                   the instrumentation definition
+   
+Instrument_Component Level
+==========================
+
+Specify an instrument component: `sensor`, `preamplifier` or `datalogger`.
+
+Common fields:
+-----------------------------
+
+:`equipment`: Corresponds to StationXML Equipment object
+  
+:`config_description`: Description of the default configuration.  Can be left
+                       empty if there is only one configuration.
+
+:`response_stages`: a list of response stages (see `Response Level`_)
+
+:`configurations`: optional configurations.  Fields are any of the
+                   Instrument_Component fields (including specific ones for the
+                   type (`datalogger`, `preamplifier` or `sensor`)
+
+Datalogger-specific fields:
+-----------------------------
+
+:`sample_rate`: samples per second
+
+:`delay_correction`: time correction applied to data to compensate FIR delay:
+
+    :numeric: seconds delay to specify in last stage (for software correction
+              of delay)
+    :True: specify a correction in each stage corresponding to the specified
+           delay in that stage
+    :False: No correction will be specified (same as numeric = 0)
+
+Sensor-specific fields:
+-----------------------------
+
+:`seed_codes`: SEED codes to give to channels using this sensor
+
+    :`band_base`: Base SEED band code: "B" for broadband, "S" for short
+                  period: obsinfo will determine the sample-rate-dependent band
+                  codes to use for a given acquisition channel.
+    :`instrument`: SEED instrument code
+    :`orientation`: SEED orientation codes that can be associated with this
+                    sensor. Each code is a key for an object containing:
+
+                    :`azimuth.deg`: 2-element array of [value, uncertainty]
+                    :`dip.deg`: 2-element array of [value, uncertainty]
+ 
+Response Level
+==========================
+
+:`stages`: List of response stages, most sub-elements are StationXML fields
+
+    :`description`: string
     
-    :code: Instrument code, corresponding to a code specified in the
-      instrumentation file.  This is the only required field
-      
-    :config: A particular configuration of the instrument, specified in the
-      instrumentation file.
-      
-    :serial_number: Instrument serial number, either corresponds to a particular
-      set-up in the instrument file, or just sets the ``serial_number`` field
-      in the Station XML file
-      
-    :channel_mods:  Modifications to the instrument channels. Generally, the
-      datalogger configuration will have to be specified to indicate the
-      sampling rate and perhaps any configurable gain or filtering.
+    :`input_units`: object with fields `name` and `description`
     
-      :base: applied to all channels of the instrument.  Must include
-        datalogger configuration.
+    :`output_units`: object with fields `name` and `description`
+    
+    :`gain`: object with fields ``value`` and ``frequency``
+    
+    :`filter`: `Filter Level`_ element
 
-      **ONLY USE ONE OF THE FOLLOWING**
-      
-      :by_orientation/{ORIENTATION-CODE}: applied to individual channels
-        (added to base_channel_mods). Channels are specified by their SEED
-        orientation code (as specified in the instrumentation file)
-      
-      :by_das/{DAS-CODE}: Same as above, but using the data acquisition code
-        rather than the orientation code.  Used when a station has more than
-        one channel with the same orientation code.
+Filter Level
+==========================
 
-*Should I add (or even force) ``instruments:[N]:ref:datalogger_config`` as a
-shortcut for ``instruments:[N]:ref:channel_mods:datalogger:config``?*
+Description of a filter.  Fields depend on the ``type``
 
-Linkages between information files
-======================================
-{xx} indicates a variable value/field name: CN= *DAS component number*, RC= *reference code*, SN= *serial number*, 
-CL= *channel_location code*, DC= *datalogger configuration*, SC= *station code*, CC= *component code*, URL = *file locator*
+Common fields:
+-----------------------------
+
+:`type`: "`PolesZeros`", "`Coefficients`", "`ResponseList`",
+         "`FIR`", "`ANALOG`", "`DIGITAL`" or "`AD_CONVERSION`"
+
+`PolesZeros`-specific fields:
+-------------------------------
+
+:`units`: string (only "`rad/s`" has been verified)
+
+:`poles`: List of poles in the above units.  Each elements is a 2-element array
+          containing the real and imaginary parts
+
+:`zeros`:  List of zeros, specified as above
+
+:`normalization_frequency`: As in StationXML
+
+:`normatlization_factor`: As in StationXML
 
 
-+---------------------------------------------------------------------+---------------------------------------------------+
-|    Referring file/field:                                            |    Target file/field.                             |
-+=====================================================================+===================================================+
-|     **network**                                                     |        **instrumentation**                        |
-+---------------------------------------------------------------------+---------------------------------------------------+
-| ``instrumentation:{$ref: URL}``                                     |   file name/URL                                   |
-+---------------------------------------------------------------------+---------------------------------------------------+
-| ``stations:{SC}:instrument:reference_code:{RC}``                    | ``instruments:generic:{RC}``                      |
-|                                                                     |                                                   |
-|                                                                     | ``instruments:specific:{RC}``                     |
-+---------------------------------------------------------------------+---------------------------------------------------+
-| ``stations:{SC}:instrument:serial_number:{RC}``                     | ``instruments:specific:{SN}``                     |
-+---------------------------------------------------------------------+---------------------------------------------------+
-+---------------------------------------------------------------------+---------------------------------------------------+
-|     **network**                                                     |        **instrument_components**                  |
-+---------------------------------------------------------------------+---------------------------------------------------+
-| ``stations:{SC}:instrument:channel_locations:{CL}:                  | ``instrument_blocks:datalogger:generic:           |
-| datalogger_config:{DC}``                                            | {RC}_{DC}``                                       |
-+---------------------------------------------------------------------+---------------------------------------------------+
-+---------------------------------------------------------------------+---------------------------------------------------+
-|     **instrumentation**                                             |        **instrument_components**                  |
-+---------------------------------------------------------------------+---------------------------------------------------+
-| ``instrument_components:{$ref: URL}``                               |   file name/URL                                   |
-+---------------------------------------------------------------------+---------------------------------------------------+
-| ``instruments:generic:{RC}:das_components:{CN}:sensor:{CC}``        | ``instrument_blocks:sensor:generic:{CC}``         |
-|                                                                     |                                                   |
-| ``instruments:specific:{RC}:{SN}:das_components:{CN}:sensor:{CC}``  | ``instrument_blocks:sensor:specific:{SN}:{CC} ``  |
-+---------------------------------------------------------------------+---------------------------------------------------+
-| ``instruments:generic:{RC}:das_components:{CN}:datalogger``         | ``instrument_blocks:datalogger:generic``          |
-|                                                                     |                                                   |
-| ``instruments:specific:{RC}:{SN}:das_components:{CN}:datalogger``   | ``instrument_blocks:datalogger:specific:{SN} ``   |
-+---------------------------------------------------------------------+---------------------------------------------------+
-| ``instruments:generic:{RC}:das_components:{CN}:preamplifier``       | ``instrument_blocks:preamplifier:generic``        |
-|                                                                     |                                                   |
-| ``instruments:specific:{RC}:{SN}:das_components:{CN}:preamplifier`` | ``instrument_blocks:preamplifier:specific:{SN} `` |
-+---------------------------------------------------------------------+---------------------------------------------------+
+`FIR`-specific fields:
+-------------------------------
+
+:`symmetry`: "`ODD`", "`EVEN`" or "`NONE`"
+
+:`delay.samples`: samples delay for this FIR stage
+
+:`coefficients`: list of FIR coefficients
+
+:`coefficient_divisor`: Value to divide coefficients by to obtain equal energy
+                        in the input and the output
+
+
+`Coefficients`-specific fields:
+-------------------------------
+
+:`transfer_function_type`: "`ANALOG (RADIANS/SECOND)`", "`ANALOG (HERTZ)`", or
+                           "`DIGITAL`"
+
+:`numerator_coefficients`: list
+
+:`denominator_coefficients`: list
+
+
+`ResponseList`-specific fields:
+-------------------------------
+
+List of [frequency (Hz), amplitude, phase (degrees)] lists
+
+
+`ANALOG`-specific fields:
+-------------------------------
+
+None.  Becomes a StationXML `PolesZeros` stage without poles or zeros,
+`normalization_freq` = 0 and `normalization_factor` = 1.0
+
+
+`DIGITAL`-specific fields:
+-------------------------------
+
+None.  Becomes a StationXML `Coefficients` stage with 
+`numerator` = [1.0] and `denominator` = []
+
+
+`AD_CONVERSION`-specific fields:
+-------------------------------
+
+:`input_full_scale`: full scale value (volts)
+
+:`output_full scale`: full scale value (counts)
+
+Behaves the same as `DIGITAL`, the fields are for information only.
+
+

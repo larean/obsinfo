@@ -1,0 +1,88 @@
+0.5: INSTRUMENTATION file: 
+        - Add parameters allowing full specification of StationXML
+           <Equipment>, <Datalogger>, <Preamplifier> and <Sensor> fields.
+        - Add "dip" and "azimuth" for each channel.
+        - Made instances self-contained (at the expense of some streamlining).
+     All files (no effect on output):
+        - Made repeated node names UPPER_CASE
+0.6: CAMPAIGN file:
+        - added "version:"
+        - changed "name:" to "reference_name:"
+        - in "FDSN_network:"
+            added "description:"
+        - changed information in "OBS_facilities:" (previously "OBS_providers:")
+            changed "email:" to "contact:"
+            eliminated "representative:", "chief_engineer:" (in NETWORK file)
+            added "stations:"
+        - in "data_sample:"
+            eliminated "ordering:" (automatically by distance if source_latitude
+                                    and source_longitude provided, by station
+                                    name otherwise)
+    NETWORK file:
+        - Changed name to {CAMPAIGN}.{FACILITY}.network.yaml
+            Allows each facility to provide it's own stations' information
+        - Added "instrumentation-file:"
+        - Removed "network_info:"
+        - in "stations:"
+            changed key to be facility's station name
+            within each station:
+                - added "FDSN_name:"
+                - added "geology:", "vault:" and "site:"
+            
+    INSTRUMENTATION file:         
+        - Add "response_directory:" (absolute or relative pathname)
+        Serial numbers: changed default string from "Default" to "generic"
+                
+0.7: INSTRUMENTATION file:
+        - Removed "datalogger" type, because there are already "digitizer" and 
+          "digital filter" types that have no corresponding type in StationXML
+          (so the "digitizer" and "digital filter" types should be combined
+          in the StationXML "datalogger" type)
+0.8: Allow complete specification of StationXML using network + instrumentation files
+    NETWORK FILE
+        - Add "FDSN_network" to "network:" level
+        - Added "obs-specific" dictionary to stations, and collected all obs-specific information
+            - clock_correction_linear
+            - time_base
+            - localization_method
+            - clock_correction_leapsecond (NEW)
+        - Went back to using official station name as station[key]
+            - changed "FDSN_name" to "original_name" within station[key] dictionary
+    CAMPAIGN FILE
+        Renamed "FDSN_network" to "network" and simplified information (if it is
+        an FDSN network, the complimentary information should be found through FDSN
+        webservices)
+    ALL FILES:
+        - Split up "version" into a "format_version" (for the file format) and
+          "information_version" (for the information provided)
+            - "format_version" is now a base-level element 
+0.85: Simon Stahler says that AWI changes the seismometer/hydrophone/logger combination
+        for each deployment, so should be specifiable (by serial numbers) in network
+        file
+
+0.9: instrumentation file allows complete specification of instruments and sensors
+          (including serial-number specific variations)
+     network file allows one to build an instrument by taking it's base configuration
+          and changing the attached sensors.
+    Added schemas (using JSON-SCHEMA)
+
+0.93: Change component.response_file (string) to component.response_files (list of strings)
+      No longer put datalogger, sensor etc in separate "components" field under "models"
+0.95: Mods for interface with GeoAzur
+        - split instrumentation.yaml into components_sensor.yaml, components_datalogger and instrumentation.yaml
+        - also an azi_dip.yaml?????
+        - Add first_name and last_name to author fields
+        - Added campaign.network.description 
+        - remove variables from instrument_components.yaml (because GeoAzur can't use them)
+    Also creates valid StationXML (print_stationXML.py)
+
+To Do: 
+    - allow URLs for the references to instrumentation_file (in *.network.yaml) and response_directory (in *.instrumentation.yaml)
+        - using JSON "hypermedia" (Olivier is looking at it)?
+    - Separate the specification of Datalogger, Preamplifier and Sensor (EquipmentTypes)
+      from the specification of stages (could use digitizer, dig_filter, ana_filt and sensor directories)?
+    - Separate files for instrument_blocks and instruments? (components goes to Geoazur, instruments stays with us?)
+    - also separate azi_dip file?  (different structure than everything else)
+        - or in instrumentation file?
+        - can't just include them in a separate sensor file, because they depend on channel+sensor
+        

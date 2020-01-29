@@ -1,0 +1,47 @@
+---
+format_version: "0.100"
+notes:
+    - "From ..."
+definitions:
+    base: &BASE
+        gain :         {value: 1, frequency: 0}
+        input_units :  { name : "COUNTS", description: "Digital Counts"}
+        output_units : { name : "COUNTS", description: "Digital Counts"}
+stages: 
+    - 
+        <<: *BASE
+        description : "DECIMATION - KUM_6D6 SINC - 128x" 
+        notes: 
+            - "SINC FILTER NOT MODELED IN STATIONXML??, just input/output"
+        decimation_factor : 128
+        output_sample_rate : 3200
+        filter:
+            type : "DIGITAL"
+    -
+        <<: *BASE
+        description : "DECIMATION - KUM_6D6 FIR1" 
+        decimation_factor : 2
+        output_sample_rate : 1600
+        filter: 
+            $ref: "../_filters/FIR/KUM_6D6_FIR1.filter.yaml#filter"
+    -
+        <<: *BASE
+        description : "DECIMATION - KUM_6D6 FIR2" 
+        decimation_factor : 2
+        output_sample_rate : 800
+        filter: 
+            $ref: "../_filters/FIR/KUM_6D6_FIR2.filter.yaml#filter"
+    -
+        <<: *BASE
+        description : "DECIMATION - KUM_6D6 FIR3" 
+        decimation_factor : 4
+        output_sample_rate : 200
+        filter: 
+            $ref: "../_filters/FIR/KUM_6D6_FIR3-linear.filter.yaml#filter"
+    -
+        <<: *BASE
+        description : "DECIMATION - KUM_6D6 FIR4" 
+        decimation_factor : 2
+        output_sample_rate : 100
+        filter: 
+            $ref: "../_filters/FIR/KUM_6D6_FIR4-linear.filter.yaml#filter"

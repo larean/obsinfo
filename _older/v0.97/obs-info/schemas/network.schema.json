@@ -1,0 +1,381 @@
+{
+	"$schema": "http://json-schema.org/draft-06/schema#",
+	"title": "Network",
+	"description": "Network of stations deployed by an OBS facility",
+	"type": "object",
+	"required": [ "network" ],
+	"properties": {
+		"network": {
+			"type": "object",
+			"required": [
+		        "format_version",
+		        "facility",
+				"revision",
+				"network_info",
+				"instrumentation_file",
+				"stations"
+			],
+			"properties": {
+                "format_version": {"ref": "#/definitions/format_version"},
+                "facility": {"ref": "#definitions/facility"},
+				"revision": {"ref": "#/definitions/revision"},
+				"network_info": {"ref": "#/definitions/network_info"},
+				"instrumentation_file": {"ref": "#/definitions/instrumentation_file"},
+				"stations": {"ref": "#/definitions/stations"}
+			}
+		}
+	},
+	"definitions" : {
+	    "format_version": {
+            "description": "Version of this file's schema",
+            "type": "string",
+            "minLength": 3,
+            "pattern": "^0\\.97$"
+	    },
+	    "facility": {
+	        "description" : "facility reference name (should be same as second word of filename)",
+	        "type": "string"
+	    },
+	    "revision": {
+            "description": "Date provenance of instrumentation information",
+            "type": "object",
+            "required": ["date","authors"],
+            "properties": {
+                "date": { "$ref": "#/definitions/date" },
+                "authors": {
+                    "type": "array",
+                    "minItems" : 1,
+                    "items" : {"ref": "#/definitions/author"}
+                }
+            }
+	    },
+	    "network_info" : {
+            "description": "Network information (if this is an FDSN network values should correspond to those on FDSN network page",
+            "type": "object",
+            "required" : [
+                "code",
+                "start_date",
+                "end_date",
+                "description",
+                "comments"
+            ],
+            "properties" : {
+                "code" : {
+                    "type" : "string" , 
+                    "description": "FDSN network code or 'XX'"
+                },
+                "start_date": { "$ref": "#/definitions/date" },
+                "end_date": { "$ref": "#/definitions/date" },
+                "description": {
+                    "type" : "string" , 
+                    "description": "Should use FDSN 'network name'"
+                },
+                "comments" : { "$ref": "#/definitions/comments" }
+            }
+        },
+        "instrumentation_file": {
+            "type": "string",
+            "description": "file containing instrumentation referred to in 'stations.name.instrument' field"
+        },
+        "stations" : {
+            "type": "object",
+            "description": "Seafloor seismological stations, keys are station names",
+            "patternProperties": {
+                "^[A-Za-z0-9_-]+$": {
+                    "station" : {
+                        "type" : "object",
+                        "description" : "OBS station",
+                        "required": [
+                            "comments",
+                            "site",
+                            "start_date",
+                            "end_date",
+                            "location_code",
+                            "instrument",
+                            "locations",
+                            "supplements"
+                        ],
+                        "properties": {
+                            "notes" : { "$ref": "#/definitions/notes"},
+                            "comments" : { "$ref": "#/definitions/comments"},
+                            "site" : { "type" : "string", "minLength" : 1 },
+                            "start_date" : { "$ref": "#/definitions/date-time-Z" },
+                            "end_date" : { "$ref": "#/definitions/date-time-Z" },
+                            "location_code" : { "$ref": "#/definitions/location_code"},
+                            "instrument" : { "$ref": "#/definitions/elementRef" },
+                            "locations" : {"$ref": "#/definitions/locations" },
+                            "supplements" : {"$ref": "#/definitions/supplements"},
+                            "sensors": { "$ref": "#/definitions/sensors"}
+                        }
+                    }
+                }
+            },
+            "additionalProperties": false
+        },
+        "location_code" : {
+            "type" : "string",
+            "description" : "location code to use for station position",
+            "pattern" : "^[0-9]{2}$"
+        },
+	    "author" : {
+            "type": "object",
+            "required": ["first_name", "last_name"],
+            "properties": {
+              "first_name": {"type": "string"},
+              "last_name": {"type": "string"},
+              "email": {"type": "string", "format": "email"},
+              "phones": {"type": "array", "items": {"$ref": "#/definitions/phone"}}
+            }
+	    },
+        "notes": {
+            "type": "array",
+            "description" : "notes by operator, will not be included in output data or metadata", 
+            "items": {"type":"string"}
+        },
+        "comments": {
+            "type" : "array",
+            "description" : "list of comments",
+            "minItems": 0,
+            "items" : { "type" : "string", "minLength" : 1 }
+        },
+        "locations" : {
+            "type" : "object",
+            "description" : "sensor position by location code (two digits)",
+            "patternProperties": {
+                "^[0-9]{2}$": { "$ref": "#/definitions/location_specification" }
+            }
+        },
+        "location_specification": {
+            "type" : "object",
+            "required": [
+                "position",
+                "uncertainties_m",
+                "depth",
+                "geology",
+                "vault",
+                "localisation_method"
+            ],
+            "properties": {
+                "position" : { "$ref" : "#/definitions/GeoJSON" },
+                "uncertainties_m" : { "$ref" : "#/definitions/GeoJSON_m" },
+                "depth" : {"type": "number", "description" : "depth beneath the seafloor (m)"},
+                "geology" : {"type": "string", "default" : "unknown"},
+                "vault" : {"type": "string", "default" : "Sea floor"},
+                "localisation_method" : {
+                    "type": "string", 
+                    "description" : "method used to locate instrument. Examples : 'Short baseline transponder, seafloor release',  'Ship position at deployment', or 'Acoustic (pinger) survey'"
+                }
+            }
+        },
+        "synchronization_reference" :  {
+            "type" : "string",
+            "description" : "time reference used for synchronization (for example: 'GNSS', or 'ambient noise correlation')"
+        },
+        "start_sync_instrument" : {
+            "anyOf" : [
+                { "$ref": "#/definitions/date-time-Z" },
+                {
+                    "type" : "integer",
+                    "minimum" : 0,
+                    "maximum" : 0,
+                    "description": "Can use 0 if identical to start_sync_reference"
+                }
+            ]
+        },
+        "clock_correction_linear": {
+            "type" : "object",
+            "description" : "Linear clock drift observed and any correction applied",
+            "required" : [
+                "time_base",
+                "reference",
+                "start_sync_reference",
+                "start_sync_instrument",
+                "end_sync_reference",
+                "end_sync_instrument"
+            ],
+            "properties" : {
+                "time_base" : {"type" : "string","description" : "time base used in OBS"},
+                "reference" : {"$ref": "#/definitions/synchronization_reference"},
+                "start_sync_reference" : { "$ref": "#/definitions/date-time-Z" },
+                "start_sync_instrument" : { "$ref": "#/definitions/start_sync_instrument" },
+                "end_sync_reference" : { "$ref": "#/definitions/date-time-Z" },
+                "end_sync_instrument" : { "$ref": "#/definitions/date-time-Z" }
+            }
+        },
+        "leap_second_description" : {
+            "type" : "string",
+            "description" : "Leapsecond properties",
+            "enum" : [
+                "Positive leapsecond (a 61-second minute)",
+                "Negative leapsecond (a 59-second minute)"
+            ]
+        },
+        "leap_second_correction_applied" : {
+            "type" : "object",
+            "required" : ["data", "end_sync_instrument"],
+            "properties" : {
+                "data" : { "type" : "string" },
+                "end_sync_instrument" : { "type" : "string" }
+                
+            }
+        },
+        "clock_correction_leapsecond" : {
+            "type" : "object",
+            "description" : "Leap-second information",
+            "required" : ["time", "description","end_sync_instrument_corrected"],
+            "properties" : {
+                "time" : { "$ref": "#/definitions/date-time-Z" },
+                "description" : { "$ref": "#/definitions/leap_second_description" },
+                "end_sync_instrument_corrected" : {
+                    "type" : "boolean",
+                    "description" : "Was the end_sync_instrument corrected for the leap second? (subtract one second if positive leapsecond, add one if negative)"
+                },
+                "correction" : { "$ref": "#/definitions/leap_second_correction_applied" },
+                "verification" : {"type" : "string"},
+                "leapsecond_flag_set" : {"type" : "boolean"}
+            }
+        },
+        "obs-specific" : {
+            "type" : "object",
+            "description" : "OBS-specific information",
+            "required" : ["clock_correction_linear"],
+            "additionalProperties": false,
+            "properties" : {
+                "clock_correction_linear" : {  "$ref": "#/definitions/clock_correction_linear"},
+                "clock_correction_leapsecond" : {  "$ref": "#/definitions/clock_correction_leapsecond"}
+            }
+        },
+        "supplements": {
+            "type": "object",
+            "description": "information with no corresponding value in StationXML: convert to comments for now",
+            "properties": {
+                "initial_name" : {
+                    "type" : "string",
+                    "description" : "original station name (if different from official one)"
+                },
+                "obs-specific" : {  "$ref": "#/definitions/obs-specific" }
+            }
+        },
+        "sensors" : {
+            "type" : "object",
+            "description" : "Optional specification of sensors by component:location code",
+            "patternProperties": {
+                "^[A-Z]{3}:[0-9]{2}$": { "$ref": "#/definitions/functional_component" }
+            }
+        },
+        "reference_code" : {
+            "anyOf": [
+                {
+                    "type": "string",
+                    "description": "reference code (if None, use existing reference_code (can only change serial number).  Otherwise, must correspond to a key in instrumentation or instrument_components)"
+                },
+                { "type" : "null" }
+            ]
+        },
+        "serial_number" : {
+            "anyOf": [
+                {
+                    "type": "string",
+                    "description": "serial number.  If this reference_code/serial_number combination is specified, use its specific values.  If not, will just fill in 'serial_number' field"
+                },
+                { "type" : "null" }
+            ]
+        },
+        "instrument" : {
+            "type": "object",
+            "description": "Instrument reference",
+            "required": [
+                "reference_code", 
+                "serial_number",
+                "channel_locations"
+            ],
+            "properties" : {
+                "reference_code": { "$ref": "#/definitions/reference_code" },
+                "serial_number": { "$ref": "#/definitions/serial_number"},
+                "channel_standard": { "$ref": "#/definitions/channel_specification"},
+                "channel_locations": {
+                    "type" : "object",
+                    "description" : "specification by channel_location pairs",
+                    "patternProperties": {
+                        "^[A-Z]{3}_[0-9]{2}$": { "$ref": "#/definitions/channel_specification" }
+                    }
+                }
+            }
+        },
+        "channel_specification" : {
+            "type": "object",
+            "description": "specification of channel parameters",
+            "required" : ["sample_rate", "datalogger_config"],
+            "properties" : {
+                "sample_rate" : { "type" : "number", "mininum":0 },
+                "datalogger_config" : { 
+                    "type" : "string",
+                    "description" : "suffix of datalogger name corresponding to the sample rate" 
+                }
+            }
+        },
+        "functional_component": {
+            "type": "object",
+            "description": "Reference to a specific functional component of an instrument)",
+            "required": ["reference_code", "serial_number"],
+            "properties": {
+                "reference_code": { "$ref": "#/definitions/reference_code" },
+                "serial_number": { "$ref": "#/definitions/serial_number"}
+            }
+        },
+		"phone": {
+            "type": "string",
+            "description": "...",
+			"pattern": "^[0-9]+-[0-9]+$"
+		},
+        "date": {
+            "type": "string",
+            "description": "Date in yyyy-mm-dd format",
+			"pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+        },
+        "date-time-Z": {
+            "anyOf" : [
+                {
+                    "type": "string",
+                    "description": "Date-time in ISO format with Z for GMT+0",
+			        "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]*)?Z$"
+			    },
+			    { "type" : "null" }
+			]
+        },
+        "GeoJSON": {
+            "type": "array",
+            "description": "Object position [longitude (deg), latitude (deg), elevation (m)]",
+            "minItems": 3,
+            "maxItems": 3,
+            "items" : {"type" : "number" }
+        },
+        "GeoJSON_m": {
+            "type": "array",
+            "description": "Object uncertainties, all in meters [longitude (m), latitude (m), elevation (m)]",
+            "minItems": 3,
+            "maxItems": 3,
+            "items" : {"type" : "number" }
+        },
+	    "network": {
+			"type": "object",
+			"required": [
+		        "format_version",
+				"revision",
+				"network_info",
+				"instrumentation_file",
+				"stations"
+			],
+			"properties": {
+                "format_version": {"ref": "#/definitions/format_version"},
+				"revision": {"ref": "#/definitions/revision"},
+				"network_info": {"ref": "#/definitions/network_info"},
+				"instrumentation_file": {
+					"type": "string",
+					"description": "file containing instrumentation refered to in 'stations.name.instrument' field"
+				},
+				"stations": {"ref": "#/definitions/stations"}
+			}
+		}
+	}
+}

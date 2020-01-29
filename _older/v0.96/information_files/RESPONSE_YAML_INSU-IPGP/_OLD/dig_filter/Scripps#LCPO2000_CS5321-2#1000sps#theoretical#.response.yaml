@@ -1,0 +1,37 @@
+---
+# Specifications from CS5322_Filter.pdf
+object_definitions:
+    fir2: &fir2
+        response_name : "DECIMATION" 
+        response_type : "THEORETICAL" 
+        transfer_function_type : "FIR_SYM_1"
+        decimation_factor : 2
+        include: "dig_filter/include/CS5322_FIR2_13coeff.yaml"
+    fir3: &fir3
+        response_name : "DECIMATION" 
+        response_type : "THEORETICAL" 
+        transfer_function_type : "FIR_SYM_1"
+        decimation_factor : 2
+        include: "dig_filter/include/CS5322_FIR3_101coeff.yaml"
+
+digital_filter: 
+    - 
+        <<: *fir2
+        input_sampling_interval : 3.125e-05
+        output_sampling_interval : 6.25e-05 
+    -
+        <<: *fir2
+        input_sampling_interval : 6.25e-05
+        output_sampling_interval : 1.25e-04 
+    -
+        <<: *fir2
+        input_sampling_interval : 1.25e-04
+        output_sampling_interval : 2.50e-04   
+    -
+        <<: *fir2
+        input_sampling_interval : 2.50e-04 
+        output_sampling_interval : 5.00e-04 
+    -
+        <<: *fir3
+        input_sampling_interval : 5.00e-04 
+        output_sampling_interval : 1.00e-03 

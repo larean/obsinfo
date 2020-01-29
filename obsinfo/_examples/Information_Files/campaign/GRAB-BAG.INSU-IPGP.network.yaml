@@ -7,13 +7,9 @@ yaml_anchors:
         time_base: "Seascan MCXO, ~1e-8 nominal drift"
         reference: "GPS"
         start_sync_instrument: 0
-
 revision:
     authors:
-        -
-            first_name : "Wayne"
-            last_name : "Crawford"
-            email: "crawford@ipgp.fr"
+        - $ref: '../instrumentation/Wayne_Crawford.author_info.yaml#author_info'
     date: "2017-10-04"
 network:
     facility:
@@ -26,7 +22,6 @@ network:
         start_date: "2007-07-01"
         end_date: "2025-12-31"
         description: "Selection of old and odd instruments"
-    $ref_dir: "../instrumentation/"
     stations:
         "SP_1":
             notes: ["Old SPOBS(TWO CHANNELS)"]
@@ -36,9 +31,9 @@ network:
             location_code: "00"
             instruments:
                 -
-                    $ref: "SPOBS1.instrumentation.yaml#instrumentation"
+                    $ref: "../instrumentation/SPOBS1.instrumentation.yaml#instrumentation"
                     serial_number: "13"
-                    channel_mods: {base: {datalogger: {config: "62.5sps"}}}
+                    datalogger_config: "62.5sps"
             locations:
                 "00":
                     $ref: '../location_bases/ACOUSTIC_SURVEY.location_base.yaml#location_base'
@@ -57,10 +52,10 @@ network:
             location_code: "00"
             instruments:
                 -
-                    $ref: "BBOBS1.instrumentation.yaml#instrumentation"
+                    $ref: "../instrumentation/BBOBS1.instrumentation.yaml#instrumentation"
                     config: "pre-2012"
                     serial_number: "02"
-                    channel_mods: {base: {datalogger: {config: "62.5sps"}}}
+                    datalogger_config: "62.5sps"
             locations:
                 "00":
                     $ref: '../location_bases/BUC_DROP.location_base.yaml#location_base'
@@ -80,11 +75,11 @@ network:
             location_code: "00"
             instruments:
                 -
-                    $ref: "HYDOCT1.instrumentation.yaml#instrumentation"
+                    $ref: "../instrumentation/HYDOCT1.instrumentation.yaml#instrumentation"
                     serial_number: "01"
+                    datalogger_config: "250sps"
                     channel_mods:
                         base:
-                            datalogger: {config: "250sps"}
                             sensor: {code: "HITECH_HTI04-PLC-ULF"}
                         by_das:
                             "1":
@@ -99,7 +94,7 @@ network:
                             "4":
                                 location_code: "03"
                                 sensor:
-                                    code: "HITECH_HTI90U"
+                                    $ref: "../instrumentation/HITECH_HTI90U.sensor.yaml#sensor"
                                     serial_number: "9601"
             locations:
                 "00":

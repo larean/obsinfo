@@ -1,0 +1,5 @@
+---
+my_string: 'aloha'
+my_obj:
+    my_obj_string: "kenavo"
+    my_obj_num: 29

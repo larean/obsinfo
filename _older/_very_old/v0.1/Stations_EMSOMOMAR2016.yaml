@@ -1,0 +1,134 @@
+---
+# DEFAULTS (Building blocks for stations)
+DefaultStation: &DefaultStation
+  Network: "4G"
+  OBSType: "SPOBS2"
+  OBSConfig: "1"
+  startSync_Inst: "0"
+  Location: "Lucky Strike Volcano"
+  samplerate: 62.5
+  Comments_Time: "Linear clock drift corrected using GPS sync at deployment start and end"
+  Comments_Other:
+    - ~
+DefaultStation_AcousticLoc: &DefaultStation_AcousticLoc
+  <<: *DefaultStation
+  Loc_type: "Acoustic"
+  LatUnc_m: 5
+  LonUnc_m: 5
+  ElevUnc_m: 10
+DefaultStation_SurfaceLoc: &DefaultStation_SurfaceLoc
+  <<: *DefaultStation
+  Loc_type: "Surface"
+  LatUnc_m: 200
+  LonUnc_m: 200
+  ElevUnc_m: 20
+DefaultStation_BucDirect: &DefaultStation_BucDirect
+  <<: *DefaultStation
+  Loc_type: "Short baseline transponder, seafloor release"
+  LatUnc_m: 5
+  LonUnc_m: 5
+  ElevUnc_m: 10
+DefaultStation_BucDrop: &DefaultStation_BucDrop
+  <<: *DefaultStation
+  Loc_type: "Short baseline transponder, near-seafloor release"
+  LatUnc_m: 20
+  LonUnc_m: 20
+  ElevUnc_m: 20
+
+# STATIONS  
+Stations:
+  "LSNI":
+    <<: *DefaultStation_BucDrop
+    oldStationName: "I1"
+    startSync_GPS: 2015-04-22T09:21:00 +00:00
+    endSync_GPS:   2016-05-28T22:59:00.1843 +00:00
+    endSync_Inst:  2016-05-28T22:59:02 +00:00
+    OBS_SN: 13
+    Start_Date: 2015-04-23T10:00:00 +00:00
+    End_Date:   2016-05-26T23:00:00 +00:00
+    Position: &Sta_Position
+      Latitude:   37.31960
+      Longitude: -32.27909
+      Elevation:  -1798
+    ChannelPositions:
+      "?H1:00": *Sta_Position
+      "?H2:00": *Sta_Position
+      "?HZ:00": *Sta_Position
+      "?DH:00": *Sta_Position
+#      "?DH:01": 
+#        Latitude: 37
+#        Longitude: -32
+#        Elevation: -1800
+  "LSWI":
+    <<: *DefaultStation_BucDrop
+    oldStationName: "I2"
+    startSync_GPS: 2015-04-21T21:06:00 +00:00
+    endSync_GPS:   2016-05-28T20:59:00.32 +00:00
+    endSync_Inst:  2016-05-28T20:59:03 +00:00
+    OBS_SN: 20
+    Start_Date: 2015-04-22T12:00:00 +00:00
+    End_Date:   2016-05-28T21:01:00 +00:00
+    Position: &Sta_Position
+      Latitude:   37.29744
+      Longitude: -32.32504
+      Elevation:  -2030
+    ChannelPositions:
+      "?H1:00": *Sta_Position
+      "?H2:00": *Sta_Position
+      "?HZ:00": *Sta_Position
+      "?DH:00": *Sta_Position
+  "LSCI":
+    <<: *DefaultStation_BucDirect
+    oldStationName: "ISW"
+    startSync_GPS: 2015-04-20T15:35:00 +00:00
+    endSync_GPS:   null
+    endSync_Inst:  null
+    OBS_SN: Station02
+    Start_Date: 2015-04-24T12:00:00 +00:00
+    End_Date:   null
+    Position: &Sta_Position
+      Latitude:   37.2912
+      Longitude: -32.2798
+      Elevation:  -1750
+    ChannelPositions:
+      "?H1:00": *Sta_Position
+      "?H2:00": *Sta_Position
+      "?HZ:00": *Sta_Position
+      "?DH:00": *Sta_Position
+    Comments_Time: "Linear clock drift, end GPS sync not provided (see R Daniel)"
+  "LSEI":
+    <<: *DefaultStation_SurfaceLoc
+    oldStationName: "I4"
+    startSync_GPS: 2015-04-17T14:38:00 +00:00
+    endSync_GPS:   2016-05-28T17:58:31.7374 +00:00
+    endSync_Inst:  2016-05-28T17:58:30 +00:00
+    OBS_SN: 04
+    Start_Date: 2015-04-19T12:00:00 +00:00
+    End_Date:   2016-05-28T18:00:00 +00:00
+    Position: &Sta_Position
+      Latitude:   37.2806
+      Longitude: -32.2417
+      Elevation:  -1640
+    ChannelPositions:
+      "?H1:00": *Sta_Position
+      "?H2:00": *Sta_Position
+      "?HZ:00": *Sta_Position
+      "?DH:00": *Sta_Position
+  "LSSI":
+    <<: *DefaultStation_BucDrop
+    oldStationName: "I7"
+    startSync_GPS: 2015-04-22T12:24:00 +00:00
+    endSync_GPS:   2016-05-28T15:35:00.3660 +00:00
+    endSync_Inst:  2016-05-28T15:35:02 +00:00
+    OBS_SN: 07
+    Start_Date: 2015-04-23T10:00:00 +00:00
+    End_Date:   2016-05-28T15:37:00 +00:00
+    Position: &Sta_Position
+      Latitude:   37.26049
+      Longitude: -32.29756
+      Elevation:  -1887
+    ChannelPositions:
+      "?H1:00": *Sta_Position
+      "?H2:00": *Sta_Position
+      "?HZ:00": *Sta_Position
+      "?DH:00": *Sta_Position

@@ -1,0 +1,9 @@
+include data/campaigns/*/*.yaml
+include data/instrumentation/*/*.yaml
+include data/instrumentation/*/responses/README.txt
+include data/instrumentation/*/responses/_filters/*/*.yaml
+include data/instrumentation/*/responses/*/*.yaml
+include data/README.txt
+include data/schemas/*
+include scripts/README.*
+include scripts/*.py

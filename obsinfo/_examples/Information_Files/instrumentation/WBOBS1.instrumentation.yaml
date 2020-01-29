@@ -1,0 +1,28 @@
+---
+format_version: "0.107"
+revision: 
+    date: "2018-06-01"
+    authors:
+        -   $ref: "Wayne_Crawford.author_info.yaml#author_info"
+        -   $ref: "Romuald_Daniel.author_info.yaml#author_info"
+facility:
+    $ref: "INSU-IPGP.facility_info.yaml#facility_info"
+instrument:
+    equipment:
+        model: "WBOBS1"
+        type: "Wideband Ocean Bottom Seismometer"
+        description: "LCHEAPO 2000 WBOBS" 
+        manufacturer: "Scripps Inst. Oceanography - INSU"
+        vendor: ~
+    base_channel:
+        datalogger: {$config: "dataloggers/LC2000.datalogger.configs.yaml#configs"}
+        preamplifier: {$ref: "preamplifiers/LCHEAPO_BBOBS_0p22x.preamplifier.yaml#preamplifier"}
+        sensor: {$ref: "sensors/NANOMETRICS_TCOMPACT_SINGLESIDED.sensor.yaml#sensor"}
+    das_channels:
+        "1": {orientation_code: "2"}
+        "2": {orientation_code: "1"}
+        "3": {orientation_code: "Z"}
+        "4":
+            orientation_code : "H"
+            preamplifier: {$ref: "preamplifiers/LCHEAPO_HYDRO_16X.preamplifier.yaml#preamplifier"}
+            sensor: {$ref: "sensors/HITECH_HTI90U.sensor.yaml#sensor"}

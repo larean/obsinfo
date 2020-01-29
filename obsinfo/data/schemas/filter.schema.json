@@ -27,7 +27,8 @@
                 {"$ref": "#/definitions/filter_COEFFICIENTS"},
                 {"$ref": "#/definitions/filter_RESPONSELIST"},
                 {"$ref": "#/definitions/filter_A2D"}
-            ]
+            ],
+            "additionalProperties": false
         },
         "definitions": {
             "filter_POLESZEROS": {

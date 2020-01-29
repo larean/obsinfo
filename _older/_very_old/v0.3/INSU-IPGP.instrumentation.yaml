@@ -1,0 +1,271 @@
+---
+facility: &facility
+  name: "INSU-IPGP OBS Park"
+  email: "obs_ipgp@insu.cnrs.fr"
+  website: "http://parc-obs.insu.cnrs.fr"
+  phone_number: ""
+
+# DEFINITIONS FOR DIGITIZER, DIGITAL FILTER (COMMON TO ALL)
+defaults:
+  digitizers: &default_digitizer
+    digitizer_name: "LC2000 CS5321"
+    digitizer_DBIRD_file: "digitizer/Scripps#LCPO2000_CS5321##theoretical#"
+    digitizer_serial_number: ~
+  digital_filters: &default_digital_filter
+    digital_filter_name: "LC2000 CS5322"
+    digital_filter_DBIRD_file: "dig_filter/Scripps#LCPO2000_CS5322#{sample_rate}sps#theoretical#"
+    digital_filter_serial_number: ~
+  ana_filters:
+    DPG_card: &DPG_card
+      ana_filter_name: "SIO-LDEO DPG Card"
+      ana_filter_DBIRD_file: "ana_filter/SIO_LDEO#DPG_Card##theoretical#"
+      ana_filter_serial_number: ~
+    BBOBS_card_0p225x: &BBOBS_card_0p225x
+      ana_filter_name: "INSU BBOBS gain card :0.225x"
+      ana_filter_DBIRD_file: "ana_filter/INSU#BBOBS#gain0.225#theoretical#"
+      ana_filter_serial_number: ~
+    BBOBS_card_1x: &BBOBS_card_1x
+      ana_filter_name: "INSU BBOBS gain card :1x"
+      ana_filter_DBIRD_file: "ana_filter/INSU#BBOBS#gain1.0#theoretical#"
+      ana_filter_serial_number: ~
+    hydro_gain_16x: &hydro_gain_16x
+      ana_filter_name: "SIO gain/filter card, hydro channel (16x)"
+      ana_filter_DBIRD-File: "ana_filter/Scripps#SPOBS#HydroL22x16#theoretical#"
+      ana_filter_serial_number: ~
+    geophone_gain_128x: &geophone_gain_128x
+      ana_filter_name: "SIO gain/filter card, seismo channel (128x)"
+      ana_filter_DBIRD-File: "ana_filter/Scripps#SPOBS#HydroL22x128#theoretical#"
+      ana_filter_serial_number: ~
+  sensors:
+    trillium_T240_ss_A: &trillium_T240_ss_A
+      sensor_name: "Trillium T240 single-sided, serial number 1-399"
+      sensor_serial_number: ~
+      sensor_DBIRD_file: "sensor/Trillium#T240#SN1-399_singlesided#theoretical#"
+    trillium_T240_ss_B: &trillium_T240_ss_B
+      sensor_name: "Trillium T240 single-sided, serial number 400+"
+      sensor_serial_number: ~
+      sensor_DBIRD_file: "sensor/Trillium#T240#SN400-_singlesided#theoretical#"  
+    dpg: &dpg
+      sensor_name: "Differential Pressure Gauge"
+      sensor_serial_number: ~
+      sensor_DBIRD_file: "sensor/SIO-LDEO#DPG#generic#theoretical#"
+    hti_90U: &hti_90U
+      sensor_name: "HiTech HTI-90-U 0.05-2500 Hz"
+      sensor_serial_number: ~
+      sensor_DBIRD_file: "sensor/HiTech#HTI-90U#SIO_preamp#theoretical#"
+    sercel_l28: &sercel_l28
+      sensor_name: "Sercel L-28 4.5 Hz 3C geophone"
+      sensor_serial_number: ~
+      sensor_DBIRD_file: "sensor/Sercel#L28LB#obs#theoretical#"
+    sercel_l22: &sercel_l22
+      sensor_name: "Sercel L-22 2 Hz vertical geophone"
+      sensor_serial_number: ~
+      sensor_DBIRD_file: "sensor/Sercel#L22D#LCHEAPO#theoretical#"
+
+sensor_details:   
+  bbobs_sensor_spheres:
+    "01" :
+      <<: *trillium_T240_ss_A
+      sensor_serial_number: "133"
+    "02" :
+      <<: *trillium_T240_ss_A
+      sensor_serial_number: "132"
+    "03" :
+      <<: *trillium_T240_ss_A
+      sensor_serial_number: "134"
+    "04" :
+      <<: *trillium_T240_ss_A
+      sensor_serial_number: "138"
+    "05" :
+      <<: *trillium_T240_ss_A
+      sensor_serial_number: "137"
+    "06" :
+      <<: *trillium_T240_ss_B
+      sensor_serial_number: "830"
+    "07":
+      <<: *trillium_T240_ss_A
+      sensor_serial_number: "136"
+    "08" :
+      <<: *trillium_T240_ss_B
+      sensor_serial_number: "829"
+    "09" :
+      <<: *trillium_T240_ss_B
+      sensor_serial_number: "826"
+  DPGs:
+    "5004":
+      <<: *dpg
+      sensor_serial_number: "5004"
+      sensor_DBIRD_file: "sensor/SIO-LDEO#DPG#5004#theoretical#"
+    "5018":
+      <<: *dpg
+      sensor_serial_number: "5018"
+      sensor_DBIRD_file: "sensor/SIO-LDEO#DPG#5018#theoretical#"
+    "5027":
+      <<: *dpg
+      sensor_serial_number: "5027"
+    "IP004":
+      <<: *dpg
+      sensor_serial_number: "IP004"
+    "IP005":
+      <<: *dpg
+      sensor_serial_number: "IP005"
+    "IP006":
+      <<: *dpg
+      sensor_serial_number: "IP006"
+    "IP007":
+      <<: *dpg
+      sensor_serial_number: "IP007"
+    "LD013":
+      <<: *dpg
+      sensor_serial_number: "LD013"
+      
+
+configurations:
+  # Selection par OBS [type, configuration]
+  "BBOBS1_1" : &BBOBS1_1
+    facility: 
+      <<: *facility
+    comments: "pre-2012, 0.225 gain on all sismo channels"
+    <<: *default_digitizer
+    <<: *default_digital_filter
+    channels:
+      "?DH" :
+        <<: *DPG_card
+      "?H1":
+        <<: *BBOBS_card_0p225x
+      "?H2":
+        <<: *BBOBS_card_0p225x
+      "?HZ":
+        <<: *BBOBS_card_0p225x
+  "BBOBS1_2" : &BBOBS1_2
+    facility: 
+      <<: *facility
+    comments: "2012+, 0.225 gain on horizontals, 1x gain on verticals"
+    <<: *default_digitizer
+    <<: *default_digital_filter
+    channels:
+      "?DH" :
+        <<: *DPG_card
+      "?H1":
+        <<: *BBOBS_card_0p225x
+      "?H2":
+        <<: *BBOBS_card_0p225x
+      "?HZ":
+        <<: *BBOBS_card_1x
+  "SPOBS1" : &SPOBS1
+    facility: 
+      <<: *facility
+    comments: "2 channels, L-22 vertical geophone"
+    <<: *default_digitizer
+    <<: *default_digital_filter
+    channels:
+      "?DH" :
+        <<: *hydro_gain_16x
+        <<: *hti_90U
+      "?HZ":
+        <<: *geophone_gain_128x
+        <<: *sercel_l22
+  "SPOBS2" : &SPOBS2
+    facility: 
+      <<: *facility
+    comments: "4 channels, L-28 3C geophone"
+    <<: *default_digitizer
+    <<: *default_digital_filter
+    channels:
+      "?DH" :
+        <<: *hydro_gain_16x
+        <<: *hti_90U
+      "?H1":
+        <<: *geophone_gain_128x
+        <<: *sercel_l28
+      "?H2":
+        <<: *geophone_gain_128x
+        <<: *sercel_l28
+      "?HZ":
+        <<: *geophone_gain_128x
+        <<: *sercel_l28
+
+# Default instruments, to be called in Station*.yaml using name and serial_number
+instruments:
+    "INSU-IPGP":
+      "SPOBS1":
+        "Default":
+          <<: *SPOBS1
+      
+      "SPOBS2":
+        "Default":
+          <<: *SPOBS2
+      "BBOBS1_1":   
+        "01":
+          <<: *BBOBS1_1
+          digitizer_serial_number: "01"
+          digital_filter_serial_number: "01"
+          seismometer_sphere: "01"
+          DPG_number: "5004"
+        "02":
+          <<: *BBOBS1_1
+          digitizer_serial_number: "02"
+          digital_filter_serial_number: "02"
+          seismometer_sphere: "02"
+          DPG_number: "5018"
+        "03":
+          <<: *BBOBS1_1
+          digitizer_serial_number: "03"
+          digital_filter_serial_number: "03"
+          seismometer_sphere: "03"
+          DPG_number: "5027"
+      "BBOBS1_2":
+        "01":
+          <<: *BBOBS1_2
+          digitizer_serial_number: "01"
+          digital_filter_serial_number: "01"
+          seismometer_sphere: "01"
+          DPG_number: "5004"
+        "02":
+          <<: *BBOBS1_2
+          digitizer_serial_number: "02"
+          digital_filter_serial_number: "02"
+          seismometer_sphere: "02"
+          DPG_number: "5018"
+        "03":
+          <<: *BBOBS1_2
+          digitizer_serial_number: "03"
+          digital_filter_serial_number: "03"
+          seismometer_sphere: "03"
+          DPG_number: "5027"
+        "04":  
+          <<: *BBOBS1_2
+          digitizer_serial_number: "04"
+          digital_filter_serial_number: "04"
+          seismometer_sphere: "04"
+          DPG_number: "IP004"
+        "05":  
+          <<: *BBOBS1_2
+          digitizer_serial_number: "05"
+          digital_filter_serial_number: "05"
+          seismometer_sphere: "05"
+          DPG_number: "IP005"
+        "06":  
+          <<: *BBOBS1_2
+          digitizer_serial_number: "06"
+          digital_filter_serial_number: "06"
+          seismometer_sphere: "06"
+          DPG_number: "IP006"
+        "07":  
+          <<: *BBOBS1_2
+          digitizer_serial_number: "07"
+          digital_filter_serial_number: "07"
+          seismometer_sphere: "07"
+          DPG_number: "IP007"
+        "08":  
+          <<: *BBOBS1_2
+          digitizer_serial_number: "08"
+          digital_filter_serial_number: "08"
+          seismometer_sphere: "08"
+          DPG_number: "LD013"
+        "09":  
+          <<: *BBOBS1_2
+          digitizer_serial_number: "09"
+          digital_filter_serial_number: "09"
+          seismometer_sphere: "09"
+          DPG_number: ~

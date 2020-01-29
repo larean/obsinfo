@@ -20,7 +20,9 @@ VALID_TYPES = [
     "campaign",
     "network",
     "instrumentation",
-    "instrument_components",
+    "datalogger",
+    "preamplifier",
+    "sensor",
     "response",
     "filter",
 ]
@@ -43,6 +45,7 @@ def get_information_file_type(filename):
         return the_type
     print(f"Unknown type: {the_type}")
     sys.exit(1)
+
 
 def info_dict_configure(in_dict, config=None, serial_number=None):
     """
@@ -141,7 +144,7 @@ def dict_update(orig_dict, update_dict, allow_overwrite=True):
 def validate(filename, format=None, type=None, verbose=False, quiet=False):
     """
     Validates a YAML or JSON file against schema
-    type: "network", "instrumentation","response", "instrument_components","filter"
+    type: "network", "datalogger", "preamplifier", "sensor", "response", "filter"
     format: "JSON" or "YAML"
     
     if type and/or format are not provided, tries to figure them out from the

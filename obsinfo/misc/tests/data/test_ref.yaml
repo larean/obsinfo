@@ -1,0 +1,5 @@
+---
+A: 'A_string'
+B: {$ref: 'refdir/ref_B.yaml'}
+C: {$ref: 'refdir/ref_C.yaml'}
+D: {$ref: 'refdir/ref_D.yaml'}

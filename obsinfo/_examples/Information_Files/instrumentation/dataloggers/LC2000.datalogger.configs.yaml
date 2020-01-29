@@ -1,0 +1,44 @@
+---
+format_version: "0.107"
+revision: 
+    date: "2019-12-20"
+    authors: 
+        - $ref: '../../Wayne_Crawford.author_info.yaml#author_info'
+notes: 
+    - "Delay correction is hard-coded to 29 samples in LCHEAPO software"
+configs:
+    "62.5sps":
+        equipment: {$ref: "LC2000.datalogger.equipment.yaml#equipment"}
+        sample_rate: 62.5
+        delay_correction: 0.464
+        response_stages:
+            - $ref: "responses/Scripps_LCPO2000-CS5321__theoretical.response.yaml#response"
+            - $ref: "responses/Scripps_LCPO2000-CS5322_62.5sps_theoretical.response.yaml#response"
+    "125sps":
+        equipment: {$ref: "LC2000.datalogger.equipment.yaml#equipment"}
+        sample_rate: 125
+        delay_correction: 0.232
+        response_stages:
+            - $ref: "responses/Scripps_LCPO2000-CS5321__theoretical.response.yaml#response"
+            - $ref: "responses/Scripps_LCPO2000-CS5322_125sps_theoretical.response.yaml#response"
+    "250sps":
+        equipment: {$ref: "LC2000.datalogger.equipment.yaml#equipment"}
+        sample_rate: 250
+        delay_correction: 0.116
+        response_stages:
+            - $ref: "responses/Scripps_LCPO2000-CS5321__theoretical.response.yaml#response"
+            - $ref: "responses/Scripps_LCPO2000-CS5322_250sps_theoretical.response.yaml#response"
+    "500sps":
+        equipment: {$ref: "LC2000.datalogger.equipment.yaml#equipment"}
+        sample_rate: 500
+        delay_correction: 0.058
+        response_stages:
+            - $ref: "responses/Scripps_LCPO2000-CS5321__theoretical.response.yaml#response"
+            - $ref: "responses/Scripps_LCPO2000-CS5322_500sps_theoretical.response.yaml#response"
+    "1000sps":
+        equipment: {$ref: "LC2000.datalogger.equipment.yaml#equipment"}
+        sample_rate: 1000
+        delay_correction: 0.029
+        response_stages:
+            - $ref: "responses/Scripps_LCPO2000-CS5321__theoretical.response.yaml#response"
+            - $ref: "responses/Scripps_LCPO2000-CS5322_1000sps_theoretical.response.yaml#response"

@@ -1,0 +1,3 @@
+graft obsinfo/_examples
+include obsinfo/data/schemas/*.json
+include ToDo.rst

@@ -1,0 +1,658 @@
+---
+# To be completed by the OBS facility
+#
+# Channels are specified by the three component SEED code followed by a colon
+# and the two component location code (location "00" should be used for the station
+# and for sensors on or very near the station)
+# The first character (Band Code) of the SEED channel code should be "B" 
+# (broadband: sensor with highpass corner >= 10 s) or "S" (short-period,
+# corner < 10s). Software reading this file should be be able to convert this
+# to the appropriate band code based on the station sampling rate
+#
+# If you use the text "{sample_rate}" in the digital filter DBIRD_file name,
+# it should be substituted by the station sample_rate specified in the NETWORK file
+
+object_definitions:
+    # OBJECTS TO BE REPEATED IN INSTRUMENTATION DEFINITIONS
+    # http://www.yaml.org/spec/1.2/spec.html#id2760395
+    digitizer: &DEFAULT_DIGITIZER
+        type: "delta-sigma A/D converter"
+        description: "CS5321 delta-sigma A/D converter"
+        manufacturer: "Cirrus Logic"
+        vendor: ~
+        model: "CS5321"
+        DBIRD_file: "digitizer/Scripps#LCPO2000_CS5321##theoretical#"
+        serial_number: ~
+    digital_filter: &DEFAULT_DIGITAL_FILTER
+        type: "FIR digital filter chip"
+        description: "CS5322 digital FIR filter"
+        manufacturer: "Cirrus Logic"
+        vendor: ~
+        model: "CS5322"
+        DBIRD_file:
+            "dig_filter/Scripps#LCPO2000_CS5322#{sample_rate}sps#theoretical#"
+        serial_number: ~
+    ana_filters:
+        DPG_card: &DPG_CARD
+            type: "DPG_Card"
+            description: "Differential Pressure Gauge Card"
+            manufacturer: "SIO-LDEO"
+            vendor: ~
+            model: ~
+            DBIRD_file: "ana_filter/SIO_LDEO#DPG_Card##theoretical#"
+            serial_number: ~
+        BBOBS_card_0p225x: &BBOBS_CARD_0P225X
+            type: "Analog gain card"
+            description: "INSU BBOBS gain card :0.225x"
+            manufacturer: "SIO or IPGP"
+            vendor: ~
+            model: ~
+            serial_number: ~
+            DBIRD_file: "ana_filter/INSU#BBOBS#gain0.225#theoretical#"
+        BBOBS_card_1x: &BBOBS_CARD_1X
+            type: "Analog gain card"
+            description: "INSU BBOBS gain card : 1x"
+            manufacturer: "SIO or IPGP"
+            vendor: ~
+            model: ~
+            serial_number: ~
+            DBIRD_file: "ana_filter/INSU#BBOBS#gain1.0#theoretical#"
+        hydro_gain_16x: &HYDRO_GAIN_16X
+            type: "Analog gain/filter card"
+            description: "SIO gain/filter card, hydro channel (16x)"
+            manufacturer: "SIO or IPGP"
+            vendor: ~
+            model: ~
+            serial_number: ~
+            DBIRD_file: "ana_filter/Scripps#SPOBS#HydroL22x16#theoretical#"
+        geophone_gain_128x: &GEOPHONE_GAIN_128X
+            type: "Analog gain/filter card"
+            description: "SIO gain/filter card, seismo channel (128x)"
+            manufacturer: "SIO or IPGP"
+            vendor: ~
+            model: ~
+            serial_number: ~
+            DBIRD_file: "ana_filter/Scripps#SPOBS#HydroL22x128#theoretical#"
+    sensors:
+        trillium_T240_ss_A: &TRILLIUM_T240_SS_A
+            type: "Broadband seismometer"
+            description: "Trillium T240 single-sided, serial number 1-399"
+            manufacturer: "Nanometrics, Inc"
+            vendor: "Nanometrics, Inc"
+            model: "Trillium T240"
+            serial_number: ~
+            DBIRD_file: 
+                "sensor/Trillium#T240#SN1-399_singlesided#theoretical#"
+        trillium_T240_ss_B: &TRILLIUM_T240_SS_B
+            type: "Broadband seismometer"
+            description: "Trillium T240 single-sided, serial number 400+"
+            manufacturer: "Nanometrics, Inc"
+            vendor: "Nanometrics, Inc"
+            model: "Trillium T240"
+            serial_number: ~
+            DBIRD_file:
+                "sensor/Trillium#T240#SN400-_singlesided#theoretical#"
+        dpg: &SENSOR_DPG
+            type: "Differential Pressure Gauge"
+            description: "Differential Pressure Gauge"
+            manufacturer: "SIO, LDEO or IPGP"
+            vendor: ~
+            model: "DPG"
+            serial_number: ~
+            DBIRD_file: "sensor/SIO-LDEO#DPG#generic#theoretical#"
+        hti_90U: &SENSOR_HTI_90U
+            type: "Hydrophone"
+            description: 
+                    "HiTech HTI-90-U hydrophone with integrated preamp,
+                    0.05-2500 Hz"
+            manufacturer: "HiTech, inc"
+            vendor: ~
+            model: "HTI-90-U"
+            serial_number: ~
+            DBIRD_file: "sensor/HiTech#HTI-90U#SIO_preamp#theoretical#"
+        sercel_l28: &SENSOR_SERCEL_L28
+            type: "Geophone"
+            description: "Sercel L-28LB 4.5 Hz 3C geophone"
+            manufacturer: "Sercel"
+            vendor: ~
+            model: "L-28LB"
+            serial_number: ~
+            DBIRD_file: "sensor/Sercel#L28LB#obs#theoretical#"
+        sercel_l22: &SENSOR_SERCEL_L22
+            type: "Geophone"
+            description: "Sercel L-22 2 Hz vertical geophone"
+            manufacturer: "Sercel"
+            vendor: ~
+            model: "L-22D"
+            serial_number: ~
+            DBIRD_file: "sensor/Sercel#L22D#LCHEAPO#theoretical#"
+    azimuth_dips:
+        # Standard configurations for sensor azimuth, dip
+        azidip_seismoZ: &AZIDIP_SEISMOMETER_Z
+            azimuth: "0.0"
+            dip: "-90.0"
+        azidip_geophoneZ: &AZIDIP_GEOPHONE_Z
+            # Geophone Z channel is positive DOWN
+            azimuth: "0.0"
+            dip: "90.0"
+        azidip_seismo12: &AZIDIP_SEISMOMETER_12
+            # Non-oriented horizontal seismometer or geophone
+            azimuth: "0.0"
+            dip: "0.0"
+        azidip_hydro: &AZIDIP_HYDROPHONE
+            # assumes hydrophone positive correponds to increasing pressure
+            # in upward compressional wave (seafloor up => pressure up)
+            azimuth: "0.0"
+            dip: "-90.0"
+        azidip_hydro: &AZIDIP_DPG
+            # assumes DPG positive correponds to increasing pressure
+            # in upward compressional wave (seafloor up => pressure up)
+            azimuth: "0.0"
+            dip: "-90.0"
+        
+    instrument_configurations:
+        "BBOBS1_1": &BBOBS1_1_BASICS
+            num_channels: 4
+            equipment:
+                type: "Broadband Ocean Bottom Seismometer"
+                description:
+                      "LCHEAPO 2000 Broadband Ocean Bottom Seismometer, 
+                      configuration 2: all channels preamp gain = 0.225.
+                      valid before 2012-11" 
+                manufacturer: "Scripps Inst. Oceanography - INSU"
+                vendor: ~
+                model: "BBOBS1_1"
+                serial_number: ~
+            digitizer:
+                <<: *DEFAULT_DIGITIZER
+            digital_filter:
+                <<: *DEFAULT_DIGITAL_FILTER
+        "BBOBS1_2": &BBOBS1_2_BASICS
+            equipment:
+                type: "Broadband Ocean Bottom Seismometer"
+                description:
+                      "LCHEAPO 2000 Broadband Ocean Bottom Seismometer, 
+                      configuration 2: vertical channel preamp gain = 1.0.
+                      valid from 2012-11 on" 
+                manufacturer: "Scripps Inst. Oceanography - INSU"
+                vendor: ~
+                model: "BBOBS1_2"
+                serial_number: ~
+            digitizer:
+                <<: *DEFAULT_DIGITIZER
+            digital_filter:
+                <<: *DEFAULT_DIGITAL_FILTER
+
+instrumentation:
+    facility:
+        reference_name: "INSU-IPGP"
+        full_name: "INSU-IPGP OBS Park"
+        email: "obs_ipgp@insu.cnrs.fr"
+        website: "http://parc-obs.insu.cnrs.fr"
+        director: "Wayne Crawford"
+        chief_engineer: "Romuald Daniel"
+        phone_number: ""
+    version: "2017-09-15 WCC"
+    response_format: "DBIRD"
+    response_directory: "DBIRD_OBS_INSU-IPGP"
+    instruments:
+        # First level = model, second level = serial number
+        # "generic" serial number is used for all unlisted serial numbers
+        "SPOBS1":
+            "generic":
+                equipment:
+                    type: "Short Period Ocean Bottom Seismometer"
+                    description:
+                         "LCHEAPO 2000 Short Period Ocean Bottom Seismometer,
+                         2 channels, L-22 vertical geophone"
+                    manufacturer: "Scripps Inst. Oceanography"
+                    vendor: ~
+                    model: "SPOBS1"
+                    serial_number: ~
+                digitizer:
+                    <<: *DEFAULT_DIGITIZER
+                digital_filter:
+                    <<: *DEFAULT_DIGITAL_FILTER
+                channels:
+                    "SDH:00":
+                        ana_filter:
+                            <<: *HYDRO_GAIN_16X
+                        sensor:
+                            <<: *SENSOR_HTI_90U
+                            <<: *AZIDIP_HYDROPHONE
+                    "SHZ:00":
+                        ana_filter:
+                            <<: *GEOPHONE_GAIN_128X
+                        sensor:
+                            <<: *SENSOR_SERCEL_L22
+                            <<: *AZIDIP_GEOPHONE_Z
+        "SPOBS2":
+            "generic":
+                equipment:
+                    type: "Short Period Ocean Bottom Seismometer"
+                    description:
+                         "LCHEAPO 2000 Short Period Ocean Bottom Seismometer,
+                         4 channels, L-28 3C geophone"
+                    manufacturer: "Scripps Inst. Oceanography"
+                    vendor: ~
+                    model: "SPOBS2"
+                    serial_number: ~
+                digitizer:
+                    <<: *DEFAULT_DIGITIZER
+                digital_filter:
+                    <<: *DEFAULT_DIGITAL_FILTER
+                channels:
+                    "SDH:00":
+                        ana_filter:
+                            <<: *HYDRO_GAIN_16X
+                        sensor:
+                            <<: *SENSOR_HTI_90U
+                            <<: *AZIDIP_HYDROPHONE
+                    "SH1:00":
+                        ana_filter:
+                            <<: *GEOPHONE_GAIN_128X
+                        sensor:
+                            <<: *SENSOR_SERCEL_L28
+                            <<: *AZIDIP_SEISMOMETER_12
+                    "SH2:00":
+                        ana_filter:
+                            <<: *GEOPHONE_GAIN_128X
+                        sensor:
+                            <<: *SENSOR_SERCEL_L28
+                            <<: *AZIDIP_SEISMOMETER_12
+                    "SHZ:00":
+                        ana_filter:
+                            <<: *GEOPHONE_GAIN_128X
+                        sensor:
+                            <<: *SENSOR_SERCEL_L28
+                            <<: *AZIDIP_GEOPHONE_Z
+        "BBOBS1_1":
+            "01":
+                <<: *BBOBS1_1_BASICS
+                channels:
+                    "BDH:00":
+                        ana_filter:
+                            <<: *DPG_CARD
+                        sensor:
+                            <<: *SENSOR_DPG
+                            <<: *AZIDIP_DPG
+                            serial_number: "5004"
+                            manufacturer: "SIO"
+                            DBIRD_file: "sensor/SIO-LDEO#DPG#5004#theoretical#"
+                    "BH1:00":
+                        ana_filter:
+                            <<: *BBOBS_CARD_0P225X
+                        sensor:
+                            <<: *TRILLIUM_T240_SS_A
+                            <<: *AZIDIP_SEISMOMETER_12
+                            serial_number: "133"
+                    "BH2:00":
+                        ana_filter:
+                            <<: *BBOBS_CARD_0P225X
+                        sensor:
+                            <<: *TRILLIUM_T240_SS_A
+                            <<: *AZIDIP_SEISMOMETER_12
+                            serial_number: "133"
+                    "BHZ:00":
+                        ana_filter:
+                            <<: *BBOBS_CARD_0P225X
+                        sensor:
+                            <<: *TRILLIUM_T240_SS_A
+                            <<: *AZIDIP_SEISMOMETER_Z
+                            serial_number: "133"
+            "02":
+                <<: *BBOBS1_1_BASICS
+                channels:
+                    "BDH:00":
+                        ana_filter:
+                            <<: *DPG_CARD
+                        sensor:
+                            <<: *SENSOR_DPG
+                            <<: *AZIDIP_DPG
+                            serial_number: "5018"
+                            manufacturer: "SIO"
+                            DBIRD_file: "sensor/SIO-LDEO#DPG#5018#theoretical#"
+                    "BH1:00":
+                        ana_filter:
+                            <<: *BBOBS_CARD_0P225X
+                        sensor:
+                            <<: *TRILLIUM_T240_SS_A
+                            <<: *AZIDIP_SEISMOMETER_12
+                            serial_number: "132"
+                    "BH2:00":
+                        ana_filter:
+                            <<: *BBOBS_CARD_0P225X
+                        sensor:
+                            <<: *TRILLIUM_T240_SS_A
+                            <<: *AZIDIP_SEISMOMETER_12
+                            serial_number: "132"
+                    "BHZ:00":
+                        ana_filter:
+                            <<: *BBOBS_CARD_0P225X
+                        sensor:
+                            <<: *TRILLIUM_T240_SS_A
+                            <<: *AZIDIP_SEISMOMETER_Z
+                            serial_number: "132"
+            "03":
+                <<: *BBOBS1_1_BASICS
+                channels:
+                    "BDH:00":
+                        ana_filter:
+                            <<: *DPG_CARD
+                        sensor:
+                            <<: *SENSOR_DPG
+                            <<: *AZIDIP_DPG
+                            serial_number: "5027"
+                            manufacturer: "SIO"
+                    "BH1:00":
+                        ana_filter:
+                            <<: *BBOBS_CARD_0P225X
+                        sensor:
+                            <<: *TRILLIUM_T240_SS_A
+                            <<: *AZIDIP_SEISMOMETER_12
+                            serial_number: "134"
+                    "BH2:00":
+                        ana_filter:
+                            <<: *BBOBS_CARD_0P225X
+                        sensor:
+                            <<: *TRILLIUM_T240_SS_A
+                            <<: *AZIDIP_SEISMOMETER_12
+                            serial_number: "134"
+                    "BHZ:00":
+                        ana_filter:
+                            <<: *BBOBS_CARD_0P225X
+                        sensor:
+                            <<: *TRILLIUM_T240_SS_A
+                            <<: *AZIDIP_SEISMOMETER_Z
+                            serial_number: "134"
+        "BBOBS1_2":
+            "01":
+                <<: *BBOBS1_2_BASICS
+                channels:
+                    "BDH:00":
+                        ana_filter:
+                            <<: *DPG_CARD
+                        sensor:
+                            <<: *SENSOR_DPG
+                            <<: *AZIDIP_DPG
+                            serial_number: "5004"
+                            manufacturer: "SIO"
+                            DBIRD_file: "sensor/SIO-LDEO#DPG#5004#theoretical#"
+                    "BH1:00":
+                        ana_filter:
+                            <<: *BBOBS_CARD_0P225X
+                        sensor:
+                            <<: *TRILLIUM_T240_SS_A
+                            <<: *AZIDIP_SEISMOMETER_12
+                            serial_number: "133"
+                    "BH2:00":
+                        ana_filter:
+                            <<: *BBOBS_CARD_0P225X
+                        sensor:
+                            <<: *TRILLIUM_T240_SS_A
+                            <<: *AZIDIP_SEISMOMETER_12
+                            serial_number: "133"
+                    "BHZ:00":
+                        ana_filter:
+                            <<: *BBOBS_CARD_1X
+                        sensor:
+                            <<: *TRILLIUM_T240_SS_A
+                            <<: *AZIDIP_SEISMOMETER_Z
+                            serial_number: "133"
+            "02":
+                <<: *BBOBS1_2_BASICS
+                channels:
+                    "BDH:00":
+                        ana_filter:
+                            <<: *DPG_CARD
+                        sensor:
+                            <<: *SENSOR_DPG
+                            <<: *AZIDIP_DPG
+                            serial_number: "5018"
+                            manufacturer: "SIO"
+                            DBIRD_file: "sensor/SIO-LDEO#DPG#5018#theoretical#"
+                    "BH1:00":
+                        ana_filter:
+                            <<: *BBOBS_CARD_0P225X
+                        sensor:
+                            <<: *TRILLIUM_T240_SS_A
+                            <<: *AZIDIP_SEISMOMETER_12
+                            serial_number: "132"
+                    "BH2:00":
+                        ana_filter:
+                            <<: *BBOBS_CARD_0P225X
+                        sensor:
+                            <<: *TRILLIUM_T240_SS_A
+                            <<: *AZIDIP_SEISMOMETER_12
+                            serial_number: "132"
+                    "BHZ:00":
+                        ana_filter:
+                            <<: *BBOBS_CARD_1X
+                        sensor:
+                            <<: *TRILLIUM_T240_SS_A
+                            <<: *AZIDIP_SEISMOMETER_Z
+                            serial_number: "132"
+            "03":
+                <<: *BBOBS1_2_BASICS
+                channels:
+                    "BDH:00":
+                        ana_filter:
+                            <<: *DPG_CARD
+                        sensor:
+                            <<: *SENSOR_DPG
+                            <<: *AZIDIP_DPG
+                            serial_number: "5027"
+                            manufacturer: "SIO"
+                    "BH1:00":
+                        ana_filter:
+                            <<: *BBOBS_CARD_0P225X
+                        sensor:
+                            <<: *TRILLIUM_T240_SS_A
+                            <<: *AZIDIP_SEISMOMETER_12
+                            serial_number: "134"
+                    "BH2:00":
+                        ana_filter:
+                            <<: *BBOBS_CARD_0P225X
+                        sensor:
+                            <<: *TRILLIUM_T240_SS_A
+                            <<: *AZIDIP_SEISMOMETER_12
+                            serial_number: "134"
+                    "BHZ:00":
+                        ana_filter:
+                            <<: *BBOBS_CARD_1X
+                        sensor:
+                            <<: *TRILLIUM_T240_SS_A
+                            <<: *AZIDIP_SEISMOMETER_Z
+                            serial_number: "134"
+            "04":
+                <<: *BBOBS1_2_BASICS
+                channels:
+                    "BDH:00":
+                        ana_filter:
+                            <<: *DPG_CARD
+                        sensor:
+                            <<: *SENSOR_DPG
+                            <<: *AZIDIP_DPG
+                            serial_number: "IP004"
+                            manufacturer: "IPGP"
+                    "BH1:00":
+                        ana_filter:
+                            <<: *BBOBS_CARD_0P225X
+                        sensor:
+                            <<: *TRILLIUM_T240_SS_A
+                            <<: *AZIDIP_SEISMOMETER_12
+                            serial_number: "138"
+                    "BH2:00":
+                        ana_filter:
+                            <<: *BBOBS_CARD_0P225X
+                        sensor:
+                            <<: *TRILLIUM_T240_SS_A
+                            <<: *AZIDIP_SEISMOMETER_12
+                            serial_number: "138"
+                    "BHZ:00":
+                        ana_filter:
+                            <<: *BBOBS_CARD_1X
+                        sensor:
+                            <<: *TRILLIUM_T240_SS_A
+                            <<: *AZIDIP_SEISMOMETER_Z
+                            serial_number: "138"
+            "05":
+                <<: *BBOBS1_2_BASICS
+                channels:
+                    "BDH:00":
+                        ana_filter:
+                            <<: *DPG_CARD
+                        sensor:
+                            <<: *SENSOR_DPG
+                            <<: *AZIDIP_DPG
+                            serial_number: "IP005"
+                            manufacturer: "IPGP"
+                    "BH1:00":
+                        ana_filter:
+                            <<: *BBOBS_CARD_0P225X
+                        sensor:
+                            <<: *TRILLIUM_T240_SS_A
+                            <<: *AZIDIP_SEISMOMETER_12
+                            serial_number: "137"
+                    "BH2:00":
+                        ana_filter:
+                            <<: *BBOBS_CARD_0P225X
+                        sensor:
+                            <<: *TRILLIUM_T240_SS_A
+                            <<: *AZIDIP_SEISMOMETER_12
+                            serial_number: "137"
+                    "BHZ:00":
+                        ana_filter:
+                            <<: *BBOBS_CARD_1X
+                        sensor:
+                            <<: *TRILLIUM_T240_SS_A
+                            <<: *AZIDIP_SEISMOMETER_Z
+                            serial_number: "137"
+            "06":
+                <<: *BBOBS1_2_BASICS
+                channels:
+                    "BDH:00":
+                        ana_filter:
+                            <<: *DPG_CARD
+                        sensor:
+                            <<: *SENSOR_DPG
+                            <<: *AZIDIP_DPG
+                            serial_number: "IP006"
+                            manufacturer: "IPGP"
+                    "BH1:00":
+                        ana_filter:
+                            <<: *BBOBS_CARD_0P225X
+                        sensor:
+                            <<: *TRILLIUM_T240_SS_B
+                            <<: *AZIDIP_SEISMOMETER_12
+                            serial_number: "830"
+                    "BH2:00":
+                        ana_filter:
+                            <<: *BBOBS_CARD_0P225X
+                        sensor:
+                            <<: *TRILLIUM_T240_SS_B
+                            <<: *AZIDIP_SEISMOMETER_12
+                            serial_number: "830"
+                    "BHZ:00":
+                        ana_filter:
+                            <<: *BBOBS_CARD_1X
+                        sensor:
+                            <<: *TRILLIUM_T240_SS_B
+                            <<: *AZIDIP_SEISMOMETER_Z
+                            serial_number: "830"
+            "07":
+                <<: *BBOBS1_2_BASICS
+                channels:
+                    "BDH:00":
+                        ana_filter:
+                            <<: *DPG_CARD
+                        sensor:
+                            <<: *SENSOR_DPG
+                            <<: *AZIDIP_DPG
+                            serial_number: "IP007"
+                            manufacturer: "IPGP"
+                    "BH1:00":
+                        ana_filter:
+                            <<: *BBOBS_CARD_0P225X
+                        sensor:
+                            <<: *TRILLIUM_T240_SS_A
+                            <<: *AZIDIP_SEISMOMETER_12
+                            serial_number: "136"
+                    "BH2:00":
+                        ana_filter:
+                            <<: *BBOBS_CARD_0P225X
+                        sensor:
+                            <<: *TRILLIUM_T240_SS_A
+                            <<: *AZIDIP_SEISMOMETER_12
+                            serial_number: "136"
+                    "BHZ:00":
+                        ana_filter:
+                            <<: *BBOBS_CARD_1X
+                        sensor:
+                            <<: *TRILLIUM_T240_SS_A
+                            <<: *AZIDIP_SEISMOMETER_Z
+                            serial_number: "136"
+            "08":
+                <<: *BBOBS1_2_BASICS
+                channels:
+                    "BDH:00":
+                        ana_filter:
+                            <<: *DPG_CARD
+                        sensor:
+                            <<: *SENSOR_DPG
+                            <<: *AZIDIP_DPG
+                            serial_number: "LD013"
+                            manufacturer: "LDEO"
+                    "BH1:00":
+                        ana_filter:
+                            <<: *BBOBS_CARD_0P225X
+                        sensor:
+                            <<: *TRILLIUM_T240_SS_B
+                            <<: *AZIDIP_SEISMOMETER_12
+                            serial_number: "829"
+                    "BH2:00":
+                        ana_filter:
+                            <<: *BBOBS_CARD_0P225X
+                        sensor:
+                            <<: *TRILLIUM_T240_SS_B
+                            <<: *AZIDIP_SEISMOMETER_12
+                            serial_number: "829"
+                    "BHZ:00":
+                        ana_filter:
+                            <<: *BBOBS_CARD_1X
+                        sensor:
+                            <<: *TRILLIUM_T240_SS_B
+                            <<: *AZIDIP_SEISMOMETER_Z
+                            serial_number: "829"
+            "09":
+                <<: *BBOBS1_2_BASICS
+                channels:
+                    "BDH:00":
+                        ana_filter:
+                            <<: *DPG_CARD
+                        sensor:
+                            <<: *SENSOR_DPG
+                            <<: *AZIDIP_DPG
+                            serial_number: ~
+                            manufacturer: "LDEO"
+                    "BH1:00":
+                        ana_filter:
+                            <<: *BBOBS_CARD_0P225X
+                        sensor:
+                            <<: *TRILLIUM_T240_SS_B
+                            <<: *AZIDIP_SEISMOMETER_12
+                            serial_number: "826"
+                    "BH2:00":
+                        ana_filter:
+                            <<: *BBOBS_CARD_0P225X
+                        sensor:
+                            <<: *TRILLIUM_T240_SS_B
+                            <<: *AZIDIP_SEISMOMETER_12
+                            serial_number: "826"
+                    "BHZ:00":
+                        ana_filter:
+                            <<: *BBOBS_CARD_1X
+                        sensor:
+                            <<: *TRILLIUM_T240_SS_B
+                            <<: *AZIDIP_SEISMOMETER_Z
+                            serial_number: "826"

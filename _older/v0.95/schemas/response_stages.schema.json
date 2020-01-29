@@ -1,0 +1,104 @@
+{
+	"$schema": "http://json-schema.org/draft-06/schema#",
+	"title": "Response",
+	"description": "OBS instrument/stage response files.
+	                Stages are output in the order 
+	                     sensor -> ana_filter -> datalogger",
+	"type": "object",
+	"required": [
+		"stages"
+	],
+	"properties": {
+	    "stages" : {
+	        "type" : "array",
+	        "minItems": 1,
+	        "description" : "list of response stages",
+	        "items" : {"$ref" : "#/definitions/response_stage"}
+	     }
+	},
+	"definitions": {
+        "response_stage": {
+	        "type" : "object"
+	        "description" : "Response type"
+	        "required" : [
+	            "input_units",
+	            "output_units",
+	            "gain",
+	            "response"
+	        ],
+	        "properties": : {
+                "input_units": {
+                    "description": "units entering stage",
+                    "type": "string",
+                    "pattern": "[A-Z]+"
+                    "examples" : ["V","PA"]
+                },
+                "output_units": {
+                    "description": "units exiting stage",
+                    "type": "string",
+                    "pattern": "[A-Z]+"
+                    "examples" : ["COUNTS", "V"]
+                },
+                "gain" : {
+                    "type" : "object",
+                    "description": "output units / input unit.  Called sensitivity in DBIRD",
+                    "required" : ["value", "frequency"],
+                    "properties" : {
+                        "value" : {"type" : "numeric"},
+                        "frequency" : {
+                            "type" : "numeric",
+                            "description": "Hz",
+                            "default": 0
+                        }
+                    }
+                },
+                "response" : { 
+                    "oneOf" : [
+                        {"$ref" : "response.schema.json#definitions/response"},
+                        {
+                            "required" : [
+                                "type",
+                                "include"
+                            ]
+                            "properties": {
+                                "type" : "string",
+                                "include" : {
+                                    "type" : "string", 
+                                    "description" : "name of file containing PoleZero information"
+                                }
+                            },
+                            "additionalProperties": False
+                        }
+                    ]
+                },
+                "description": {
+                    "description": "Description of the response stage (corresponds to response_name in DBIRD)",
+                    "type": "string"
+                }
+                "decimation": {
+                    "description": "Data decimation (only in digital stages)",
+                    "type": "object",
+                    "required" : [ 
+                        "input_sample_rate",
+                        "factor",
+                        "offset",
+                        "delay",
+                        "correction"
+                    ],
+                    "properties" : { 
+                        "input_sample_rate" :  {"type" : "numeric"},
+                        "factor" :             {"type" : "integer"}, 
+                        "offset" :             {"type" : "integer"},
+                        "delay" :              {"type" : "numeric"},
+                        "correction" :         {"type" : "numeric"}
+                    }
+                },
+                "DBIRD_response_type": {
+                    "description": "...",
+                    "type": "string",
+                    "examples" : ["THEORETICAL","CALIBRATION"]
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,45 @@
+---
+object_definitions:
+    # From CS5322_Filter.pdf
+    fir2: &fir2
+        description : "DECIMATION - CS5322 FIR2" 
+        DBIRD_response_type : "THEORETICAL" 
+        decimation_factor : 2
+        filter: 
+            $ref: "../_filters/FIR/CirrusLogic_CS5322_FIR2.filter.yaml"
+    fir3: &fir3
+        description : "DECIMATION - CS5322 FIR3 (linear phase)" 
+        DBIRD_response_type : "THEORETICAL" 
+        decimation_factor : 2
+        filter: 
+            $ref: "../_filters/FIR/CirrusLogic_CS5322_FIR3.filter.yaml"
+
+format_version: "0.98"
+stages: 
+    -
+        <<: *fir2
+        output_sample_rate : 16000
+    -
+        <<: *fir2
+        output_sample_rate : 8000
+    -
+        <<: *fir2
+        output_sample_rate : 4000 
+    -
+        <<: *fir2
+        output_sample_rate : 2000
+    -
+        <<: *fir2
+        output_sample_rate : 1000 
+    -
+        <<: *fir2
+        output_sample_rate : 500 
+    -
+        <<: *fir2
+        output_sample_rate : 250
+    -
+        <<: *fir2
+        output_sample_rate : 125
+    -
+        <<: *fir3
+        output_sample_rate : 62.5

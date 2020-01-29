@@ -1,0 +1,56 @@
+--- 
+campaign: 
+  name: EMSO-MOMAR2016
+  reference_scientist: 
+    name: "Mathilde Cannat"
+    institution: "Institut de Physique du Globe de Paris"
+    email: cannat@ipgp.fr
+    telephone: ~
+  OBS_providers: 
+    - 
+      name: "INSU-IPGP OBS park"
+      email: parc-obs@insu.fr
+      responsable_scientific: "Wayne Crawford <crawford@ipgp.fr>"
+      responsable_technical: "Romuald Daniel <rdaniel@ipgp.fr>"
+  network: 
+    code_FDSN: 4G
+    name: EMSO-MOMAR
+    URL: "http://www.fdsn.org/networks/detail/4G_2007/"
+    email: 4G@resif.fr
+    telephone: ~
+    start_date: 2007-07-01
+    end_date:   2025-12-31
+  # Specify 1-3 events during the recording period to plot (helps to confirm synchronisation and amplitudes)
+  data_sample: 
+    - 
+      date: ~
+      duration: ~
+      title: ~
+    - 
+      date: ~
+      duration: ~
+      title: ~
+    - 
+      date: ~
+      duration: ~
+      title: ~
+  # The following fields/information are optional
+  expeditions: 
+    - 
+      name: ~
+      ship: "Atalante"
+      start_date: ~
+      end_date: ~
+      comments: "Deployment"
+    - 
+      name: ~
+      ship: "Archipelago"
+      start_date: ~
+      end_date: ~
+      comments: "Recuperation"
+    - 
+      name: ~
+      ship: "Pourquoi Pas ?"
+      start_date: ~
+      end_date: ~
+      comments: "Recuperation"

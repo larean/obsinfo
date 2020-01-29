@@ -1,0 +1,13 @@
+---
+stages:
+    -
+      description : "SENSOR - TRILLIUM COMPACT OBS" # optionel
+      DBIRD_response_type : "THEORETICAL" # optionel
+      input_units :  {name: "M/S", description: "VELOCITY"}
+      output_units : {name: "V", description: "VOLTS"}
+      gain : 
+        value: 749.1
+        frequency : 1.
+      response:
+        type : "PolesZeros"
+        include:  "include/Trillium#TCompact-OBS##.response.yaml"

@@ -1,0 +1,92 @@
+---
+# Example instrumentation file
+# Instrumentation files should be completed by the OBS facility
+notes:
+    - "Notes are associated with information but not put in final metadata"
+definitions:
+    equipmenttype: &EQUIPMENTTYPE_EMPTY
+        type: ~
+        description: ~
+        manufacturer: ~
+        vendor: ~
+        model: ~
+        serial_number: ~
+        calibration_date: ~
+
+format_version: "0.100"
+revision: 
+    date: "2017-11-30"
+    authors:
+        - 
+            first_name: "Wayne"
+            last_name: "Crawford"
+            email: "crawford@ipgp.fr"
+instrumentation:
+    facility:
+        reference_name: "DEPAS"
+        full_name: "My OBS facility"
+        email: "facility@me.com"
+        website: "http://my.facility.me.com"
+    instrument_components: 
+        $ref: "instrument-components.yaml"
+    instruments:
+        generic:    # model_config
+            "NAMMU":
+                equipment:
+                    <<: *EQUIPMENTTYPE_EMPTY
+                    model: "NAMMU"
+                    type: "Wideband Ocean Bottom Seismometer"
+                    description: >-
+                         "blah blah blah"
+                    manufacturer: "KUM GmBH"
+                das_components:
+                    "1":
+                        orientation_code : "H"
+                        datalogger: {reference_code: "KUM_6D6_LOGGER"}
+                        preamplifier: {reference_code: "1xGain"}
+                        sensor: {reference_code: "HITECH_HTI04-PLC-ULF"}
+                    "2":
+                        orientation_code : "2"
+                        datalogger: {reference_code: "KUM_6D6_LOGGER"}
+                        preamplifier: {reference_code: "4xGain"}
+                        sensor: {reference_code: "TRILLIUM_COMPACT"}
+                    "3":
+                        orientation_code : "1"
+                        datalogger:  {reference_code: "KUM_6D6_LOGGER"}
+                        preamplifier:  {reference_code: "4xGain"}
+                        sensor:  {reference_code: "TRILLIUM_COMPACT"}
+                    "4":
+                        orientation_code : "Z"
+                        datalogger:  {reference_code: "KUM_6D6_LOGGER"}
+                        preamplifier:  {reference_code: "4xGain"}
+                        sensor:  {reference_code: "TRILLIUM_COMPACT"}
+            "LOBSTER":
+                equipment:
+                    <<: *EQUIPMENTTYPE_EMPTY
+                    model: "LOBSTER"
+                    type: "Wideband Ocean Bottom Seismometer"
+                    description: >-
+                         "blah blah blah"
+                    manufacturer: "KUM Gmbh"
+                das_components:
+                    "1":
+                        orientation_code : "H"
+                        datalogger: {reference_code: "KUM_MBS_LOGGER"}
+                        preamplifier: {reference_code: "1xGain"}
+                        sensor: {reference_code: "HITECH_HTI04-PLC-ULF"}
+                    "2":
+                        orientation_code : "2"
+                        datalogger: {reference_code: "KUM_MBS_LOGGER"}
+                        preamplifier: {reference_code: "4xGain"}
+                        sensor: {reference_code: "TRILLIUM_COMPACT"}
+                    "3":
+                        orientation_code : "1"
+                        datalogger:  {reference_code: "KUM_MBS_LOGGER"}
+                        preamplifier:  {reference_code: "4xGain"}
+                        sensor:  {reference_code: "TRILLIUM_COMPACT"}
+                    "4":
+                        orientation_code : "Z"
+                        datalogger:  {reference_code: "KUM_MBS_LOGGER"}
+                        preamplifier:  {reference_code: "4xGain"}
+                        sensor:  {reference_code: "TRILLIUM_COMPACT"}
+        specific:   # can be specified by orientation codes (if unique) or das_component

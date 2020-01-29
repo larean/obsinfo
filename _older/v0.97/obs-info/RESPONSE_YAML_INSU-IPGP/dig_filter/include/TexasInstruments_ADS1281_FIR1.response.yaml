@@ -1,0 +1,19 @@
+---
+response:
+    type: "FIR"
+    symmetry: "NONE"
+    delay: 5
+    scaling_divisor: 512
+    corrected: Yes
+    coefficients:
+        - 3
+        - 0
+        - -25
+        - 0
+        - 150
+        - 256
+        - 150
+        - 0
+        - -25
+        - 0
+        - 3

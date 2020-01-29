@@ -1,0 +1,36 @@
+    - Put JSON schema files with the code (so that the code can check validity)
+    - Allow a generic and a specific instrument-components file (and associated
+      subdirectories)
+        - Could the generic one be specified in the specific one? 
+        - Should the instrument_component file(s) just specify the official
+          azimuth,dip values (e.g., "Z","N","E" for most seismometers), leaving
+          the instrumentation file to change their azimuths and dips and/or
+          change their names? (N->1, changes uncertainty to 180)? 
+    - Put location code in instrumentation.yaml (allows proper specification of Hydroctopus, for example)
+        - Should automatically verify that channel_locations in network.yaml correspond
+        - Or only require a location code in instrumentation.yaml if there are duplicate channel codes?
+    - Allow network.yaml files to specify instrument orientations
+    - Make addons.lcheapo.write_process_script()
+    - Maybe change campaign.OBS_facilities.facilty.stations to station_names or station_codes
+
+QUESTIONS    
+    - Should I change network/general_information to network/fdsn_information?
+    - Should I be able to NOT specify the sample_rate?  (defined in data logger configuration?)
+        - OR not specify configuration, but have instrumentation construct it from sample_rate (and dig_filter???)
+  - Should we use UCUM for response unit names?:
+        "M"->"m", "S"->"s", "COUNTS"->"{counts}", "PA"->"Pa" (or "PAL")
+        "V" is already UCUM
+  - Should I replace "response/stages/delay_correction" by response/delay_correction field: {'samples','seconds', OR 'automatic'}
+        - If automatic, just set "corrected" equal to "delay"
+        - If "samples" or "seconds", do as above for all stages except last, which is adjusted to fit provided value
+        - Instruments should specify the delay applied and the obs-info code
+          should verify that this correction corresponds to the delay predicted
+          from the digital filter offets and/or stage delays
+            - Set delay to 0
+            - If offset is specified, calculate delay from it and input_sample_rate
+            - If delay is specified, compare to calculated delay, send error if different
+            - If delay is not specified, set it to the calculated value
+            - Sum all of the delays
+            - Compare with any provided delay value
+
+        

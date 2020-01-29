@@ -1,0 +1,13 @@
+---
+format_version: "0.107"
+notes:
+    - "From ads1281.pdf"
+stage: 
+    gain :         {value: 1, frequency: 0}
+    input_units :  {name : "counts", description: "Digital Counts"}
+    output_units : {name : "counts", description: "Digital Counts"}
+    extras:        {DBIRD_response_type : "THEORETICAL"}
+    description : "DECIMATION - ADS1281 FIR3" 
+    decimation_factor : 4
+    filter: 
+        $ref: "FIR/TexasInstruments_ADS1281_FIR3_LINEAR.filter.yaml#filter"

@@ -1,0 +1,12 @@
+---
+format_version: "0.107"
+response:
+    decimation_info:
+        input_sample_rate: 32000
+        output_sample_rate: 1000
+    stages: 
+        -   $ref: "CS5322_FIR2.stage.yaml#stage"
+        -   $ref: "CS5322_FIR2.stage.yaml#stage"
+        -   $ref: "CS5322_FIR2.stage.yaml#stage"
+        -   $ref: "CS5322_FIR2.stage.yaml#stage"
+        -   $ref: "CS5322_FIR3.stage.yaml#stage"

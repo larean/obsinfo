@@ -19,21 +19,7 @@ for the basic principals behind these files.
     headers from file to file.
   - CON: Would add another layer (of confusion?) to obsinfo.  Some of the 
     "configuration" elements 
-  
-- **Have separate files for each instrument and instrument-component**
-  This is already done at the response level.   Might also have separate
-  file types for datalogger-component, preamplifier-component and
-  sensor-component.  Might need an overall facility.yaml file
-  
-  - PRO: Would allow the declared instruments to be easily seen.  Would allow
-    updating one instrument (or component) without putting the same revision
-    date on the others.  Might simplify schema files
-  - CON: The common information currently at the top of each file would have 
-    to be put in a separate file.  Would have to rethink directory (a different
-    directory for each file type.  If directory structure changes, would have
-    to change file references in each file (unless there is also a 
-    dependencies.yaml file)
-  
+    
 - **Allow instrument-components to be specified using other formats as well**
 
   Such as REF, for people who are used to using that

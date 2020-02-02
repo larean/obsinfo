@@ -16,8 +16,8 @@ response:
             type : "PolesZeros"
             units: "rad/s"
             zeros :
-                - 0.0, 0.0
+                - [0.0, 0.0]
             poles :
-                - -0.0182, 0.000
+                - [-0.0182, 0.000]
           extras:
             DBIRD_response_type : "CALIBRATED" # optionel

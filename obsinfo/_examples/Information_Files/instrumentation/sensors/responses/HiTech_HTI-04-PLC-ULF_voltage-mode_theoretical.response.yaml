@@ -12,5 +12,5 @@ response:
             frequency: 10
           filter:
             $ref: "../_filters/PolesZeros/HiTech_HTI-04-PLC-ULF_voltage-mode_theoretical.filter.yaml#filter"
-            extras:
-                DBIRD_response_type : "THEORETICAL" 
+          extras:
+            DBIRD_response_type : "THEORETICAL" 

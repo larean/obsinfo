@@ -6,12 +6,50 @@ TO DO
 .. _Questions/suggestions for information files: QUESTIONS_infofiles.rst
 
 Bugs
-______
+____________
 
 - Crashes on empty or absent network.general_information.comments field
 
+Major
+____________
+
+- Only allow "$ref" as oneOf choice at network (and instrumentation?) level(s)
+- Only allow specification of configurations at network (and instrumentation?) levels
+- ?Specify more levels? (one per "class") to allow more file validations
+- **Have all levels below network (& instrumentation?) always do full jsonref read?**
+    - or have validation provide a one-line error message for unresolvable jsonrefs
+- Put "file_fields" description in descriptions.schema.json
+  - each schema file will open with 
+'''
+    allOf: [
+        {$ref: "description.schema.json"},
+        {
+            "type": "object",
+            "required": [ "response","format_version" ],
+            "properties": {
+                "format_version" : {"$ref" : "#/definitions/format_version"},
+                "revision" :       {"$ref" : "definitions.schema.json#/revision"},
+                "response" :       {"$ref" : "#/definitions/response" },
+                "yaml_anchors" :   {"$ref" : "definitions.schema.json#/yaml_anchors"},
+                "notes" :          {"$ref" : "definitions.schema.json#/note_list"},
+                "extras" :         {"$ref" : "definitions.schema.json#/extras"}
+            },
+	        "additionalProperties" : false,
+        }
+    ]
+'''
+
+Allow user to specify complete instruments for a network
+------------------------------------------------------------
+
+ - Allowing instrument-components file specification in network files?
+ - Create  sample network files with gain configs entered
+ - Create another with full instrument (but still around a base instrument
+   that at least indicates the datalogger)
+ - Should we allow a simple "gain" entry?  Or do we put this as the datalogger config
+
 Minor
-______
+____________
 
 - Network file:
 
@@ -61,14 +99,10 @@ ______
    
 - Define and use a standard naming system for response files
 
-- Change model naming from ``reference_code:model_config`` to 
-  ``reference_code: MODEL_VERS``, ``config: CONFIG``.
-  
 - remove output_sample_rate from ``response:decimation_info`` (datalogger)
   It's already in ``instrument_components:datalogger:configurations`` (but need
   to be sure this value can be used to check the output sample rate.
   Alternatively, verify that output_sample_rate = sample_rate
-
 
   
 - Make simpler network files in examples:
@@ -86,359 +120,8 @@ ______
 - State somewhere that a given instrument should have a fixed number of channels
   - Different configurations can change anything about the responses/components
 
-Major
-______
-
-Use different keys for ref_code & configuration 
-------------------------------------------------------------
-
- - As much information as possible in ref_code (description, channel list)
- - A ref code fixes the number of channels?
- - Configuration just modifies values established in ref_code?
- - ``network:stations:{STATION}:instruments:channel_codes_locations:{CODE_LOC}:``
-   field datalogger_config might need to change to ``datalogger:config:``
- - Also put specifics inside "generic"s? both at ``ref_code`` level and perhaps
-   at ``config`` level
- - MAYBE:
- 
-    * Allow common parts of ``das_components`` to be specified as
-    ``base_component``? 
-    
-      - ``base_component`` would requires ``datalogger``, ``preamplifier``
-        and ``sensor``
-      - ``das_component`` would require ``orientation_code`` 
-      - order of reading would be(right overwrites left): base_component ->
-        das_components -> configurations -> serial_number -> network file specs::
-
-   
-Current model (151-line example)::
-
-    instruments:
-        generic:    # model_config
-            "BBOBS_1_1":
-                equipment:
-                    <<: *EQUIPMENTTYPE_EMPTY
-                    type: "Broadband Ocean Bottom Seismometer"
-                    description: >-
-                          "LCHEAPO 2000 Broadband Ocean Bottom Seismometer, 
-                          configuration 1: all channels preamp gain = 0.225.
-                          valid before 2012-11" 
-                    manufacturer: "Scripps Inst. Oceanography - INSU"
-                    model: "BBOBS1_1"
-                das_components:
-                    "1":
-                        orientation_code : "2"
-                        datalogger:  {reference_code: "LC2000_LOGGER"}
-                        preamplifier: {reference_code: "LCHEAPO_BBOBS-GAIN_0P225X"}
-                        sensor: {reference_code: "NANOMETRICS_T240_SINGLESIDED"}
-                    "2":
-                        orientation_code : "1"
-                        datalogger:  {reference_code: "LC2000_LOGGER"}
-                        preamplifier: {reference_code: "LCHEAPO_BBOBS-GAIN_0P225X"}
-                        sensor: {reference_code: "NANOMETRICS_T240_SINGLESIDED"}
-                    "3":
-                        orientation_code : "Z"
-                        datalogger:  {reference_code: "LC2000_LOGGER"}
-                        preamplifier: {reference_code: "LCHEAPO_BBOBS-GAIN_0P225X"}
-                        sensor: {reference_code: "NANOMETRICS_T240_SINGLESIDED"}
-                    "4":
-                        orientation_code : "H"
-                        datalogger: {reference_code: "LC2000_LOGGER"}
-                        preamplifier: {reference_code: "LCHEAPO_DPG-CARD"}
-                        sensor: {reference_code: "SIO_DPG"}
-            "BBOBS_1_2":
-                equipment:
-                    <<: *EQUIPMENTTYPE_EMPTY
-                    type: "Broadband Ocean Bottom Seismometer"
-                    description: >-
-                          "LCHEAPO 2000 Broadband Ocean Bottom Seismometer, 
-                          configuration 2: vertical channel preamp gain = 1.0.
-                          valid from 2012-11 on" 
-                    manufacturer: "Scripps Inst. Oceanography - INSU"
-                    model: "BBOBS1_2"
-                das_components:
-                    "1":
-                        orientation_code : "2"
-                        datalogger:  {reference_code: "LC2000_LOGGER"}
-                        preamplifier: {reference_code: "LCHEAPO_BBOBS-GAIN_0P225X"}
-                        sensor: {reference_code: "NANOMETRICS_T240_SINGLESIDED"}
-                    "2":
-                        orientation_code : "1"
-                        datalogger:  {reference_code: "LC2000_LOGGER"}
-                        preamplifier: {reference_code: "LCHEAPO_BBOBS-GAIN_0P225X"}
-                        sensor: {reference_code: "NANOMETRICS_T240_SINGLESIDED"}
-                    "3":
-                        orientation_code : "Z"
-                        datalogger:  {reference_code: "LC2000_LOGGER"}
-                        preamplifier: {reference_code: "LCHEAPO_BBOBS-GAIN_1X"}
-                        sensor: {reference_code: "NANOMETRICS_T240_SINGLESIDED"}
-                    "4":
-                        orientation_code : "H"
-                        datalogger: {reference_code: "LC2000_LOGGER"}
-                        preamplifier: {reference_code: "LCHEAPO_DPG-CARD"}
-                        sensor: {reference_code: "SIO_DPG"}
-        specific:   # can be specified by orientation codes (if unique) or das_component
-            "BBOBS_1_1":
-                "01":
-                    das_components:
-                        "1": &BBOSBS1_1_01_SISMO
-                            datalogger: {serial_number: "21"}
-                            preamplifier: {serial_number: "21"}
-                            sensor:     {serial_number: "Sphere01"}
-                        "2":
-                            <<: *BBOSBS1_1_01_SISMO
-                        "3":
-                            <<: *BBOSBS1_1_01_SISMO
-                        "4":
-                            datalogger: { serial_number: "21"}
-                            preamplifier: { serial_number: "21"}
-                            sensor:     { serial_number: "5004"}                    
-                "02":
-                    das_components:
-                        "1": &BBOSBS1_1_02_SISMO
-                            datalogger: { serial_number: "22"}
-                            preamplifier: { serial_number: "22"}
-                            sensor:     { serial_number: "Sphere02"}
-                        "2":
-                            <<: *BBOSBS1_1_02_SISMO
-                        "3":
-                            <<: *BBOSBS1_1_02_SISMO
-                        "4":
-                            datalogger: {  serial_number: "22"}
-                            preamplifier: {  serial_number: "22"}
-                            sensor:     { serial_number: "5018"}                    
-                "03":
-                    das_components:
-                        "1": &BBOSBS1_1_03_SISMO
-                            datalogger: {  serial_number: "23"}
-                            preamplifier: {  serial_number: "23"}
-                            sensor:     { serial_number: "Sphere03"}
-                        "2":
-                            <<: *BBOSBS1_1_03_SISMO
-                        "3":
-                            <<: *BBOSBS1_1_03_SISMO
-                        "4":
-                            datalogger: {  serial_number: "23"}
-                            preamplifier: {  serial_number: "23"}
-                            sensor:     { serial_number: "5027"}                    
-            "BBOBS_1_2":
-                "01":
-                    das_components:
-                        "1": &BBOSBS1_2_01_SISMO
-                            preamplifier: {  serial_number: "21"}
-                            datalogger: {  serial_number: "21"}
-                            sensor:     { serial_number: "Sphere01"}
-                        "2":
-                            <<: *BBOSBS1_2_01_SISMO
-                        "3":
-                            <<: *BBOSBS1_2_01_SISMO
-                        "4":
-                            preamplifier: {  serial_number: "21"}
-                            datalogger: {  serial_number: "21"}
-                            sensor:     { serial_number: "5004"}                    
-                "02":
-                    das_components:
-                        "1": &BBOSBS1_2_02_SISMO
-                            datalogger: {  serial_number: "22"}
-                            preamplifier: {  serial_number: "22"}
-                            sensor:     { serial_number: "Sphere02"}
-                        "2":
-                            <<: *BBOSBS1_2_02_SISMO
-                        "3":
-                            <<: *BBOSBS1_2_02_SISMO
-                        "4":
-                            datalogger: {  serial_number: "22"}
-                            preamplifier: {  serial_number: "22"}
-                            sensor:     { serial_number: "5018"}                    
-                "03":
-                    das_components:
-                        "1": &BBOSBS1_2_03_SISMO
-                            datalogger: {  serial_number: "23"}
-                            preamplifier: {  serial_number: "23"}
-                            sensor:     { serial_number: "Sphere03"}
-                        "2":
-                            <<: *BBOSBS1_2_03_SISMO
-                        "3":
-                            <<: *BBOSBS1_2_03_SISMO
-                        "4":
-                            datalogger: {  serial_number: "23"}
-                            preamplifier: {  serial_number: "23"}
-                            sensor:     { serial_number: "5027"}                    
-
-Using separate configuration (93 lines)::
-
-    instruments:
-        "BBOBS1":
-            equipment:
-                <<: *EQUIPMENTTYPE_EMPTY
-                type: "Broadband Ocean Bottom Seismometer"
-                description: "LCHEAPO 2000 Broadband Ocean Bottom Seismometer" 
-                manufacturer: "Scripps Inst. Oceanography - INSU"
-                model: "BBOBS1"
-            das_components:
-                "1":
-                    orientation_code : "2"
-                    datalogger:  {reference_code: "LC2000_LOGGER"}
-                    preamplifier: 
-                        reference_code: "LCHEAPO_BBOBS-GAIN"
-                        config: "0P225X"
-                     sensor: 
-                        reference_code: "NANOMETRICS_T240"
-                        config: "SINGLESIDED"
-               "2":
-                    orientation_code : "1"
-                    datalogger:  {reference_code: "LC2000_LOGGER"}
-                    preamplifier: 
-                        reference_code: "LCHEAPO_BBOBS-GAIN"
-                        config: "0P225X"
-                    sensor: 
-                        reference_code: "NANOMETRICS_T240"
-                        config: "SINGLESIDED"
-                "3":
-                    orientation_code : "Z"
-                    datalogger:  {reference_code: "LC2000_LOGGER"}
-                    preamplifier: 
-                        reference_code: "LCHEAPO_BBOBS-GAIN"
-                        config: "0P225X"
-                    sensor: 
-                        reference_code: "NANOMETRICS_T240"
-                        config: "SINGLESIDED"
-                "4":
-                    orientation_code : "H"
-                    datalogger: {reference_code: "LC2000_LOGGER"}
-                    preamplifier: {reference_code: "LCHEAPO_DPG-CARD"}
-                    sensor: {reference_code: "SIO_DPG"}
-            configurations:
-                default_key: "2012+"
-                keys:
-                    "pre_2012":
-                        description: "all channels have preamp gain = 0.225"
-                    "2012+":
-                        description: "vertical channel has preamp gain = 1.0"
-                        das_components:
-                            "3":
-                                preamplifier: 
-                                    reference_code: "LCHEAPO_BBOBS-GAIN"
-                                    config: "1X""
-            serial_numbers:
-                "01":
-                    das_components:
-                        "1": &BBOSBS1_1_01_SISMO
-                            datalogger: {serial_number: "21"}
-                            preamplifier: {serial_number: "21"}
-                            sensor:     {serial_number: "Sphere01"}
-                        "2":
-                            <<: *BBOSBS1_1_01_SISMO
-                        "3":
-                            <<: *BBOSBS1_1_01_SISMO
-                        "4":
-                            <<: *BBOSBS1_1_01_SISMO
-                            sensor:     { serial_number: "5004"}                    
-                "02":
-                    das_components:
-                        "1": &BBOSBS1_1_02_SISMO
-                            datalogger: { serial_number: "22"}
-                            preamplifier: { serial_number: "22"}
-                            sensor:     { serial_number: "Sphere02"}
-                        "2":
-                            <<: *BBOSBS1_1_02_SISMO
-                        "3":
-                            <<: *BBOSBS1_1_02_SISMO
-                        "4":
-                            <<: *BBOSBS1_1_02_SISMO
-                            sensor:     { serial_number: "5018"}                    
-                "03":
-                    das_components:
-                        "1": &BBOSBS1_1_03_SISMO
-                            datalogger: {  serial_number: "23"}
-                            preamplifier: {  serial_number: "23"}
-                            sensor:     { serial_number: "Sphere03"}
-                        "2":
-                            <<: *BBOSBS1_1_03_SISMO
-                        "3":
-                            <<: *BBOSBS1_1_03_SISMO
-                        "4":
-                            <<: *BBOSBS1_1_03_SISMO
-                            sensor:     { serial_number: "5027"}  
-                            
-adding the "base_component" concept (63 lines)::
-
-    instruments:
-        "BBOBS1":
-            equipment:
-                <<: *EQUIPMENTTYPE_EMPTY
-                type: "Broadband Ocean Bottom Seismometer"
-                description: "LCHEAPO 2000 Broadband Ocean Bottom Seismometer" 
-                manufacturer: "Scripps Inst. Oceanography - INSU"
-                model: "BBOBS1"
-            base_component:
-                datalogger:
-                    reference_code: "LC2000_LOGGER"
-                preamplifier: 
-                    reference_code: "LCHEAPO_BBOBS-GAIN"
-                    config: "0P225X"
-                sensor: 
-                    reference_code: "NANOMETRICS_T240"
-                    config: "SINGLESIDED"
-            das_components:
-                "1": {orientation_code : "2"}
-                "2": {orientation_code : "1"}
-                "3":
-                    orientation_code : "Z"
-                    preamplifier: 
-                        reference_code: "LCHEAPO_BBOBS-GAIN"
-                        config: "1X"
-                "4":
-                    orientation_code : "H"
-                    preamplifier: {reference_code: "LCHEAPO_DPG-CARD"}
-                    sensor: {reference_code: "SIO_DPG"}
-            configurations:
-                default_key: "2012+"
-                keys:
-                    "pre_2012":
-                        description: "all channels with preamp gain = 0.225"
-                        das_components:
-                            "3":
-                                preamplifier: 
-                                    reference_code: "LCHEAPO_BBOBS-GAIN"
-                                    config: "0P225X"
-                    "2012+:
-                        description: "vertical channel with preamp gain = 1.0"
-            serial_numbers:
-                "01":
-                    base_component:
-                        datalogger: {serial_number: "21"}
-                        preamplifier: {serial_number: "21"}
-                        sensor:     {serial_number: "Sphere01"}
-                    das_components:
-                        "4": {sensor: { serial_number: "5004"} }                   
-                "02":
-                    base_component:
-                        datalogger: {serial_number: "22"}
-                        preamplifier: {serial_number: "22"}
-                        sensor:     {serial_number: "Sphere02"}
-                    das_components:
-                        "4": {sensor: { serial_number: "5018"}}                    
-                "03":
-                    base_component:
-                        datalogger: {serial_number: "23"}
-                        preamplifier: {serial_number: "23"}
-                        sensor:     {serial_number: "Sphere03"}
-                    das_components:
-                        "4": {sensor: { serial_number: "5027"}}                    
-
-
-Allow user to specify complete instruments for a network
-------------------------------------------------------------
-
- - Allowing instrument-components file specification in network files?
- - Create  sample network files with gain configs entered
- - Create another with full instrument (but still around a base instrument
-   that at least indicates the datalogger)
- - Should we allow a simple "gain" entry?  Or do we put this as the datalogger config
-
-MAYBES:
--------------------
+Major Maybes
+____________
 
 
 Define a "field separation" character?
@@ -480,17 +163,6 @@ Examples (using '.') would include:
     
     - BBOBS1.2
     
-Allow generic and specific instrument_components files
-------------------------------------------------------------
-
-(with associated subdirectories)
-
-- Could the generic one be specified in the specific one? 
-        
-- Should the instrument_component file(s) just specify the official     
-  azimuth,dip values (e.g., "Z","N","E" for most seismometers), leaving
-  the instrumentation file to change their azimuths and dips and/or
-  change their names? (N->1, changes uncertainty to 180)? 
           
 Allow network.yaml files to specify instrument orientations
 ------------------------------------------------------------

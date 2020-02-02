@@ -14,6 +14,9 @@ import jsonschema
 import jsonref
 import yaml
 
+# Local modules
+from .yamlref import load as yamlref_load
+
 root_symbol = "#"
 VALID_FORMATS = ["JSON", "YAML"]
 VALID_TYPES = [
@@ -234,7 +237,7 @@ def get_information_file_format(filename):
 
 
 def read_json_yaml(filename, format=None, debug=False):
-    """ Reads a JSON or YAML file """
+    """ Reads a JSON or YAML file.  Does NOT use jsonReference """
     if not format:
         format = get_information_file_format(filename)
 
@@ -248,7 +251,7 @@ def read_json_yaml(filename, format=None, debug=False):
                 return
         else:
             try:
-                element = json.load(filename)
+                element = json.load(f)
             except JSONDecodeError as e:
                 print(f"JSONDecodeError: Error loading JSON file: {filename}")
                 print(str(e))
@@ -259,6 +262,14 @@ def read_json_yaml(filename, format=None, debug=False):
                 return
 
     return element
+
+def read_json_yaml_ref(filename, format=None, debug=False):
+    """ Reads a JSON or YAML file using jsonReference """
+    if not format:
+        format = get_information_file_format(filename)
+
+    with open(filename, "r") as f:
+        return yamlref_load(f, base_uri='file:' + filename)
 
 
 def load_information_file(

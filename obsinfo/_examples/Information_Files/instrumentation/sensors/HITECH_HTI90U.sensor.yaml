@@ -4,7 +4,6 @@ revision:
     date: "2017-11-30"
     authors: 
         - $ref: "../Wayne_Crawford.author_info.yaml"
-$ref_dir: 'responses/'
 sensor:
     notes:
         - >-
@@ -24,4 +23,4 @@ sensor:
         orientation:
             "H": {azimuth.deg: [0,0], dip.deg: [90,0]}
     response_stages:
-        - $ref: "HiTech_HTI-90U_SIO-preamp_theoretical.response.yaml#response"
+        - $ref: "responses/HiTech_HTI-90U_SIO-preamp_theoretical.response.yaml#response"

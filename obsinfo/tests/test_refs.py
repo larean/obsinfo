@@ -13,3 +13,4 @@ json_str = """{"A": 2, "B": {"$ref": "#/A", "D": "howdy"}}"""
 #json_str = """{"real": [1, 2, 3, 4], "ref": {"$ref": "#/real"}}"""
 data = jsonref.loads(json_str)
 pprint(data)
+

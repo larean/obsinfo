@@ -4,7 +4,6 @@ revision:
     date: "2017-11-30"
     authors: 
         -   $ref: "../Wayne_Crawford.author_info.yaml#author_info"
-$ref_dir: 'responses/'
 preamplifier:
     equipment:
         model: "GEOPHONE-GAIN"
@@ -13,4 +12,4 @@ preamplifier:
         manufacturer: "SIO or IPGP"
         vendor: ~
     response_stages:
-        - $ref: "INSU_SPOBS_L28x128_theoretical.response.yaml#response"
+        - $ref: "responses/INSU_SPOBS_L28x128_theoretical.response.yaml#response"

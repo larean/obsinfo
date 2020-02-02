@@ -3,7 +3,7 @@ jsonref with YAML reading added
 
 copied directly from jsonref v0.2, with added routines _yaml_load
 and _yaml_loads replacing json.load and json.loads
-Added/modified lines are marked by "# WCC"
+Added/modified lines are marked "# WCC"
 """
 import functools
 import json
@@ -422,20 +422,22 @@ def _yaml_load(fp, **kwargs):
 def _yaml_loads(s, **kwargs):
     """ Call {yaml,json}.loads according to file type """
     a = None
+    #print()
+    #print(s)
     if s[:3] == '---':
         try:
-            a = yaml.loads(s, **kwargs)
+            a = yaml.load(s, **kwargs)
         except:
             try:
                 a = json.loads(s, **kwargs)
             except:
-                warnings.warn('string is neither JSON nor YAML')
+                warnings.warn(f'string is neither JSON nor YAML:\n{s}')
     else:
         try:
             a = json.loads(s, **kwargs)
         except:
             try:
-                a = yaml.loads(s, **kwargs)
+                a = yaml.load(s, **kwargs)
             except:
                 warnings.warn('string is neither JSON nor YAML')
     return a

@@ -1,0 +1,5 @@
+---
+level_c:
+    string_c: "My string C"
+    level_d:
+        num_d: 14

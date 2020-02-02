@@ -1,0 +1,5 @@
+---
+level_a:
+    level_b:
+        $ref: "jsonref_B.yaml"
+    string_b: "My string B"

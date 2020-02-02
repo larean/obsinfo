@@ -7,7 +7,6 @@ revision:
             first_name: "Wayne"
             last_name: "Crawford"
             email: "crawford@ipgp.fr"
-$ref_dir: 'responses/'
 sensor:
     notes: 
         - >-
@@ -27,14 +26,14 @@ sensor:
             "H": {azimuth.deg: [0,0], dip.deg: [90,0]}
             "F": {azimuth.deg: [0,0], dip.deg: [90,0]}
     response_stages:
-        - $ref: "SIO-LDEO_DPG_generic_theoretical.response.yaml#response"
+        - $ref: "responses/SIO-LDEO_DPG_generic_theoretical.response.yaml#response"
     serial_numbers:
         "5004": 
             equipment: {manufacturer: "SIO"}
-            response_stages: [ {$ref: "SIO-LDEO_DPG_5004_calibrated.response.yaml#response"}]
+            response_stages: [ {$ref: "responses/SIO-LDEO_DPG_5004_calibrated.response.yaml#response"}]
         "5018":
             equipment: {manufacturer: "SIO"}
-            response_stages: [ {$ref: "SIO-LDEO_DPG_5018_calibrated.response.yaml#response"}]
+            response_stages: [ {$ref: "responses/SIO-LDEO_DPG_5018_calibrated.response.yaml#response"}]
         "5027":
             equipment: {manufacturer: "SIO"}
         "IP004":

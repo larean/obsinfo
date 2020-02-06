@@ -7,7 +7,7 @@ revision:
         -   $ref: "Romuald_Daniel.author_info.yaml#author_info"
 facility:
     $ref: "INSU-IPGP.facility_info.yaml#facility_info"
-instrument:
+instrumentation:
     equipment:
         model: "BBOBS1"
         type: "Broadband Ocean Bottom Seismometer"
@@ -31,68 +31,77 @@ instrument:
     serial_numbers:
         "01":
             base_channel:
-                datalogger:   {serial_number: "21"}
-                preamplifier: {serial_number: "21"}
-                sensor:       {serial_number: "Sphere01"}
+                modifs:
+                    datalogger:   {serial_number: "21"}
+                    preamplifier: {serial_number: "21"}
+                    sensor:       {serial_number: "Sphere01"}
             das_channels:
                 "4":
-                    sensor: {serial_number: "5004"}                  
+                    modifs: {sensor: {serial_number: "5004"}}                 
         "02":
             base_channel:
-                datalogger:   {serial_number: "22"}
-                preamplifier: {serial_number: "22"}
-                sensor:       {serial_number: "Sphere02"}
+                modifs:
+                    datalogger:   {serial_number: "22"}
+                    preamplifier: {serial_number: "22"}
+                    sensor:       {serial_number: "Sphere02"}
             das_channels:
                 "4":
-                    sensor: {serial_number: "5018"}                  
+                    modifs: {sensor: {serial_number: "5018"}}                
         "03":
             base_channel:
-                datalogger:   {serial_number: "23"}
-                preamplifier: {serial_number: "23"}
-                sensor:       {serial_number: "Sphere03"}
+                modifs:
+                    datalogger:   {serial_number: "23"}
+                    preamplifier: {serial_number: "23"}
+                    sensor:       {serial_number: "Sphere03"}
             das_channels:
-                "4": {sensor: {serial_number: "5027"}}                   
+                "4": {modifs: {sensor: {serial_number: "5027"}}}           
         "04":
             base_channel:
-                datalogger:   {serial_number: "24"}
-                preamplifier: {serial_number: "24"}
-                sensor:       {serial_number: "Sphere04"}
+                modifs:
+                    datalogger:   {serial_number: "24"}
+                    preamplifier: {serial_number: "24"}
+                    sensor:       {serial_number: "Sphere04"}
             das_channels:
-                "4": {sensor: {serial_number: "IP004"}}                   
+                "4": {modifs: {sensor: {serial_number: "IP004"}}}            
         "05":
             base_channel:
-                datalogger:   {serial_number: "25"}
-                preamplifier: {serial_number: "25"}
-                sensor:       {serial_number: "Sphere05"}
+                modifs:
+                    datalogger:   {serial_number: "25"}
+                    preamplifier: {serial_number: "25"}
+                    sensor:       {serial_number: "Sphere05"}
             das_channels:
-                "4": {sensor: {serial_number: "IP005"}}                   
+                "4": {modifs: {sensor: {serial_number: "IP005"}}}             
         "06":
             base_channel:
-                datalogger:   {serial_number: "26"}
-                preamplifier: {serial_number: "26"}
-                sensor:       {serial_number: "Sphere06"}
+                modifs:
+                    datalogger:   {serial_number: "26"}
+                    preamplifier: {serial_number: "26"}
+                    sensor:       {serial_number: "Sphere06"}
             das_channels:
-                "4": {sensor: {serial_number: "IP006"}}                   
+                "4": {modifs: {sensor: {serial_number: "IP006"}}}                 
         "07":
             base_channel:
-                datalogger:   {serial_number: "27"}
-                preamplifier: {serial_number: "27"}
-                sensor:       {serial_number: "Sphere07"}
+                modifs:
+                    datalogger:   {serial_number: "27"}
+                    preamplifier: {serial_number: "27"}
+                    sensor:       {serial_number: "Sphere07"}
             das_channels:
-                "4": {sensor: {serial_number: "IP007"}}                   
+                "4": {modifs: {sensor: {serial_number: "IP007"}}}              
         "08":
             base_channel:
-                datalogger:   {serial_number: "28"}
-                preamplifier: {serial_number: "28"}
-                sensor:       {serial_number: "Sphere02"}
+                modifs:
+                    datalogger:   {serial_number: "28"}
+                    preamplifier: {serial_number: "28"}
+                    sensor:       {serial_number: "Sphere02"}
             das_channels:
-                "4": {sensor: {serial_number: "LD013"}}                   
+                "4": {modifs: {sensor: {serial_number: "LD013"}}}                
         "09":
             base_channel:
-                datalogger:   {serial_number: "29"}
-                preamplifier: {serial_number: "29"}
-                sensor:       {serial_number: "Sphere09"}
+                modifs:
+                    datalogger:   {serial_number: "29"}
+                    preamplifier: {serial_number: "29"}
+                    sensor:       {serial_number: "Sphere09"}
             das_channels:
-                "4": {sensor: {serial_number: "LDxxx"}}                   
+                "4": {modifs: {sensor: {serial_number: "LDxxx"}}}                   
 
 

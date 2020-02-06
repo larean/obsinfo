@@ -7,7 +7,7 @@ revision:
         -   $ref: "Romuald_Daniel.author_info.yaml#author_info"
 facility:
     $ref: "INSU-IPGP.facility_info.yaml#facility_info"
-instrument:
+instrumentation:
     equipment:
         model: "SPOBS1"
         type: "Short Period Ocean Bottom Seismometer"

@@ -50,32 +50,27 @@
 	        "items" : { "$ref" : "#/definitions/response_stage" }
 	    },
         "response_stage": {
-            "oneOf": [
-                {"$ref": "definitions.schema.json#/jsonref"},
-                {
-                    "type" : "object",
-                    "description" : "Response type",
-                    "required" : [
-                        "input_units",
-                        "output_units"
-                    ],
-                    "properties": {
-                        "input_units":        { "$ref" : "#/definitions/stage_io_units" },
-                        "output_units":       { "$ref" : "#/definitions/stage_io_units" },
-                        "gain" :              { "$ref" : "#/definitions/gain" },
-                        "name":               { "type" : "string",  "description": "BaseFilterType:name"},
-                        "description":        { "type" : "string",  "description": "BaseFilterType:Description"},
-                        "decimation_factor":  { "type" : "integer", "description": "DecimationType:Factor"},
-                        "output_sample_rate" :{ "type" : "number",  "description": "DecimationType:OutputSampleRate"},
-                        "delay" :             { "type" : "number",  "description": "DecimationType:Delay"},
-                        "filter" :            { "$ref" : "#/definitions/filter"},
-                        "calibration_date" :  { "$ref" : "definitions.schema.json#/date"},
-                        "notes" :             {"$ref" : "definitions.schema.json#/note_list"},
-                        "extras":             {"$ref" : "#/definitions/extras"}
-                    },
-                    "additionalProperties" : true
-                }
-            ]
+            "type" : "object",
+            "description" : "Response type",
+            "required" : [
+                "input_units",
+                "output_units"
+            ],
+            "properties": {
+                "input_units":        { "$ref" : "#/definitions/stage_io_units" },
+                "output_units":       { "$ref" : "#/definitions/stage_io_units" },
+                "gain" :              { "$ref" : "#/definitions/gain" },
+                "name":               { "type" : "string",  "description": "BaseFilterType:name"},
+                "description":        { "type" : "string",  "description": "BaseFilterType:Description"},
+                "decimation_factor":  { "type" : "integer", "description": "DecimationType:Factor"},
+                "output_sample_rate" :{ "type" : "number",  "description": "DecimationType:OutputSampleRate"},
+                "delay" :             { "type" : "number",  "description": "DecimationType:Delay"},
+                "filter" :            { "$ref" : "#/definitions/filter"},
+                "calibration_date" :  { "$ref" : "definitions.schema.json#/date"},
+                "notes" :             {"$ref" : "definitions.schema.json#/note_list"},
+                "extras":             {"$ref" : "#/definitions/extras"}
+            },
+            "additionalProperties" : true
         },
         "filter": {
             "anyOf" : [

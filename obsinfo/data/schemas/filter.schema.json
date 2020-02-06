@@ -27,7 +27,8 @@
                 {"$ref": "#/definitions/COEFFICIENTS"},
                 {"$ref": "#/definitions/RESPONSELIST"},
                 {"$ref": "#/definitions/A2D"},
-                {"$ref": "#/definitions/ANALOG"}
+                {"$ref": "#/definitions/ANALOG"},
+                {"$ref": "#/definitions/DIGITAL"}
             ]
         },
         "POLESZEROS": {
@@ -99,19 +100,19 @@
         },
         "ANALOG": {
             "type": "object",
-            "description": "ANALOG filter (mapped into PoleZeros with no poles or zeros)",
+            "description": "ANALOG filter (map into PoleZeros with no poles or zeros)",
             "required": ["type"],
             "properties" : {
-                "type":              {"enum": ["ANALOG"]}
+                "type": {"enum": ["ANALOG"]}
             },
             "additionalProperties": false
         },
-        "ANALOG": {
+        "DIGITAL": {
             "type": "object",
-            "description": "DIGITAL filter (mapped into Coefficients with no coefficients)",
+            "description": "DIGITAL filter (map into Coefficients with no coefficients)",
             "required": ["type"],
             "properties" : {
-                "type":              {"enum": ["DIGITAL"]}
+                "type": {"enum": ["DIGITAL"]}
             },
             "additionalProperties": false
         },

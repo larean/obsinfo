@@ -68,7 +68,7 @@
         "response_stage_list" : {
             "type" : "array",
             "description": "list of response-stage files#keys in JSON Pointers format",
-            "items" : { "$ref": "definitions.schema.json#/URI_ref"}
+            "items" : { "$ref": "response.schema.json#/definitions/response"}
         }
     }
 }

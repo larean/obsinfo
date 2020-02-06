@@ -7,7 +7,7 @@ revision:
         -   $ref: "Romuald_Daniel.author_info.yaml#author_info"
 facility:
     $ref: "INSU-IPGP.facility_info.yaml#facility_info"
-instrument:
+instrumentation:
     equipment:
         model: "WBOBS1"
         type: "Wideband Ocean Bottom Seismometer"
@@ -16,7 +16,7 @@ instrument:
         vendor: ~
     base_channel:
         datalogger: {$config: "dataloggers/LC2000.datalogger.configs.yaml#configs"}
-        preamplifier: {$ref: "preamplifiers/LCHEAPO_BBOBS_0p22x.preamplifier.yaml#preamplifier"}
+        preamplifier: {$ref: "preamplifiers/LCHEAPO_BBOBS_0p225x.preamplifier.yaml#preamplifier"}
         sensor: {$ref: "sensors/NANOMETRICS_TCOMPACT_SINGLESIDED.sensor.yaml#sensor"}
     das_channels:
         "1": {orientation_code: "2"}

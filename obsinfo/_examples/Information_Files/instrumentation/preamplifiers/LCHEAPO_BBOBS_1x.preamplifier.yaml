@@ -12,4 +12,4 @@ preamplifier:
         manufacturer: "SIO or IPGP"
         vendor: ~
     response_stages:
-        - $ref: "responses/Preamplifiers/INSU_BBOBS_gain1.0_theoretical.response.yaml#response"
+        - $ref: "responses/INSU_BBOBS_gain1.0_theoretical.response.yaml#response"

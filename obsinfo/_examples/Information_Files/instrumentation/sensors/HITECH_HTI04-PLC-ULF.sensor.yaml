@@ -3,7 +3,7 @@ format_version: "0.107"
 revision: 
     date: "2017-11-30"
     authors: 
-        - $ref: "../Wayne_Crawford.author_info.yaml"
+        - $ref: "../Wayne_Crawford.author_info.yaml#/author_info"
 sensor:
     notes: 
         - "dip value of 90 assumes positive output = pressure decrease (seafloor down => pressure up)"

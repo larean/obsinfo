@@ -10,7 +10,7 @@ response:
             value: -0.00057
             frequency: 10
           filter:
-            $ref: "../_filters/PolesZeros/HiTech_HTI-90U_SIO-preamp_generic.filter.yaml#filter"
+            $ref: "PolesZeros/HiTech_HTI-90U_SIO-preamp_generic.filter.yaml#filter"
           extras:
             DBIRD_response_type : "THEORETICAL" 
 notes:

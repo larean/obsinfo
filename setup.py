@@ -21,7 +21,7 @@ setuptools.setup(
     install_requires=[
           'obspy>=1.1',
           'pyyaml>=3.0',
-          'jsonschema>=2.6',
+          'jsonschema>=2.6'
           'jsonref>=0.2'
       ],
     entry_points={

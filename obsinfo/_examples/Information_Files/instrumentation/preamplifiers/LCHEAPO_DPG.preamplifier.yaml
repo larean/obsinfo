@@ -12,4 +12,4 @@ preamplifier:
         manufacturer: "SIO-IPGP"
         vendor: ~
     response_stages:
-        - $ref: "SIO-LDEO_DPG-Card__theoretical.response.yaml#response"
+        - $ref: "responses/SIO-LDEO_DPG-Card__theoretical.response.yaml#response"

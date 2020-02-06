@@ -10,4 +10,4 @@ stage:
     description : "DECIMATION - ADS1281 FIR4" 
     decimation_factor : 2
     filter: 
-        $ref: "FIR/TexasInstruments_ADS1281_FIR4_LINEAR.filter.yaml#filter"
+        $ref: "FIR/TexasInstruments_ADS1281_FIR4-linear.filter.yaml#filter"

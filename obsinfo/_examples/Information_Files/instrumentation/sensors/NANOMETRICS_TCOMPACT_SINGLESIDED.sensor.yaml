@@ -3,7 +3,7 @@ format_version: "0.107"
 revision: 
     date: "2017-11-30"
     authors: 
-        - $ref: "../Wayne_Crawford.author_info.yaml#author_info"
+        - $ref: "../Wayne_Crawford.author_info.yaml#/author_info"
 sensor:
     equipment:
         model: "Trillium Compact"
@@ -19,4 +19,4 @@ sensor:
             "1": {azimuth.deg: [0, 180],  dip.deg: [0, 0]}
             "2": {azimuth.deg: [90, 180], dip.deg: [0, 0]}
     response_stages:
-        - $ref: "responses/Trillium_TCompact_singlesided_theoretical.response.yaml#reponse"
+        - $ref: "responses/Trillium_TCompact_singlesided_theoretical.response.yaml#response"

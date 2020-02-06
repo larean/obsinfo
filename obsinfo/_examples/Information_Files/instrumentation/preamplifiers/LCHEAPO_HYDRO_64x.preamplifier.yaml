@@ -12,4 +12,4 @@ preamplifier:
         manufacturer: "SIO or IPGP"
         vendor: ~
     response_stages:
-        - $ref: "Scripps_SPOBS_HydroL22x64_theoretical.response.yaml#response"
+        - $ref: "responses/Scripps_SPOBS_HydroL22x64_theoretical.response.yaml#response"

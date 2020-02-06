@@ -66,8 +66,8 @@
         },
         "response_stage_list" : {
             "type" : "array",
-            "description": "list of response-stage files#keys in JSON Pointers format",
-            "items" : { "$ref": "definitions.schema.json#/URI_ref"}
+            "description": "list of response stages",
+            "items" : { "$ref": "response.schema.json#/definitions/response"}
         },
         "seed_codes" : {
             "description": "Seed codes, azimuths and dips associated with a sensor",

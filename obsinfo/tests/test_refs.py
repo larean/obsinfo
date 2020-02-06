@@ -5,8 +5,11 @@ The following shows that jsofref crushes everthing else on the same level
 >>> data = jsonref.loads(json_str)
 >>> data == {'A': {'C': 2}, 'B': {'C': 2}}
 """
-import jsonref
 from pprint import pprint
+
+# import jsonref
+
+import obsinfo.misc.yamlref as jsonref
 
 json_str = """{"A": {"C": 2}, "B": {"$ref": "#/A", "D": "howdy"}}"""
 json_str = """{"A": 2, "B": {"$ref": "#/A", "D": "howdy"}}"""

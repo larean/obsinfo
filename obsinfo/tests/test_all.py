@@ -29,6 +29,25 @@ class TestADDONSMethods(unittest.TestCase):
                                            '_examples',
                                            'Information_Files')
 
+    def assertTextFilesEqual(self, first, second, msg=None):
+        with open(first) as f:
+            str_a = f.read()
+        with open(second) as f:
+            str_b = f.read()
+
+        if str_a != str_b:
+            first_lines = str_a.splitlines(True)
+            second_lines = str_b.splitlines(True)
+            delta = difflib.unified_diff(
+                first_lines, second_lines,
+                fromfile=first, tofile=second)
+            message = ''.join(delta)
+
+            if msg:
+                message += " : " + msg
+
+            self.fail("Multi-line strings are unequal:\n" + message)
+
     def test_readJSONREF_json(self):
         """
         Test JSONref using a JSON file.
@@ -47,6 +66,30 @@ class TestADDONSMethods(unittest.TestCase):
         AB = read_json_yaml_ref(os.path.join(self.testing_path, "jsonref_AB.yaml"))
         self.assertTrue(A==AB)
         
+    def test_validate_json(self):
+        """
+        Test validation on a YAML file.
+        
+        The test file as an $ref to a file that doesn't exist, a field that
+        is not specified in the the schema, and lacks a field required in 
+        the schema
+        """
+        test_file = os.path.join(self.testing_path, 'json_testschema.json')
+        test_schema = os.path.join(self.testing_path,
+                                   'json_testschema.schema.json')
+        # self.assertFalse(validate(test_file, schema_file=test_schema, quiet=True))
+        
+        # Run the code
+        cmd = f'obsinfo-validate -s {test_schema} {test_file} > temp'
+        os.system(cmd)
+
+        # Compare text files
+        self.assertTextFilesEqual(
+            'temp',
+            os.path.join(self.testing_path, 'json_testschema.out.txt')
+            )
+        # os.remove('temp')
+
 #     def test_makeSTATIONXML(self):
 #         """
 #         Test STATIONXML creation.

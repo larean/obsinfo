@@ -6,8 +6,8 @@ revision:
         -   $ref: "Wayne_Crawford.author_info.yaml#author_info"
         -   $ref: "Romuald_Daniel.author_info.yaml#author_info"
 facility:
-    $ref: "./INSU-IPGP.facility_info.yaml#facility_info"
-instrument:
+    $ref: "INSU-IPGP.facility_info.yaml#facility_info"
+instrumentation:
     equipment:
         model: "HYDROCT1"
         type: "Multi-hydrophone antenna"

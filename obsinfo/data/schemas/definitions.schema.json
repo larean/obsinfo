@@ -111,7 +111,7 @@
             }
         ]
     },
-    "ref_name": {
+    "reference_name": {
         "type": "string",
         "description": "campaign or facility reference name"
     },

@@ -15,7 +15,7 @@ import jsonref
 import yaml
 
 # Local modules
-from .yamlref import load as yamlref_load
+from . import yamlref
 
 root_symbol = "#"
 VALID_FORMATS = ["JSON", "YAML"]
@@ -144,7 +144,8 @@ def dict_update(orig_dict, update_dict, allow_overwrite=True):
                 orig_dict[key] = value
     return orig_dict
     
-def validate(filename, format=None, type=None, verbose=False, quiet=False):
+def validate(filename, format=None, type=None, verbose=False,
+             schema_file=None, quiet=False):
     """
     Validates a YAML or JSON file against schema
     type: "network", "datalogger", "preamplifier", "sensor", "response", "filter"
@@ -157,25 +158,30 @@ def validate(filename, format=None, type=None, verbose=False, quiet=False):
     if quiet:
         verbose = False
 
-    if not type:
+    if not type and not schema_file:
         type = get_information_file_type(filename)
 
-    instance = read_json_yaml(filename, format=format)
+    instance = read_json_yaml_ref(filename, format=format)
+    # instance = read_json_yaml(filename, format=format)
 
-    SCHEMA_FILE = pkg_resources.resource_filename(
-        "obsinfo", f"data/schemas/{type}.schema.json"
-    )
-    base_path = os.path.dirname(SCHEMA_FILE)
-    base_uri = f"file://{base_path}/"
-    with open(SCHEMA_FILE, "r") as f:
+    if not schema_file:
+        schema_file = pkg_resources.resource_filename(
+            "obsinfo", f"data/schemas/{type}.schema.json"
+        )
+    base_path = os.path.dirname(schema_file)
+    base_uri = f"file:{base_path}/"
+    # base_uri = f"file://{base_path}/"
+    # print(base_uri)
+    with open(schema_file, "r") as f:
         try:
-            schema = jsonref.loads(f.read(), base_uri=base_uri, jsonschema=True)
+            schema = yamlref.loads(f.read(), base_uri=base_uri, jsonschema=True)
+            # schema = jsonref.loads(f.read(), base_uri=base_uri, jsonschema=True)
         except json.decoder.JSONDecodeError as e:
-            print(f"JSONDecodeError: Error loading JSON schema file: {SCHEMA_FILE}")
+            print(f"JSONDecodeError: Error loading JSON schema file: {schema_file}")
             print(str(e))
             return False
         except:
-            print(f"Error loading JSON schema file: {SCHEMA_FILE}")
+            print(f"Error loading JSON schema file: {schema_file}")
             print(sys.exc_info()[1])
             return False
 
@@ -185,10 +191,10 @@ def validate(filename, format=None, type=None, verbose=False, quiet=False):
         if verbose:
             print(f"instance = {filename}")
         elif not quiet:
-            print(f"instance = {filename} ... ", end="")
+            print(f"instance = {os.path.basename(filename)} ... ", end="")
 
         if verbose:
-            print(f"schema =   {os.path.basename(SCHEMA_FILE)}")
+            print(f"schema =   {os.path.basename(schema_file)}")
             print("\tTesting schema ...", end="")
 
         v = jsonschema.Draft4Validator(schema)
@@ -208,9 +214,11 @@ def validate(filename, format=None, type=None, verbose=False, quiet=False):
                     print(f"['{elem}']", end="")
                 print(f": {error.message}")
             print("\tFAILED")
+            return False
         else:
             if not quiet:
                 print("OK")
+            return True
     except jsonschema.ValidationError as e:
         if quiet:
             # IF HAVE TO PRINT ERROR MESSAGE, PRINT INTRO TOO
@@ -218,8 +226,7 @@ def validate(filename, format=None, type=None, verbose=False, quiet=False):
         else:
             print("")
         print("\t" + e.message)
-
-    return True
+        return False
 
 
 def get_information_file_format(filename):
@@ -268,8 +275,11 @@ def read_json_yaml_ref(filename, format=None, debug=False):
     if not format:
         format = get_information_file_format(filename)
 
+    base_path = os.path.dirname(os.path.abspath(filename))
+    base_uri = f"file:{base_path}/"
+    # print(f'read_json_yaml_ref: base_uri={base_uri}')
     with open(filename, "r") as f:
-        return yamlref_load(f, base_uri='file:' + filename)
+        return yamlref.load(f, base_uri=base_uri)
 
 
 def load_information_file(
@@ -375,22 +385,21 @@ def _validate_script(argv=None):
     parser = ArgumentParser(prog="obsinfo-validate", description=__doc__)
     parser.add_argument("info_file", help="Information file")
     parser.add_argument(
-        "-t",
-        "--type",
-        choices=VALID_TYPES,
-        default=None,
+        "-t", "--type", choices=VALID_TYPES, default=None,
         help="Forces information file type (overrides interpreting from filename)",
     )
     parser.add_argument(
-        "-f",
-        "--format",
-        choices=VALID_FORMATS,
-        default=None,
+        "-f", "--format", choices=VALID_FORMATS, default=None,
         help="Forces information file format (overrides interpreting from filename)",
     )
     parser.add_argument(
-        "-v", "--verbose", action="store_true", help="increase output verbosiy"
+        "-s", "--schema", default=None,
+        help="Schema file (overrides interpreting from filename)",
+    )
+    parser.add_argument(
+        "-v", "--verbose", action="store_true", help="increase output verbosity"
     )
     args = parser.parse_args()
 
-    validate(args.info_file, format=args.format, type=args.type, verbose=args.verbose)
+    validate(args.info_file, format=args.format, type=args.type,
+            schema_file=args.schema, verbose=args.verbose)

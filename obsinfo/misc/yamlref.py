@@ -185,7 +185,11 @@ class JsonRef(LazyProxy):
             try:
                 base_doc = self.loader(uri)
             except Exception as e:
-                self._error("%s: %s" % (e.__class__.__name__, unicode(e)), cause=e)
+                # self._error("%s: %s" % (e.__class__.__name__, unicode(e)), cause=e)
+                # WCC
+                print(e)
+                return None
+                
 
             kwargs = self._ref_kwargs
             kwargs["base_uri"] = uri
@@ -343,7 +347,7 @@ def load(fp, base_uri="", loader=None, jsonschema=False, load_on_repr=True,
         passed to :func:`json.load`
 
     """
-
+    # print(f'yamlref.load: base_uri={base_uri}')
     if loader is None:
         loader = functools.partial(jsonloader, **kwargs)
 
@@ -367,7 +371,7 @@ def loads(s, base_uri="", loader=None, jsonschema=False, load_on_repr=True, **kw
         :func:`json.loads`
 
     """
-
+    # print(f'yamlref.loads: base_uri={base_uri}')
     if loader is None:
         loader = functools.partial(jsonloader, **kwargs)
 

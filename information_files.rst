@@ -195,11 +195,21 @@ Response Level
 
     :`description`: string
     
+    :`name`: string [`None`]
+
     :`input_units`: object with fields `name` and `description`
     
     :`output_units`: object with fields `name` and `description`
     
     :`gain`: object with fields ``value`` and ``frequency``
+    
+    :`decimation_factor`: factor by which this stage decimates data [1]
+    
+    :`output_sample_rate`: output sample rate [sps]
+    
+    :`delay`: Delay in seconds of the stage [0]
+    
+    :`calibration_date`: date of calibration that gave this response [`None`[
     
     :`filter`: `Filter Level`_ element
 

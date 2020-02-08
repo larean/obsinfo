@@ -86,7 +86,12 @@ Description of one station.
     
     :`base`: Full instrument description (see `Instrumentation Level`_)
       
-    :`datalogger_config`: shortcut for `channel_mods:base:datalogger:config`
+    :`datalogger_config`: apply configs specified at `Datalogger` level
+    
+    :`sensor_config`: apply configs specified at `Sensor` level
+    
+    :`preamplifier_config`: apply configs specified at `Preamplifier` level
+    
           
     :`serial_number`: Instrument serial number: if it corresponds to a field
         under "`serial_numbers`" at the **Instrumentation Level**, will use

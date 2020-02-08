@@ -38,11 +38,11 @@
             "required": ["equipment"],
             "properties": {
                 "config_description": {"type": "string"},
-                "notes":           {"$ref": "definitions.schema.json#/note_list"},
-                "equipment":       {"$ref": "definitions.schema.json#/equipmentType" },
-                "response_stages": {"$ref": "#/definitions/response_stage_list" },
-                "configurations":  {"$ref": "#/definitions/preamplifier_configs_map"},
-                "serial_numbers":  {"$ref": "#/definitions/preamplifier_serial_numbers_map"}
+                "notes":              {"$ref": "definitions.schema.json#/note_list"},
+                "equipment":          {"$ref": "definitions.schema.json#/equipmentType" },
+                "response_stages":    {"$ref": "#/definitions/response_stage_list" },
+                "configs":            {"$ref": "#/definitions/preamplifier_configs_map"},
+                "serial_numbers":     {"$ref": "#/definitions/preamplifier_serial_numbers_map"}
             },
             "additionalProperties": false
         },

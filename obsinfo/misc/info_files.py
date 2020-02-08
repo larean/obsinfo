@@ -161,6 +161,11 @@ def validate(filename, format=None, type=None, verbose=False,
     if not type and not schema_file:
         type = get_information_file_type(filename)
 
+    if verbose:
+        print(f"instance = {filename}")
+    elif not quiet:
+        print(f"instance = {os.path.basename(filename)} ... ", end="")
+
     instance = read_json_yaml_ref(filename, format=format)
     # instance = read_json_yaml(filename, format=format)
 
@@ -188,10 +193,10 @@ def validate(filename, format=None, type=None, verbose=False,
     # Lazily report all errors in the instance
     # ASSUMES SCHEMA IS DRAFT-04 (I couldn't get it to work otherwise)
     try:
-        if verbose:
-            print(f"instance = {filename}")
-        elif not quiet:
-            print(f"instance = {os.path.basename(filename)} ... ", end="")
+        # if verbose:
+        #     print(f"instance = {filename}")
+        # elif not quiet:
+        #     print(f"instance = {os.path.basename(filename)} ... ", end="")
 
         if verbose:
             print(f"schema =   {os.path.basename(schema_file)}")

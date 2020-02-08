@@ -7,11 +7,9 @@ format_version: "0.106"
 revision: 
     date: "2017-09-14"
     authors: 
-        -
-            first_name: "Wayne"
-            last_name: "Crawford"
+        - {$ref: "../authors/Wayne_Crawford.author.yaml#author"}
 campaign:
-    ref_name: "MYCAMPAIGN"
+    reference_name: "MYCAMPAIGN"
     reference_scientist:
         first_name: "Ima"
         last_name: "Genie"

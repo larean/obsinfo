@@ -8,7 +8,6 @@ revision:
             last_name: "Crawford"
             email: "crawford@ipgp.fr"
 location_base:
-    $ref: 'GENERIC.location_base.yaml'
     depth.m: 0
     geology: "unknown"
     vault: "Sea floor"

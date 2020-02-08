@@ -9,11 +9,11 @@ yaml_anchors:
         start_sync_instrument: 0
 revision:
     authors:
-        - $ref: '../instrumentation/Wayne_Crawford.author_info.yaml#author_info'
+        - {$ref: "../authors/Wayne_Crawford.author.yaml#author"}
     date: "2017-10-04"
 network:
     facility:
-        ref_name: "INSU-IPGP"
+        reference_name: "INSU-IPGP"
         full_name: "INSU-IPGP OBS Park"
     campaign_ref_name: "GRAB-BAG"
     network_info:
@@ -31,12 +31,13 @@ network:
             location_code: "00"
             instruments:
                 -
-                    $ref: "../instrumentation/SPOBS1.instrumentation.yaml#instrumentation"
+                    base:
+                        $ref: "../instrumentation/SPOBS1.instrumentation.yaml#instrumentation"
                     serial_number: "13"
                     datalogger_config: "62.5sps"
             locations:
                 "00":
-                    $ref: '../location_bases/ACOUSTIC_SURVEY.location_base.yaml#location_base'
+                    base: {$ref: '../location_bases/ACOUSTIC_SURVEY.location_base.yaml#location_base'}
                     position: {lon: -32.27909, lat: 37.31960, elev: -1798}
             processing:
                 - clock_correct_linear_drift:
@@ -52,13 +53,13 @@ network:
             location_code: "00"
             instruments:
                 -
-                    $ref: "../instrumentation/BBOBS1.instrumentation.yaml#instrumentation"
-                    config: "pre-2012"
+                    base:
+                        $ref: "../instrumentation/BBOBS1_pre2012.instrumentation.yaml#instrumentation"
                     serial_number: "02"
                     datalogger_config: "62.5sps"
             locations:
                 "00":
-                    $ref: '../location_bases/BUC_DROP.location_base.yaml#location_base'
+                    base: {$ref: '../location_bases/BUC_DROP.location_base.yaml#location_base'}
                     position: {lon: -32.29756, lat: 37.26049, elev: -1887}
             processing:
                 - clock_corrections:
@@ -75,7 +76,8 @@ network:
             location_code: "00"
             instruments:
                 -
-                    $ref: "../instrumentation/HYDOCT1.instrumentation.yaml#instrumentation"
+                    base:
+                        $ref: "../instrumentation/HYDROCT1.instrumentation.yaml#instrumentation"
                     serial_number: "01"
                     datalogger_config: "250sps"
                     channel_mods:
@@ -98,16 +100,16 @@ network:
                                     serial_number: "9601"
             locations:
                 "00":
-                    $ref: '../location_bases/BUC_DIRECT.location_base.yaml#location_base'
+                    base: {$ref: '../location_bases/BUC_DIRECT.location_base.yaml#location_base'}
                     position: {lon: -32.29756, lat: 37.26049, elev: -1887}
                 "01":
-                    $ref: '../location_bases/BUC_DIRECT.location_base.yaml#location_base'
+                    base: {$ref: '../location_bases/BUC_DIRECT.location_base.yaml#location_base'}
                     position: {lon: -32.29756, lat: 37.26051, elev: -1885}
                 "02":
-                    $ref: '../location_bases/BUC_DIRECT.location_base.yaml#location_base'
+                    base: {$ref: '../location_bases/BUC_DIRECT.location_base.yaml#location_base'}
                     position: {lon: -32.29758, lat: 37.26049, elev: -1889}
                 "03":
-                    $ref: '../location_bases/BUC_DIRECT.location_base.yaml#location_base'
+                    base: {$ref: '../location_bases/BUC_DIRECT.location_base.yaml#location_base'}
                     position: {lon: -32.29756, lat: 37.26047, elev: -1877}
             processing:
                 - clock_correct_leapsecond:

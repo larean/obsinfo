@@ -2,10 +2,7 @@
 format_version: "0.107"
 revision:
     authors:
-        -
-            first_name : "Wayne"
-            last_name : "Crawford"
-            email: "crawford@ipgp.fr"
+        - {$ref: "../authors/Wayne_Crawford.author.yaml#author"}
     date: "2019-12-19"
 network_info:
     code: "4G"

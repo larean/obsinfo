@@ -3,8 +3,8 @@ format_version: "0.107"
 revision: 
     date: "2019-12-19"
     authors:
-        -   $ref: "Wayne_Crawford.author_info.yaml#author_info"
-        -   $ref: "Romuald_Daniel.author_info.yaml#author_info"
+        - {$ref: "../authors/Wayne_Crawford.author.yaml#author"}
+        - {$ref: "../authors/Romuald_Daniel.author.yaml#author"}
 facility:
     $ref: "INSU-IPGP.facility_info.yaml#facility_info"
 instrumentation:
@@ -15,8 +15,9 @@ instrumentation:
         manufacturer: "Scripps Inst. Oceanography - INSU"
         vendor: "Scripps Inst. Oceanography - UNSU"
     base_channel:
-        datalogger: {$config: "dataloggers/LC2000.datalogger.configs.yaml#configs"}
-        preamplifier:  {$ref: "preamplifiers/LCHEAPO_BBOBS_0p225x.preamplifier.yaml#preamplifier"}
+        datalogger: {$ref: "dataloggers/LC2000.datalogger.yaml#datalogger"}
+        preamplifier:  {$ref: "preamplifiers/LCHEAPO_BBOBS.preamplifier.yaml#preamplifier"}
+        preamplifier_config: "0.225x"
         sensor: {$ref: "sensors/NANOMETRICS_T240_SINGLESIDED.sensor.yaml#sensor"}
     das_channels:
         "1": {orientation_code: "2"}

@@ -26,33 +26,24 @@
                 "facility",
                 "campaign_ref_name",
                 "network_info",
-                "ref_file",
-                "ref_file_type",
                 "stations"
             ],
             "properties": {
                 "facility":          {"$ref": "#/definitions/facility"},
-                "campaign_ref_name": {"$ref": "definitions.schema.json#/ref_name"},
+                "campaign_ref_name": {"$ref": "definitions.schema.json#/reference_name"},
                 "network_info":      {"$ref": "#/definitions/network_info"},
-                "ref_file":          {"$ref": "definitions.schema.json#/URI_ref"},
-                "ref_file_type":     {"$ref": "#/definitions/ref_file_type"},
                 "stations":          {"$ref": "#/definitions/stations_map"},
                 "notes":             {"$ref": "definitions.schema.json#/note_list"},
                 "extras":            {"$ref": "definitions.schema.json#/extras" }
             },
             "additionalProperties" : false
         },
-        "ref_file_type": {
-            "description": "ref file type",
-            "type": "string",
-            "enum": ["instrumentation", "instrument_components"]
-        },
         "facility" : {
             "description": "Facility information",
             "type": "object",
-            "required" : [ "ref_name" ],
+            "required" : [ "reference_name" ],
             "properties" : {
-                "ref_name":  {"$ref": "definitions.schema.json#/ref_name"},
+                "reference_name":  {"$ref": "definitions.schema.json#/reference_name"},
                 "full_name": {"type": "string" ,  "description": "Full facility name"}
             },
             "additionalProperties" : false
@@ -105,7 +96,7 @@
                 "end_date":          {"$ref": "definitions.schema.json#/date-time-Z" },
                 "location_code":     {"$ref": "#/definitions/location_code"},
                 "locations":         {"$ref": "#/definitions/locations_map" },
-                "instruments":       {"$ref": "#/definitions/instrument_list" },
+                "instruments":       {"$ref": "#/definitions/instrumentation_list" },
                 "processing":        {"$ref": "#/definitions/processing_list"},
                 "extras":            {"$ref": "definitions.schema.json#/extras"},
                 "restricted_status": {
@@ -130,14 +121,24 @@
          "location_specification": {
             "type" : "object",
             "required": [
-                "position",
+                "base",
+                "position"
+            ],
+            "properties": {
+                "base":      {"$ref": "#/definitions/location_base"},
+                "position" : {"$ref": "#/definitions/GeoJSON" }
+            },
+            "additionalProperties" : false
+        },
+         "location_base": {
+            "type" : "object",
+            "required": [
                 "uncertainties.m",
                 "depth.m",
                 "geology",
                 "vault"
             ],
             "properties": {
-                "position" :        {"$ref": "#/definitions/GeoJSON" },
                 "uncertainties.m" : {"$ref": "#/definitions/GeoJSON_m" },
                 "depth.m" :         {"type": "number", "description" : "depth beneath the seafloor (m)"},
                 "geology" :         {"type": "string", "default" : "unknown"},
@@ -149,36 +150,44 @@
             },
             "additionalProperties" : false
         },
-       "instrument_list": {
+       "instrumentation_list": {
            "type": "array",
-           "description":" list of instrument",
+           "description":" list of instrumentation",
            "minItems" : 1,
            "items" : { 
-                "oneOf": [
-                    {"$ref": "#/definitions/instrument_ref"},
-                    {"$ref": "instrumentation.schema.json#/definitions/instrument_struct"}
-                ]
+                "$ref": "#/definitions/instrumentation_object"
             }
         },
-        "instrument_ref":
+        "instrumentation_object":
         {
             "type": "object",
-            "description": "Instrument reference",
-            "required": [ "ref_code" ],
+            "description": "Instrumentation descriptor",
+            "required": [ "base" ],
             "properties" : {
-                "ref_code":      {"type": "string" },
-                "config":        {"type": "string" },
-                "serial_number": {"type": "string"},
-                "channel_mods":  {"$ref": "#/definitions/channel_mods"}
+                "base":              {"$ref": "instrumentation.schema.json#/definitions/instrumentation"},
+                "datalogger_config": {"type": "string"},
+                "serial_number":     {"type": "string"},
+                "chan_mods":         {"$ref": "#/definitions/channel_mods"}
+            }
+        },
+        "instrumentation_modifs":
+        {
+            "type": "object",
+            "description": "Instrumentation modifiers",
+            "properties" : {
+                "datalogger":        {"type": "object"},
+                "preamplifier":      {"type": "object"},
+                "sensor":            {"type": "object"}
             }
         },
         "channel_mods": {
             "type": "object",
-            "description": "modifications to instrument channels.  'by_das' or 'by_orientation' add to the 'base_channel_mod' values.  Only use one '*_by_*', usually 'by_orientation' unless more than one channel has the same orientation code",
+            "description": "modifications to instrument channels.  'by_das', 'by_chan_mod' or 'by_orientation' add to the 'base_channel_mod' values.  Only use one '*_by_*', usually 'by_orientation' unless more than one channel has the same orientation code",
             "properties": {
                 "base":           {"$ref": "#/definitions/base_channel_mod"},
                 "by_das":         {"$ref": "#/definitions/channel_mods_map"},
-                "by_orientation": {"$ref": "#/definitions/channel_mods_map"}
+                "by_orientation": {"$ref": "#/definitions/channel_mods_map"},
+                "by_chan_mod":    {"$ref": "#/definitions/channel_mods_map"}
             },
             "additionalProperties": false
         },

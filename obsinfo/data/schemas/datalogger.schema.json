@@ -32,7 +32,7 @@
                 "delay_correction":   {"$ref": "#/definitions/delay_correction"},
                 "serial_numbers":     {"$ref": "#/definitions/datalogger_serial_numbers_map"},
                 "config_description": {"type": "string"},
-                "configurations":     {"$ref": "#/definitions/datalogger_configs_map"}
+                "configs":     {"$ref": "#/definitions/datalogger_configs_map"}
             },
             "additionalProperties": false
         },
@@ -70,7 +70,7 @@
         "response_stage_list" : {
             "type" : "array",
             "description": "list of response-stage files#keys in JSON Pointers format",
-            "items" : { "$ref": "definitions.schema.json#/URI_ref"}
+            "items" : { "$ref": "response.schema.json#definitions/response"}
         },
         "delay_correction": {
             "anyOf" : [

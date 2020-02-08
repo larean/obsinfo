@@ -56,16 +56,20 @@
         "base_channel": { 
             "type": "object",
             "description": "Base logger channel, applied to all channels then overwritten by specific das_channel compoents",
-            "required": [
-                "datalogger",
-                "sensor"
-            ],
+            "required": [ "datalogger", "sensor"],
             "properties" : {
-                "datalogger" :  { "$ref": "#/definitions/datalogger_or_config"},
-                "preamplifier": { "$ref": "#/definitions/preamplifier_or_config"},
-                "sensor" :      { "$ref": "#/definitions/sensor_or_config"}
+                "datalogger" :         {"$ref": "datalogger.schema.json#/definitions/datalogger"},
+                "preamplifier":        {"$ref": "preamplifier.schema.json#/definitions/preamplifier"},
+                "sensor" :             {"$ref": "sensor.schema.json#/definitions/sensor"},
+                "datalogger_config":   {"$ref": "#/definitions/component_config"},
+                "preamplifier_config": {"$ref": "#/definitions/component_config"},
+                "sensor_config":       {"$ref": "#/definitions/component_config"}
             },
             "additionalProperties" : false
+        },
+        "component_config": {
+            "type": "string",
+            "description": "configuration for datalogger, preamplifier or sensor"
         },
         "base_channel_change_or_modify": { 
             "type": "object",
@@ -108,10 +112,13 @@
             "description": "Description of one DAS channel (overwrites corresponding base_channel for that channel)",
             "required": ["orientation_code"],
             "properties" : {
-                "orientation_code" : { "$ref": "#/definitions/orientation_code"},
-                "datalogger" :  { "$ref": "#/definitions/datalogger_or_config"},
-                "preamplifier": { "$ref": "#/definitions/preamplifier_or_config"},
-                "sensor" :      { "$ref": "#/definitions/sensor_or_config"}
+                "orientation_code" :   {"$ref": "#/definitions/orientation_code"},
+                "datalogger" :         {"$ref": "datalogger.schema.json#/definitions/datalogger"},
+                "preamplifier":        {"$ref": "preamplifier.schema.json#/definitions/preamplifier"},
+                "sensor" :             {"$ref": "sensor.schema.json#/definitions/sensor"},
+                "datalogger_config":   {"$ref": "#/definitions/component_config"},
+                "preamplifier_config": {"$ref": "#/definitions/component_config"},
+                "sensor_config":       {"$ref": "#/definitions/component_config"}
             }
         },
         "das_channels_change_or_modify": { 
@@ -127,10 +134,10 @@
             "type": "object",
             "description": "DAS channel, modifications",
             "properties" : {
-                "orientation_code": { "$ref": "#/definitions/orientation_code"},
-                "datalogger" :  { "$ref": "#/definitions/instrument_component_modifs"},
-                "preamplifier": { "$ref": "#/definitions/instrument_component_modifs"},
-                "sensor" :      { "$ref": "#/definitions/instrument_component_modifs"}
+                "orientation_code": {"$ref": "#/definitions/orientation_code"},
+                "datalogger" :      {"$ref": "#/definitions/instrument_component_modifs"},
+                "preamplifier":     {"$ref": "#/definitions/instrument_component_modifs"},
+                "sensor" :          {"$ref": "#/definitions/instrument_component_modifs"}
             },
             "additionalProperties" : true
         },
@@ -144,54 +151,8 @@
                     "required": [
                     ],
                     "properties" : {
-                        "base_channel":  { "$ref": "#/definitions/base_channel_change_or_modify"},
-                        "das_channels:": { "$ref": "#/definitions/das_channels_change_or_modify"}
-                    }
-                }
-            }
-        },
-        "datalogger_or_config": {
-            "oneOf": [
-                { "$ref": "datalogger.schema.json#/definitions/datalogger"},
-                { "$ref": "#/definitions/config_ref"}
-            ]
-        },
-        "preamplifier_or_config": {
-            "oneOf": [
-                { "$ref": "preamplifier.schema.json#/definitions/preamplifier"},
-                { "$ref": "#/definitions/config_ref"}
-            ]
-        },
-        "sensor_or_config": {
-            "oneOf": [
-                { "$ref": "sensor.schema.json#/definitions/sensor"},
-                { "$ref": "#/definitions/config_ref"}
-            ]
-        },
-        "config_ref": {
-            "type": "object",
-            "description": "configuration reference, to be evaluated in code",
-            "required": ["$config"],
-            "properties": {
-                "$config": {"type": "string"}
-            },
-            "additionalProperties" : false
-        },
-        "das_channels": { 
-            "type": "object",
-            "description": "individual measurement instruments specified by das component (channel on a given das) and possibly separate connector named as component_connector)",
-            "patternProperties": {
-                "^[A-Za-z0-9]+$": {
-                    "type": "object",
-                    "description": "Each string must correspond to a component reference_code in the instrumentation_components file",
-                    "required": [
-                        "orientation_code"
-                    ],
-                    "properties" : {
-                        "orientation_code" : { "$ref": "#/definitions/orientation_code"},
-                        "datalogger" :  { "$ref": "#/definitions/datalogger_or_config"},
-                        "preamplifier": { "$ref": "#/definitions/preamplifier_or_config"},
-                        "sensor" :      { "$ref": "#/definitions/sensor_or_config"}
+                        "base_channel":  {"$ref": "#/definitions/base_channel_change_or_modify"},
+                        "das_channels:": {"$ref": "#/definitions/das_channels_change_or_modify"}
                     }
                 }
             }
@@ -202,28 +163,26 @@
         },
 		"equipmentType": {
 			"type": "object",
-			"required": ["type", "description", "manufacturer", "vendor",
-				"model"
-			],
+			"required": ["type", "description", "manufacturer", "model"],
 			"properties": {
-                "type":             { "type": ["string","null"] },
-                "description":      { "type": ["string","null"] },
-                "manufacturer":     { "type": ["string","null"] },
-                "vendor":           { "type": ["string","null"] },
-                "model":            { "type": ["string","null"] },
-                "serial_number":    { "type": ["string","null"] },
-                "calibration_date": { "$ref" : "definitions.schema.json#/date-time-Z"}
+                "type":             {"type": ["string","null"] },
+                "description":      {"type": ["string","null"] },
+                "manufacturer":     {"type": ["string","null"] },
+                "vendor":           {"type": ["string","null"] },
+                "model":            {"type": ["string","null"] },
+                "serial_number":    {"type": ["string","null"] },
+                "calibration_date": {"$ref" : "definitions.schema.json#/date-time-Z"}
 			}
 		},
 		"equipmentType_noRequired": {
 			"type": "object",
 			"properties": {
-                "type":            { "type": ["string","null"] },
-                "description":     { "type": ["string","null"] },
-                "manufacturer":    { "type": ["string","null"] },
-                "vendor":          { "type": ["string","null"] },
-                "model":           { "type": "string" },
-                "serial_number":   { "type": ["string","null"] },
+                "type":            {"type": ["string","null"] },
+                "description":     {"type": ["string","null"] },
+                "manufacturer":    {"type": ["string","null"] },
+                "vendor":          {"type": ["string","null"] },
+                "model":           {"type": "string" },
+                "serial_number":   {"type": ["string","null"] },
                 "calibration_date": {"$ref" : "definitions.schema.json#/date-time-Z"}
 			}
         }

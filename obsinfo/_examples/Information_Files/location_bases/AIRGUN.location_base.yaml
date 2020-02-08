@@ -3,11 +3,9 @@ format_version: "0.107"
 revision: 
     date: "2018-06-01"
     authors:
-        - 
-            first_name: "Wayne"
-            last_name: "Crawford"
-            email: "crawford@ipgp.fr"
+        - $ref: "Wayne_Crawford.author.yaml#author"
 location_base:
-    $ref: 'SEAFLOOR.location_base.yaml'
-    uncertainties.m: {lon: 40, lat: 40, elev: 20}
+    depth.m: 0
+    geology: "unknown"
+    vault: "Sea floor"
     localisation_method: "Airgun survey"

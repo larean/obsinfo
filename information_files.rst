@@ -100,11 +100,15 @@ Description of one station.
           individual channels, specified by their SEED orientation code (see
           **Instrument_Component Level** Sensor-specific fields)
       
+        :`by_chan_loc/{CHAN_LOC-CODE}`: Modifications applied to individual
+         channels, specified using the channel_location code ("`CCC_LL`").
+          Use only when a station has more than one channel with the same
+          orientation code.  Overrides `by_orientation`
+
         :`by_das/{DAS-CODE}`: Modifications applied to individual channels,
           specified using the data acquisition channel code.
-          Use only when a station has more than one channel
-          with the same orientation code.  Do not use if you have specified
-          `by_orientation`
+          Use when a station has more than one channel with the same
+          orientation code.  Overrides `by_orientation` or `by_chan_loc`
 
 Instrumentation Level
 ==========================

@@ -75,7 +75,7 @@
             "description": "List of stations deployed by the facility",
             "minItems": 1,
             "items": {  "type": "string" }
-        }
+        },
         "data_distribution": {
             "type": "object",
             "description": "Parameters related to data distribution",

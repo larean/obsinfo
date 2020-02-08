@@ -3,7 +3,7 @@ format_version: "0.107"
 revision: 
     date: "2017-11-30"
     authors: 
-        - $ref: "../Wayne_Crawford.author_info.yaml#author_info"
+        - {$ref: "../../authors/Wayne_Crawford.author.yaml#author"}
 notes: 
     - "Not sure the L22 is 'high gain', but it is when combined with the LCHEAPO analog filter"
     - "Geophone Z channel is positive DOWN"

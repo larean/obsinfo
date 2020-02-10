@@ -51,10 +51,11 @@ class PolesZeros(Filter):
     """
     PolesZeros Filter
     """
-    def __init__(self, units='rad/s', poles=[], zeros=[],
+    def __init__(self, transfer_function_type='LAPLACE (RADIANS/SECOND)',
+                 poles=[], zeros=[],
                  normalization_frequency=0, normalization_factor=1.):
-        self.type = 'PolesZeros'
-        self.units = units
+        # self.type = 'PolesZeros'
+        self.transfer_function_type = transfer_function_type
         self.poles = poles
         self.zeros = zeros
         self.normalization_frequency = normalization_frequency
@@ -65,7 +66,8 @@ class PolesZeros(Filter):
         """
         Create PolesZeros instance from an info_dict
         """
-        obj = cls(info_dict.get('units', 'rad/s'),
+        obj = cls(info_dict.get('transfer_function_type',
+                                'LAPLACE (RADIANS/SECOND)'),
                   info_dict.get('poles', []),
                   info_dict.get('zeros', []),
                   info_dict.get('normalization_frequency', 0.),
@@ -88,7 +90,7 @@ class FIR(Filter):
     """
     def __init__(self, symmetry, delay_samples, coefficients,
                  coefficient_divisor):
-        self.type = 'FIR'
+        # self.type = 'FIR'
         self.symmetry = symmetry
         if symmetry not in ['ODD', 'EVEN', 'NONE']:
             warnings.warn(f'Illegal FIR symmetry: "{symmetry}"')
@@ -127,7 +129,7 @@ class Coefficients(Filter):
                                           "DIGITAL"]:
             warnings.warn('Illegal transfer function type: "{}"'.format(
                 transfer_function_type))
-        self.type = 'Coefficients'
+        # self.type = 'Coefficients'
         self.transfer_function_type = transfer_function_type
         self.numerator_coefficients = numerator_coefficients
         self.denominator_coefficients = denominator_coefficients
@@ -154,7 +156,7 @@ class ResponseList(Filter):
     ResponseList Filter
     """
     def __init__(self, response_list):
-        self.type = 'Coefficients'
+        # self.type = 'Coefficients'
         self.response_list = response_list
 
     @classmethod
@@ -174,7 +176,7 @@ class Analog(PolesZeros):
     Analog Filter (Flat PolesZeros filter)
     """
     def __init__(self):
-        self.type = 'Analog'
+        # self.type = 'Analog'
         self.units = 'rad/s'
         self.poles = []
         self.zeros = []
@@ -198,7 +200,7 @@ class Digital(Coefficients):
     Digital Filter (Flat Coefficients filter)
     """
     def __init__(self):
-        self.type = 'Coefficients'
+        # self.type = 'Coefficients'
         self.transfer_function_type = 'DIGITAL'
         self.numerator_coefficients = [1.0]
         self.denominator_coefficients = []
@@ -220,7 +222,7 @@ class AD_Conversion(Coefficients):
     AD_Conversion Filter (Flat Coefficients filter)
     """
     def __init__(self, input_full_scale, output_full_scale):
-        self.type = 'AD_Conversion'
+        # self.type = 'AD_Conversion'
         self.transfer_function_type = 'DIGITAL'
         self.numerator_coefficients = [1.0]
         self.denominator_coefficients = []

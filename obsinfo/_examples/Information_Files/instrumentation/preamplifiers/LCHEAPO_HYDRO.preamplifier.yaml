@@ -12,7 +12,7 @@ preamplifier:
         manufacturer: "SIO or IPGP"
         vendor: ~
     config_description: "64x gain"
-    response_stages:
+    responses_ordered:
         - $ref: "responses/Scripps_SPOBS_HydroL22x64_theoretical.response.yaml#response"
     configs:
         "16x":

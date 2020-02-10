@@ -26,7 +26,8 @@
 	        "required" : ["stages"],
 	        "properties" : { 
 	            "stages" : {"$ref" : "#/definitions/stage_list"},
-		        "extras":  {"$ref" : "definitions.schema.json#/extras" },
+		        "extras":  {"$ref" : "definitions.schema.json#extras" },
+		        "notes":  {"$ref" : "definitions.schema.json#notes" },
                 "decimation_info" : {"$ref" : "#/definitions/decimation_info"}
 	         },
 	        "additionalProperties" : false

@@ -21,6 +21,12 @@ from ..network.util import create_comments
 
 last_output = None
 def response_with_sensitivity(resp_stages, sensitivity, debug=False):
+    """
+    Returns obspy Response object with sensitivity
+    
+    :param resp_stages: list of obspy ResponseStages
+    :param sensitivity: a guess of sensitivity based on individual stage gains
+    """
 
     true_sensitivity_input_units = None
 
@@ -122,7 +128,15 @@ def get_nb_stages(responses):
 
 
 def __get_units_sensitivity(stage, sensitivity, i_stage):
-    # Get Units
+    """
+    Return output units and sensitivity of stages up to present
+    
+    sensitivity is a dictionary with "input_units", "input_units_description"
+        and "freq" being set by the first stage.  "guess" being the product of
+        the gains of all stages
+        
+    units are for the current stage
+    """
     
     units = dict()
     temp = stage.get("input_units", {})

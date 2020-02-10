@@ -84,6 +84,12 @@
     },
     "note_list": {
         "type": "array",
+        "description": "list of notes (grandfathered, use 'notes')",
+        "minItems": 0,
+        "items": {"type": "string", "minLength": 1 }
+    },
+    "notes": {
+        "type": "array",
         "description": "list of notes (should not be included in output metadata)",
         "minItems": 0,
         "items": {"type": "string", "minLength": 1 }

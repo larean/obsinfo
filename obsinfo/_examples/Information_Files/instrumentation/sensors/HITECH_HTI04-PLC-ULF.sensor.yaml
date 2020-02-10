@@ -18,5 +18,5 @@ sensor:
         instrument: "D"
         orientation:
             "H": {azimuth.deg: [0,0], dip.deg: [90,0]}
-    response_stages:
+    responses_ordered:
         - $ref: "responses/HiTech_HTI-04-PLC-ULF_voltage-mode_theoretical.response.yaml#response"

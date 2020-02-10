@@ -37,7 +37,7 @@
             "required" : ["type", "poles", "zeros"],
             "properties": {
                 "type":                    {"enum": ["PolesZeros"]},
-                "units":                   {"$ref": "#/definitions/pz_units"},
+                "transfer_function_type":  {"$ref": "#/definitions/pz_units"},
                 "normalization_frequency": {"$ref": "#/definitions/norm_freq"},
                 "normalization_factor":    {"$ref": "#/definitions/norm_fact"},
                 "poles":                   {"$ref": "#/definitions/pole_list"},
@@ -118,8 +118,8 @@
         },
         "pz_units": {
             "type" : "string",
-            "enum" : ["rad/s", "hz", "z-transform"],
-            "default" : "rad/s"
+            "enum" : ["LAPLACE (RADIANS/SECOND)", "LAPLACE (HERTZ)", "DIGITAL (Z-TRANSFORM)"],
+            "default" : "LAPLACE (RADIANS/SECOND)"
         },
         "norm_freq": {
             "type": "number",

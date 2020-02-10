@@ -18,5 +18,5 @@ sensor:
             "Z": {azimuth.deg: [0, 0],    dip.deg: [-90, 0]}
             "1": {azimuth.deg: [0, 180],  dip.deg: [0, 0]}
             "2": {azimuth.deg: [90, 180], dip.deg: [0, 0]}
-    response_stages:
+    responses_ordered:
         - $ref: "responses/Trillium_TCompact_singlesided_theoretical.response.yaml#response"

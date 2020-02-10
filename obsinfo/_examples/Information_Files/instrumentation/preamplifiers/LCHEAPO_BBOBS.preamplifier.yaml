@@ -12,7 +12,7 @@ preamplifier:
         manufacturer: "SIO or IPGP"
         vendor: ~
     config_description: "1x gain"
-    response_stages:
+    responses_ordered:
         - $ref: "responses/INSU_BBOBS_gain1.0_theoretical.response.yaml#response"
     configs:
         "0.225x":

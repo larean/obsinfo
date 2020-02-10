@@ -18,6 +18,7 @@ from obsinfo.network.network import _make_stationXML_script
 from obsinfo.misc.info_files import validate, read_json_yaml, read_json_yaml_ref
 from obsinfo.instrumentation.filter import Filter
 from obsinfo.instrumentation.stage import Stage
+from obsinfo.instrumentation.response import Response
 
 
 class TestADDONSMethods(unittest.TestCase):
@@ -104,8 +105,8 @@ class TestADDONSMethods(unittest.TestCase):
             "PolesZeros",
             "Sercel_L22D_C510-S2000_generic.filter.yaml"))
         # pprint(A['filter'])
-        f = Filter.from_info_dict(A['filter'])
-        # print(f)
+        obj = Filter.from_info_dict(A['filter'])
+        # print(obj)
         
     def test_stage(self):
         """
@@ -120,10 +121,37 @@ class TestADDONSMethods(unittest.TestCase):
             "responses",
             "TI_ADS1281_FIR1.stage.yaml"))
         # pprint(A['stage'])
-        s = Stage.from_info_dict(A['stage'])
-        # print(s)
-        oos = s.to_obspy(1, 10.)
-        # print(oos)
+        obj = Stage.from_info_dict(A['stage'])
+        # print(obj)
+        # obs_obj = obj.to_obspy(1, 10.)
+        obs_obj = obj.to_obspy()
+        # print(obs_obj)
+
+    def test_response(self):
+        """
+        Test reading and combining response files.
+        """
+        A = read_json_yaml_ref(os.path.join(
+            self.infofiles_path, 
+            "instrumentation",
+            "sensors",
+            "responses",
+            "Trillium_T240_SN400-singlesided_theoretical.response.yaml"))
+        B = read_json_yaml_ref(os.path.join(
+            self.infofiles_path, 
+            "instrumentation",
+            "dataloggers",
+            "responses",
+            "TexasInstruments_ADS1281_100sps-linear_theoretical.response.yaml"))
+        # pprint(A['response'])
+        # pprint(B['response'])
+        
+        obj_A = Response.from_info_dict(A['response'])
+        obj_B = Response.from_info_dict(B['response'])
+        obj = obj_A + obj_B
+        # print(obj)
+        obs_obj = obj.to_obspy()
+        # print(obs_obj)
 
 #     def test_makeSTATIONXML(self):
 #         """

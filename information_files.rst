@@ -154,7 +154,7 @@ Common fields:
 :`config_description`: Description of the default configuration.  Can be left
                        empty if there is only one configuration.
 
-:`response_stages`: a list of response stages (see `Response Level`_)
+:`responses_ordered`: an ordered list of responses (see `Response Level`_)
 
 :`configurations`: optional configurations.  Fields are any of the
                    Instrument_Component fields (including specific ones for the

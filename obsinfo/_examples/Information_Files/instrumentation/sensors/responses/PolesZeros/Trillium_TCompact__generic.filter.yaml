@@ -2,7 +2,7 @@
 format_version: "0.107"
 filter:
     type: "PolesZeros"
-    units : "rad/s"
+    transfer_function_type: "LAPLACE (RADIANS/SECOND)"
     zeros :
         -    [0.0, 0.0]
         -    [0.0, 0.0]

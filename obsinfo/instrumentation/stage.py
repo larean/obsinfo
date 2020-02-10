@@ -9,6 +9,7 @@ from obspy.core.inventory.response import (PolesZerosResponseStage,
                                            FIRResponseStage,
                                            CoefficientsTypeResponseStage,
                                            ResponseListResponseStage)
+import obspy.core.util.obspy_types as obspy_types
 
 # Local modules
 from .filter import (Filter, PolesZeros, FIR, Coefficients, ResponseList,
@@ -20,8 +21,8 @@ class Stage():
     Stage class
     """
     def __init__(self, name, description, input_units, output_units, gain,
-                 gain_frequency, filter, input_units_description=None,
-                 output_units_description=None,
+                 gain_frequency, filter, stage_sequence_number=-1,
+                 input_units_description=None, output_units_description=None,
                  output_sample_rate=None, decimation_factor=1.,
                  offset=0, delay=0., correction=0., calibration_date=None):
         self.name = name
@@ -31,6 +32,7 @@ class Stage():
         self.gain = gain
         self.gain_frequency = gain_frequency
         self.filter = filter
+        self.stage_sequence_number = stage_sequence_number
         self.input_units_description = input_units_description
         self.output_units_description = output_units_description
         self.output_sample_rate = output_sample_rate
@@ -45,6 +47,8 @@ class Stage():
         s += f'"{self.input_units}", "{self.output_units}", '
         s += f'{self.gain:g}, {self.gain_frequency:g}, '
         s += f'{type(self.filter)}'
+        if not self.stage_sequence_number == -1:
+            s += f', stage_sequence_number="{self.stage_sequence_number}"'
         if self.input_units_description:
             s += f', input_units_description="{self.input_units_description}"'
         if self.output_units_description:
@@ -85,28 +89,29 @@ class Stage():
                   )
         return obj
 
-    def to_obspy(self, stage_sequence_number=-1, input_sample_rate=None):
+    def to_obspy(self):
         """
         Return equivalent obspy response stage
         """
-        if input_sample_rate:
-            if not self.output_sample_rate:
-                self.output_sample_rate = (input_sample_rate
-                                           / self.decimation_factor)
-            elif not ((input_sample_rate / self.output_sample_rate)
-                      == self.decimation_factor):
-                warnings.warn('input_sample_rate/output_sample_rate does not'
-                              + ' equal decimation_factor')
+        #if input_sample_rate:
+        #    if not self.output_sample_rate:
+        #        self.output_sample_rate = (input_sample_rate
+        #                                   / self.decimation_factor)
+        #    elif not ((input_sample_rate / self.output_sample_rate)
+        #              == self.decimation_factor):
+        #        warnings.warn('input_sample_rate/output_sample_rate does not'
+        #                      + ' equal decimation_factor')
         if self.output_sample_rate:
-            if not input_sample_rate:
-                input_sample_rate = (self.output_sample_rate
-                                     * self.decimation_factor)
+            input_sample_rate = (self.output_sample_rate
+                                 * self.decimation_factor)
         else:
-            warnings.warn('no output_sample_rate specified for stage {:d}'.
-                          format(stage_sequence_number))
+            input_sample_rate = None
+        # else:
+        #     warnings.warn('no output_sample_rate specified for stage {:d}'.
+        #                   format(stage_sequence_number))
 
         filt = self.filter
-        args=(stage_sequence_number, self.gain, self.gain_frequency,
+        args=(self.stage_sequence_number, self.gain, self.gain_frequency,
               self.input_units, self.output_units)
         if isinstance(filt, PolesZeros) or isinstance(filt, Analog):
             obj = PolesZerosResponseStage(
@@ -121,10 +126,16 @@ class Stage():
                 decimation_delay=self.delay,
                 decimation_correction=self.correction,
                 # PolesZeros-specific
-                pz_transfer_function_type=filt.transfer_function.type,
+                pz_transfer_function_type=filt.transfer_function_type,
                 normalization_frequency=filt.normalization_frequency,
-                zeros=filt.zeros,
-                poles=filt.poles,
+                zeros=[obspy_types.ComplexWithUncertainties(
+                    float(t[0]) + 1j * float(t[1]),
+                    lower_uncertainty=0.0, upper_uncertainty=0.0)\
+                    for t in filt.zeros],
+                poles=[obspy_types.ComplexWithUncertainties(
+                    float(t[0]) + 1j * float(t[1]),
+                    lower_uncertainty=0.0, upper_uncertainty=0.0)\
+                    for t in filt.poles],
                 normalization_factor=filt.normalization_factor)
         elif isinstance(filt, FIR):
             obj = FIRResponseStage(
@@ -140,7 +151,8 @@ class Stage():
                 decimation_correction=self.correction,
                 # FIR-specific
                 symmetry=filt.symmetry,
-                coefficients=[c / filt.coefficient_divisor
+                coefficients=[obspy_types.FloatWithUncertaintiesAndUnit(
+                    c / filt.coefficient_divisor)
                               for c in filt.coefficients])
         elif (isinstance(filt, Coefficients)
                 or isinstance(filt, Digital)
@@ -159,8 +171,12 @@ class Stage():
                 # FIR-specific
                 # CF-specific
                 cf_transfer_function_type=filt.transfer_function_type,
-                numerator=filt.numerator,
-                denominator=filt.denominator)
+                numerator=[obspy_types.FloatWithUncertaintiesAndUnit(
+                    n, lower_uncertainty=0.0, upper_uncertainty=0.0)\
+                    for n in filt.numerator_coefficients],
+                denominator=[obspy_types.FloatWithUncertaintiesAndUnit(
+                    n, lower_uncertainty=0.0, upper_uncertainty=0.0)\
+                    for n in filt.denominator_coefficients])
         elif isinstance(filt, ResponseList):
             obj = ResponseListResponseStage(
                 *args,

@@ -31,12 +31,12 @@
         },
         "sensor": { 
             "description": "Basic sensor specification",
-            "required": ["equipment", "response_stages", "seed_codes"],
+            "required": ["equipment", "responses_ordered", "seed_codes"],
             "properties": {
                 "config_description": {"type": "string"},
                 "notes":              {"$ref": "definitions.schema.json#/note_list"},
                 "equipment":          {"$ref": "definitions.schema.json#/equipmentType"},
-                "response_stages":    {"$ref": "#/definitions/response_stage_list"},
+                "responses_ordered":  {"$ref": "#/definitions/response_list"},
                 "configurations":     {"$ref": "#/definitions/sensor_configs_map"},
                 "serial_numbers":     {"$ref": "#/definitions/sensor_serial_numbers_map"},
                 "seed_codes":         {"$ref": "#/definitions/seed_codes"}
@@ -49,7 +49,7 @@
             "properties": {
                 "config_description": {"type": "string"},
                 "equipment":          {"$ref": "definitions.schema.json#/equipmentType_noRequired"},
-                "response_stages":    {"$ref": "#/definitions/response_stage_list"},
+                "responses_ordered":  {"$ref": "#/definitions/response_list"},
                 "serial_numbers":     {"$ref": "#/definitions/sensor_serial_numbers_map"},
                 "seed_codes":         {"$ref": "#/definitions/seed_codes"}
             },
@@ -58,15 +58,15 @@
         "sensor_serial_number"  : { 
             "description" : "Serial number-specific sensor properties",
             "properties": {
-                "equipment":       {"$ref": "definitions.schema.json#/equipmentType_noRequired"},
-                "response_stages": {"$ref": "#/definitions/response_stage_list"},
-                "seed_codes":      {"$ref": "#/definitions/seed_codes"}
+                "equipment":         {"$ref": "definitions.schema.json#/equipmentType_noRequired"},
+                "responses_ordered": {"$ref": "#/definitions/response_list"},
+                "seed_codes":        {"$ref": "#/definitions/seed_codes"}
             },
             "additionalProperties": false
         },
-        "response_stage_list" : {
+        "response_list" : {
             "type" : "array",
-            "description": "list of response stages",
+            "description": "list of responses",
             "items" : { "$ref": "response.schema.json#/definitions/response"}
         },
         "seed_codes" : {

@@ -12,7 +12,7 @@ preamplifier:
         manufacturer: "SIO or IPGP"
         vendor: ~
     config_description: "128x gain"
-    response_stages:
+    responses_ordered:
         - $ref: "responses/INSU_SPOBS_L28x128_theoretical.response.yaml#response"
     configs:
         "128x":

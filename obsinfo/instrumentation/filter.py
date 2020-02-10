@@ -3,11 +3,11 @@ Filter class and subclasses
 """
 # Standard library modules
 # import math as m
-import os.path
-import pprint
+import warnings
 
 # Non-standard modules
-import obspy.core.inventory.response as obspy_response
+# import obspy.core.inventory.response as obspy_response
+
 
 class Filter():
     """
@@ -17,14 +17,41 @@ class Filter():
         """
         Constructor
         """
-        self.type=type
+        self.type = type
+
+    @staticmethod
+    def from_info_dict(info_dict):
+        """
+        Creates an appropriate Filter subclass from an info_dict
+        """
+        if "type" not in info_dict:
+            warnings.warn('No "type" specified in info_dict')
+            return None
+        else:
+            if info_dict['type'] == 'PolesZeros':
+                obj = PolesZeros.from_info_dict(info_dict)
+            elif info_dict['type'] == 'FIR':
+                obj = FIR.from_info_dict(info_dict)
+            elif info_dict['type'] == 'Coefficients':
+                obj = Coefficients.from_info_dict(info_dict)
+            elif info_dict['type'] == 'ResponseList':
+                obj = ResponseList.from_info_dict(info_dict)
+            elif info_dict['type'] == 'AD_CONVERSION':
+                obj = AD_Conversion.from_info_dict(info_dict)
+            elif info_dict['type'] == 'ANALOG':
+                obj = Analog.from_info_dict(info_dict)
+            elif info_dict['type'] == 'DIGITAL':
+                obj = Digital.from_info_dict(info_dict)
+            else:
+                warnings.warn(f'Unknown Filter type: "{info_dict["type"]}"')
+        return obj
 
 
 class PolesZeros(Filter):
     """
     PolesZeros Filter
     """
-    def __init__(self, units='rad/s', poles=[], zeros = [],
+    def __init__(self, units='rad/s', poles=[], zeros=[],
                  normalization_frequency=0, normalization_factor=1.):
         self.type = 'PolesZeros'
         self.units = units
@@ -32,18 +59,27 @@ class PolesZeros(Filter):
         self.zeros = zeros
         self.normalization_frequency = normalization_frequency
         self.normalization_factor = normalization_factor
-    
+
     @classmethod
     def from_info_dict(cls, info_dict):
         """
         Create PolesZeros instance from an info_dict
         """
-        obj = cls(info_dict.get('units','rad/s'),
-                  info_dict.get('poles',[]),
-                  info_dict.get('zeros',[]),
-                  info_dict.get('normalization_frequency',0.),
-                  info_dict.get('normalization_factor',1.))
+        obj = cls(info_dict.get('units', 'rad/s'),
+                  info_dict.get('poles', []),
+                  info_dict.get('zeros', []),
+                  info_dict.get('normalization_frequency', 0.),
+                  info_dict.get('normalization_factor', 1.))
         return obj
+
+    def __repr__(self):
+        """
+        String representation of object
+        """
+        s = f'PolesZeros("{self.units}", {self.poles}, {self.zeros}, '
+        s += f'{self.normalization_frequency:g}, '
+        s += f'{self.normalization_factor:g})'
+        return s
 
 
 class FIR(Filter):
@@ -59,17 +95,25 @@ class FIR(Filter):
         self.delay_samples = delay_samples
         self.coefficients = coefficients
         self.coefficient_divisor = coefficient_divisor
-    
+
     @classmethod
     def from_info_dict(cls, info_dict):
         """
         Create PolesZeros instance from an info_dict
         """
-        obj = cls(info_dict.get('symmetry','NONE'),
-                  info_dict.get('delay_samples',None),
-                  info_dict.get('coefficients',[]),
-                  info_dict.get('coefficient_divisor',1.))
+        obj = cls(info_dict.get('symmetry', 'NONE'),
+                  info_dict.get('delay_samples', None),
+                  info_dict.get('coefficients', []),
+                  info_dict.get('coefficient_divisor', 1.))
         return obj
+
+    def __repr__(self):
+        """
+        String representation of object
+        """
+        s = f'FIR("{self.symmetry}", {self.delay_samples:g}, '
+        s += f'{self.coefficients}, {self.coefficient_divisor})'
+        return s
 
 
 class Coefficients(Filter):
@@ -87,16 +131,22 @@ class Coefficients(Filter):
         self.transfer_function_type = transfer_function_type
         self.numerator_coefficients = numerator_coefficients
         self.denominator_coefficients = denominator_coefficients
-    
+
     @classmethod
     def from_info_dict(cls, info_dict):
         """
         Create PolesZeros instance from an info_dict
         """
-        obj = cls(info_dict.get('transfer_function_type','DIGITAL'),
-                  info_dict.get('numerator_coefficients',[]),
-                  info_dict.get('denominator_coefficients',[]))
+        obj = cls(info_dict.get('transfer_function_type', 'DIGITAL'),
+                  info_dict.get('numerator_coefficients', []),
+                  info_dict.get('denominator_coefficients', []))
         return obj
+
+    def __repr__(self):
+        s = f'Coefficients("{self.transfer_function_type}", '
+        s += f'{self.numerator_coefficients}, '
+        s += f'{self.denominator_coefficients})'
+        return s
 
 
 class ResponseList(Filter):
@@ -106,75 +156,87 @@ class ResponseList(Filter):
     def __init__(self, response_list):
         self.type = 'Coefficients'
         self.response_list = response_list
-    
+
     @classmethod
     def from_info_dict(cls, info_dict):
         """
         Create PolesZeros instance from an info_dict
         """
-        obj = cls(info_dict.get('response_list',[]))
+        obj = cls(info_dict.get('response_list', []))
         return obj
 
+    def __repr__(self):
+        return f'ResponseList("{self.response_list}")'
 
-class ANALOG(PolesZeros):
+
+class Analog(PolesZeros):
     """
-    ANALOG Filter (Flat PolesZeros filter)
+    Analog Filter (Flat PolesZeros filter)
     """
     def __init__(self):
-        self.type = 'PolesZeros'
+        self.type = 'Analog'
         self.units = 'rad/s'
         self.poles = []
         self.zeros = []
         self.normalization_frequency = 0
         self.normalization_factor = 1.
-    
+
     @classmethod
     def from_info_dict(cls, info_dict):
         """
-        Create AD_CONVERSION instance from an info_dict
+        Create Analog instance from an info_dict
         """
         obj = cls()
         return obj
 
+    def __repr__(self):
+        return 'Analog()'
 
-class DIGITAL(Coefficients):
+
+class Digital(Coefficients):
     """
-    DIGITAL Filter (Flat Coefficients filter)
+    Digital Filter (Flat Coefficients filter)
     """
     def __init__(self):
-        self.type = 'DIGITAL'
+        self.type = 'Coefficients'
         self.transfer_function_type = 'DIGITAL'
         self.numerator_coefficients = [1.0]
         self.denominator_coefficients = []
-    
+
     @classmethod
     def from_info_dict(cls, info_dict):
         """
-        Create AD_CONVERSION instance from an info_dict
+        Create Digital instance from an info_dict
         """
         obj = cls()
         return obj
 
+    def __repr__(self):
+        return 'Digital()'
 
-class AD_CONVERSION(Coefficients):
+
+class AD_Conversion(Coefficients):
     """
-    AD_CONVERSION Filter (Flat Coefficients filter)
+    AD_Conversion Filter (Flat Coefficients filter)
     """
     def __init__(self, input_full_scale, output_full_scale):
-        self.type = 'AD_CONVERSION'
+        self.type = 'AD_Conversion'
         self.transfer_function_type = 'DIGITAL'
         self.numerator_coefficients = [1.0]
         self.denominator_coefficients = []
         self.input_full_scale = input_full_scale
         self.output_full_scale = output_full_scale
-    
+
     @classmethod
     def from_info_dict(cls, info_dict):
         """
-        Create AD_CONVERSION instance from an info_dict
+        Create AD_Conversion instance from an info_dict
         """
-        obj = cls(info_dict.get('input_full_scale',None),
-                  info_dict.get('output_full_scale',None))
+        obj = cls(info_dict.get('input_full_scale', None),
+                  info_dict.get('output_full_scale', None))
         return obj
 
-
+    def __repr__(self):
+        s = f'AD_Conversion({self.input_full_scale:g}, '
+        s += f'{self.output_full_scale})'
+        return s

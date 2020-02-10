@@ -11,10 +11,13 @@ import os
 import glob
 import unittest
 import inspect
+from pprint import pprint
 import xml.etree.ElementTree as ET
 from CompareXMLTree import XmlTree
 from obsinfo.network.network import _make_stationXML_script
 from obsinfo.misc.info_files import validate, read_json_yaml, read_json_yaml_ref
+from obsinfo.instrumentation.filter import Filter
+from obsinfo.instrumentation.stage import Stage
 
 
 class TestADDONSMethods(unittest.TestCase):
@@ -53,7 +56,7 @@ class TestADDONSMethods(unittest.TestCase):
         Test JSONref using a JSON file.
         """
         fname_A = os.path.join(self.testing_path, "jsonref_A.json")
-        print(fname_A)
+        # print(fname_A)
         A = read_json_yaml_ref(fname_A)
         AB = read_json_yaml_ref(os.path.join(self.testing_path, "jsonref_AB.json"))
         self.assertTrue(A==AB)
@@ -89,6 +92,38 @@ class TestADDONSMethods(unittest.TestCase):
             os.path.join(self.testing_path, 'json_testschema.out.txt')
             )
         # os.remove('temp')
+
+    def test_filter(self):
+        """
+        Test reading a filter file.
+        """
+        A = read_json_yaml_ref(os.path.join(self.infofiles_path, 
+            "instrumentation",
+            "sensors",
+            "responses",
+            "PolesZeros",
+            "Sercel_L22D_C510-S2000_generic.filter.yaml"))
+        # pprint(A['filter'])
+        f = Filter.from_info_dict(A['filter'])
+        # print(f)
+        
+    def test_stage(self):
+        """
+        Test reading a stage file.
+        
+        Have to force-feed sample rates, which are provided at Response level
+        """
+        A = read_json_yaml_ref(os.path.join(
+            self.infofiles_path, 
+            "instrumentation",
+            "dataloggers",
+            "responses",
+            "TI_ADS1281_FIR1.stage.yaml"))
+        # pprint(A['stage'])
+        s = Stage.from_info_dict(A['stage'])
+        # print(s)
+        oos = s.to_obspy(1, 10.)
+        # print(oos)
 
 #     def test_makeSTATIONXML(self):
 #         """

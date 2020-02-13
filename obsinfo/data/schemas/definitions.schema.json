@@ -78,6 +78,16 @@
             {"type" : "null"}
         ]
     },
+    "ISOdatetime": {
+        "anyOf" : [
+            {
+                "type": "string",
+                "description": "Date-time in ISO format with Z for GMT+0. The Z is not required.",
+                "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]*)?[Z]*$"
+            },
+            {"type" : "null"}
+        ]
+    },
     "email": {
         "type": "string",
         "format": "email"
@@ -187,27 +197,33 @@
         "required": ["type", "description", "manufacturer",
                        "model"],
         "properties": {
-            "type":             {"type": ["string","null"]},
-            "description":      {"type": ["string","null"]},
-            "manufacturer":     {"type": ["string","null"]},
-            "vendor":           {"type": ["string","null"]},
-            "model":            {"type": ["string","null"]},
-            "serial_number":    {"type": ["string","null"]},
-            "calibration_date": {"$ref" : "definitions.schema.json#/date-time-Z"}
+            "type":              {"type": ["string","null"]},
+            "description":       {"type": ["string","null"]},
+            "manufacturer":      {"type": ["string","null"]},
+            "vendor":            {"type": ["string","null"]},
+            "model":             {"type": ["string","null"]},
+            "serial_number":     {"type": ["string","null"]},
+            "calibration_dates": {"$ref" : "definitions.schema.json#/date-time-Z"}
         },
         "additionalProperties": false
     },
     "equipmentType_noRequired": {
         "type": "object",
         "properties": {
-            "type":             { "type": ["string","null"] },
-            "description":      { "type": ["string","null"] },
-            "manufacturer":     { "type": ["string","null"] },
-            "vendor":           { "type": ["string","null"] },
-            "model":            { "type": "string" },
-            "serial_number":    { "type": ["string","null"] },
-            "calibration_date": { "$ref" : "definitions.schema.json#/date-time-Z"}
+            "type":              {"type": ["string","null"] },
+            "description":       {"type": ["string","null"] },
+            "manufacturer":      {"type": ["string","null"] },
+            "vendor":            {"type": ["string","null"] },
+            "model":             {"type": "string" },
+            "serial_number":     {"type": ["string","null"] },
+            "calibration_dates": {"$ref": "#/calibration_dates"}
         },
         "additionalProperties": false
+    },
+    "calibration_dates": { 
+        "type": "array",
+        "description": "list of calibration dates",
+        "minItems": 0,
+        "items": {"type": "definitions.schema.json#/ISOdatetime"}
     }
 }

@@ -15,10 +15,12 @@ from pprint import pprint
 import xml.etree.ElementTree as ET
 from CompareXMLTree import XmlTree
 from obsinfo.network.network import _make_stationXML_script
-from obsinfo.misc.info_files import validate, read_json_yaml, read_json_yaml_ref
-from obsinfo.instrumentation.filter import Filter
-from obsinfo.instrumentation.stage import Stage
-from obsinfo.instrumentation.response import Response
+from obsinfo.misc.info_files import (validate, _read_json_yaml,
+                                     _read_json_yaml_ref, read_info_file)
+from obsinfo.info_dict import InfoDict
+from obsinfo.instrumentation import (Instrumentation, InstrumentComponent,
+                                     Datalogger, Preamplifier, Sensor, 
+                                     Response, Stage, Filter)
 
 
 class TestADDONSMethods(unittest.TestCase):
@@ -58,16 +60,16 @@ class TestADDONSMethods(unittest.TestCase):
         """
         fname_A = os.path.join(self.testing_path, "jsonref_A.json")
         # print(fname_A)
-        A = read_json_yaml_ref(fname_A)
-        AB = read_json_yaml_ref(os.path.join(self.testing_path, "jsonref_AB.json"))
+        A = _read_json_yaml_ref(fname_A)
+        AB = _read_json_yaml_ref(os.path.join(self.testing_path, "jsonref_AB.json"))
         self.assertTrue(A==AB)
         
     def test_readJSONREF_yaml(self):
         """
         Test JSONref using a YAML file.
         """
-        A = read_json_yaml_ref(os.path.join(self.testing_path, "jsonref_A.yaml"))
-        AB = read_json_yaml_ref(os.path.join(self.testing_path, "jsonref_AB.yaml"))
+        A = _read_json_yaml_ref(os.path.join(self.testing_path, "jsonref_A.yaml"))
+        AB = _read_json_yaml_ref(os.path.join(self.testing_path, "jsonref_AB.yaml"))
         self.assertTrue(A==AB)
         
     def test_validate_json(self):
@@ -92,19 +94,18 @@ class TestADDONSMethods(unittest.TestCase):
             'temp',
             os.path.join(self.testing_path, 'json_testschema.out.txt')
             )
-        # os.remove('temp')
+        os.remove('temp')
 
     def test_filter(self):
         """
         Test reading a filter file.
         """
-        A = read_json_yaml_ref(os.path.join(self.infofiles_path, 
+        A = read_info_file(os.path.join(self.infofiles_path, 
             "instrumentation",
             "sensors",
             "responses",
             "PolesZeros",
             "Sercel_L22D_C510-S2000_generic.filter.yaml"))
-        # pprint(A['filter'])
         obj = Filter.from_info_dict(A['filter'])
         # print(obj)
         
@@ -114,16 +115,14 @@ class TestADDONSMethods(unittest.TestCase):
         
         Have to force-feed sample rates, which are provided at Response level
         """
-        A = read_json_yaml_ref(os.path.join(
+        A = read_info_file(os.path.join(
             self.infofiles_path, 
             "instrumentation",
             "dataloggers",
             "responses",
             "TI_ADS1281_FIR1.stage.yaml"))
-        # pprint(A['stage'])
         obj = Stage.from_info_dict(A['stage'])
         # print(obj)
-        # obs_obj = obj.to_obspy(1, 10.)
         obs_obj = obj.to_obspy()
         # print(obs_obj)
 
@@ -131,20 +130,18 @@ class TestADDONSMethods(unittest.TestCase):
         """
         Test reading and combining response files.
         """
-        A = read_json_yaml_ref(os.path.join(
+        A = read_info_file(os.path.join(
             self.infofiles_path, 
             "instrumentation",
             "sensors",
             "responses",
             "Trillium_T240_SN400-singlesided_theoretical.response.yaml"))
-        B = read_json_yaml_ref(os.path.join(
+        B = _read_json_yaml_ref(os.path.join(
             self.infofiles_path, 
             "instrumentation",
             "dataloggers",
             "responses",
             "TexasInstruments_ADS1281_100sps-linear_theoretical.response.yaml"))
-        # pprint(A['response'])
-        # pprint(B['response'])
         
         obj_A = Response.from_info_dict(A['response'])
         obj_B = Response.from_info_dict(B['response'])
@@ -152,6 +149,71 @@ class TestADDONSMethods(unittest.TestCase):
         # print(obj)
         obs_obj = obj.to_obspy()
         # print(obs_obj)
+
+    def test_datalogger(self):
+        """
+        Test reading datalogger instrument_compoents.
+        """
+        A = read_info_file(os.path.join(
+            self.infofiles_path, 
+            "instrumentation",
+            "dataloggers",
+            "LC2000.datalogger.yaml"))
+        
+        obj = InstrumentComponent.from_info_dict(A)
+        obj = InstrumentComponent.from_info_dict(A['datalogger'])
+        obj = Datalogger.from_info_dict(A['datalogger'])
+        # print(obj)
+        # print(obj.equipment)
+
+    def test_sensor(self):
+        """
+        Test reading sensor instrument_compoents.
+        """
+        A = read_info_file(os.path.join(
+            self.infofiles_path, 
+            "instrumentation",
+            "sensors",
+            "NANOMETRICS_T240_SINGLESIDED.sensor.yaml"))
+        
+        obj = InstrumentComponent.from_info_dict(A)
+        obj = InstrumentComponent.from_info_dict(A['sensor'])
+        obj = Sensor.from_info_dict(A['sensor'])
+        # print(obj)
+        # print(obj.equipment)
+
+    def test_instrumentation(self):
+        """
+        Test reading instrumentation.
+        """
+        A = read_info_file(os.path.join(
+            self.infofiles_path, 
+            "instrumentation",
+            "SPOBS2.instrumentation.yaml"))
+        obj = Instrumentation.from_info_dict(A['instrumentation'])
+
+    def test_InfoDict_update(self):
+        """
+        Test InfoDict.update()
+        """
+        A = InfoDict(a=1, b=dict(c=2, d=3))
+        A.update(dict(b=dict(d=4, e=5)))
+        self.assertTrue(A == InfoDict(a=1, b=dict(c=2, d=4, e=5)))
+        
+
+    def test_InfoDict_daschannels(self):
+        """
+        Test InfoDict.complete_das_channels()
+        """
+        A = InfoDict(base_channel=dict(a=1, b=dict(c=2, d=3)),
+                     das_channels={'1': dict(b=dict(c=5)), '2': dict(a=4)})
+        A.complete_das_channels()
+        # print(A)
+        self.assertTrue(
+            A == InfoDict(
+                das_channels={'1': dict(a=1, b=dict(c=5, d=3)),
+                              '2': dict(a=4, b=dict(c=2, d=3))}))
+        
 
 #     def test_makeSTATIONXML(self):
 #         """

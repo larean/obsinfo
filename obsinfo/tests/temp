@@ -1,6 +1,0 @@
-instance = json_testschema.json ... 
-		: 'level_b' is a required property
-		: 'string_a' is a required property
-		['string_c']: 10 is not of type 'string'
-		: Additional properties are not allowed ('string_d' was unexpected)
-	FAILED

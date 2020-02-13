@@ -21,12 +21,12 @@ import obspy.core.inventory.util as obspy_util
 from obspy.core.utcdatetime import UTCDateTime
 
 # Local modules
-from ..misc.info_files import load_information_file
+from ..misc.info_files import read_info_file
 from ..misc import FDSN
 from .util import create_comments
 from ..misc import misc as oi_misc
 from ..misc import obspy_routines as oi_obspy
-from ..misc.misc import make_channel_code
+# from ..misc.misc import make_channel_code
 from ..instrumentation import Instrument
 
 ###############################################################################
@@ -45,7 +45,7 @@ class Network:
 
         should also be able to specify whether or not it has read its sub_file
         """
-        root, path = load_information_file(filename, referring_file)
+        root, path = read_info_file(filename, referring_file)
 
         # Set variables outside of the network field
         self.basepath = path

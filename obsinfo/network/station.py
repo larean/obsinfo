@@ -1,49 +1,87 @@
 """
-Instrumentation and Instrument classes
-
-nomenclature:
-    An "Instrument" (measurement instrument) records one physical parameter
-    An "Instrumentation" combines one or more measurement instruments
+Station class
 """
 # Standard library modules
 
 # Non-standard modules
 
 # obsinfo modules
-from .instrument_component import (Datalogger, Sensor, Preamplifier,
-                                   Equipment, InstrumentComponent)
+from ..instrumentation import (Instrumentation)
 
 
-class Instrumentation(object):
+class Station(object):
     """
-    One or more Instruments. Part of an obspy/StationXML Station
+    Station. Equivalent to obspy/StationXML Station
     """
-    def __init__(self, equipment, channels):
+    def __init__(self, site, start_date, end_date, location_code,
+                 locations, instruments, processing=None,
+                 restricted_status='unknown'):
         """
         Constructor
+        
+        :param site: site description
+        :kind site: str
+        :param start_date: station start date
+        :kind start_date: str
+        :param end_date: station start date
+        :kind end_date: str
+        :param location_code: station location code (2 digits)
+        :kind location_code: str
+        :param locations: locations (names and positions)
+        :kind locations: ~class `obsinfo.network.Locations`
+        :param instruments: list of Instrumentation
+        :kind instruments: list
+        :param processing: processing steps
+        :kind processing: dict (maybe should have class?)
+        :param restricted_status: "open", "closed", "partial", or "unknown"
+        :kind restricted_status: str
+        
         """
-        self.equipment = equipment
-        self.channels = channels
+        self.site = site
+        self.start_date = start_date
+        self.end_date = end_date
+        self.location_code = location_code
+        self.locations = locations
+        self.instruments = instrument_list
+        self.processing = processing
+        self.restricted_status = restricted_status
+
+    def __repr__(self):
+        s = f'Station({self.site}, {self.start_date}, {self.end_date}, '
+        s += f'{self.location_code}, {len(self.locations)} {type(Location}s, '
+        s += f'{len(self.instruments)} {type(Instrumentation}s'
+        if self.processing:
+            s += f', {len(self.processing)} processing-steps'
+        if not self.restricted_stations == "unknown":
+            s += f', {self.restricted_status}'
+        s += ')'
+        return s
 
     @classmethod
     def from_info_dict(cls, info_dict):
         """
-        Create Instrumentation instance from an info_dict
+        Create Station instance from an info_dict
         """
         info_dict.complete_das_channels()
         info_das = info_dict.get('das_channels', {})
-        obj = cls(Equipment.from_info_dict(info_dict.get('equipment', None)),
+        obj = cls(info_dict['site'],
+                  info_dict['start_date'],
+                  info_dict['end_date'],
+                  info_dict['location_code'],
+                  Locations.from_info_dict(info_dict['locations']),
+                  [Instruments.from_info_dict(i)
+                    for i in info_dict['instruments']],
+                  Processing.from_info_dict(info_dict.get('processing',None)),
+                  info_dict.get('restricted_status', None)
+                  )
                   [Instrument.from_info_dict(k, v)
                    for k, v in info_das.items()])
         return obj
 
-    def __repr__(self):
-        s = f'Instrumentation({type(self.equipment)}, '
-        s += f'{len(self.channels)} {type(self.channels[0])}'
-        return s
+    def to_obspy(self):
 
 
-class Instrument(object):
+class Locations(object):
     """
     Instrument Class.
 

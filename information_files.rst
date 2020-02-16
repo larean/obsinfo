@@ -3,24 +3,24 @@ Information files
 *******************
 
 Basic principals
-==========================
+===================================
 
-- In JSON or YAML format
+- Files are in JSON or YAML format
 
 - Base-level fields:
 
   - ``format_version`` (REQUIRED): version of the information file format
   - ``revision`` (REQUIRED): Who made the file and when
   - {LEVEL}: where ``LEVEL`` is one of the levels described below
+  - ``yaml_anchors`` (optional):  Used to define YAML anchors (groups
+    of objects that can be inserted elsewhere, reducing redundancy/errors)
 
-- Optional fields:
+- Optional fields at any level:
 
   - ``notes``: Notes that will not be translated into the StationXML file.
     Can be at almost any level
   - ``extras``: Fields that don't exist in the definition, but maybe should.
     Can be at almost any level
-  - ``yaml_anchors``: At base level.  Used to define YAML anchors (groups
-    of objects that can be inserted elsewhere, reducing redundancy/errors)
 
 External files are referenced using
 
@@ -33,7 +33,7 @@ External files are referenced using
     loggger configurations.
 
 Network Level
-==========================
+===================================
 
 Specify the stations deployed by an OBS facility during an experiment.  You
 could specify the entire station/instrument/response in this file, but
@@ -55,7 +55,7 @@ Fields are:
     {`STATION_NAME`} and value = `Station Level`_ object.
 
 Station Level
-==========================
+===================================
 
 Description of one station.
   
@@ -81,57 +81,95 @@ Description of one station.
 :`extras`: Information that has no other place in the Network file schema.
     Subfields are saved to StationXML comments.
 
-:`instruments`: List of instruments making up the station. In the list below,
-   later fields can modify earlier ones
-    
-    :`base`: Full instrument description (see `Instrumentation Level`_)
-      
-    :`datalogger_config`: apply configs specified at `Datalogger` level
-    
-    :`sensor_config`: apply configs specified at `Sensor` level
-    
-    :`preamplifier_config`: apply configs specified at `Preamplifier` level
-    
-          
-    :`serial_number`: Instrument serial number: if it corresponds to a field
-        under "`serial_numbers`" at the **Instrumentation Level**, will use
-        the modifications specified there.
-                  
-    :`channel_mods`: [*optional*] Modifications to instrument channels.
-                    
-        :`base`: Modifications applied to all channels.
-        
-        :`by_orientation/{ORIENTATION-CODE}`: Modifications applied to
-          individual channels, specified by their SEED orientation code (see
-          **Instrument_Component Level** Sensor-specific fields)
-      
-        :`by_chan_loc/{CHAN_LOC-CODE}`: Modifications applied to individual
-         channels, specified using the channel_location code ("`CCC_LL`").
-          Use only when a station has more than one channel with the same
-          orientation code.  Overrides `by_orientation`
+:`instruments`: List of instrumenation configurations making up the station
+   (see `Instrumentation Configuration Level`_). 
+   
 
-        :`by_das/{DAS-CODE}`: Modifications applied to individual channels,
-          specified using the data acquisition channel code.
-          Use when a station has more than one channel with the same
-          orientation code.  Overrides `by_orientation` or `by_chan_loc`
+Instrumentation Configuration Level
+===================================
+Configure an Instrumentation Level
+
+In the list below, later fields can modify earlier ones
+    
+:`base`: Full instrument description (see `Instrumentation Level`_)
+
+:`config`: Specify `Instrumentation Level`_ configuration
+  
+:`serial_number`: Instrument serial number: if it corresponds to a field
+    under "`serial_numbers`" at the `Instrumentation Level`_, will use
+    the modifications specified there.
+              
+:`datalogger_config`: Specify `Datalogger Level`_ configuration for all channels
+
+:`sensor_config`: Specify `Sensor Level` configuration for all channels
+
+:`preamplifier_config`: Specify `Preamplifier Level` configuration for all channels
+      
+:`channel_mods`: [*optional*] Specify `Instrument Channel Configuration Level`_
+    modifications.
+                
+    :`base`: Modifications applied to all channels.
+    
+    :`by_orientation/{ORIENTATION-CODE}`: Modifications applied to
+      individual channels, specified by their SEED orientation code
+  
+    :`by_das/{DAS-CODE}`: Modifications applied to individual channels,
+      specified using the data acquisition channel code.
+      Use when a station has more than one channel with the same
+      orientation code.
+
+    :*`by_chan_loc/{CHAN_LOC-CODE}`*: *Modifications applied to individual
+     channels, specified using the channel_location code ("`CCC_LL`").
+      Use when a station has more than one channel with the same
+      orientation code.*  **ELMINATE?**
+
+
+Instrument Channel Configuration Level
+===================================
+Specify `Instrumentation Channel Level`_ modificiations
+
+:`sensor`: Modifications to sensor (see `Instrument Component Configuration Level`_)
+
+:`datalogger`: Modifications to datalogger (see `Instrument Component Configuration Level`_)
+
+:`preamplifier`: Modifications to preamplifier (see `Instrument Component Configuration Level`_)
+
+:`location_code`: Channel's location code
+              
+:`start_date`: Channel start date (if different from station)
+
+:`end_date`: channel end date (if different from station)
+              
+
+Instrument Component Configuration Level
+===================================
+Specify `Instrument Component Level`_ modifications
+
+:`base`: Full InstrumentComponent description (see `Instrument Component Level`_)
+
+:`config`: Activate `Instrument Component`-level configuration
+  
+:`serial_number`: Instrument Component serial number: if it corresponds to a field
+    under "`serial_numbers`" at the **Instrument Compoenents Level**, use
+    the modifications specified there.
+              
 
 Instrumentation Level
-==========================
+===================================
 
-Specify a scientfic instrument (OBS, field station), from sensor to datalogger
+Specify a scientfic instrument (OBS, field station), as equipment and channels
 
 Fields are:
 
 :`equipment`: Corresponds to StationXML Equipment object
   
-:`base_channel`: Description of one channel.  Should correspond to the most
-                 common channel on the instrumentation (for example) a seismometer
-                 channel on an ocean-bottom seismometer.  Has subfields
-                 "`datalogger`", "`preamplifier`" and "`sensor`" (see 
-                 `Instrument_Component Level`_ for details)
-:`das_channels`: descriptions of individual channels. Has required subfield
-                 `orientation_code` and optional subfields `preamplifier`, 
-                 `sensor` and `datalogger`, where the provided values replace
+:`base_channel`: Description of one channel (see `Channel Level`_).  Should
+                 correspond to the most common channel on the instrumentation
+                 (for example, a seismometer channel, whose sensor is the same
+                 on three channels).  The "`orientation_code`" subfield is
+                 ignored.
+:`das_channels`: descriptions of individual channels (see `Channel Level`_),
+                 keyed by das channel number.  The provided values replace
                  those in `base_channel`
 
 :`configurations`: optional configurations. 
@@ -141,12 +179,28 @@ Fields are:
                    for which  the provided values replace those given in
                    the instrumentation definition
    
+Channel Level
+===================================
+
+Specify a channel, from sensor to datalogger  The responses will be stacked
+from sensor (top) to datalogger (bottom)
+
+Fields: 
+-----------------------------
+:sensor:  Sensor Instrument_Component
+
+:preamplifier: Preamplifier Instrument_Component (optional)
+
+:datalogger: Datalogger Instrument_Component
+
+:orientation_code: The channel's orientation code.
+
 Instrument_Component Level
-==========================
+===================================
 
 Specify an instrument component: `sensor`, `preamplifier` or `datalogger`.
 
-Common fields:
+Shared fields:
 -----------------------------
 
 :`equipment`: Corresponds to StationXML Equipment object
@@ -160,7 +214,7 @@ Common fields:
                    Instrument_Component fields (including specific ones for the
                    type (`datalogger`, `preamplifier` or `sensor`)
 
-Datalogger-specific fields:
+`Datalogger`-specific fields:
 -----------------------------
 
 :`sample_rate`: samples per second
@@ -173,7 +227,7 @@ Datalogger-specific fields:
            delay in that stage
     :False: No correction will be specified (same as numeric = 0)
 
-Sensor-specific fields:
+`Sensor`-specific fields:
 -----------------------------
 
 :`seed_codes`: SEED codes to give to channels using this sensor
@@ -189,7 +243,7 @@ Sensor-specific fields:
                     :`dip.deg`: 2-element array of [value, uncertainty]
  
 Response Level
-==========================
+===================================
 
 :`stages`: List of response stages, most sub-elements are StationXML fields
 
@@ -214,7 +268,7 @@ Response Level
     :`filter`: `Filter Level`_ element
 
 Filter Level
-==========================
+===================================
 
 Description of a filter.  Fields depend on the ``type``
 

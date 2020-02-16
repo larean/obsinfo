@@ -215,6 +215,86 @@ class TestADDONSMethods(unittest.TestCase):
                               '2': dict(a=4, b=dict(c=2, d=3))}))
         
 
+    def test_InstrumentationConfiguration(self):
+        """
+        Test InstrumentationConfiguration
+        """
+        # Read in an instrumentation-level InfoDict
+        A = read_info_file(os.path.join(
+            self.infofiles_path, 
+            "instrumentation",
+            "BBOBS1.instrumentation.yaml"))['instrumentation']
+            
+        # Specify sample rate and serial number
+        B = InfoDict(base=A,
+                   datalogger_config='250sps',
+                   serial_number='07')
+        obj = InstrumentationConfiguration.from_info_dict(B)
+        print(obj)
+        
+        # Orient seismometer horizontals
+        B = InfoDict(base=A,
+                   datalogger_config='250sps',
+                   serial_number='07',
+                   channel_mods=InfoDict(
+                        by_orientation={
+                            '1': {'azimuth.deg': [30, 5]},
+                            '2': {'azimuth.deg': [120, 5]}}))
+                   serial_number='07')
+        
+        # Change the sensors (same type)
+        B = InfoDict(base=A,
+                   datalogger_config='250sps',
+                   serial_number='07',
+                   channel_mods=InfoDict(
+                        base: {'sensor': {'serial_number': "Sphere06"}},
+                        by_orientation={
+                            'H': {'sensor': {'serial_number': "IP007"}}})
+        
+        # Change the sensors (different type)
+        B = InfoDict(base=A,
+                   datalogger_config='250sps',
+                   serial_number='07',
+                   channel_mods=InfoDict(
+                        base: {'sensor': { 'base': {'$ref:' "sensors/NANOMETRICS_TCOMPACT_SINGLESIDED.sensor.yaml#sensor"},
+                                          'serial_number': '14'}},
+                        by_orientation={
+                            'H': {'sensor': {'base': {'$ref': "sensors/HITECH_HTI90U.sensor.yaml#sensor"},
+                                             'serial_number': '22057'}})
+        
+        # Change to a hydrophone on each channel
+        B = InfoDict(base=A,
+                     datalogger_config='250sps',
+                     serial_number='07',
+                     channel_mods=InfoDict(
+                        base: {
+                            'sensor': {'base': {
+                                '$ref:' "sensors/HITECH_HTI04-PLC-ULF.sensor.yaml#sensor"}}
+                            'preamplifier': {'base': {
+                                '$ref': 'preamplifiers/'}}},
+                        by_das={
+                            '0': {'sensor': {'serial_number': '4500'},
+                                  'location_code': "00"},
+                            '1': {'sensor': {'serial_number': '4501'},
+                                  'location_code': "01"},
+                            '2': {'sensor': {'serial_number': '4502'},
+                                  'location_code': "02"},
+                            '3': {'sensor': {'base': {'$ref': "sensors/HITECH_HTI90U.sensor.yaml#sensor"}},
+                                             'serial_number': '9601'},
+                                  'location_code': "03"})        
+     
+        # Test changing seismometer to TCompact and DPG to hydrophone:
+        # 1: using channel_mods['by_orientation']
+        B = InfoDict(base=A, datalogger_config='125sps',
+                   channel_mods=InfoDict(base='$ref:WBOBS
+                                         by_orientation=),
+                   serial_number='07')
+        
+        # 2: using channel_mods['by_chan_loc']
+        # 3: using channel_mods['by_das']
+
+        # Test failure if more than one type of by_xxx specified
+        
 #     def test_makeSTATIONXML(self):
 #         """
 #         Test STATIONXML creation.

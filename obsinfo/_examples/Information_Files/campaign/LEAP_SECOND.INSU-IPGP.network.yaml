@@ -35,7 +35,7 @@ network:
                     base:
                         $ref: "../instrumentation/SPOBS2.instrumentation.yaml#instrumentation"
                     serial_number: "Station01"
-                    channel_mods: {base: {datalogger: {config: "62.5sps"}}}
+                    datalogger_config: "62.5sps"
             locations:
                 "00":
                     base: {$ref: '../location_bases/BUC_DIRECT.location_base.yaml#location_base'}

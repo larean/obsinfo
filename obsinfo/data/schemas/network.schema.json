@@ -101,7 +101,7 @@
                 "extras":            {"$ref": "definitions.schema.json#/extras"},
                 "restricted_status": {
                                       "type": "string",
-                                      "enum": ["open", "closed", "partial"]
+                                      "enum": ["open", "closed", "partial", "unknown"]
                                      }
             },
             "additionalProperties": false

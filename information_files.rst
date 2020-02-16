@@ -129,10 +129,10 @@ In the list below, later fields can modify earlier ones
 
 Configuration Specification Fields
 -----------------------------
-:`config`: Specify `Instrumentation Level`_ configuration
+:`configuration`: Specify `Instrumentation Level`_ ``configuration_definition``
   
-:`serial_number`: Instrument serial number: If it corresponds to a field
-    under ``serial_number_definitions`` at the `Instrumentation Level`_, will
+:`serial_number`: Instrument serial number: If it corresponds to an
+    `Instrumentation Level`_ ``serial_number_definition``, 
     use the modifications specified there.
               
 :`datalogger_config`: Specify `Datalogger Level`_ ``configuration_definition``
@@ -243,7 +243,7 @@ Fields:
 
 :orientation_code: The channel's orientation code.
 
-Instrument_Component Level
+Instrument Component Level
 *********************************
 
 Specify an instrument component: `sensor`, `preamplifier` or `datalogger`.
@@ -268,7 +268,10 @@ Configuration Definition Fields
 :`serial_number_definitions`:
 
 
-`Datalogger`-specific fields:
+Component-specific Fields: 
+-----------------------------
+
+`Datalogger Level`:
 -----------------------------
 
 :`sample_rate`: samples per second
@@ -281,7 +284,7 @@ Configuration Definition Fields
            delay in that stage
     :False: No correction will be specified (same as numeric = 0)
 
-`Sensor`-specific fields:
+`Sensor Level`:
 -----------------------------
 
 :`seed_codes`: SEED codes to give to channels using this sensor
@@ -295,6 +298,10 @@ Configuration Definition Fields
 
                     :`azimuth.deg`: 2-element array of [value, uncertainty]
                     :`dip.deg`: 2-element array of [value, uncertainty]
+
+`Preamplifier Level`:
+-----------------------------
+None
  
 Response Level
 *********************************

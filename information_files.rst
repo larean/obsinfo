@@ -27,13 +27,13 @@ Basic principals
 
 External files are referenced using
 
-  - "$ref" for hard-coded files.  This uses the
-    `JSON Pointers <https://tools.ietf.org/html/rfc6901>`_ model, but
-    can read YAML files as well.
-  - "$config" for files that should be evaluated at run time.  A separate
-    "config" parameter must be provided, at which time a "$ref" is constructed
-    as "{`$config:value}/config`".  This is most often used to provide data
-    loggger configurations.
+- "$ref" for hard-coded files.  This uses the
+  `JSON Pointers <https://tools.ietf.org/html/rfc6901>`_ model, but
+  can read YAML files as well.
+- "$config" for files that should be evaluated at run time.  A separate
+  "config" parameter must be provided, at which time a "$ref" is constructed
+  as "{`$config:value}/config`".  This is most often used to provide data
+  loggger configurations.
     
 Organisation
 ===================================
@@ -43,15 +43,16 @@ StationXML fields, but there are also fields to specify processing steps
 and to configure the instrumentation (sampling rate, sensors added...).  The
 configuration information is divided into two categories:
 
-  1) **Configuration definition**: specifies the different configurations
-     possible, using `serial_number_definitions:` (information about individual
-     variations between elements) and `configuration_definitions:` (information 
-     about run-time changes/options for a given element).
+1) **Configuration definition**: specifies the different configurations
+   possible, using `serial_number_definitions:` (information about individual
+   variations between elements) and `configuration_definitions:` (information 
+   about run-time changes/options for a given element).
   
-  2) **Configuration specification**: states which configuration is being
-     used by the given instrumentation and/or station, using `serial_number`
-     (which `serial_number_definition` to use) and `configuration` (which
-     `configuration_definition` to use)
+2) **Configuration specification**: states which configuration is being
+   used by the given instrumentation and/or station, using `serial_number`
+   (specify which `serial_number_definition` to use), `configuration`
+   (specify which `configuration_definition` to use), or direct entry of
+   fields to change.
 
 Description levels
 ===================================

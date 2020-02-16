@@ -44,15 +44,18 @@ and to configure the instrumentation (sampling rate, sensors added...).  The
 configuration information is divided into two categories:
 
 1) **Configuration definition**: specifies the different configurations
-   possible, using `serial_number_definitions:` (information about individual
-   variations between elements) and `configuration_definitions:` (information 
-   about run-time changes/options for a given element).
+   possible, using 
+   
+   - `serial_number_definitions:` (information about individual
+     variations between elements) and
+   - `configuration_definitions:` (information 
+     about run-time changes/options for a given element).
   
 2) **Configuration specification**: states which configuration is being
-   used by the given instrumentation and/or station, using `serial_number`
-   (specify which `serial_number_definition` to use), `configuration`
-   (specify which `configuration_definition` to use), or direct entry of
-   fields to change.
+   used by the given instrumentation and/or station, using
+   - `serial_number` (specify which `serial_number_definition` to use), 
+   - `configuration` (specify which `configuration_definition` to use), or
+   - direct entry of fields to change.
 
 Description levels
 ===================================
@@ -138,7 +141,7 @@ Configuration Specification Fields
 
 :`preamplifier_config`: Specify `Preamplifier Level` configuration for all channels
       
-:`channel_mods`: [*optional*] Specify `Instrument Channel Configuration Level`_
+:`channel_mods`: [*optional*] Specify `Channel Configuration Level`_
     modifications.
                 
     :`base`: Modifications applied to all channels.
@@ -159,7 +162,7 @@ Configuration Specification Fields
 
 Channel Configuration Level
 *********************************
-Specify `Instrumentation Channel Level`_ modificiations
+Specify `Channel Level`_ modificiations
 
 :`sensor`: Modifications to sensor (see `Instrument Component Configuration Level`_)
 

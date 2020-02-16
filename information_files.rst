@@ -271,7 +271,7 @@ Configuration Definition Fields
 Component-specific Fields: 
 -----------------------------
 
-`Datalogger Level`:
+Datalogger Level
 -----------------------------
 
 :`sample_rate`: samples per second
@@ -284,7 +284,7 @@ Component-specific Fields:
            delay in that stage
     :False: No correction will be specified (same as numeric = 0)
 
-`Sensor Level`:
+Sensor Level
 -----------------------------
 
 :`seed_codes`: SEED codes to give to channels using this sensor
@@ -299,7 +299,7 @@ Component-specific Fields:
                     :`azimuth.deg`: 2-element array of [value, uncertainty]
                     :`dip.deg`: 2-element array of [value, uncertainty]
 
-`Preamplifier Level`:
+Preamplifier Level
 -----------------------------
 None
  

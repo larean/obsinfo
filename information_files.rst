@@ -46,15 +46,16 @@ configuration information is divided into two categories:
 1) **Configuration definition**: specifies the different configurations
    possible, using 
    
-   - `serial_number_definitions:` (information about individual
+   - ``serial_number_definitions``: (information about individual
      variations between elements) and
-   - `configuration_definitions:` (information 
+   - ``configuration_definitions``: (information 
      about run-time changes/options for a given element).
   
 2) **Configuration specification**: states which configuration is being
    used by the given instrumentation and/or station, using
-   - `serial_number` (specify which `serial_number_definition` to use), 
-   - `configuration` (specify which `configuration_definition` to use), or
+
+   - ``serial_number`` (specify which ``serial_number_definition`` to use), 
+   - ``configuration`` (specify which ``configuration_definition`` to use), or
    - direct entry of fields to change.
 
 Description levels
@@ -95,10 +96,10 @@ Description of one station.
   
 :`site`: StationXML "site" field
   
-:`start_date`: StationXML station "start_date" field.  Will also be used for
+:`start_date`: StationXML station ``start_date`` field.  Also used for
     channels if they are not separately entered
     
-:`end_date`: Counterpart of "start_date".
+:`end_date`: StationXML station ``end_date`` field.
   
 :`location_code`: Station location code.  Will also be used for
     channels if they are not separately entered.
@@ -112,8 +113,7 @@ Description of one station.
     raw to the final version.  There is no corresponds field in
     StationXML, so subfields are saved as StationXML comments
     
-:`extras`: Information that has no other place in the Network file schema.
-    Subfields are saved to StationXML comments.
+:`extras`: Subfields are saved to StationXML comments.
 
 :`instruments`: List of instrumenation configurations making up the station
    (see `Instrumentation Configuration Level`_). 
@@ -131,15 +131,18 @@ Configuration Specification Fields
 -----------------------------
 :`config`: Specify `Instrumentation Level`_ configuration
   
-:`serial_number`: Instrument serial number: if it corresponds to a field
-    under "`serial_numbers`" at the `Instrumentation Level`_, will use
-    the modifications specified there.
+:`serial_number`: Instrument serial number: If it corresponds to a field
+    under ``serial_number_definitions`` at the `Instrumentation Level`_, will
+    use the modifications specified there.
               
-:`datalogger_config`: Specify `Datalogger Level`_ configuration for all channels
+:`datalogger_config`: Specify `Datalogger Level`_ ``configuration_definition``
+    for all channels
 
-:`sensor_config`: Specify `Sensor Level` configuration for all channels
+:`sensor_config`: Specify `Sensor Level` ``configuration_definition`` for all
+    channels
 
-:`preamplifier_config`: Specify `Preamplifier Level` configuration for all channels
+:`preamplifier_config`: Specify `Preamplifier Level`
+    ``configuration_definition`` for all channels
       
 :`channel_mods`: [*optional*] Specify `Channel Configuration Level`_
     modifications.
@@ -186,11 +189,12 @@ Specify `Instrument Component Level`_ modifications
 Configuration Specification Fields
 -----------------------------
 
-:`config`: Activate `Instrument Component`-level configuration
+:`configuration`: Activate `Instrument Component`_-level
+    ``configuration_definition``
   
 :`serial_number`: Instrument Component serial number: if it corresponds to a field
-    under "`serial_numbers`" at the **Instrument Compoenents Level**, use
-    the modifications specified there.
+    under "`serial_number_definitionss`" at the
+    **Instrument Compoenents Level**, use the modifications specified there.
               
 
 Instrumentation Level
@@ -202,11 +206,13 @@ Fields are:
 
 :`equipment`: Corresponds to StationXML Equipment object
   
-:`base_channel`: Description of one channel (see `Channel Level`_).  Should
-                 correspond to the most common channel on the instrumentation
-                 (for example, a seismometer channel, whose sensor is the same
-                 on three channels).  The "`orientation_code`" subfield is
-                 ignored.
+:`base_channel`: (optional) description of one channel (see `Channel Level`_).
+                 Simplifies specificying ``das_channels`` (below) if more than
+                 the same datalogger|preamplifier|sensor is used on more than
+                 one channel.  Chosse the most common instrumentation channel
+                 (for example, many seismometers have the same sensor
+                 description on three channels).  The "`orientation_code`"
+                 subfield is ignored here.
 :`das_channels`: descriptions of individual channels (see `Channel Level`_),
                  keyed by das channel number.  The provided values replace
                  those in `base_channel`

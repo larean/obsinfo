@@ -7,20 +7,23 @@ Basic principals
 
 - Files are in JSON or YAML format
 
-- Base-level fields:
+- Filenames are {specific element}.{type}.{yaml,json}, where {type} is one of
+  the levels described below.
+
+- The base level of each file contains information about the file, plus the
+  a type-specific field:
 
   - ``format_version`` (REQUIRED): version of the information file format
   - ``revision`` (REQUIRED): Who made the file and when
-  - {LEVEL}: where ``LEVEL`` is one of the levels described below
   - ``yaml_anchors`` (optional):  Used to define YAML anchors (groups
     of objects that can be inserted elsewhere, reducing redundancy/errors)
+  - {type}: same as in the filename, with format described in the corresponding
+    level below
 
-- Optional fields at any level:
+- Any level of the file can have the following optional fields:
 
   - ``notes``: Notes that will not be translated into the StationXML file.
-    Can be at almost any level
   - ``extras``: Fields that don't exist in the definition, but maybe should.
-    Can be at almost any level
 
 External files are referenced using
 
@@ -31,9 +34,36 @@ External files are referenced using
     "config" parameter must be provided, at which time a "$ref" is constructed
     as "{`$config:value}/config`".  This is most often used to provide data
     loggger configurations.
+    
+Organisation
+===================================
+A hierearchy of levels allows the user to fully specify stations and the
+processing that their data undergoes.  Most of the fields correspond to 
+StationXML fields, but there are also fields to specify processing steps
+and to configure the instrumentation (sampling rate, sensors added...).  The
+configuration information is divided into two categories:
+
+  1) **Configuration definition**: specifies the different configurations
+     possible, using `serial_number_definitions:` (information about individual
+     variations between elements) and `configuration_definitions:` (information 
+     about run-time changes/options for a given element).
+  
+  2) **Configuration specification**: states which configuration is being
+     used by the given instrumentation and/or station, using `serial_number`
+     (which `serial_number_definition` to use) and `configuration` (which
+     `configuration_definition` to use)
+
+Description levels
+===================================
+The chain of levels of information needed to fully specify a station and its
+processing.  All levels can be in one file, but usually they are divided into
+different files for clarity, portability, and to avoid repetition (DRY
+philosophy). Usually, there are different files for Network, Instrumentation,
+Instrument Components (Sensors, Dataloggers and Preamplifiers), Responses and
+Filters.
 
 Network Level
-===================================
+*********************************
 
 Specify the stations deployed by an OBS facility during an experiment.  You
 could specify the entire station/instrument/response in this file, but
@@ -55,7 +85,7 @@ Fields are:
     {`STATION_NAME`} and value = `Station Level`_ object.
 
 Station Level
-===================================
+*********************************
 
 Description of one station.
   
@@ -86,13 +116,15 @@ Description of one station.
    
 
 Instrumentation Configuration Level
-===================================
+*********************************
 Configure an Instrumentation Level
 
 In the list below, later fields can modify earlier ones
     
 :`base`: Full instrument description (see `Instrumentation Level`_)
 
+Configuration Specification Fields
+-----------------------------
 :`config`: Specify `Instrumentation Level`_ configuration
   
 :`serial_number`: Instrument serial number: if it corresponds to a field
@@ -124,8 +156,8 @@ In the list below, later fields can modify earlier ones
       orientation code.*  **ELMINATE?**
 
 
-Instrument Channel Configuration Level
-===================================
+Channel Configuration Level
+*********************************
 Specify `Instrumentation Channel Level`_ modificiations
 
 :`sensor`: Modifications to sensor (see `Instrument Component Configuration Level`_)
@@ -142,10 +174,13 @@ Specify `Instrumentation Channel Level`_ modificiations
               
 
 Instrument Component Configuration Level
-===================================
+*********************************
 Specify `Instrument Component Level`_ modifications
 
 :`base`: Full InstrumentComponent description (see `Instrument Component Level`_)
+
+Configuration Specification Fields
+-----------------------------
 
 :`config`: Activate `Instrument Component`-level configuration
   
@@ -155,7 +190,7 @@ Specify `Instrument Component Level`_ modifications
               
 
 Instrumentation Level
-===================================
+*********************************
 
 Specify a scientfic instrument (OBS, field station), as equipment and channels
 
@@ -172,15 +207,18 @@ Fields are:
                  keyed by das channel number.  The provided values replace
                  those in `base_channel`
 
-:`configurations`: optional configurations. 
+Configuration Definition Fields
+-----------------------------
+
+:`configuration_definitions`: optional configurations. 
       
-:`serial_numbers`: changes to configurations based on serial number.  Possible
-                   fields are `equipment`, `base_channel` and `das_channel`, 
-                   for which  the provided values replace those given in
-                   the instrumentation definition
+:`serial_number_definitions`: changes to configurations based on serial number.
+    Possible fields are `equipment`, `base_channel` and `das_channel`, 
+    for which  the provided values replace those given in
+    the instrumentation definition
    
 Channel Level
-===================================
+*********************************
 
 Specify a channel, from sensor to datalogger  The responses will be stacked
 from sensor (top) to datalogger (bottom)
@@ -196,7 +234,7 @@ Fields:
 :orientation_code: The channel's orientation code.
 
 Instrument_Component Level
-===================================
+*********************************
 
 Specify an instrument component: `sensor`, `preamplifier` or `datalogger`.
 
@@ -210,9 +248,15 @@ Shared fields:
 
 :`responses_ordered`: an ordered list of responses (see `Response Level`_)
 
-:`configurations`: optional configurations.  Fields are any of the
+Configuration Definition Fields
+---------------------
+
+:`configuration_definitions`: optional configurations.  Fields are any of the
                    Instrument_Component fields (including specific ones for the
                    type (`datalogger`, `preamplifier` or `sensor`)
+
+:`serial_number_definitions`:
+
 
 `Datalogger`-specific fields:
 -----------------------------
@@ -243,7 +287,7 @@ Shared fields:
                     :`dip.deg`: 2-element array of [value, uncertainty]
  
 Response Level
-===================================
+*********************************
 
 :`stages`: List of response stages, most sub-elements are StationXML fields
 
@@ -268,7 +312,7 @@ Response Level
     :`filter`: `Filter Level`_ element
 
 Filter Level
-===================================
+*********************************
 
 Description of a filter.  Fields depend on the ``type``
 

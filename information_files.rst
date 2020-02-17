@@ -27,13 +27,13 @@ Basic principals
 
 External files are referenced using
 
-- "$ref" for hard-coded files.  This uses the
+- ``$ref`` for hard-coded files.  This uses the
   `JSON Pointers <https://tools.ietf.org/html/rfc6901>`_ model, but
   can read YAML files as well.
-- "$config" for files that should be evaluated at run time.  A separate
-  "config" parameter must be provided, at which time a "$ref" is constructed
-  as "{`$config:value}/config`".  This is most often used to provide data
-  loggger configurations.
+- *``$config`` for files that should be evaluated at run time.  A separate
+  "config" parameter must be provided, at which time a ``$ref`` is constructed
+  as ``{$config:value}/config``.  This is most often used to provide data
+  logger configurations*.
     
 Organisation
 ===================================

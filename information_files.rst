@@ -61,52 +61,49 @@ categories of  configuration information:
    of fields to change use the same structure as the object that they are
    modifying, but specify only the parts of objects that are to be changed. For
    example, if a Datalogger was specified in the file
-   "`LC2000.datalogger.yaml`" as:
+   "`LC2000.datalogger.yaml`" as::
    
-   ```
-   datalogger:
-    equipment:
-        model: "CS5321/22"
-        type: "delta-sigma A/D converter + digital filter"
-        description: "CS5321/22 delta-sigma A/D converter + FIR digital filter"
-        manufacturer: "Cirrus Logic"
-        vendor: "various"
-    config_description: "125 sps"
-    responses_ordered:
-        - $ref: "responses/Scripps_LCPO2000-CS5321__theoretical.response.yaml#response"
-        - $ref: "responses/Scripps_LCPO2000-CS5322_125sps_theoretical.response.yaml#response"
-    sample_rate: 125
-    delay_correction: 0.232
-    configuration_definitions:
-        "62.5sps":
-            config_description: "62.5 sps"
-            sample_rate: 62.5
-            delay_correction: 0.464
-            responses_ordered:
+       datalogger:
+        equipment:
+            model: "CS5321/22"
+            type: "delta-sigma A/D converter + digital filter"
+            description: "CS5321/22 delta-sigma A/D converter + FIR digital filter"
+            manufacturer: "Cirrus Logic"
+            vendor: "various"
+        config_description: "125 sps"
+        responses_ordered:
+            - $ref: "responses/Scripps_LCPO2000-CS5321__theoretical.response.yaml#response"
+            - $ref: "responses/Scripps_LCPO2000-CS5322_125sps_theoretical.response.yaml#response"
+        sample_rate: 125
+        delay_correction: 0.232
+        configuration_definitions:
+            "62.5sps":
+                config_description: "62.5 sps"
+                sample_rate: 62.5
+                delay_correction: 0.464
+                responses_ordered:
+                    - $ref: "responses/Scripps_LCPO2000-CS5321__theoretical.response.yaml#response"
+                    - $ref: "responses/Scripps_LCPO2000-CS5322_62.5sps_theoretical.response.yaml#response"
+    
+    then instantiating the datalogger as::
+    
+        base: $ref: "LC2000.datalogger.yaml"
+        config: "62.5sps"
+
+    would return::
+
+        equipment:
+            model: "CS5321/22"
+            type: "delta-sigma A/D converter + digital filter"
+            description: "CS5321/22 delta-sigma A/D converter + FIR digital filter"
+            manufacturer: "Cirrus Logic"
+            vendor: "various"
+        config_description: "62.5 sps"
+        responses_ordered:
                 - $ref: "responses/Scripps_LCPO2000-CS5321__theoretical.response.yaml#response"
                 - $ref: "responses/Scripps_LCPO2000-CS5322_62.5sps_theoretical.response.yaml#response"
-    ```
-    
-    then instantiating the datalogger as:
-    ```
-    base: $ref: "LC2000.datalogger.yaml"
-    config: "62.5sps"
-    ```
-    would return
-    ```
-    equipment:
-        model: "CS5321/22"
-        type: "delta-sigma A/D converter + digital filter"
-        description: "CS5321/22 delta-sigma A/D converter + FIR digital filter"
-        manufacturer: "Cirrus Logic"
-        vendor: "various"
-    config_description: "62.5 sps"
-    responses_ordered:
-            - $ref: "responses/Scripps_LCPO2000-CS5321__theoretical.response.yaml#response"
-            - $ref: "responses/Scripps_LCPO2000-CS5322_62.5sps_theoretical.response.yaml#response"
-    sample_rate: 62.5
-    delay_correction: 0.464
-    ```
+        sample_rate: 62.5
+        delay_correction: 0.464
     
    Most configuration specifications are made in the Network file, although
    `Instrument Component Configuration`_ specifications can also be made in the

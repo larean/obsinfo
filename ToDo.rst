@@ -48,6 +48,11 @@ Allow user to specify complete instruments for a network
    that at least indicates the datalogger)
  - Should we allow a simple "gain" entry?  Or do we put this as the datalogger config
 
+Make a ``obsinfo-example-dir`` console script
+------------------------------------------------------------
+Copies the obsinfo/obsinfo/_examples directory to a local directory
+specified by the user
+
 Minor
 ____________
 

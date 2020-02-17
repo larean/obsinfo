@@ -10,8 +10,8 @@ Basic principals
 - Filenames are {specific element}.{type}.{yaml,json}, where {type} is one of
   the levels described below.
 
-- The base level of each file contains information about the file, plus the
-  a type-specific field:
+- The base-level object of each file contains information about the file, plus
+  a type-specific object:
 
   - ``format_version`` (REQUIRED): version of the information file format
   - ``revision`` (REQUIRED): Who made the file and when
@@ -37,44 +37,44 @@ External files are referenced using
     
 Organisation
 ===================================
-A hierearchy of levels allows the user to fully specify stations and the
-processing that their data undergoes.  Most of the fields correspond to 
-StationXML fields, but there are also fields to specify processing steps
-and to configure the instrumentation (sampling rate, sensors added...).  The
-configuration information is divided into two categories:
+A hierearchy of objects, from Network to Filter, allows the user to fully
+specify stations.  Most of the fields correspond to StationXML fields, but
+there are also fields that
+specify processing steps and instrumentation configuration.  There are two
+categories of  configuration information:
 
-1) **Configuration definition**: specifies the different configurations
-   possible, using 
+1) **Configuration definitions**: specify the different configurations
+   possible, using the fields:
    
-   - ``serial_number_definitions``: (information about individual
-     variations between elements) and
-   - ``configuration_definitions``: (information 
-     about run-time changes/options for a given element).
+   - ``serial_number_definitions``: (differences between individual elements),
+     and
+   - ``config_definitions``: (run-time changes/options for a given element).
   
-2) **Configuration specification**: states which configuration is being
-   used by the given instrumentation and/or station, using
+2) **Configuration specifications**: specify which configuration is
+   used by a given instrumentation and/or station, using the fields:
 
    - ``serial_number`` (specify which ``serial_number_definition`` to use), 
-   - ``configuration`` (specify which ``configuration_definition`` to use), or
-   - direct entry of fields to change.
+   - ``config`` (specify which ``configuration_definition`` to use), or
+   - direct specification of fields to change
+   
+   Most configuration specifications are made in the Network file, although
+   Instrument_Components specifications can also be made in the Instrumentation
+   File.  Specifications made at higher levels override those made at lower
+   levels.
 
-Description levels
+Objects
 ===================================
-The chain of levels of information needed to fully specify a station and its
-processing.  All levels can be in one file, but usually they are divided into
-different files for clarity, portability, and to avoid repetition (DRY
-philosophy). Usually, there are different files for Network, Instrumentation,
-Instrument Components (Sensors, Dataloggers and Preamplifiers), Responses and
-Filters.
+A chain of objects is needed to fully specify a station and its processing.
+All of the objects can be in one file, but they are usually divided into
+different files for clarity, portability, and to avoid repetition (DRY).
+Typical file levels are Network, Instrumentation, Instrument Components
+(Sensors, Dataloggers and Preamplifiers), Responses and Filters.
 
-Network Level
+Network
 *********************************
 
-Specify the stations deployed by an OBS facility during an experiment.  You
-could specify the entire station/instrument/response in this file, but
-JSON References are generally used to specify instruments or instrument
-components.
-Fields are:
+Specify the stations deployed by an OBS facility during an experiment.  Fields
+are:
 
 :`facility`: Basic information about the OBS facility.  ``ref_name`` should
     match the second field in the filename.  ``full_name`` will be
@@ -87,9 +87,9 @@ Fields are:
     values on the FDSN website
    
 :`stations`: descriptions of each station.  Subfields are objects with key = 
-    {`STATION_NAME`} and value = `Station Level`_ object.
+    {`STATION_NAME`} and value = `Station`_ object.
 
-Station Level
+Station
 *********************************
 
 Description of one station.
@@ -115,36 +115,46 @@ Description of one station.
     
 :`extras`: Subfields are saved to StationXML comments.
 
-:`instruments`: List of instrumenation configurations making up the station
-   (see `Instrumentation Configuration Level`_). 
-   
+:`instruments`: List of `Instrumentation Configuration`_ s making up the
+   station   
 
-Instrumentation Configuration Level
+Instrumentation Configuration
 *********************************
-Configure an Instrumentation Level
+A configured `Instrumentation`_ object
 
 In the list below, later fields can modify earlier ones
     
-:`base`: Full instrument description (see `Instrumentation Level`_)
+:`base`: An `Instrumentation`_ object
 
-Configuration Specification Fields
+Configuration Specification Fields (all optional)
 -----------------------------
-:`configuration`: Specify `Instrumentation Level`_ ``configuration_definition``
-  
-:`serial_number`: Instrument serial number: If it corresponds to an
-    `Instrumentation Level`_ ``serial_number_definition``, 
-    use the modifications specified there.
+
+:`serial_number`: Specify `Instrumentation`_  serial number (and corresponding
+    ``serial_number_definition`` if it exists
               
-:`datalogger_config`: Specify `Datalogger Level`_ ``configuration_definition``
-    for all channels
+:`datalogger_config`: Specify `Datalogger`_ ``configuration_definition``
+    for all channels (shortcut for
+    ``channel_mods: {base: {datalogger: config}}``
 
-:`sensor_config`: Specify `Sensor Level` ``configuration_definition`` for all
-    channels
+:`config`: Specify `Instrumentation`_ ``configuration_definition``
+  
+:`datalogger_serial_number`: Specify `Datalogger`_ ``serial_number`` (and
+    corresponding definition if it exists).  Shortcut for
+    ``channel_mods: {base: {datalogger: serial_number}}``
 
-:`preamplifier_config`: Specify `Preamplifier Level`
-    ``configuration_definition`` for all channels
-      
-:`channel_mods`: [*optional*] Specify `Channel Configuration Level`_
+:`sensor_config`: Shortcut for
+    ``channel_mods: {base: {sensor: config}}``
+
+:`sensor_serial_number`: Shortcut for
+    ``channel_mods: {base: {sensor: serial_number}}``
+
+:`preamplifier_config`: Shortcut for
+    ``channel_mods: {base: {preamplifier: config}}``
+
+:`preamplifier_serial_number`: Shortcut for
+    ``channel_mods: {base: {preamplifier: serial_number}}``
+
+:`channel_mods`: [*optional*] Specify `Channel Configuration`_
     modifications.
                 
     :`base`: Modifications applied to all channels.
@@ -163,15 +173,15 @@ Configuration Specification Fields
       orientation code.*  **ELMINATE?**
 
 
-Channel Configuration Level
+Channel Configuration
 *********************************
-Specify `Channel Level`_ modificiations
+Specify `Instrument Channel`_ modificiations and deployment-specific information
 
-:`sensor`: Modifications to sensor (see `Instrument Component Configuration Level`_)
+:`sensor`: Modifications to Sensor (see `Instrument Component Configuration`_)
 
-:`datalogger`: Modifications to datalogger (see `Instrument Component Configuration Level`_)
+:`datalogger`: Modifications to Datalogger (see `Instrument Component Configuration`_)
 
-:`preamplifier`: Modifications to preamplifier (see `Instrument Component Configuration Level`_)
+:`preamplifier`: Modifications to Preamplifier (see `Instrument Component Configuration`_)
 
 :`location_code`: Channel's location code
               
@@ -180,24 +190,23 @@ Specify `Channel Level`_ modificiations
 :`end_date`: channel end date (if different from station)
               
 
-Instrument Component Configuration Level
+Instrument Component Configuration
 *********************************
-Specify `Instrument Component Level`_ modifications
+Specify `Instrument Component`_ modifications
 
-:`base`: Full InstrumentComponent description (see `Instrument Component Level`_)
+:`base`: Full Instrument Component description (see `Instrument Component`_)
 
 Configuration Specification Fields
 -----------------------------
 
-:`configuration`: Activate `Instrument Component`_-level
+:`config`: Activate `Instrument Component`_-level
     ``configuration_definition``
   
-:`serial_number`: Instrument Component serial number: if it corresponds to a field
-    under "`serial_number_definitionss`" at the
-    **Instrument Compoenents Level**, use the modifications specified there.
+:`serial_number`: Specify Instrument Component serial number and apply
+    corresponding ``serial_number_definitions``, if they exist
               
 
-Instrumentation Level
+Instrumentation
 *********************************
 
 Specify a scientfic instrument (OBS, field station), as equipment and channels
@@ -206,31 +215,31 @@ Fields are:
 
 :`equipment`: Corresponds to StationXML Equipment object
   
-:`base_channel`: (optional) description of one channel (see `Channel Level`_).
-                 Simplifies specificying ``das_channels`` (below) if more than
+:`base_channel`: (optional) A `Channel`_ object.
+                 Simplifies specifying ``das_channels`` (below) if
                  the same datalogger|preamplifier|sensor is used on more than
-                 one channel.  Chosse the most common instrumentation channel
+                 one channel.  Choose the most common instrumentation channel
                  (for example, many seismometers have the same sensor
                  description on three channels).  The "`orientation_code`"
-                 subfield is ignored here.
-:`das_channels`: descriptions of individual channels (see `Channel Level`_),
-                 keyed by das channel number.  The provided values replace
-                 those in `base_channel`
+                 subfield is ignored.
+:`das_channels`: A possibly incomplete `Channel`_ object.  Values provided
+                 replace those in `base_channel`
 
 Configuration Definition Fields
 -----------------------------
 
-:`configuration_definitions`: optional configurations. 
+Modifications to the above-mentioned fields.
+
+:`configuration_definitions`: optional configurations 
       
-:`serial_number_definitions`: changes to configurations based on serial number.
-    Possible fields are `equipment`, `base_channel` and `das_channel`, 
-    for which  the provided values replace those given in
-    the instrumentation definition
+:`serial_number_definitions`: serial number based modifications
    
-Channel Level
+
+Channel
 *********************************
 
-Specify a channel, from sensor to datalogger  The responses will be stacked
+Specify an Instrumentation Channel (Instrument Components and an
+orientation code). `Responses`_ for each Instrument component are stacked
 from sensor (top) to datalogger (bottom)
 
 Fields: 
@@ -241,12 +250,12 @@ Fields:
 
 :datalogger: Datalogger Instrument_Component
 
-:orientation_code: The channel's orientation code.
+:orientation_code: SEED orientation code.
 
-Instrument Component Level
+Instrument Component
 *********************************
 
-Specify an instrument component: `sensor`, `preamplifier` or `datalogger`.
+Specify an Instrument Component: `sensor`, `preamplifier` or `datalogger`.
 
 Shared fields:
 -----------------------------
@@ -261,18 +270,19 @@ Shared fields:
 Configuration Definition Fields
 ---------------------
 
-:`configuration_definitions`: optional configurations.  Fields are any of the
-                   Instrument_Component fields (including specific ones for the
-                   type (`datalogger`, `preamplifier` or `sensor`)
+modifications to the above-mentioned fields (plus any specific to the given
+Instrument Component type).
+    
+:`serial_number_definitions`: serial-number based modifications
 
-:`serial_number_definitions`:
+:`configuration_definitions`: optional configurations 
 
 
 Component-specific Fields: 
 -----------------------------
 
-Datalogger Level
------------------------------
+Datalogger
+---------------------
 
 :`sample_rate`: samples per second
 
@@ -284,8 +294,8 @@ Datalogger Level
            delay in that stage
     :False: No correction will be specified (same as numeric = 0)
 
-Sensor Level
------------------------------
+Sensor
+---------------------
 
 :`seed_codes`: SEED codes to give to channels using this sensor
 
@@ -299,22 +309,22 @@ Sensor Level
                     :`azimuth.deg`: 2-element array of [value, uncertainty]
                     :`dip.deg`: 2-element array of [value, uncertainty]
 
-Preamplifier Level
------------------------------
+Preamplifier
+---------------------
 None
  
-Response Level
+Response
 *********************************
 
 :`stages`: List of response stages, most sub-elements are StationXML fields
 
     :`description`: string
     
-    :`name`: string [`None`]
+    :`name`: string [``None``]
 
-    :`input_units`: object with fields `name` and `description`
+    :`input_units`: object with fields ``name`` and ``description``
     
-    :`output_units`: object with fields `name` and `description`
+    :`output_units`: object with fields ``name`` and ``description``
     
     :`gain`: object with fields ``value`` and ``frequency``
     
@@ -326,12 +336,12 @@ Response Level
     
     :`calibration_date`: date of calibration that gave this response [`None`[
     
-    :`filter`: `Filter Level`_ element
+    :`filter`: `Filter`_ object
 
-Filter Level
+Filter
 *********************************
 
-Description of a filter.  Fields depend on the ``type``
+Description of a filter.  Keys depend on the ``type``
 
 Common fields:
 -----------------------------
@@ -342,7 +352,7 @@ Common fields:
 `PolesZeros`-specific fields:
 -------------------------------
 
-:`units`: string (only "`rad/s`" has been verified)
+:`units`: string (only ``rad/s`` has been verified)
 
 :`poles`: List of poles in the above units.  Each elements is a 2-element array
           containing the real and imaginary parts
@@ -357,7 +367,7 @@ Common fields:
 `FIR`-specific fields:
 -------------------------------
 
-:`symmetry`: "`ODD`", "`EVEN`" or "`NONE`"
+:`symmetry`: ``ODD``, ``EVEN`` or ``NONE``
 
 :`delay.samples`: samples delay for this FIR stage
 
@@ -388,14 +398,14 @@ List of [frequency (Hz), amplitude, phase (degrees)] lists
 -------------------------------
 
 None.  Becomes a StationXML `PolesZeros` stage without poles or zeros,
-`normalization_freq` = 0 and `normalization_factor` = 1.0
+``normalization_freq`` = 0 and ``normalization_factor`` = 1.0
 
 
 `DIGITAL`-specific fields:
 -------------------------------
 
 None.  Becomes a StationXML `Coefficients` stage with 
-`numerator` = [1.0] and `denominator` = []
+``numerator = [1.0]`` and ``denominator = []``
 
 
 `AD_CONVERSION`-specific fields:

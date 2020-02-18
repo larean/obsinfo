@@ -65,9 +65,9 @@ a ``serial_number`` specification implements the corresponding ``serial_number_d
 AND sets the corresponding ``equipment:serial_number`` field.  If a ``config`` has no corresponding
 ``config_deinition``, an error is returned, but there is no error if a ``serial_number`` has no corresponding
 ``serial_number_definition``.
-``serial_number definition``s, ``config_definition``s, and direct specification
-of fields to change use the same structure as the object that they are
-modifying, but specify only the parts of objects that are to be changed. For
+``serial_number definition`` objects, ``config_definition`` objects and direct specification
+of fields to change use the same structure as the object that they
+modify, but specify only the parts that are to be changed. For
 example, if a Datalogger was specified in the file
 "`LC2000.datalogger.yaml`" as (note: this is a simplifed datalogger object which would not validate)::
    

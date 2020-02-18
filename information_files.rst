@@ -80,7 +80,7 @@ For example, a Datalogger specified in the file "``LC2000.datalogger.yaml``" as:
                     description: "CS5321/22 delta-sigma A/D converter + FIR digital filter [config=500sps]"
                 sample_rate: 500
     
-then instantiated as::
+and instantiated as::
     
         base: $ref: "LC2000.datalogger.yaml#datalogger"
         config: "500sps"

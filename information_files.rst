@@ -62,7 +62,7 @@ It is an error to specify a  ``config`` with no corresponding
 
 ``serial_numberdefinition``, ``config_definition`` and direct specification objects
 use the same structure as the object they modify, but specify only the fields to be changed.
-For example, a Datalogger specified as::
+For example, a Datalogger specified in the file "``LC2000.datalogger.yaml``" as::
    
    datalogger:
         equipment:
@@ -82,7 +82,7 @@ For example, a Datalogger specified as::
     
 then instantiated as::
     
-        base: $ref: "LC2000.datalogger.yaml"
+        base: $ref: "LC2000.datalogger.yaml#datalogger"
         config: "500sps"
 
 would return::

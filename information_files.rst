@@ -98,10 +98,11 @@ would return::
         note: "I like to write things down"
         sample_rate: 500
     
-Most configuration specifications are made in the Network file, although
+Most configuration specifications are made in the ``Network`` file, although
 `Instrument Component Configuration`_ specifications can also be made in the
-Instrumentation File.  Specifications made at higher levels (towards
-``Network``) override those made at lower levels.
+``Instrumentation`` file (for example, to set the default amplifier gain).  Specifications
+made in a ``Network`` file will override any conflicting specifications in the
+``Instrumentation`` file (SRD).
 
 Objects
 ===================================

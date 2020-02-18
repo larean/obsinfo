@@ -80,13 +80,9 @@ example, if a Datalogger was specified in the file
                 equipment:
                     description: "CS5321/22 delta-sigma A/D converter + FIR digital filter [config=125sps]"
                 sample_rate: 125
-            "250sps":
-                equipment:
-                    description: "CS5321/22 delta-sigma A/D converter + FIR digital filter [config=250sps]"
-                sample_rate: 250
             "500sps":
                 equipment:
-                    description: "CS5321/22 delta-sigma A/D converter + FIR digital filter [config=50sps]"
+                    description: "CS5321/22 delta-sigma A/D converter + FIR digital filter [config=500sps]"
                 sample_rate: 500
     
 then instantiating the datalogger as::
@@ -98,7 +94,7 @@ would return::
 
         equipment:
             model: "CS5321/22"
-            description: "CS5321/22 delta-sigma A/D converter + FIR digital filter  [config=50sps]"
+            description: "CS5321/22 delta-sigma A/D converter + FIR digital filter  [config=500sps]"
         note: "I like to write things down"
         sample_rate: 500
     

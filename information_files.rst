@@ -5,69 +5,64 @@ Information files
 Basic principals
 ===================================
 
-- Files are in JSON or YAML format
-
-- The files describe a hierearchy of objects, from Network to Filter, allows the user to fully
-  specify seismological network stations. 
+- Files, in JSON or YAML format, provide a hierearchy of objects, from Network to Filter, 
+  that allow the user to fully specify seismological network stations based on their
+  components and configurations. 
   
-- Most of the objects correspond to StationXML elements, but there are also fields that
-  specify processing steps and allow configuration of the instrumentation.
+- Most objects correspond to StationXML elements, but there are also objects to
+  specify processing steps and to configure the instrumentation.
 
-- Filenames are {specific element}.{type}.{yaml,json}, where {type} is one of
-  the levels described below.
+- Filenames are {*specific element*}.{*object*}.{yaml,json}.
 
-- The base-level object of each file contains information about the file, plus
-  a type-specific object:
+- The base level of each file contains provenance information plus
+  the type-specific object:
 
   - ``format_version`` (REQUIRED): version of the information file format
   - ``revision`` (REQUIRED): Who made the file and when
   - ``yaml_anchors`` (optional):  Used to define YAML anchors (groups
     of objects that can be inserted elsewhere, reducing redundancy/errors)
-  - {type}: same as in the filename, with format described in the corresponding
-    level below
+  - {*object*}: same as in the filename
 
-- Any level of the file can have the following optional fields:
+- Any object can have the fields:
 
-  - ``notes``: Notes that will not be translated into the StationXML file.
-  - ``extras``: Fields that don't exist in the definition, but maybe should.
+  - ``notes``: Notes that will not be put into the StationXML file.
+  - ``extras``: Fields that don't exist in the definition.
 
-External files are referenced using
+Files refer to other files "downstream" using
   `JSON Pointers <https://tools.ietf.org/html/rfc6901>`_ syntax ("``$ref:``"), which we
-  have expanded to work on YAML files as well. [#]_
+  have expanded to also work on YAML files. [#]_
   
-.. [#] In the future, we could add a ``$config:`` key, which would not read in the referenced file immediately,
+.. [#] In the future, we could add a ``$config:`` key, which would
   allowing the code to evaluate some of the ``config`` and ``serial_number``
-  information first.  This could reduce the amount of information read in, but is
-  it worth the added complexity?
+  information before reading in the referenced file.  This could reduce the
+  amount of information to read, but is it worth the added complexity?
 
 Configuration
 ===================================
 Stations can be configured based on instrumentation/component serial numbers
 and/or configurations, or direct entry of values to modify.
 
-1) **Configuration definitions**: specify the different configurations
-   possible, using the fields:
+1) **Configuration definitions**: specify possible configurations:
    
    - ``serial_number_definitions``: (differences between individual elements)
-   - ``config_definitions``: (run-time changes/options for a given element)
+   - ``config_definitions``:        (options for a given element)
   
-2) **Configuration specifications**: specify which configuration is
-   used by a given instrumentation and/or station, using the fields:
+2) **Configuration specifications**: specify the configuration
+   used by a given station and/or instrumentation:
 
    - ``serial_number``
    - ``config``
    or direct specification of the fields to change
    
-A ``config`` specification implements the corresponding ``config_definition``, whereas
-a ``serial_number`` specification implements the corresponding ``serial_number_description``
-AND sets the corresponding ``equipment:serial_number`` field.  If a ``config`` has no corresponding
-``config_deinition``, an error is returned, but there is no error if a ``serial_number`` has no corresponding
+``config`` implements the corresponding ``config_definition`` and ``serial_number`` implements the corresponding ``serial_number_description`` AND sets the corresponding ``equipment:serial_number`` field.  The order of
+interpretation is ``serial_number``, then ``config``, then any direct specification.
+It is an error to specify a  ``config`` with no corresponding
+``config_deinition``, but not to specify a ``serial_number`` with no corresponding
 ``serial_number_definition``.
-``serial_number definition`` objects, ``config_definition`` objects and direct specification
-of fields to change use the same structure as the object that they
-modify, but specify only the parts that are to be changed. For
-example, if a Datalogger was specified in the file
-"`LC2000.datalogger.yaml`" as (note: this is a simplifed datalogger object which would not validate)::
+
+``serial_numberdefinition``, ``config_definition`` and direct specification objects
+use the same structure as the object they modify, but specify only the fields to be changed.
+For example, a Datalogger specified as::
    
    datalogger:
         equipment:
@@ -85,7 +80,7 @@ example, if a Datalogger was specified in the file
                     description: "CS5321/22 delta-sigma A/D converter + FIR digital filter [config=500sps]"
                 sample_rate: 500
     
-then instantiating the datalogger as::
+then instantiated as::
     
         base: $ref: "LC2000.datalogger.yaml"
         config: "500sps"
@@ -98,6 +93,7 @@ would return::
         note: "I like to write things down"
         sample_rate: 500
     
+(*note: this is a simplifed datalogger object which would not validate*).
 Most configuration specifications are made in the ``Network`` file, although
 `Instrument Component Configuration`_ specifications can also be made in the
 ``Instrumentation`` file (for example, to set the default amplifier gain).  Specifications

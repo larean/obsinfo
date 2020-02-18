@@ -32,15 +32,13 @@ Basic principals
   - ``extras``: Fields that don't exist in the definition, but maybe should.
 
 External files are referenced using
+  `JSON Pointers <https://tools.ietf.org/html/rfc6901>`_ syntax (``$ref``), which we
+  have expanded to work on YAML files as well. *In the future, we could add a
+  ``$config:`` key, which would not read in the referenced file immediately,
+  allowing the code to evaluate some of the ``config`` and ``serial_number``
+  information first.  This could reduce the amount of information read in, but does 
+  it really matter?*
 
-- ``$ref`` for hard-coded files.  This uses the
-  `JSON Pointers <https://tools.ietf.org/html/rfc6901>`_ model, but
-  can read YAML files as well.
-- *``$config`` for files that should be evaluated at run time.  A separate
-  "config" parameter must be provided, at which time a ``$ref`` is constructed
-  as ``{$config:value}/config``.  This is most often used to provide data
-  logger configurations*.
-    
 Configuration
 ===================================
 Stations can be configured based on instrumentation/component serial numbers

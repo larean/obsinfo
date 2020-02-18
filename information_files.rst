@@ -7,6 +7,12 @@ Basic principals
 
 - Files are in JSON or YAML format
 
+- The files describe a hierearchy of objects, from Network to Filter, allows the user to fully
+  specify seismological network stations. 
+  
+- Most of the objects correspond to StationXML elements, but there are also fields that
+  specify processing steps and allow configuration of the instrumentation.
+
 - Filenames are {specific element}.{type}.{yaml,json}, where {type} is one of
   the levels described below.
 
@@ -35,13 +41,10 @@ External files are referenced using
   as ``{$config:value}/config``.  This is most often used to provide data
   logger configurations*.
     
-Organisation
+Configuration
 ===================================
-A hierearchy of objects, from Network to Filter, allows the user to fully
-specify stations.  Most of the fields correspond to StationXML fields, but
-there are also fields that
-specify processing steps and instrumentation configuration.  There are two
-categories of  configuration information:
+Stations can be configured based on instrumentation/component serial numbers
+and/or configurations, or direct entry of values to modify.
 
 1) **Configuration definitions**: specify the different configurations
    possible, using the fields:
@@ -53,57 +56,50 @@ categories of  configuration information:
 2) **Configuration specifications**: specify which configuration is
    used by a given instrumentation and/or station, using the fields:
 
-   - ``serial_number`` (specify which ``serial_number_definition`` to use), 
-   - ``config`` (specify which ``configuration_definition`` to use), or
+   - ``serial_number``, 
+   - ``config``
    - direct specification of fields to change
    
+Specifying a ``config`` that does not exist (has no corresponding ``config_definition``)
+is an error, specifying a ``serial_number`` with no corresponding ``description`` is not.
 The serial_number definitions, config_definitions, and direct specification
 of fields to change use the same structure as the object that they are
 modifying, but specify only the parts of objects that are to be changed. For
 example, if a Datalogger was specified in the file
-"`LC2000.datalogger.yaml`" as::
+"`LC2000.datalogger.yaml`" as (note: this is a simplifed datalogger object which would not validate)::
    
-       datalogger:
+   datalogger:
         equipment:
             model: "CS5321/22"
-            type: "delta-sigma A/D converter + digital filter"
             description: "CS5321/22 delta-sigma A/D converter + FIR digital filter"
-            manufacturer: "Cirrus Logic"
-            vendor: "various"
-        config_description: "125 sps"
-        responses_ordered:
-            - $ref: "responses/Scripps_LCPO2000-CS5321__theoretical.response.yaml#response"
-            - $ref: "responses/Scripps_LCPO2000-CS5322_125sps_theoretical.response.yaml#response"
+        note: "I like to write things down"
         sample_rate: 125
-        delay_correction: 0.232
         configuration_definitions:
-            "62.5sps":
-                config_description: "62.5 sps"
-                sample_rate: 62.5
-                delay_correction: 0.464
-                responses_ordered:
-                    - $ref: "responses/Scripps_LCPO2000-CS5321__theoretical.response.yaml#response"
-                    - $ref: "responses/Scripps_LCPO2000-CS5322_62.5sps_theoretical.response.yaml#response"
+            "125sps":
+                equipment:
+                    description: "CS5321/22 delta-sigma A/D converter + FIR digital filter [config=125sps]"
+                sample_rate: 125
+            "250sps":
+                equipment:
+                    description: "CS5321/22 delta-sigma A/D converter + FIR digital filter [config=250sps]"
+                sample_rate: 250
+            "500sps":
+                equipment:
+                    description: "CS5321/22 delta-sigma A/D converter + FIR digital filter [config=50sps]"
+                sample_rate: 500
     
 then instantiating the datalogger as::
     
         base: $ref: "LC2000.datalogger.yaml"
-        config: "62.5sps"
+        config: "500sps"
 
 would return::
 
         equipment:
             model: "CS5321/22"
-            type: "delta-sigma A/D converter + digital filter"
-            description: "CS5321/22 delta-sigma A/D converter + FIR digital filter"
-            manufacturer: "Cirrus Logic"
-            vendor: "various"
-        config_description: "62.5 sps"
-        responses_ordered:
-                - $ref: "responses/Scripps_LCPO2000-CS5321__theoretical.response.yaml#response"
-                - $ref: "responses/Scripps_LCPO2000-CS5322_62.5sps_theoretical.response.yaml#response"
-        sample_rate: 62.5
-        delay_correction: 0.464
+            description: "CS5321/22 delta-sigma A/D converter + FIR digital filter  [config=50sps]"
+        note: "I like to write things down"
+        sample_rate: 500
     
 Most configuration specifications are made in the Network file, although
 `Instrument Component Configuration`_ specifications can also be made in the

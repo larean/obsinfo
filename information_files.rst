@@ -195,12 +195,12 @@ Configuration Specification Fields (all optional)
 
 :`channel_mods`: Specify `Channel`_ configurations.
                 
-    :`base`: Configurations applied to all channels.
+    :`base`: `Channel Configuration`_ applied to all channels.
     
-    :`by_orientation/{ORIENTATION-CODE}`: Configurations applied to
+    :`by_orientation/{ORIENTATION-CODE}`: `Channel Configuration`_ applied to
       individual channels, keyed by their SEED orientation code
   
-    :`by_das/{DAS-CODE}`: Configurations applied to individual channels,
+    :`by_das/{DAS-CODE}`: `Channel Configuration`_ applied to individual channels,
       keyed by their data acquisition system (DAS) code.
       Use when a station has more than one channel with the same
       orientation code.

@@ -37,8 +37,8 @@ External files are referenced using
   
 .. [#] In the future, we could add a ``$config:`` key, which would not read in the referenced file immediately,
   allowing the code to evaluate some of the ``config`` and ``serial_number``
-  information first.  This could reduce the amount of information read in, but does 
-  it really matter?*
+  information first.  This could reduce the amount of information read in, but is
+  it worth the added complexity?
 
 Configuration
 ===================================

@@ -177,17 +177,17 @@ In the list below, later fields can modify earlier ones
 Configuration Specification Fields (all optional)
 -----------------------------
 
-:`serial_number`: Specify `Instrumentation`_  serial number (and corresponding
-    ``serial_number_definition`` if it exists
+:`serial_number`: Specify the `Instrumentation`_  serial number (and
+    ``serial_number_definition`` if it exists)
               
-:`datalogger_config`: Specify `Datalogger`_ ``configuration_definition``
+:`config`: Specify the `Instrumentation`_ ``configuration_definition``
+  
+:`datalogger_config`: Specify the `Datalogger`_ ``configuration_definition``
     for all channels (shortcut for
     ``channel_mods: {base: {datalogger: config}}``
 
-:`config`: Specify `Instrumentation`_ ``configuration_definition``
-  
-:`datalogger_serial_number`: Specify `Datalogger`_ ``serial_number`` (and
-    corresponding definition if it exists).  Shortcut for
+:`datalogger_serial_number`: Specify the `Datalogger`_ ``serial_number`` (and
+    ``serial_number_definition`` if it exists).  Shortcut for
     ``channel_mods: {base: {datalogger: serial_number}}``
 
 :`sensor_config`: Shortcut for
@@ -202,24 +202,17 @@ Configuration Specification Fields (all optional)
 :`preamplifier_serial_number`: Shortcut for
     ``channel_mods: {base: {preamplifier: serial_number}}``
 
-:`channel_mods`: [*optional*] Specify `Channel Configuration`_
-    modifications.
+:`channel_mods`: Specify `Channel`_ configurations.
                 
-    :`base`: Modifications applied to all channels.
+    :`base`: Configurations applied to all channels.
     
-    :`by_orientation/{ORIENTATION-CODE}`: Modifications applied to
-      individual channels, specified by their SEED orientation code
+    :`by_orientation/{ORIENTATION-CODE}`: Configurations applied to
+      individual channels, keyed by their SEED orientation code
   
-    :`by_das/{DAS-CODE}`: Modifications applied to individual channels,
-      specified using the data acquisition channel code.
+    :`by_das/{DAS-CODE}`: Configurations applied to individual channels,
+      keyed by their data acquisition system (DAS) code.
       Use when a station has more than one channel with the same
       orientation code.
-
-    :*`by_chan_loc/{CHAN_LOC-CODE}`*: *Modifications applied to individual
-     channels, specified using the channel_location code ("`CCC_LL`").
-      Use when a station has more than one channel with the same
-      orientation code.*  **ELMINATE?**
-
 
 Channel Configuration
 *********************************

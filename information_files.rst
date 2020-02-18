@@ -366,7 +366,7 @@ Response
     
     :`delay`: Delay in seconds of the stage [0]
     
-    :`calibration_date`: date of calibration that gave this response [`None`[
+    :`calibration_date`: date of calibration that gave this response [`None`]
     
     :`filter`: `Filter`_ object
 

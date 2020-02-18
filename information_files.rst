@@ -58,7 +58,7 @@ and/or configurations, or direct entry of values to modify.
 
    - ``serial_number``, 
    - ``config``
-   - direct specification of fields to change
+   or direct specification of the fields to change
    
 Specifying a ``config`` that does not exist (has no corresponding ``config_definition``)
 is an error, specifying a ``serial_number`` with no corresponding ``description`` is not.

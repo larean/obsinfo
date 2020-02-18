@@ -32,8 +32,8 @@ Basic principals
   - ``extras``: Fields that don't exist in the definition, but maybe should.
 
 External files are referenced using
-  `JSON Pointers <https://tools.ietf.org/html/rfc6901>`_ syntax (``$ref``), which we
-  have expanded to work on YAML files as well.[#]_
+  `JSON Pointers <https://tools.ietf.org/html/rfc6901>`_ syntax ("``$ref:``"), which we
+  have expanded to work on YAML files as well. [#]_
   
 .. [#] In the future, we could add a ``$config:`` key, which would not read in the referenced file immediately,
   allowing the code to evaluate some of the ``config`` and ``serial_number``

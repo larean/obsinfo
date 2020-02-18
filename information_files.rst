@@ -49,14 +49,13 @@ and/or configurations, or direct entry of values to modify.
 1) **Configuration definitions**: specify the different configurations
    possible, using the fields:
    
-   - ``serial_number_definitions``: (differences between individual elements),
-     and
-   - ``config_definitions``: (run-time changes/options for a given element).
+   - ``serial_number_definitions``: (differences between individual elements)
+   - ``config_definitions``: (run-time changes/options for a given element)
   
 2) **Configuration specifications**: specify which configuration is
    used by a given instrumentation and/or station, using the fields:
 
-   - ``serial_number``, 
+   - ``serial_number``
    - ``config``
    or direct specification of the fields to change
    

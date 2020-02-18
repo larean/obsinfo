@@ -61,7 +61,8 @@ and/or configurations, or direct entry of values to modify.
    or direct specification of the fields to change
    
 Specifying a ``config`` that does not exist (has no corresponding ``config_definition``)
-is an error, specifying a ``serial_number`` with no corresponding ``description`` is not.
+is an error, specifying a ``serial_number`` with no corresponding ``serial_number_description``
+is not: it will just set the corresponding equipment:serial_number field and change nothing else.
 The serial_number definitions, config_definitions, and direct specification
 of fields to change use the same structure as the object that they are
 modifying, but specify only the parts of objects that are to be changed. For

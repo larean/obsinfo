@@ -33,8 +33,9 @@ Basic principals
 
 External files are referenced using
   `JSON Pointers <https://tools.ietf.org/html/rfc6901>`_ syntax (``$ref``), which we
-  have expanded to work on YAML files as well. *In the future, we could add a
-  ``$config:`` key, which would not read in the referenced file immediately,
+  have expanded to work on YAML files as well.[#]_
+  
+.. [#] In the future, we could add a ``$config:`` key, which would not read in the referenced file immediately,
   allowing the code to evaluate some of the ``config`` and ``serial_number``
   information first.  This could reduce the amount of information read in, but does 
   it really matter?*

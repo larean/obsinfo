@@ -77,7 +77,7 @@ For example, a Datalogger specified in the file "``LC2000.datalogger.yaml``" as:
                 sample_rate: 125
             "500sps":
                 equipment:
-                    description: "CS5321/22 delta-sigma A/D converter + FIR digital filter [config=500sps]"
+                    description: "Crazy 500sps config"
                 sample_rate: 500
     
 and instantiated as::
@@ -89,7 +89,7 @@ would return::
 
         equipment:
             model: "CS5321/22"
-            description: "CS5321/22 delta-sigma A/D converter + FIR digital filter  [config=500sps]"
+            description: "Crazy 500sps config"
         note: "I like to write things down"
         sample_rate: 500
     

@@ -420,7 +420,7 @@ def _yaml_load(fp, **kwargs):
             return yaml.load(fp)
         # except ScannerError:
         except:
-            warnings.warn('file is neither JSON nor YAML')
+            warnings.warn(f'file {fp.name} is neither JSON nor YAML')
     return None
 
 def _yaml_loads(s, **kwargs):

@@ -5,7 +5,7 @@
     "type": "object",
     "required": ["format_version", "datalogger"],
     "properties": {
-        "format_version" :       {"$ref": "#/definitions/format_version"},
+        "format_version" :       {"$ref": "#/format_version"},
         "revision" :             {"$ref": "definitions.schema.json#/revision"},
         "yaml_anchors" :         {"$ref": "definitions.schema.json#/yaml_anchors"},
         "notes" :                {"$ref": "definitions.schema.json#/note_list"},
@@ -13,14 +13,14 @@
         "extras" :               {"$ref": "definitions.schema.json#/extras"}
     },
     "additionalProperties" : false,
+    "format_version" : {
+        "anyOf": [
+            {"$ref" : "definitions.schema.json#/format_version"},
+            {"type": "string","pattern": "^0\\.107$",
+             "comment":"version of last change to this schema"}
+        ]
+    },
     "definitions": {
-        "format_version" : {
-            "anyOf": [
-                {"$ref" : "definitions.schema.json#/format_version"},
-                {"type": "string","pattern": "^0\\.107$",
-                 "comment":"version of last change to this schema"}
-            ]
-        },
         "datalogger" : {
             "description": "Basic datalogger specification",
             "required": ["sample_rate","responses_ordered","equipment"],

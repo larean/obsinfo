@@ -17,15 +17,15 @@ preamplifier:
     configuration_definitions:
         "16x":
             config_description: "32x gain"
-            response_stages:
+            responses_ordered:
                 - $ref: "responses/Scripps_SPOBS_HydroL22x16_theoretical.response.yaml#response"
         "32x":
             config_description: "32x gain"
-            response_stages:
+            responses_ordered:
                 - $ref: "responses/Scripps_SPOBS_HydroL22x32_theoretical.response.yaml#response"
         "64x":
             config_description: "64x gain"
         "128x":
             config_description: "128x gain"
-            response_stages:
+            responses_ordered:
                 - $ref: "responses/Scripps_SPOBS_HydroL22x128_theoretical.response.yaml#response"

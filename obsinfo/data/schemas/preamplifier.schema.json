@@ -5,22 +5,22 @@
     "type": "object",
     "required": ["format_version", "preamplifier"],
     "properties": {
-        "format_version": {"$ref": "#/definitions/format_version"},
+        "format_version": {"$ref": "#/format_version"},
         "revision":       {"$ref": "definitions.schema.json#/revision"},
         "yaml_anchors":   {"$ref": "definitions.schema.json#/yaml_anchors"},
         "notes":          {"$ref": "definitions.schema.json#/note_list"},
-        "preamplifier":   {"$ref": "#/definitions/preamplifier" },
-        "extras":         {"$ref": "definitions.schema.json#/extras"}
+        "extras":         {"$ref": "definitions.schema.json#/extras"},
+        "preamplifier":   {"$ref": "#/definitions/preamplifier" }
     },
     "additionalProperties" : false,
+    "format_version" : {
+        "anyOf": [
+            {"$ref" : "definitions.schema.json#/format_version"},
+            {"type": "string","pattern": "^0\\.107$",
+             "comment":"version of last change to this schema"}
+        ]
+    },
     "definitions": {
-        "format_version" : {
-            "anyOf": [
-                {"$ref" : "definitions.schema.json#/format_version"},
-                {"type": "string","pattern": "^0\\.107$",
-                 "comment":"version of last change to this schema"}
-            ]
-        },
         "preamplifier" : {
             "description": "Basic preamplifier specification",
             "required": ["equipment"],

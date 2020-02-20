@@ -82,7 +82,7 @@ network:
                     datalogger_config: "250sps"
                     channel_mods:
                         base:
-                            sensor: {base: $ref: "../instrumentation/sensors/HITECH_HTI04-PLC-ULF.sensor.yaml#sensor"}
+                            sensor: {base: {$ref: "../instrumentation/sensors/HITECH_HTI04-PLC-ULF.sensor.yaml#sensor"}}
                         by_das:
                             "1":
                                 location_code: "00"
@@ -96,7 +96,7 @@ network:
                             "4":
                                 location_code: "03"
                                 sensor:
-                                    base: $ref: "../instrumentation/sensors/HITECH_HTI90U.sensor.yaml#sensor"
+                                    base: {$ref: "../instrumentation/sensors/HITECH_HTI90U.sensor.yaml#sensor"}
                                     serial_number: "9601"
             locations:
                 "00":

@@ -343,23 +343,32 @@ ul.auto-toc {
 
 <div class="section" id="basic-principals">
 <h1>Basic principals</h1>
-<ul class="simple">
-<li>Files, in JSON or YAML format, provide a hierearchy of objects, from Network to Filter,
+<ul>
+<li><p class="first">Files, in JSON or YAML format, provide a hierearchy of objects, from Network to Filter,
 that allow the user to fully specify seismological network stations based on their
-components and configurations.</li>
-<li>Most objects correspond to StationXML elements, but there are also objects to
-specify processing steps and to configure the instrumentation.</li>
-<li>Filenames are {<em>specific element</em>}.{<em>object</em>}.{yaml,json}.</li>
-<li>The base level of each file contains provenance information plus
-the type-specific object:<ul>
+components and configurations.</p>
+</li>
+<li><p class="first">Most objects correspond to StationXML elements, but there are also objects to
+specify processing steps and to configure the instrumentation.</p>
+</li>
+<li><p class="first">Filenames are {<em>specific element</em>}.{<em>object</em>}.{yaml,json}.</p>
+</li>
+<li><p class="first">The base level of each file contains provenance information:</p>
+<ul class="simple">
 <li><tt class="docutils literal">format_version</tt> (REQUIRED): version of the information file format</li>
 <li><tt class="docutils literal">revision</tt> (REQUIRED): Who made the file and when</li>
 <li><tt class="docutils literal">yaml_anchors</tt> (optional):  Used to define YAML anchors (groups
 of objects that can be inserted elsewhere, reducing redundancy/errors)</li>
+</ul>
+<p>plus the type-specific object:</p>
+<ul class="simple">
 <li>{<em>object</em>}: same as in the filename</li>
 </ul>
 </li>
-<li>Any object can have the fields:<ul>
+<li><p class="first">The instrumentation file base level also has facility information</p>
+</li>
+<li><p class="first">Any object can have the fields:</p>
+<ul class="simple">
 <li><tt class="docutils literal">notes</tt>: Notes that will not be put into the StationXML file.</li>
 <li><tt class="docutils literal">extras</tt>: Fields that don't exist in the definition.</li>
 </ul>

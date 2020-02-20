@@ -192,29 +192,29 @@ class TestADDONSMethods(unittest.TestCase):
             "SPOBS2.instrumentation.yaml"))
         obj = Instrumentation.from_info_dict(A['instrumentation'])
 
-#     def test_InfoDict_update(self):
-#         """
-#         Test InfoDict.update()
-#         """
-#         A = InfoDict(a=1, b=dict(c=2, d=3))
-#         A.update(dict(b=dict(d=4, e=5)))
-#         self.assertTrue(A == InfoDict(a=1, b=dict(c=2, d=4, e=5)))
-#         
-# 
-#     def test_InfoDict_daschannels(self):
-#         """
-#         Test InfoDict.complete_das_channels()
-#         """
-#         A = InfoDict(base_channel=dict(a=1, b=dict(c=2, d=3)),
-#                      das_channels={'1': dict(b=dict(c=5)), '2': dict(a=4)})
-#         A.complete_das_channels()
-#         # print(A)
-#         self.assertTrue(
-#             A == InfoDict(
-#                 das_channels={'1': dict(a=1, b=dict(c=5, d=3)),
-#                               '2': dict(a=4, b=dict(c=2, d=3))}))
-#         
-# 
+    def test_InfoDict_update(self):
+        """
+        Test InfoDict.update()
+        """
+        A = InfoDict(a=1, b=dict(c=2, d=3))
+        A.update(dict(b=dict(d=4, e=5)))
+        self.assertTrue(A == InfoDict(a=1, b=dict(c=2, d=4, e=5)))
+        
+
+    def test_InfoDict_daschannels(self):
+        """
+        Test InfoDict.complete_das_channels()
+        """
+        A = InfoDict(base_channel=dict(a=1, b=dict(c=2, d=3)),
+                     das_channels={'1': dict(b=dict(c=5)), '2': dict(a=4)})
+        A.complete_das_channels()
+        # print(A)
+        self.assertTrue(
+            A == InfoDict(
+                das_channels={'1': dict(a=1, b=dict(c=5, d=3)),
+                              '2': dict(a=4, b=dict(c=2, d=3))}))
+        
+
 #     def test_InstrumentationConfiguration(self):
 #         """
 #         Test InstrumentationConfiguration
@@ -320,84 +320,56 @@ class TestADDONSMethods(unittest.TestCase):
 #                     excludes_attributes=excludes_attributes))
 #                 os.remove(stxml)
 
-#     def test_validate_networks(self):
-#         """
-#         Test validate network files
-#         """
-#         for fname in glob.glob(os.path.join(self.infofiles_path,
-#                                             "campaign",
-#                                             "*.network.yaml")):
-#             self.assertTrue(validate(fname,quiet=True))
-# 
-#     def test_validate_instrumentation(self):
-#         """
-#         Test validate instrumentation files
-#         """
-#         for fname in glob.glob(os.path.join(self.infofiles_path,
-#                                             "instrumentation",
-#                                             "*.instrumentation.yaml")):
-#             self.assertTrue(validate(fname,quiet=True))
-# 
-    def test_validate_dataloggers(self):
+    def test_validate_filters(self):
         """
-        Test validate datalogger files
+        Test validate filter files
         """
-        for fname in glob.glob(os.path.join(self.infofiles_path,
-                                            "instrumentation",
-                                            "dataloggers",
-                                            "*.datalogger.yaml")):
-            self.assertTrue(validate(fname,quiet=True))
-        for fname in glob.glob(os.path.join(self.infofiles_path,
-                                            "instrumentation",
-                                            "dataloggers",
-                                            "responses",
-                                            "*.response.yaml")):
-            self.assertTrue(validate(fname,quiet=True))
-        for fname in glob.glob(os.path.join(self.infofiles_path,
-                                            "instrumentation",
-                                            "dataloggers",
-                                            "responses",
-                                            "FIR",
-                                            "*.filter.yaml")):
-            self.assertTrue(validate(fname,quiet=True))
+        for ftype in ["PoleZeros", "FIR"]:
+            for fname in glob.glob(os.path.join(self.infofiles_path,
+                                                "instrumentation",
+                                                "*",
+                                                "responses",
+                                                ftype,
+                                                "*.filter.yaml")):
+                self.assertTrue(validate(fname,quiet=True))
 
-#     def test_validate_preamplifiers(self):
-#         """
-#         Test validate preamplifier files
-#         """
-#         for fname in glob.glob(os.path.join(self.infofiles_path,
-#                                             "instrumentation",
-#                                             "preamplifiers",
-#                                             "*.preamplifier.yaml")):
-#             self.assertTrue(validate(fname,quiet=True))
-#         for fname in glob.glob(os.path.join(self.infofiles_path,
-#                                             "instrumentation",
-#                                             "preamplifiers",
-#                                             "responses",
-#                                             "*.response.yaml")):
-#             self.assertTrue(validate(fname,quiet=True))
-# 
-    def test_validate_sensors(self):
+    def test_validate_responses(self):
         """
         Test validate sensor files
         """
+        for component_dir in ["sensors", "dataloggers", "preamplifiers"]:
+            glob_name = os.path.join(self.infofiles_path, "instrumentation",
+                                     component_dir, "responses",
+                                     "*.response.yaml")
+            for fname in glob.glob(glob_name):
+                self.assertTrue(validate(fname,quiet=True))
+
+    def test_validate_components(self):
+        """
+        Test validate instrument_component files
+        """
+        for component in ["sensor", "datalogger", "preamplifier"]:
+            glob_name = os.path.join(self.infofiles_path, "instrumentation",
+                                     component+'s', f"*.{component}.yaml")
+            for fname in glob.glob(glob_name):
+                self.assertTrue(validate(fname,quiet=True))
+
+    def test_validate_instrumentation(self):
+        """
+        Test validate instrumentation files
+        """
         for fname in glob.glob(os.path.join(self.infofiles_path,
                                             "instrumentation",
-                                            "sensors",
-                                            "*.sensor.yaml")):
+                                            "*.instrumentation.yaml")):
             self.assertTrue(validate(fname,quiet=True))
+
+    def test_validate_networks(self):
+        """
+        Test validate network files
+        """
         for fname in glob.glob(os.path.join(self.infofiles_path,
-                                            "instrumentation",
-                                            "sensors",
-                                            "responses",
-                                            "*.response.yaml")):
-            self.assertTrue(validate(fname,quiet=True))
-        for fname in glob.glob(os.path.join(self.infofiles_path,
-                                            "instrumentation",
-                                            "sensors",
-                                            "responses",
-                                            "PoleZeros",
-                                            "*.filter.yaml")):
+                                            "campaign",
+                                            "*.network.yaml")):
             self.assertTrue(validate(fname,quiet=True))
 
 

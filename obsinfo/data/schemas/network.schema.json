@@ -5,7 +5,7 @@
     "type": "object",
     "required": ["format_version","network" ],
     "properties": {
-        "format_version": {"$ref": "#/definitions/format_version"},
+        "format_version": {"$ref": "#/format_version"},
         "revision":       {"$ref": "definitions.schema.json#/revision"},
         "network":        {"$ref": "#/definitions/network"},
         "yaml_anchors":   {"$ref": "definitions.schema.json#/yaml_anchors"},
@@ -13,13 +13,13 @@
         "extras":         {"$ref": "definitions.schema.json#/extras"}
     },
     "additionalProperties" : false,
+    "format_version" : {
+        "anyOf": [
+            {"$ref": "definitions.schema.json#/format_version"},
+            {"type": "string","pattern": "^0\\.107$","comment":"version of last change to this schema"}
+        ]
+    },
     "definitions" : {
-        "format_version" : {
-            "anyOf": [
-                {"$ref": "definitions.schema.json#/format_version"},
-                {"type": "string","pattern": "^0\\.107$","comment":"version of last change to this schema"}
-            ]
-        },
         "network": {
             "type": "object",
             "required": [
@@ -193,7 +193,7 @@
                 "base":           {"$ref": "#/definitions/base_channel_mod"},
                 "by_das":         {"$ref": "#/definitions/channel_mods_map"},
                 "by_orientation": {"$ref": "#/definitions/channel_mods_map"},
-                "by_chan_mod":    {"$ref": "#/definitions/channel_mods_map"}
+                "by_chan_loc":    {"$ref": "#/definitions/channel_mods_map"}
             },
             "additionalProperties": false
         },
@@ -208,26 +208,41 @@
             "type": "object",
             "description": "spec/modification of one channel's properties",
             "properties" : {
-                "datalogger":    {"$ref": "#/definitions/instrument_component_struct"},
-                "sensor":        {"$ref": "#/definitions/instrument_component_struct"},
-                "preamplifier":  {"$ref": "#/definitions/instrument_component_struct"},
+                "datalogger":    {"$ref": "#/definitions/datalogger_struct"},
+                "sensor":        {"$ref": "#/definitions/sensor_struct"},
+                "preamplifier":  {"$ref": "#/definitions/preamplifier_struct"},
                 "location_code": {"$ref": "#/definitions/location_code"},
                 "start_date":    {"$ref": "definitions.schema.json#/date-time-Z" },
                 "end_date":      {"$ref": "definitions.schema.json#/date-time-Z" }
             },
             "additionalProperties" : false
         },
-       "base_channel_mod" : {
-            "allOf": [
-                {"$ref": "#/definitions/channel_mod"},
-                {"required": ["datalogger"]}
-            ]
-        },
-        "instrument_component_struct" : {  
+       "base_channel_mod" : { "$ref": "#/definitions/channel_mod"},
+        "datalogger_struct" : {  
             "type": "object",
             "description": "same as in instrumentation file, except 'code' not required",
             "properties" : {
-                "code":          {"type": "string"},
+                "base":          {"$ref": "datalogger.schema.json#/definitions/datalogger"},
+                "config":        {"type": "string"},
+                "serial_number": {"type": "string"}
+            },
+            "additionalProperties" : false
+        },
+        "sensor_struct" : {  
+            "type": "object",
+            "description": "same as in instrumentation file, except 'code' not required",
+            "properties" : {
+                "base":          {"$ref": "sensor.schema.json#/definitions/sensor"},
+                "config":        {"type": "string"},
+                "serial_number": {"type": "string"}
+            },
+            "additionalProperties" : false
+        },
+        "preamplifier_struct" : {  
+            "type": "object",
+            "description": "same as in instrumentation file, except 'code' not required",
+            "properties" : {
+                "base":          {"$ref": "preamplifier.schema.json#/definitions/preamplifier"},
                 "config":        {"type": "string"},
                 "serial_number": {"type": "string"}
             },

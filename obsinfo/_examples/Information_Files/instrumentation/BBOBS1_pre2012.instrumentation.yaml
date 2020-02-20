@@ -5,9 +5,8 @@ revision:
     authors:
         - {$ref: "../authors/Wayne_Crawford.author.yaml#author"}
         - {$ref: "../authors/Romuald_Daniel.author.yaml#author"}
-facility:
-    $ref: "INSU-IPGP.facility_info.yaml#facility_info"
 instrumentation:
+    facility: {$ref: "INSU-IPGP.facility_info.yaml#facility_info"}
     equipment:
         model: "BBOBS1"
         type: "Broadband Ocean Bottom Seismometer"

@@ -17,9 +17,9 @@ preamplifier:
     configuration_definitions:
         "0.225x":
             config_description: "0.225x gain"
-            response_stages:
+            responses_ordered:
                 - $ref: "responses/INSU_BBOBS_gain0.225_theoretical.response.yaml#response"
         "1x":
             config_description: "1x gain"
-            response_stages:
+            responses_ordered:
                 - $ref: "responses/INSU_BBOBS_gain1.0_theoretical.response.yaml#response"

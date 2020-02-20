@@ -25,3 +25,4 @@ MyTests
 *.jar
 *.xml
 mydist.sh
+information_files.html

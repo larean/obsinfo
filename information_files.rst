@@ -14,13 +14,15 @@ Basic principals
 
 - Filenames are {*specific element*}.{*object*}.{yaml,json}.
 
-- The base level of each file contains provenance information plus
-  the type-specific object:
+- The base level of each file contains provenance information: 
 
   - ``format_version`` (REQUIRED): version of the information file format
   - ``revision`` (REQUIRED): Who made the file and when
   - ``yaml_anchors`` (optional):  Used to define YAML anchors (groups
     of objects that can be inserted elsewhere, reducing redundancy/errors)
+    
+  plus the type-specific object:
+  
   - {*object*}: same as in the filename
 
 - Any object can have the fields:
@@ -261,6 +263,9 @@ Instrumentation
 Specify a scientfic instrument (OBS, field station), as equipment and channels
 
 Fields are:
+
+:``facility``: (optional) information about the facility managing this
+               instrumentation
 
 :``equipment``: Corresponds to StationXML Equipment object
   

@@ -19,7 +19,7 @@ datalogger:
         - $ref: "responses/Scripps_LCPO2000-CS5322_125sps_theoretical.response.yaml#response"
     sample_rate: 125
     delay_correction: 0.232
-    configs:
+    configuration_definitions:
         "62.5sps":
             config_description: "62.5 sps"
             sample_rate: 62.5

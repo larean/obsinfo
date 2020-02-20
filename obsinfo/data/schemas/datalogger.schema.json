@@ -32,7 +32,7 @@
                 "delay_correction":   {"$ref": "#/definitions/delay_correction"},
                 "serial_numbers":     {"$ref": "#/definitions/datalogger_serial_numbers_map"},
                 "config_description": {"type": "string"},
-                "configs":     {"$ref": "#/definitions/datalogger_configs_map"}
+                "configuration_definitions": {"$ref": "#/definitions/datalogger_configs_map"}
             },
             "additionalProperties": false
         },

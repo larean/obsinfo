@@ -21,14 +21,14 @@ setuptools.setup(
     install_requires=[
           'obspy>=1.1',
           'pyyaml>=3.0',
-          'jsonschema>=2.6'
+          'jsonschema>=2.6',
           'jsonref>=0.2'
       ],
     entry_points={
         'console_scripts': [
             'obsinfo-validate=obsinfo.misc.info_files:_validate_script',
             'obsinfo-print=obsinfo.misc.print:_print_script',
-            'obsinfo-makeSTATIONXML=obsinfo.network.network:_make_stationXML_script',
+            # 'obsinfo-makeSTATIONXML=obsinfo.network.network:_make_stationXML_script',
             'obsinfo-make_SDPCHAIN_scripts=obsinfo.addons.SDPCHAIN:_console_script',
             'obsinfo-make_LCHEAPO_scripts=obsinfo.addons.LCHEAPO:_console_script'
         ]

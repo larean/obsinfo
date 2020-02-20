@@ -32,10 +32,10 @@ Files refer to other files "downstream" using
   `JSON Pointers <https://tools.ietf.org/html/rfc6901>`_ syntax ("``$ref:``"), which we
   have expanded to also work on YAML files. [#]_
   
-.. [#] In the future, we could add a ``$config:`` key, which would
-  allowing the code to evaluate some of the ``config`` and ``serial_number``
-  information before reading in the referenced file.  This could reduce the
-  amount of information to read, but is it worth the added complexity?
+.. [#] A ``$config:`` key could allow the code to evaluate some of the
+  ``config`` and ``serial_number`` information before reading the
+  referenced file, which could reduce the amount of information to read.
+  Is it worth the added complexity?
 
 Configuration
 ===================================
@@ -52,7 +52,7 @@ and/or configurations, or direct entry of values to modify.
 
    - ``serial_number``
    - ``config``
-   or direct specification of the fields to change
+   - or direct specification of the fields to change
    
 ``config`` implements the corresponding ``config_definition`` and ``serial_number`` implements the corresponding ``serial_number_description`` AND sets the corresponding ``equipment:serial_number`` field.  The order of
 interpretation is ``serial_number``, then ``config``, then any direct specification.
@@ -108,8 +108,10 @@ different files for clarity, portability, and to avoid repetition (DRY).
 Typical file levels are Network, Instrumentation, Instrument Components
 (Sensors, Dataloggers and Preamplifiers), Responses and Filters.
 
+--------------------------------------------------------------------------------
+
 Network
-*********************************
+***************************************
 
 Specify the stations deployed by an OBS facility during an experiment.  Fields
 are:
@@ -128,8 +130,10 @@ are:
 :`stations`: descriptions of each station.  Subfields are objects with key = 
     {`STATION_NAME`} and value = `Station`_ object.
 
+--------------------------------------------------------------------------------
+
 Station
-*********************************
+***************************************
 
 Description of one station.
   
@@ -157,6 +161,8 @@ Description of one station.
 :`instruments`: List of `Instrumentation Configuration`_ s making up the
    station   
 
+--------------------------------------------------------------------------------
+
 Instrumentation Configuration
 *********************************
 A configured `Instrumentation`_ object
@@ -166,7 +172,7 @@ In the list below, later fields can modify earlier ones
 :`base`: An `Instrumentation`_ object
 
 Configuration Specification Fields (all optional)
------------------------------
+-------------------------------------------------
 
 :`serial_number`: Specify the `Instrumentation`_  serial number (and
     ``serial_number_definition`` if it exists)
@@ -205,9 +211,11 @@ Configuration Specification Fields (all optional)
       Use when a station has more than one channel with the same
       orientation code.
 
+--------------------------------------------------------------------------------
+
 Channel Configuration
 *********************************
-Specify `Instrument Channel`_ modificiations and deployment-specific information
+Specify `Channel`_ modificiations and deployment-specific information
 
 :`sensor`: Modifications to Sensor (see `Instrument Component Configuration`_)
 
@@ -222,14 +230,16 @@ Specify `Instrument Channel`_ modificiations and deployment-specific information
 :`end_date`: channel end date (if different from station)
               
 
+--------------------------------------------------------------------------------
+
 Instrument Component Configuration
-*********************************
+***************************************
 Specify `Instrument Component`_ modifications
 
 :`base`: Full Instrument Component description (see `Instrument Component`_)
 
 Configuration Specification Fields
------------------------------
+-------------------------------------------------
 
 :`config`: Activate `Instrument Component`_-level
     ``configuration_definition``
@@ -238,8 +248,10 @@ Configuration Specification Fields
     corresponding ``serial_number_definitions``, if they exist
               
 
+--------------------------------------------------------------------------------
+
 Instrumentation
-*********************************
+***************************************
 
 Specify a scientfic instrument (OBS, field station), as equipment and channels
 
@@ -258,7 +270,7 @@ Fields are:
                  replace those in `base_channel`
 
 Configuration Definition Fields
------------------------------
+-------------------------------------------------
 
 Modifications to the above-mentioned fields.
 
@@ -267,15 +279,17 @@ Modifications to the above-mentioned fields.
 :`serial_number_definitions`: serial number based modifications
    
 
+--------------------------------------------------------------------------------
+
 Channel
-*********************************
+***************************************
 
 Specify an Instrumentation Channel (Instrument Components and an
-orientation code). `Responses`_ for each Instrument component are stacked
+orientation code). `Response`_ objects for each Instrument component are stacked
 from sensor (top) to datalogger (bottom)
 
 Fields: 
------------------------------
+-------------------------------------------------
 :sensor:  Sensor Instrument_Component
 
 :preamplifier: Preamplifier Instrument_Component (optional)
@@ -284,23 +298,25 @@ Fields:
 
 :orientation_code: SEED orientation code.
 
+--------------------------------------------------------------------------------
+
 Instrument Component
-*********************************
+***************************************
 
 Specify an Instrument Component: `sensor`, `preamplifier` or `datalogger`.
 
 Shared fields:
------------------------------
+-------------------------------------------------
 
 :`equipment`: Corresponds to StationXML Equipment object
   
 :`config_description`: Description of the default configuration.  Can be left
                        empty if there is only one configuration.
 
-:`responses_ordered`: an ordered list of responses (see `Response Level`_)
+:`responses_ordered`: an ordered list of responses (see `Response`_)
 
 Configuration Definition Fields
----------------------
+-------------------------------------------------
 
 modifications to the above-mentioned fields (plus any specific to the given
 Instrument Component type).
@@ -311,7 +327,7 @@ Instrument Component type).
 
 
 Component-specific Fields: 
------------------------------
+-------------------------------------------------
 
 Datalogger
 ---------------------
@@ -345,8 +361,10 @@ Preamplifier
 ---------------------
 None
  
+--------------------------------------------------------------------------------
+
 Response
-*********************************
+***************************************
 
 :`stages`: List of response stages, most sub-elements are StationXML fields
 
@@ -370,19 +388,21 @@ Response
     
     :`filter`: `Filter`_ object
 
+--------------------------------------------------------------------------------
+
 Filter
-*********************************
+***************************************
 
 Description of a filter.  Keys depend on the ``type``
 
 Common fields:
------------------------------
+-------------------------------------------------
 
 :`type`: "`PolesZeros`", "`Coefficients`", "`ResponseList`",
          "`FIR`", "`ANALOG`", "`DIGITAL`" or "`AD_CONVERSION`"
 
 `PolesZeros`-specific fields:
--------------------------------
+-------------------------------------------------
 
 :`units`: string (only ``rad/s`` has been verified)
 
@@ -397,7 +417,7 @@ Common fields:
 
 
 `FIR`-specific fields:
--------------------------------
+-------------------------------------------------
 
 :`symmetry`: ``ODD``, ``EVEN`` or ``NONE``
 
@@ -410,7 +430,7 @@ Common fields:
 
 
 `Coefficients`-specific fields:
--------------------------------
+-------------------------------------------------
 
 :`transfer_function_type`: "`ANALOG (RADIANS/SECOND)`", "`ANALOG (HERTZ)`", or
                            "`DIGITAL`"
@@ -421,27 +441,27 @@ Common fields:
 
 
 `ResponseList`-specific fields:
--------------------------------
+-------------------------------------------------
 
 List of [frequency (Hz), amplitude, phase (degrees)] lists
 
 
 `ANALOG`-specific fields:
--------------------------------
+-------------------------------------------------
 
 None.  Becomes a StationXML `PolesZeros` stage without poles or zeros,
 ``normalization_freq`` = 0 and ``normalization_factor`` = 1.0
 
 
 `DIGITAL`-specific fields:
--------------------------------
+-------------------------------------------------
 
 None.  Becomes a StationXML `Coefficients` stage with 
 ``numerator = [1.0]`` and ``denominator = []``
 
 
 `AD_CONVERSION`-specific fields:
--------------------------------
+-------------------------------------------------
 
 :`input_full_scale`: full scale value (volts)
 

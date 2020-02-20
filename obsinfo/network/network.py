@@ -10,11 +10,12 @@ nomenclature:
 # Non-standard modules
 
 # obsinfo modules
-from .instrument_component import (Datalogger, Sensor, Preamplifier,
-                                   Equipment, InstrumentComponent)
+from ..instrumentation.instrument_component import (Datalogger, Sensor,
+                                                    Preamplifier, Equipment,
+                                                    InstrumentComponent)
 
 
-class Instrumentation(object):
+class Network(object):
     """
     One or more Instruments. Part of an obspy/StationXML Station
     """
@@ -43,7 +44,7 @@ class Instrumentation(object):
         return s
 
 
-class Instrument(object):
+class Station(object):
     """
     Instrument Class.
 

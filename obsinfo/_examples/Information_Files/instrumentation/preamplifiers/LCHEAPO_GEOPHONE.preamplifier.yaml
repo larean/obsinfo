@@ -14,6 +14,6 @@ preamplifier:
     config_description: "128x gain"
     responses_ordered:
         - $ref: "responses/INSU_SPOBS_L28x128_theoretical.response.yaml#response"
-    configs:
+    configuration_definitions:
         "128x":
             config_description: "128x gain"

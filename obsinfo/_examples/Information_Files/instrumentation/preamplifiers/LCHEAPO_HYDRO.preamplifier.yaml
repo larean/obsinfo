@@ -14,7 +14,7 @@ preamplifier:
     config_description: "64x gain"
     responses_ordered:
         - $ref: "responses/Scripps_SPOBS_HydroL22x64_theoretical.response.yaml#response"
-    configs:
+    configuration_definitions:
         "16x":
             config_description: "32x gain"
             response_stages:

@@ -459,20 +459,20 @@ are:</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name"><cite>facility</cite>:</th><td class="field-body">Basic information about the OBS facility.  <tt class="docutils literal">ref_name</tt> should
+<tr class="field"><th class="field-name"><tt class="docutils literal">facility</tt>:</th><td class="field-body">Basic information about the OBS facility.  <tt class="docutils literal">ref_name</tt> should
 match the second field in the filename.  <tt class="docutils literal">full_name</tt> will be
 put in the StationXML file</td>
 </tr>
-<tr class="field"><th class="field-name" colspan="2"><cite>campaign_ref_name</cite>:</th></tr>
+<tr class="field"><th class="field-name" colspan="2"><tt class="docutils literal">campaign_ref_name</tt>:</th></tr>
 <tr class="field"><td>&nbsp;</td><td class="field-body">Should match the <tt class="docutils literal">reference_name</tt> field in the
 Campaign file</td>
 </tr>
-<tr class="field"><th class="field-name"><cite>network_info</cite>:</th><td class="field-body">FDSN network information.  If you have declared a network
+<tr class="field"><th class="field-name"><tt class="docutils literal">network_info</tt>:</th><td class="field-body">FDSN network information.  If you have declared a network
 with FDSN, the contents of these fields should match the
 values on the FDSN website</td>
 </tr>
-<tr class="field"><th class="field-name"><cite>stations</cite>:</th><td class="field-body">descriptions of each station.  Subfields are objects with key =
-{<cite>STATION_NAME</cite>} and value = <a class="reference internal" href="#station">Station</a> object.</td>
+<tr class="field"><th class="field-name"><tt class="docutils literal">stations</tt>:</th><td class="field-body">descriptions of each station.  Subfields are objects with key =
+{<tt class="docutils literal">STATION_NAME</tt>} and value = <a class="reference internal" href="#station">Station</a> object.</td>
 </tr>
 </tbody>
 </table>
@@ -485,28 +485,28 @@ values on the FDSN website</td>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name"><cite>site</cite>:</th><td class="field-body">StationXML &quot;site&quot; field</td>
+<tr class="field"><th class="field-name"><tt class="docutils literal">site</tt>:</th><td class="field-body">StationXML &quot;site&quot; field</td>
 </tr>
-<tr class="field"><th class="field-name"><cite>start_date</cite>:</th><td class="field-body">StationXML station <tt class="docutils literal">start_date</tt> field.  Also used for
+<tr class="field"><th class="field-name"><tt class="docutils literal">start_date</tt>:</th><td class="field-body">StationXML station <tt class="docutils literal">start_date</tt> field.  Also used for
 channels if they are not separately entered</td>
 </tr>
-<tr class="field"><th class="field-name"><cite>end_date</cite>:</th><td class="field-body">StationXML station <tt class="docutils literal">end_date</tt> field.</td>
+<tr class="field"><th class="field-name"><tt class="docutils literal">end_date</tt>:</th><td class="field-body">StationXML station <tt class="docutils literal">end_date</tt> field.</td>
 </tr>
-<tr class="field"><th class="field-name"><cite>location_code</cite>:</th><td class="field-body">Station location code.  Will also be used for
+<tr class="field"><th class="field-name"><tt class="docutils literal">location_code</tt>:</th><td class="field-body">Station location code.  Will also be used for
 channels if they are not separately entered.</td>
 </tr>
-<tr class="field"><th class="field-name"><cite>locations</cite>:</th><td class="field-body">descriptions of each location code:  fields are the same
+<tr class="field"><th class="field-name"><tt class="docutils literal">locations</tt>:</th><td class="field-body">descriptions of each location code:  fields are the same
 as in StationXML except <tt class="docutils literal">uncertainties.m</tt> (all values are in
 meters) and <tt class="docutils literal">localisation_method</tt> (description of how the
 location was determined)</td>
 </tr>
-<tr class="field"><th class="field-name"><cite>processing</cite>:</th><td class="field-body">Provenance information about how the data was transformed from
+<tr class="field"><th class="field-name"><tt class="docutils literal">processing</tt>:</th><td class="field-body">Provenance information about how the data was transformed from
 raw to the final version.  There is no corresponds field in
 StationXML, so subfields are saved as StationXML comments</td>
 </tr>
-<tr class="field"><th class="field-name"><cite>extras</cite>:</th><td class="field-body">Subfields are saved to StationXML comments.</td>
+<tr class="field"><th class="field-name"><tt class="docutils literal">extras</tt>:</th><td class="field-body">Subfields are saved to StationXML comments.</td>
 </tr>
-<tr class="field"><th class="field-name"><cite>instruments</cite>:</th><td class="field-body">List of <a class="reference internal" href="#instrumentation-configuration">Instrumentation Configuration</a> s making up the
+<tr class="field"><th class="field-name"><tt class="docutils literal">instruments</tt>:</th><td class="field-body">List of <a class="reference internal" href="#instrumentation-configuration">Instrumentation Configuration</a> s making up the
 station</td>
 </tr>
 </tbody>
@@ -521,7 +521,7 @@ station</td>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name"><cite>base</cite>:</th><td class="field-body">An <a class="reference internal" href="#instrumentation">Instrumentation</a> object</td>
+<tr class="field"><th class="field-name"><tt class="docutils literal">base</tt>:</th><td class="field-body">An <a class="reference internal" href="#instrumentation">Instrumentation</a> object</td>
 </tr>
 </tbody>
 </table>
@@ -531,60 +531,66 @@ station</td>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name"><cite>serial_number</cite>:</th><td class="field-body"><p class="first">Specify the <a class="reference internal" href="#instrumentation">Instrumentation</a>  serial number (and
+<tr class="field"><th class="field-name"><tt class="docutils literal">serial_number</tt>:</th><td class="field-body"><p class="first">Specify the <a class="reference internal" href="#instrumentation">Instrumentation</a>  serial number (and
 <tt class="docutils literal">serial_number_definition</tt> if it exists)</p>
 </td>
 </tr>
-<tr class="field"><th class="field-name"><cite>config</cite>:</th><td class="field-body"><p class="first">Specify the <a class="reference internal" href="#instrumentation">Instrumentation</a> <tt class="docutils literal">configuration_definition</tt></p>
+<tr class="field"><th class="field-name"><tt class="docutils literal">config</tt>:</th><td class="field-body"><p class="first">Specify the <a class="reference internal" href="#instrumentation">Instrumentation</a> <tt class="docutils literal">configuration_definition</tt></p>
 </td>
 </tr>
-<tr class="field"><th class="field-name" colspan="2"><cite>datalogger_config</cite>:</th></tr>
+<tr class="field"><th class="field-name" colspan="2"><tt class="docutils literal">datalogger_config</tt>:</th></tr>
 <tr class="field"><td>&nbsp;</td><td class="field-body"><p class="first">Specify the <a class="reference internal" href="#datalogger">Datalogger</a> <tt class="docutils literal">configuration_definition</tt>
 for all channels (shortcut for
 <tt class="docutils literal">channel_mods: {base: {datalogger: config}}</tt></p>
 </td>
 </tr>
-<tr class="field"><th class="field-name" colspan="2"><cite>datalogger_serial_number</cite>:</th></tr>
+<tr class="field"><th class="field-name" colspan="2"><tt class="docutils literal">datalogger_serial_number</tt>:</th></tr>
 <tr class="field"><td>&nbsp;</td><td class="field-body"><p class="first">Specify the <a class="reference internal" href="#datalogger">Datalogger</a> <tt class="docutils literal">serial_number</tt> (and
 <tt class="docutils literal">serial_number_definition</tt> if it exists).  Shortcut for
 <tt class="docutils literal">channel_mods: {base: {datalogger: serial_number}}</tt></p>
 </td>
 </tr>
-<tr class="field"><th class="field-name"><cite>sensor_config</cite>:</th><td class="field-body"><p class="first">Shortcut for
+<tr class="field"><th class="field-name"><tt class="docutils literal">sensor_config</tt>:</th><td class="field-body"><p class="first">Shortcut for
 <tt class="docutils literal">channel_mods: {base: {sensor: config}}</tt></p>
 </td>
 </tr>
-<tr class="field"><th class="field-name" colspan="2"><cite>sensor_serial_number</cite>:</th></tr>
+<tr class="field"><th class="field-name" colspan="2"><tt class="docutils literal">sensor_serial_number</tt>:</th></tr>
 <tr class="field"><td>&nbsp;</td><td class="field-body"><p class="first">Shortcut for
 <tt class="docutils literal">channel_mods: {base: {sensor: serial_number}}</tt></p>
 </td>
 </tr>
-<tr class="field"><th class="field-name" colspan="2"><cite>preamplifier_config</cite>:</th></tr>
+<tr class="field"><th class="field-name" colspan="2"><tt class="docutils literal">preamplifier_config</tt>:</th></tr>
 <tr class="field"><td>&nbsp;</td><td class="field-body"><p class="first">Shortcut for
 <tt class="docutils literal">channel_mods: {base: {preamplifier: config}}</tt></p>
 </td>
 </tr>
-<tr class="field"><th class="field-name" colspan="2"><cite>preamplifier_serial_number</cite>:</th></tr>
+<tr class="field"><th class="field-name" colspan="2"><tt class="docutils literal">preamplifier_serial_number</tt>:</th></tr>
 <tr class="field"><td>&nbsp;</td><td class="field-body"><p class="first">Shortcut for
 <tt class="docutils literal">channel_mods: {base: {preamplifier: serial_number}}</tt></p>
 </td>
 </tr>
-<tr class="field"><th class="field-name"><cite>channel_mods</cite>:</th><td class="field-body"><p class="first">Specify <a class="reference internal" href="#channel">Channel</a> configurations.</p>
+<tr class="field"><th class="field-name"><tt class="docutils literal">channel_mods</tt>:</th><td class="field-body"><p class="first">Specify <a class="reference internal" href="#channel">Channel</a> configurations.</p>
 <table class="last docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name"><cite>base</cite>:</th><td class="field-body"><a class="reference internal" href="#channel-configuration">Channel Configuration</a> applied to all channels.</td>
+<tr class="field"><th class="field-name"><tt class="docutils literal">base</tt>:</th><td class="field-body"><a class="reference internal" href="#channel-configuration">Channel Configuration</a> applied to all channels.</td>
 </tr>
-<tr class="field"><th class="field-name" colspan="2"><cite>by_orientation/{ORIENTATION-CODE}</cite>:</th></tr>
+<tr class="field"><th class="field-name" colspan="2"><tt class="docutils literal">by_orientation</tt>/{ORIENTATION-CODE}:</th></tr>
 <tr class="field"><td>&nbsp;</td><td class="field-body"><a class="reference internal" href="#channel-configuration">Channel Configuration</a> applied to
 individual channels, keyed by their SEED orientation code</td>
 </tr>
-<tr class="field"><th class="field-name" colspan="2"><cite>by_das/{DAS-CODE}</cite>:</th></tr>
+<tr class="field"><th class="field-name" colspan="2"><tt class="docutils literal">by_das</tt>/{DAS-CODE}``:</th></tr>
 <tr class="field"><td>&nbsp;</td><td class="field-body"><a class="reference internal" href="#channel-configuration">Channel Configuration</a> applied to individual channels,
 keyed by their data acquisition system (DAS) code.
 Use when a station has more than one channel with the same
 orientation code.</td>
+</tr>
+<tr class="field"><th class="field-name" colspan="2"><tt class="docutils literal">by_chan_loc</tt>/{CHAN_LOC}:</th></tr>
+<tr class="field"><td>&nbsp;</td><td class="field-body"><a class="reference internal" href="#channel-configuration">Channel Configuration</a> applied to individual
+channels, keyed by their channel and location codes.
+Alternative to <tt class="docutils literal">by_das</tt>, when it's easier/clearer to write out
+channel_location codes</td>
 </tr>
 </tbody>
 </table>
@@ -602,17 +608,17 @@ orientation code.</td>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name"><cite>sensor</cite>:</th><td class="field-body">Modifications to Sensor (see <a class="reference internal" href="#instrument-component-configuration">Instrument Component Configuration</a>)</td>
+<tr class="field"><th class="field-name"><tt class="docutils literal">sensor</tt>:</th><td class="field-body">Modifications to Sensor (see <a class="reference internal" href="#instrument-component-configuration">Instrument Component Configuration</a>)</td>
 </tr>
-<tr class="field"><th class="field-name"><cite>datalogger</cite>:</th><td class="field-body">Modifications to Datalogger (see <a class="reference internal" href="#instrument-component-configuration">Instrument Component Configuration</a>)</td>
+<tr class="field"><th class="field-name"><tt class="docutils literal">datalogger</tt>:</th><td class="field-body">Modifications to Datalogger (see <a class="reference internal" href="#instrument-component-configuration">Instrument Component Configuration</a>)</td>
 </tr>
-<tr class="field"><th class="field-name"><cite>preamplifier</cite>:</th><td class="field-body">Modifications to Preamplifier (see <a class="reference internal" href="#instrument-component-configuration">Instrument Component Configuration</a>)</td>
+<tr class="field"><th class="field-name"><tt class="docutils literal">preamplifier</tt>:</th><td class="field-body">Modifications to Preamplifier (see <a class="reference internal" href="#instrument-component-configuration">Instrument Component Configuration</a>)</td>
 </tr>
-<tr class="field"><th class="field-name"><cite>location_code</cite>:</th><td class="field-body">Channel's location code</td>
+<tr class="field"><th class="field-name"><tt class="docutils literal">location_code</tt>:</th><td class="field-body">Channel's location code</td>
 </tr>
-<tr class="field"><th class="field-name"><cite>start_date</cite>:</th><td class="field-body">Channel start date (if different from station)</td>
+<tr class="field"><th class="field-name"><tt class="docutils literal">start_date</tt>:</th><td class="field-body">Channel start date (if different from station)</td>
 </tr>
-<tr class="field"><th class="field-name"><cite>end_date</cite>:</th><td class="field-body">channel end date (if different from station)</td>
+<tr class="field"><th class="field-name"><tt class="docutils literal">end_date</tt>:</th><td class="field-body">channel end date (if different from station)</td>
 </tr>
 </tbody>
 </table>
@@ -625,7 +631,7 @@ orientation code.</td>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name"><cite>base</cite>:</th><td class="field-body">Full Instrument Component description (see <a class="reference internal" href="#instrument-component">Instrument Component</a>)</td>
+<tr class="field"><th class="field-name"><tt class="docutils literal">base</tt>:</th><td class="field-body">Full Instrument Component description (see <a class="reference internal" href="#instrument-component">Instrument Component</a>)</td>
 </tr>
 </tbody>
 </table>
@@ -635,10 +641,10 @@ orientation code.</td>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name"><cite>config</cite>:</th><td class="field-body">Activate <a class="reference internal" href="#instrument-component">Instrument Component</a>-level
+<tr class="field"><th class="field-name"><tt class="docutils literal">config</tt>:</th><td class="field-body">Activate <a class="reference internal" href="#instrument-component">Instrument Component</a>-level
 <tt class="docutils literal">configuration_definition</tt></td>
 </tr>
-<tr class="field"><th class="field-name"><cite>serial_number</cite>:</th><td class="field-body">Specify Instrument Component serial number and apply
+<tr class="field"><th class="field-name"><tt class="docutils literal">serial_number</tt>:</th><td class="field-body">Specify Instrument Component serial number and apply
 corresponding <tt class="docutils literal">serial_number_definitions</tt>, if they exist</td>
 </tr>
 </tbody>
@@ -654,18 +660,18 @@ corresponding <tt class="docutils literal">serial_number_definitions</tt>, if th
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name"><cite>equipment</cite>:</th><td class="field-body">Corresponds to StationXML Equipment object</td>
+<tr class="field"><th class="field-name"><tt class="docutils literal">equipment</tt>:</th><td class="field-body">Corresponds to StationXML Equipment object</td>
 </tr>
-<tr class="field"><th class="field-name"><cite>base_channel</cite>:</th><td class="field-body">(optional) A <a class="reference internal" href="#channel">Channel</a> object.
+<tr class="field"><th class="field-name"><tt class="docutils literal">base_channel</tt>:</th><td class="field-body">(optional) A <a class="reference internal" href="#channel">Channel</a> object.
 Simplifies specifying <tt class="docutils literal">das_channels</tt> (below) if
 the same datalogger|preamplifier|sensor is used on more than
 one channel.  Choose the most common instrumentation channel
 (for example, many seismometers have the same sensor
-description on three channels).  The &quot;<cite>orientation_code</cite>&quot;
+description on three channels).  The &quot;<tt class="docutils literal">orientation_code</tt>&quot;
 subfield is ignored.</td>
 </tr>
-<tr class="field"><th class="field-name"><cite>das_channels</cite>:</th><td class="field-body">A possibly incomplete <a class="reference internal" href="#channel">Channel</a> object.  Values provided
-replace those in <cite>base_channel</cite></td>
+<tr class="field"><th class="field-name"><tt class="docutils literal">das_channels</tt>:</th><td class="field-body">A possibly incomplete <a class="reference internal" href="#channel">Channel</a> object.  Values provided
+replace those in <tt class="docutils literal">base_channel</tt></td>
 </tr>
 </tbody>
 </table>
@@ -676,10 +682,10 @@ replace those in <cite>base_channel</cite></td>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2"><cite>configuration_definitions</cite>:</th></tr>
+<tr class="field"><th class="field-name" colspan="2"><tt class="docutils literal">configuration_definitions</tt>:</th></tr>
 <tr class="field"><td>&nbsp;</td><td class="field-body">optional configurations</td>
 </tr>
-<tr class="field"><th class="field-name" colspan="2"><cite>serial_number_definitions</cite>:</th></tr>
+<tr class="field"><th class="field-name" colspan="2"><tt class="docutils literal">serial_number_definitions</tt>:</th></tr>
 <tr class="field"><td>&nbsp;</td><td class="field-body">serial number based modifications</td>
 </tr>
 </tbody>
@@ -698,13 +704,21 @@ from sensor (top) to datalogger (bottom)</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name">sensor:</th><td class="field-body">Sensor Instrument_Component</td>
+<tr class="field"><th class="field-name"><tt class="docutils literal">sensor</tt>:</th><td class="field-body">Sensor Instrument_Component</td>
 </tr>
-<tr class="field"><th class="field-name">preamplifier:</th><td class="field-body">Preamplifier Instrument_Component (optional)</td>
+<tr class="field"><th class="field-name"><tt class="docutils literal">preamplifier</tt>:</th><td class="field-body">(optional) Preamplifier Instrument_Component</td>
 </tr>
-<tr class="field"><th class="field-name">datalogger:</th><td class="field-body">Datalogger Instrument_Component</td>
+<tr class="field"><th class="field-name"><tt class="docutils literal">datalogger</tt>:</th><td class="field-body">Datalogger Instrument_Component</td>
 </tr>
-<tr class="field"><th class="field-name" colspan="2">orientation_code:</th></tr>
+<tr class="field"><th class="field-name" colspan="2"><tt class="docutils literal">preamlifier_config</tt>:</th></tr>
+<tr class="field"><td>&nbsp;</td><td class="field-body">(optional) preamplifier configuration code</td>
+</tr>
+<tr class="field"><th class="field-name"><tt class="docutils literal">sensor_config</tt>:</th><td class="field-body">(optional) sensor configuration code</td>
+</tr>
+<tr class="field"><th class="field-name" colspan="2"><tt class="docutils literal">datalogger_config</tt>:</th></tr>
+<tr class="field"><td>&nbsp;</td><td class="field-body">(optional) datalogger configuration code</td>
+</tr>
+<tr class="field"><th class="field-name" colspan="2"><tt class="docutils literal">orientation_code</tt>:</th></tr>
 <tr class="field"><td>&nbsp;</td><td class="field-body">SEED orientation code.</td>
 </tr>
 </tbody>
@@ -714,20 +728,20 @@ from sensor (top) to datalogger (bottom)</p>
 <hr class="docutils" />
 <div class="section" id="instrument-component">
 <h2>Instrument Component</h2>
-<p>Specify an Instrument Component: <cite>sensor</cite>, <cite>preamplifier</cite> or <cite>datalogger</cite>.</p>
+<p>Specify an Instrument Component: <tt class="docutils literal">sensor</tt>, <tt class="docutils literal">preamplifier</tt> or <tt class="docutils literal">datalogger</tt>.</p>
 <div class="section" id="shared-fields">
 <h3>Shared fields:</h3>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name"><cite>equipment</cite>:</th><td class="field-body">Corresponds to StationXML Equipment object</td>
+<tr class="field"><th class="field-name"><tt class="docutils literal">equipment</tt>:</th><td class="field-body">Corresponds to StationXML Equipment object</td>
 </tr>
-<tr class="field"><th class="field-name" colspan="2"><cite>config_description</cite>:</th></tr>
+<tr class="field"><th class="field-name" colspan="2"><tt class="docutils literal">config_description</tt>:</th></tr>
 <tr class="field"><td>&nbsp;</td><td class="field-body">Description of the default configuration.  Can be left
 empty if there is only one configuration.</td>
 </tr>
-<tr class="field"><th class="field-name" colspan="2"><cite>responses_ordered</cite>:</th></tr>
+<tr class="field"><th class="field-name" colspan="2"><tt class="docutils literal">responses_ordered</tt>:</th></tr>
 <tr class="field"><td>&nbsp;</td><td class="field-body">an ordered list of responses (see <a class="reference internal" href="#response">Response</a>)</td>
 </tr>
 </tbody>
@@ -741,10 +755,10 @@ Instrument Component type).</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2"><cite>serial_number_definitions</cite>:</th></tr>
+<tr class="field"><th class="field-name" colspan="2"><tt class="docutils literal">serial_number_definitions</tt>:</th></tr>
 <tr class="field"><td>&nbsp;</td><td class="field-body">serial-number based modifications</td>
 </tr>
-<tr class="field"><th class="field-name" colspan="2"><cite>configuration_definitions</cite>:</th></tr>
+<tr class="field"><th class="field-name" colspan="2"><tt class="docutils literal">configuration_definitions</tt>:</th></tr>
 <tr class="field"><td>&nbsp;</td><td class="field-body">optional configurations</td>
 </tr>
 </tbody>
@@ -759,10 +773,10 @@ Instrument Component type).</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name"><cite>sample_rate</cite>:</th><td class="field-body"><p class="first">samples per second</p>
+<tr class="field"><th class="field-name"><tt class="docutils literal">sample_rate</tt>:</th><td class="field-body"><p class="first">samples per second</p>
 </td>
 </tr>
-<tr class="field"><th class="field-name" colspan="2"><cite>delay_correction</cite>:</th></tr>
+<tr class="field"><th class="field-name" colspan="2"><tt class="docutils literal">delay_correction</tt>:</th></tr>
 <tr class="field"><td>&nbsp;</td><td class="field-body"><p class="first">time correction applied to data to compensate FIR delay:</p>
 <table class="last docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -771,10 +785,10 @@ Instrument Component type).</p>
 <tr class="field"><th class="field-name">numeric:</th><td class="field-body">seconds delay to specify in last stage (for software correction
 of delay)</td>
 </tr>
-<tr class="field"><th class="field-name">True:</th><td class="field-body">specify a correction in each stage corresponding to the specified
+<tr class="field"><th class="field-name"><tt class="docutils literal">True</tt>:</th><td class="field-body">specify a correction in each stage corresponding to the specified
 delay in that stage</td>
 </tr>
-<tr class="field"><th class="field-name">False:</th><td class="field-body">No correction will be specified (same as numeric = 0)</td>
+<tr class="field"><th class="field-name"><tt class="docutils literal">False</tt>:</th><td class="field-body">No correction will be specified (same as numeric = 0)</td>
 </tr>
 </tbody>
 </table>
@@ -789,28 +803,28 @@ delay in that stage</td>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name"><cite>seed_codes</cite>:</th><td class="field-body"><p class="first">SEED codes to give to channels using this sensor</p>
+<tr class="field"><th class="field-name"><tt class="docutils literal">seed_codes</tt>:</th><td class="field-body"><p class="first">SEED codes to give to channels using this sensor</p>
 <table class="last docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name"><cite>band_base</cite>:</th><td class="field-body"><p class="first">Base SEED band code: &quot;B&quot; for broadband, &quot;S&quot; for short
+<tr class="field"><th class="field-name"><tt class="docutils literal">band_base</tt>:</th><td class="field-body"><p class="first">Base SEED band code: &quot;B&quot; for broadband, &quot;S&quot; for short
 period: obsinfo will determine the sample-rate-dependent band
 codes to use for a given acquisition channel.</p>
 </td>
 </tr>
-<tr class="field"><th class="field-name"><cite>instrument</cite>:</th><td class="field-body"><p class="first">SEED instrument code</p>
+<tr class="field"><th class="field-name"><tt class="docutils literal">instrument</tt>:</th><td class="field-body"><p class="first">SEED instrument code</p>
 </td>
 </tr>
-<tr class="field"><th class="field-name"><cite>orientation</cite>:</th><td class="field-body"><p class="first">SEED orientation codes that can be associated with this
+<tr class="field"><th class="field-name"><tt class="docutils literal">orientation</tt>:</th><td class="field-body"><p class="first">SEED orientation codes that can be associated with this
 sensor. Each code is a key for an object containing:</p>
 <table class="last docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name"><cite>azimuth.deg</cite>:</th><td class="field-body">2-element array of [value, uncertainty]</td>
+<tr class="field"><th class="field-name"><tt class="docutils literal">azimuth.deg</tt>:</th><td class="field-body">2-element array of [value, uncertainty]</td>
 </tr>
-<tr class="field"><th class="field-name"><cite>dip.deg</cite>:</th><td class="field-body">2-element array of [value, uncertainty]</td>
+<tr class="field"><th class="field-name"><tt class="docutils literal">dip.deg</tt>:</th><td class="field-body">2-element array of [value, uncertainty]</td>
 </tr>
 </tbody>
 </table>
@@ -835,33 +849,33 @@ sensor. Each code is a key for an object containing:</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name"><cite>stages</cite>:</th><td class="field-body"><p class="first">List of response stages, most sub-elements are StationXML fields</p>
+<tr class="field"><th class="field-name"><tt class="docutils literal">stages</tt>:</th><td class="field-body"><p class="first">List of response stages, most sub-elements are StationXML fields</p>
 <table class="last docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name"><cite>description</cite>:</th><td class="field-body">string</td>
+<tr class="field"><th class="field-name"><tt class="docutils literal">description</tt>:</th><td class="field-body">string</td>
 </tr>
-<tr class="field"><th class="field-name"><cite>name</cite>:</th><td class="field-body">string [<tt class="docutils literal">None</tt>]</td>
+<tr class="field"><th class="field-name"><tt class="docutils literal">name</tt>:</th><td class="field-body">string [<tt class="docutils literal">None</tt>]</td>
 </tr>
-<tr class="field"><th class="field-name"><cite>input_units</cite>:</th><td class="field-body">object with fields <tt class="docutils literal">name</tt> and <tt class="docutils literal">description</tt></td>
+<tr class="field"><th class="field-name"><cite>input_units`</cite>:</th><td class="field-body">object with fields <tt class="docutils literal">name</tt> and <tt class="docutils literal">description</tt></td>
 </tr>
-<tr class="field"><th class="field-name"><cite>output_units</cite>:</th><td class="field-body">object with fields <tt class="docutils literal">name</tt> and <tt class="docutils literal">description</tt></td>
+<tr class="field"><th class="field-name"><tt class="docutils literal">output_units</tt>:</th><td class="field-body">object with fields <tt class="docutils literal">name</tt> and <tt class="docutils literal">description</tt></td>
 </tr>
-<tr class="field"><th class="field-name"><cite>gain</cite>:</th><td class="field-body">object with fields <tt class="docutils literal">value</tt> and <tt class="docutils literal">frequency</tt></td>
+<tr class="field"><th class="field-name"><tt class="docutils literal">gain</tt>:</th><td class="field-body">object with fields <tt class="docutils literal">value</tt> and <tt class="docutils literal">frequency</tt></td>
 </tr>
-<tr class="field"><th class="field-name" colspan="2"><cite>decimation_factor</cite>:</th></tr>
+<tr class="field"><th class="field-name" colspan="2"><tt class="docutils literal">decimation_factor</tt>:</th></tr>
 <tr class="field"><td>&nbsp;</td><td class="field-body">factor by which this stage decimates data [1]</td>
 </tr>
-<tr class="field"><th class="field-name" colspan="2"><cite>output_sample_rate</cite>:</th></tr>
+<tr class="field"><th class="field-name" colspan="2"><tt class="docutils literal">output_sample_rate</tt>:</th></tr>
 <tr class="field"><td>&nbsp;</td><td class="field-body">output sample rate [sps]</td>
 </tr>
-<tr class="field"><th class="field-name"><cite>delay</cite>:</th><td class="field-body">Delay in seconds of the stage [0]</td>
+<tr class="field"><th class="field-name"><tt class="docutils literal">delay</tt>:</th><td class="field-body">Delay in seconds of the stage [0]</td>
 </tr>
-<tr class="field"><th class="field-name" colspan="2"><cite>calibration_date</cite>:</th></tr>
+<tr class="field"><th class="field-name" colspan="2"><tt class="docutils literal">calibration_date</tt>:</th></tr>
 <tr class="field"><td>&nbsp;</td><td class="field-body">date of calibration that gave this response [<cite>None</cite>]</td>
 </tr>
-<tr class="field"><th class="field-name"><cite>filter</cite>:</th><td class="field-body"><a class="reference internal" href="#filter">Filter</a> object</td>
+<tr class="field"><th class="field-name"><tt class="docutils literal">filter</tt>:</th><td class="field-body"><a class="reference internal" href="#filter">Filter</a> object</td>
 </tr>
 </tbody>
 </table>
@@ -880,8 +894,8 @@ sensor. Each code is a key for an object containing:</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name"><cite>type</cite>:</th><td class="field-body">&quot;<cite>PolesZeros</cite>&quot;, &quot;<cite>Coefficients</cite>&quot;, &quot;<cite>ResponseList</cite>&quot;,
-&quot;<cite>FIR</cite>&quot;, &quot;<cite>ANALOG</cite>&quot;, &quot;<cite>DIGITAL</cite>&quot; or &quot;<cite>AD_CONVERSION</cite>&quot;</td>
+<tr class="field"><th class="field-name"><tt class="docutils literal">type</tt>:</th><td class="field-body">&quot;<tt class="docutils literal">PolesZeros</tt>&quot;, &quot;<tt class="docutils literal">Coefficients</tt>&quot;, &quot;<tt class="docutils literal">ResponseList</tt>&quot;,
+&quot;<tt class="docutils literal">FIR</tt>&quot;, &quot;<tt class="docutils literal">ANALOG</tt>&quot;, &quot;<tt class="docutils literal">DIGITAL</tt>&quot; or &quot;<tt class="docutils literal">AD_CONVERSION</tt>&quot;</td>
 </tr>
 </tbody>
 </table>
@@ -892,17 +906,17 @@ sensor. Each code is a key for an object containing:</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name"><cite>units</cite>:</th><td class="field-body">string (only <tt class="docutils literal">rad/s</tt> has been verified)</td>
+<tr class="field"><th class="field-name"><tt class="docutils literal">units</tt>:</th><td class="field-body">string (only <tt class="docutils literal">rad/s</tt> has been verified)</td>
 </tr>
-<tr class="field"><th class="field-name"><cite>poles</cite>:</th><td class="field-body">List of poles in the above units.  Each elements is a 2-element array
+<tr class="field"><th class="field-name"><tt class="docutils literal">poles</tt>:</th><td class="field-body">List of poles in the above units.  Each elements is a 2-element array
 containing the real and imaginary parts</td>
 </tr>
-<tr class="field"><th class="field-name"><cite>zeros</cite>:</th><td class="field-body">List of zeros, specified as above</td>
+<tr class="field"><th class="field-name"><tt class="docutils literal">zeros</tt>:</th><td class="field-body">List of zeros, specified as above</td>
 </tr>
-<tr class="field"><th class="field-name" colspan="2"><cite>normalization_frequency</cite>:</th></tr>
+<tr class="field"><th class="field-name" colspan="2"><tt class="docutils literal">normalization_frequency</tt>:</th></tr>
 <tr class="field"><td>&nbsp;</td><td class="field-body">As in StationXML</td>
 </tr>
-<tr class="field"><th class="field-name" colspan="2"><cite>normatlization_factor</cite>:</th></tr>
+<tr class="field"><th class="field-name" colspan="2"><tt class="docutils literal">normatlization_factor</tt>:</th></tr>
 <tr class="field"><td>&nbsp;</td><td class="field-body">As in StationXML</td>
 </tr>
 </tbody>
@@ -914,13 +928,13 @@ containing the real and imaginary parts</td>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name"><cite>symmetry</cite>:</th><td class="field-body"><tt class="docutils literal">ODD</tt>, <tt class="docutils literal">EVEN</tt> or <tt class="docutils literal">NONE</tt></td>
+<tr class="field"><th class="field-name"><tt class="docutils literal">symmetry</tt>:</th><td class="field-body"><tt class="docutils literal">ODD</tt>, <tt class="docutils literal">EVEN</tt> or <tt class="docutils literal">NONE</tt></td>
 </tr>
-<tr class="field"><th class="field-name"><cite>delay.samples</cite>:</th><td class="field-body">samples delay for this FIR stage</td>
+<tr class="field"><th class="field-name"><tt class="docutils literal">delay.samples</tt>:</th><td class="field-body">samples delay for this FIR stage</td>
 </tr>
-<tr class="field"><th class="field-name"><cite>coefficients</cite>:</th><td class="field-body">list of FIR coefficients</td>
+<tr class="field"><th class="field-name"><tt class="docutils literal">coefficients</tt>:</th><td class="field-body">list of FIR coefficients</td>
 </tr>
-<tr class="field"><th class="field-name" colspan="2"><cite>coefficient_divisor</cite>:</th></tr>
+<tr class="field"><th class="field-name" colspan="2"><tt class="docutils literal">coefficient_divisor</tt>:</th></tr>
 <tr class="field"><td>&nbsp;</td><td class="field-body">Value to divide coefficients by to obtain equal energy
 in the input and the output</td>
 </tr>
@@ -933,14 +947,14 @@ in the input and the output</td>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2"><cite>transfer_function_type</cite>:</th></tr>
-<tr class="field"><td>&nbsp;</td><td class="field-body">&quot;<cite>ANALOG (RADIANS/SECOND)</cite>&quot;, &quot;<cite>ANALOG (HERTZ)</cite>&quot;, or
-&quot;<cite>DIGITAL</cite>&quot;</td>
+<tr class="field"><th class="field-name" colspan="2"><tt class="docutils literal">transfer_function_type</tt>:</th></tr>
+<tr class="field"><td>&nbsp;</td><td class="field-body">&quot;<tt class="docutils literal">ANALOG (RADIANS/SECOND)</tt>&quot;, &quot;<tt class="docutils literal">ANALOG (HERTZ)</tt>&quot;, or
+&quot;<tt class="docutils literal">DIGITAL</tt>&quot;</td>
 </tr>
-<tr class="field"><th class="field-name" colspan="2"><cite>numerator_coefficients</cite>:</th></tr>
+<tr class="field"><th class="field-name" colspan="2"><tt class="docutils literal">numerator_coefficients</tt>:</th></tr>
 <tr class="field"><td>&nbsp;</td><td class="field-body">list</td>
 </tr>
-<tr class="field"><th class="field-name" colspan="2"><cite>denominator_coefficients</cite>:</th></tr>
+<tr class="field"><th class="field-name" colspan="2"><tt class="docutils literal">denominator_coefficients</tt>:</th></tr>
 <tr class="field"><td>&nbsp;</td><td class="field-body">list</td>
 </tr>
 </tbody>
@@ -966,16 +980,80 @@ in the input and the output</td>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field"><th class="field-name" colspan="2"><cite>input_full_scale</cite>:</th></tr>
+<tr class="field"><th class="field-name" colspan="2"><tt class="docutils literal">input_full_scale</tt>:</th></tr>
 <tr class="field"><td>&nbsp;</td><td class="field-body">full scale value (volts)</td>
 </tr>
-<tr class="field"><th class="field-name" colspan="2"><cite>output_full scale</cite>:</th></tr>
+<tr class="field"><th class="field-name" colspan="2"><tt class="docutils literal">output_full scale</tt>:</th></tr>
 <tr class="field"><td>&nbsp;</td><td class="field-body">full scale value (counts)</td>
 </tr>
 </tbody>
 </table>
 <p>Behaves the same as <cite>DIGITAL</cite>, the fields are for information only.</p>
 </div>
+</div>
+<hr class="docutils" />
+<div class="section" id="processing">
+<h2>Processing</h2>
+<p>Steps used in processing data (Provenance metadata).
+NO STATIONXML EQUIVALENT, values are saved in StationXML comments</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name" colspan="2"><tt class="docutils literal">clock_correct_linear drift</tt>:</th></tr>
+<tr class="field"><td>&nbsp;</td><td class="field-body"><p class="first">correction for a linear drift.  Values are:</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name"><tt class="docutils literal">time_base</tt>:</th><td class="field-body">string describing the instrument's onboard time base</td>
+</tr>
+<tr class="field"><th class="field-name"><tt class="docutils literal">reference</tt>:</th><td class="field-body">string describing the time reference used for synchronization</td>
+</tr>
+<tr class="field"><th class="field-name" colspan="2"><tt class="docutils literal">start_sync_reference</tt>:</th></tr>
+<tr class="field"><td>&nbsp;</td><td class="field-body">time of start sync, viewed on reference clock</td>
+</tr>
+<tr class="field"><th class="field-name" colspan="2"><tt class="docutils literal">start_sync_instrument</tt>:</th></tr>
+<tr class="field"><td>&nbsp;</td><td class="field-body">time of start sync, viewed on instrument clock
+(can be '0' if same as <tt class="docutils literal">start_sync_reference</tt>)</td>
+</tr>
+<tr class="field"><th class="field-name" colspan="2"><tt class="docutils literal">end_sync_reference</tt>:</th></tr>
+<tr class="field"><td>&nbsp;</td><td class="field-body">time of end sync, viewed on reference clock</td>
+</tr>
+<tr class="field"><th class="field-name" colspan="2"><tt class="docutils literal">end_sync_instrument</tt>:</th></tr>
+<tr class="field"><td>&nbsp;</td><td class="field-body">time of end sync, viewed on instrument clock</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="field"><th class="field-name" colspan="2"><tt class="docutils literal">clock_correct_leapsecond</tt>:</th></tr>
+<tr class="field"><td>&nbsp;</td><td class="field-body"><p class="first">correction for leapsecond(s).  Values are:</p>
+<table class="last docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name"><tt class="docutils literal">time</tt>:</th><td class="field-body">Time of the leap second</td>
+</tr>
+<tr class="field"><th class="field-name"><tt class="docutils literal">type</tt>:</th><td class="field-body">'+' or '-'</td>
+</tr>
+<tr class="field"><th class="field-name"><tt class="docutils literal">description</tt>:</th><td class="field-body">&quot;Positive leapsecond (a 61-second minute)&quot; or
+&quot;Negative leapsecond (a 59-second minute)&quot;</td>
+</tr>
+<tr class="field"><th class="field-name" colspan="2"><tt class="docutils literal">corrected_in_end_sync</tt>:</th></tr>
+<tr class="field"><td>&nbsp;</td><td class="field-body">is the provided end_sync_instrument corrected
+for this leapsecond?</td>
+</tr>
+<tr class="field"><th class="field-name" colspan="2"><tt class="docutils literal">corrected_in_data</tt>:</th></tr>
+<tr class="field"><td>&nbsp;</td><td class="field-body">were the OBS output data automatically/previously
+corrected for this leapsecond?</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>

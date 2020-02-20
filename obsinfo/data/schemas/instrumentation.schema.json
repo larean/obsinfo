@@ -49,7 +49,8 @@
                 "equipment":      {"$ref": "#/definitions/equipmentType"},
                 "base_channel":   {"$ref": "#/definitions/base_channel"},
                 "das_channels":   {"$ref": "#/definitions/das_channels"},
-                "serial_numbers": {"$ref": "#/definitions/instrument_by_serial_number"}
+                "configuration_definitions": {"$ref": "#/definitions/instrument_by_config_or_SN"},
+                "serial_number_definitions": {"$ref": "#/definitions/instrument_by_config_or_SN"}
             },
             "additionalProperties" : false
         },
@@ -141,13 +142,13 @@
             },
             "additionalProperties" : true
         },
-        "instrument_by_serial_number": { 
+        "instrument_by_config_or_SN": { 
             "type": "object",
             "description": "Overwrite or modify specific instrument characteristics",
             "patternProperties": {
                 "^[A-Za-z0-9]+$": {
                     "type": "object",
-                    "description": "the pattern is a serial number",
+                    "description": "the pattern is a serial number or serial number",
                     "required": [
                     ],
                     "properties" : {

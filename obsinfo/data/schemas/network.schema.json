@@ -164,10 +164,16 @@
             "description": "Instrumentation descriptor",
             "required": [ "base" ],
             "properties" : {
-                "base":              {"$ref": "instrumentation.schema.json#/definitions/instrumentation"},
-                "datalogger_config": {"type": "string"},
-                "serial_number":     {"type": "string"},
-                "chan_mods":         {"$ref": "#/definitions/channel_mods"}
+                "base":                     {"$ref": "instrumentation.schema.json#/definitions/instrumentation"},
+                "config":                   {"type": "string"},
+                "serial_number":            {"type": "string"},
+                "datalogger_config":        {"type": "string"},
+                "datalogger_serial_number": {"type": "string"},
+                "sensor_config":            {"type": "string"},
+                "sensor_serial_number":     {"type": "string"},
+                "preamplifier_config":      {"type": "string"},
+                "preamplifier_serial_number": {"type": "string"},
+                "channel_mods":             {"$ref": "#/definitions/channel_mods"}
             }
         },
         "instrumentation_modifs":
@@ -288,28 +294,6 @@
                     "description": "sets start_sync_instrument equal to to start_sync_reference"
                 }
             ]
-        },
-        "clock_correction" : {
-            "type": "object",
-            "description": "clock_correction",
-            "required": ["linear_drift"],
-            "properties": {
-                "linear_drift":  {"$ref": "#/definitions/clock_correction_linear"},
-                "linear_drifts": {"$ref": "#/definitions/clock_correction_linear_list"},
-                "leapsecond":    {"$ref": "#/definitions/clock_correction_leapsecond"},
-                "leapseconds":   {"$ref": "#/definitions/clock_correction_leapseconds_list"}
-            },
-            "additionalProperties": false
-        },
-        "clock_correction_linear_list" : {
-            "type": "array",
-            "description": "list of linear drift corrections",
-            "items": { "$ref" : "#/definitions/clock_correction_linear"}
-        },
-        "clock_correction_leapseconds_list" : {
-            "type" : "array",
-            "description": "leapsecond objets",
-            "items" : { "$ref" : "#/definitions/clock_correction_leapsecond" }
         },
        "lpsec_type" : {
             "type" : "string",

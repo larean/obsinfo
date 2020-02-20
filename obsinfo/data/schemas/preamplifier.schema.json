@@ -21,6 +21,19 @@
                  "comment":"version of last change to this schema"}
             ]
         },
+        "preamplifier" : {
+            "description": "Basic preamplifier specification",
+            "required": ["equipment"],
+            "properties": {
+                "config_description": {"type": "string"},
+                "notes":              {"$ref": "definitions.schema.json#/note_list"},
+                "equipment":          {"$ref": "definitions.schema.json#/equipmentType" },
+                "responses_ordered":    {"$ref": "#/definitions/response_list" },
+                "configuration_definitions": {"$ref": "#/definitions/preamplifier_configs_map"},
+                "serial_number_definitions": {"$ref": "#/definitions/preamplifier_serial_numbers_map"}
+            },
+            "additionalProperties": false
+        },
         "preamplifier_configs_map": {
             "description": "Map of configuration names for a given  preamplifier",
             "patternProperties": {
@@ -33,27 +46,13 @@
                 "^[A-Za-z0-9_-]+$": {"$ref": "#/definitions/preamplifier_serial_number"}
             }
         },
-        "preamplifier" : {
-            "description": "Basic preamplifier specification",
-            "required": ["equipment"],
-            "properties": {
-                "config_description": {"type": "string"},
-                "notes":              {"$ref": "definitions.schema.json#/note_list"},
-                "equipment":          {"$ref": "definitions.schema.json#/equipmentType" },
-                "responses_ordered":    {"$ref": "#/definitions/response_list" },
-                "configs":            {"$ref": "#/definitions/preamplifier_configs_map"},
-                "serial_numbers":     {"$ref": "#/definitions/preamplifier_serial_numbers_map"}
-            },
-            "additionalProperties": false
-        },
         "preamplifier_config" : {
             "description" : "Configuration-specific preamplifier properties",
             "required": ["config_description"],
             "properties": {
                 "config_description": {"type": "string"},
                 "equipment":          {"$ref": "definitions.schema.json#/equipmentType_noRequired"},
-                "responses_ordered":    {"$ref": "#/definitions/response_list"},
-                "serial_numbers":     {"$ref": "#/definitions/preamplifier_serial_numbers_map"}
+                "responses_ordered":    {"$ref": "#/definitions/response_list"}
             },
             "additionalProperties": false
         },

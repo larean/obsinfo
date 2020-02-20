@@ -20,7 +20,7 @@ sensor:
             "2": {azimuth.deg: [90, 180], dip.deg: [0, 0]}
     responses_ordered:
         - $ref: "responses/Trillium_T240_SN1-399-singlesided_theoretical.response.yaml#response"
-    serial_numbers:
+    serial_number_definitions:
         "132": {}
         "133": {}
         "134": {}

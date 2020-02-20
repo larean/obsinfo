@@ -116,19 +116,19 @@ Network
 Specify the stations deployed by an OBS facility during an experiment.  Fields
 are:
 
-:`facility`: Basic information about the OBS facility.  ``ref_name`` should
+:``facility``: Basic information about the OBS facility.  ``ref_name`` should
     match the second field in the filename.  ``full_name`` will be
     put in the StationXML file
   
-:`campaign_ref_name`: Should match the ``reference_name`` field in the
+:``campaign_ref_name``: Should match the ``reference_name`` field in the
     Campaign file
    
-:`network_info`: FDSN network information.  If you have declared a network
+:``network_info``: FDSN network information.  If you have declared a network
     with FDSN, the contents of these fields should match the
     values on the FDSN website
    
-:`stations`: descriptions of each station.  Subfields are objects with key = 
-    {`STATION_NAME`} and value = `Station`_ object.
+:``stations``: descriptions of each station.  Subfields are objects with key = 
+    {``STATION_NAME``} and value = `Station`_ object.
 
 --------------------------------------------------------------------------------
 
@@ -137,28 +137,28 @@ Station
 
 Description of one station.
   
-:`site`: StationXML "site" field
+:``site``: StationXML "site" field
   
-:`start_date`: StationXML station ``start_date`` field.  Also used for
+:``start_date``: StationXML station ``start_date`` field.  Also used for
     channels if they are not separately entered
     
-:`end_date`: StationXML station ``end_date`` field.
+:``end_date``: StationXML station ``end_date`` field.
   
-:`location_code`: Station location code.  Will also be used for
+:``location_code``: Station location code.  Will also be used for
     channels if they are not separately entered.
 
-:`locations`: descriptions of each location code:  fields are the same
+:``locations``: descriptions of each location code:  fields are the same
     as in StationXML except ``uncertainties.m`` (all values are in
     meters) and ``localisation_method`` (description of how the
     location was determined)
     
-:`processing`: Provenance information about how the data was transformed from
+:``processing``: Provenance information about how the data was transformed from
     raw to the final version.  There is no corresponds field in
     StationXML, so subfields are saved as StationXML comments
     
-:`extras`: Subfields are saved to StationXML comments.
+:``extras``: Subfields are saved to StationXML comments.
 
-:`instruments`: List of `Instrumentation Configuration`_ s making up the
+:``instruments``: List of `Instrumentation Configuration`_ s making up the
    station   
 
 --------------------------------------------------------------------------------
@@ -169,47 +169,52 @@ A configured `Instrumentation`_ object
 
 In the list below, later fields can modify earlier ones
     
-:`base`: An `Instrumentation`_ object
+:``base``: An `Instrumentation`_ object
 
 Configuration Specification Fields (all optional)
 -------------------------------------------------
 
-:`serial_number`: Specify the `Instrumentation`_  serial number (and
+:``serial_number``: Specify the `Instrumentation`_  serial number (and
     ``serial_number_definition`` if it exists)
               
-:`config`: Specify the `Instrumentation`_ ``configuration_definition``
+:``config``: Specify the `Instrumentation`_ ``configuration_definition``
   
-:`datalogger_config`: Specify the `Datalogger`_ ``configuration_definition``
+:``datalogger_config``: Specify the `Datalogger`_ ``configuration_definition``
     for all channels (shortcut for
     ``channel_mods: {base: {datalogger: config}}``
 
-:`datalogger_serial_number`: Specify the `Datalogger`_ ``serial_number`` (and
+:``datalogger_serial_number``: Specify the `Datalogger`_ ``serial_number`` (and
     ``serial_number_definition`` if it exists).  Shortcut for
     ``channel_mods: {base: {datalogger: serial_number}}``
 
-:`sensor_config`: Shortcut for
+:``sensor_config``: Shortcut for
     ``channel_mods: {base: {sensor: config}}``
 
-:`sensor_serial_number`: Shortcut for
+:``sensor_serial_number``: Shortcut for
     ``channel_mods: {base: {sensor: serial_number}}``
 
-:`preamplifier_config`: Shortcut for
+:``preamplifier_config``: Shortcut for
     ``channel_mods: {base: {preamplifier: config}}``
 
-:`preamplifier_serial_number`: Shortcut for
+:``preamplifier_serial_number``: Shortcut for
     ``channel_mods: {base: {preamplifier: serial_number}}``
 
-:`channel_mods`: Specify `Channel`_ configurations.
+:``channel_mods``: Specify `Channel`_ configurations.
                 
-    :`base`: `Channel Configuration`_ applied to all channels.
+    :``base``: `Channel Configuration`_ applied to all channels.
     
-    :`by_orientation/{ORIENTATION-CODE}`: `Channel Configuration`_ applied to
+    :``by_orientation``/{ORIENTATION-CODE}: `Channel Configuration`_ applied to
       individual channels, keyed by their SEED orientation code
   
-    :`by_das/{DAS-CODE}`: `Channel Configuration`_ applied to individual channels,
+    :``by_das``/{DAS-CODE}``: `Channel Configuration`_ applied to individual channels,
       keyed by their data acquisition system (DAS) code.
       Use when a station has more than one channel with the same
       orientation code.
+
+    :``by_chan_loc``/{CHAN_LOC}: `Channel Configuration`_ applied to individual
+      channels, keyed by their channel and location codes.
+      Alternative to ``by_das``, when it's easier/clearer to write out
+      channel_location codes
 
 --------------------------------------------------------------------------------
 
@@ -217,17 +222,17 @@ Channel Configuration
 *********************************
 Specify `Channel`_ modificiations and deployment-specific information
 
-:`sensor`: Modifications to Sensor (see `Instrument Component Configuration`_)
+:``sensor``: Modifications to Sensor (see `Instrument Component Configuration`_)
 
-:`datalogger`: Modifications to Datalogger (see `Instrument Component Configuration`_)
+:``datalogger``: Modifications to Datalogger (see `Instrument Component Configuration`_)
 
-:`preamplifier`: Modifications to Preamplifier (see `Instrument Component Configuration`_)
+:``preamplifier``: Modifications to Preamplifier (see `Instrument Component Configuration`_)
 
-:`location_code`: Channel's location code
+:``location_code``: Channel's location code
               
-:`start_date`: Channel start date (if different from station)
+:``start_date``: Channel start date (if different from station)
 
-:`end_date`: channel end date (if different from station)
+:``end_date``: channel end date (if different from station)
               
 
 --------------------------------------------------------------------------------
@@ -236,15 +241,15 @@ Instrument Component Configuration
 ***************************************
 Specify `Instrument Component`_ modifications
 
-:`base`: Full Instrument Component description (see `Instrument Component`_)
+:``base``: Full Instrument Component description (see `Instrument Component`_)
 
 Configuration Specification Fields
 -------------------------------------------------
 
-:`config`: Activate `Instrument Component`_-level
+:``config``: Activate `Instrument Component`_-level
     ``configuration_definition``
   
-:`serial_number`: Specify Instrument Component serial number and apply
+:``serial_number``: Specify Instrument Component serial number and apply
     corresponding ``serial_number_definitions``, if they exist
               
 
@@ -257,26 +262,26 @@ Specify a scientfic instrument (OBS, field station), as equipment and channels
 
 Fields are:
 
-:`equipment`: Corresponds to StationXML Equipment object
+:``equipment``: Corresponds to StationXML Equipment object
   
-:`base_channel`: (optional) A `Channel`_ object.
+:``base_channel``: (optional) A `Channel`_ object.
                  Simplifies specifying ``das_channels`` (below) if
                  the same datalogger|preamplifier|sensor is used on more than
                  one channel.  Choose the most common instrumentation channel
                  (for example, many seismometers have the same sensor
-                 description on three channels).  The "`orientation_code`"
+                 description on three channels).  The "``orientation_code``"
                  subfield is ignored.
-:`das_channels`: A possibly incomplete `Channel`_ object.  Values provided
-                 replace those in `base_channel`
+:``das_channels``: A possibly incomplete `Channel`_ object.  Values provided
+                 replace those in ``base_channel``
 
 Configuration Definition Fields
 -------------------------------------------------
 
 Modifications to the above-mentioned fields.
 
-:`configuration_definitions`: optional configurations 
+:``configuration_definitions``: optional configurations 
       
-:`serial_number_definitions`: serial number based modifications
+:``serial_number_definitions``: serial number based modifications
    
 
 --------------------------------------------------------------------------------
@@ -290,30 +295,36 @@ from sensor (top) to datalogger (bottom)
 
 Fields: 
 -------------------------------------------------
-:sensor:  Sensor Instrument_Component
+:``sensor``:  Sensor Instrument_Component
 
-:preamplifier: Preamplifier Instrument_Component (optional)
+:``preamplifier``: (optional) Preamplifier Instrument_Component
 
-:datalogger: Datalogger Instrument_Component
+:``datalogger``: Datalogger Instrument_Component
 
-:orientation_code: SEED orientation code.
+:``preamlifier_config``: (optional) preamplifier configuration code
+
+:``sensor_config``: (optional) sensor configuration code
+
+:``datalogger_config``: (optional) datalogger configuration code
+
+:``orientation_code``: SEED orientation code.
 
 --------------------------------------------------------------------------------
 
 Instrument Component
 ***************************************
 
-Specify an Instrument Component: `sensor`, `preamplifier` or `datalogger`.
+Specify an Instrument Component: ``sensor``, ``preamplifier`` or ``datalogger``.
 
 Shared fields:
 -------------------------------------------------
 
-:`equipment`: Corresponds to StationXML Equipment object
+:``equipment``: Corresponds to StationXML Equipment object
   
-:`config_description`: Description of the default configuration.  Can be left
+:``config_description``: Description of the default configuration.  Can be left
                        empty if there is only one configuration.
 
-:`responses_ordered`: an ordered list of responses (see `Response`_)
+:``responses_ordered``: an ordered list of responses (see `Response`_)
 
 Configuration Definition Fields
 -------------------------------------------------
@@ -321,9 +332,9 @@ Configuration Definition Fields
 modifications to the above-mentioned fields (plus any specific to the given
 Instrument Component type).
     
-:`serial_number_definitions`: serial-number based modifications
+:``serial_number_definitions``: serial-number based modifications
 
-:`configuration_definitions`: optional configurations 
+:``configuration_definitions``: optional configurations 
 
 
 Component-specific Fields: 
@@ -332,30 +343,30 @@ Component-specific Fields:
 Datalogger
 ---------------------
 
-:`sample_rate`: samples per second
+:``sample_rate``: samples per second
 
-:`delay_correction`: time correction applied to data to compensate FIR delay:
+:``delay_correction``: time correction applied to data to compensate FIR delay:
 
     :numeric: seconds delay to specify in last stage (for software correction
               of delay)
-    :True: specify a correction in each stage corresponding to the specified
+    :``True``: specify a correction in each stage corresponding to the specified
            delay in that stage
-    :False: No correction will be specified (same as numeric = 0)
+    :``False``: No correction will be specified (same as numeric = 0)
 
 Sensor
 ---------------------
 
-:`seed_codes`: SEED codes to give to channels using this sensor
+:``seed_codes``: SEED codes to give to channels using this sensor
 
-    :`band_base`: Base SEED band code: "B" for broadband, "S" for short
+    :``band_base``: Base SEED band code: "B" for broadband, "S" for short
                   period: obsinfo will determine the sample-rate-dependent band
                   codes to use for a given acquisition channel.
-    :`instrument`: SEED instrument code
-    :`orientation`: SEED orientation codes that can be associated with this
+    :``instrument``: SEED instrument code
+    :``orientation``: SEED orientation codes that can be associated with this
                     sensor. Each code is a key for an object containing:
 
-                    :`azimuth.deg`: 2-element array of [value, uncertainty]
-                    :`dip.deg`: 2-element array of [value, uncertainty]
+                    :``azimuth.deg``: 2-element array of [value, uncertainty]
+                    :``dip.deg``: 2-element array of [value, uncertainty]
 
 Preamplifier
 ---------------------
@@ -366,27 +377,27 @@ None
 Response
 ***************************************
 
-:`stages`: List of response stages, most sub-elements are StationXML fields
+:``stages``: List of response stages, most sub-elements are StationXML fields
 
-    :`description`: string
+    :``description``: string
     
-    :`name`: string [``None``]
+    :``name``: string [``None``]
 
-    :`input_units`: object with fields ``name`` and ``description``
+    :`input_units``: object with fields ``name`` and ``description``
     
-    :`output_units`: object with fields ``name`` and ``description``
+    :``output_units``: object with fields ``name`` and ``description``
     
-    :`gain`: object with fields ``value`` and ``frequency``
+    :``gain``: object with fields ``value`` and ``frequency``
     
-    :`decimation_factor`: factor by which this stage decimates data [1]
+    :``decimation_factor``: factor by which this stage decimates data [1]
     
-    :`output_sample_rate`: output sample rate [sps]
+    :``output_sample_rate``: output sample rate [sps]
     
-    :`delay`: Delay in seconds of the stage [0]
+    :``delay``: Delay in seconds of the stage [0]
     
-    :`calibration_date`: date of calibration that gave this response [`None`]
+    :``calibration_date``: date of calibration that gave this response [`None`]
     
-    :`filter`: `Filter`_ object
+    :``filter``: `Filter`_ object
 
 --------------------------------------------------------------------------------
 
@@ -398,46 +409,46 @@ Description of a filter.  Keys depend on the ``type``
 Common fields:
 -------------------------------------------------
 
-:`type`: "`PolesZeros`", "`Coefficients`", "`ResponseList`",
-         "`FIR`", "`ANALOG`", "`DIGITAL`" or "`AD_CONVERSION`"
+:``type``: "``PolesZeros``", "``Coefficients``", "``ResponseList``",
+         "``FIR``", "``ANALOG``", "``DIGITAL``" or "``AD_CONVERSION``"
 
 `PolesZeros`-specific fields:
 -------------------------------------------------
 
-:`units`: string (only ``rad/s`` has been verified)
+:``units``: string (only ``rad/s`` has been verified)
 
-:`poles`: List of poles in the above units.  Each elements is a 2-element array
+:``poles``: List of poles in the above units.  Each elements is a 2-element array
           containing the real and imaginary parts
 
-:`zeros`:  List of zeros, specified as above
+:``zeros``:  List of zeros, specified as above
 
-:`normalization_frequency`: As in StationXML
+:``normalization_frequency``: As in StationXML
 
-:`normatlization_factor`: As in StationXML
+:``normatlization_factor``: As in StationXML
 
 
 `FIR`-specific fields:
 -------------------------------------------------
 
-:`symmetry`: ``ODD``, ``EVEN`` or ``NONE``
+:``symmetry``: ``ODD``, ``EVEN`` or ``NONE``
 
-:`delay.samples`: samples delay for this FIR stage
+:``delay.samples``: samples delay for this FIR stage
 
-:`coefficients`: list of FIR coefficients
+:``coefficients``: list of FIR coefficients
 
-:`coefficient_divisor`: Value to divide coefficients by to obtain equal energy
+:``coefficient_divisor``: Value to divide coefficients by to obtain equal energy
                         in the input and the output
 
 
 `Coefficients`-specific fields:
 -------------------------------------------------
 
-:`transfer_function_type`: "`ANALOG (RADIANS/SECOND)`", "`ANALOG (HERTZ)`", or
-                           "`DIGITAL`"
+:``transfer_function_type``: "``ANALOG (RADIANS/SECOND)``", "``ANALOG (HERTZ)``", or
+                           "``DIGITAL``"
 
-:`numerator_coefficients`: list
+:``numerator_coefficients``: list
 
-:`denominator_coefficients`: list
+:``denominator_coefficients``: list
 
 
 `ResponseList`-specific fields:
@@ -463,10 +474,37 @@ None.  Becomes a StationXML `Coefficients` stage with
 `AD_CONVERSION`-specific fields:
 -------------------------------------------------
 
-:`input_full_scale`: full scale value (volts)
+:``input_full_scale``: full scale value (volts)
 
-:`output_full scale`: full scale value (counts)
+:``output_full scale``: full scale value (counts)
 
 Behaves the same as `DIGITAL`, the fields are for information only.
 
 
+--------------------------------------------------------------------------------
+
+Processing
+***************************************
+Steps used in processing data (Provenance metadata).  
+NO STATIONXML EQUIVALENT, values are saved in StationXML comments
+
+:``clock_correct_linear drift``: correction for a linear drift.  Values are:
+
+    :``time_base``: string describing the instrument's onboard time base 
+    :``reference``: string describing the time reference used for synchronization
+    :``start_sync_reference``: time of start sync, viewed on reference clock
+    :``start_sync_instrument``: time of start sync, viewed on instrument clock
+                              (can be '0' if same as ``start_sync_reference``)
+    :``end_sync_reference``: time of end sync, viewed on reference clock
+    :``end_sync_instrument``: time of end sync, viewed on instrument clock
+
+:``clock_correct_leapsecond``: correction for leapsecond(s).  Values are:
+
+    :``time``: Time of the leap second
+    :``type``: '+' or '-'
+    :``description``: "Positive leapsecond (a 61-second minute)" or
+        "Negative leapsecond (a 59-second minute)"
+    :``corrected_in_end_sync``: is the provided end_sync_instrument corrected
+        for this leapsecond?
+    :``corrected_in_data``: were the OBS output data automatically/previously
+                            corrected for this leapsecond?

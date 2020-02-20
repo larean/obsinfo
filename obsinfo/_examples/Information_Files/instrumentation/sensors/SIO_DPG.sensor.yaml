@@ -24,7 +24,7 @@ sensor:
             "F": {azimuth.deg: [0,0], dip.deg: [90,0]}
     responses_ordered:
         - $ref: "responses/SIO-LDEO_DPG_generic_theoretical.response.yaml#response"
-    serial_numbers:
+    serial_number_definitions:
         "5004": 
             equipment: {manufacturer: "SIO"}
             responses_ordered: 

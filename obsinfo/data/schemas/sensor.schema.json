@@ -21,14 +21,6 @@
                  "comment":"version of last change to this schema"}
             ]
         },
-        "sensor_configs_map": { 
-            "description": "Map of configuration names for a given sensor",
-            "patternProperties": {"^[A-Za-z0-9_-]+$": {"$ref": "#/definitions/sensor_config"}}
-        },
-        "sensor_serial_numbers_map": { 
-            "description": "Map of serial numbers for a given sensor",
-            "patternProperties": {"^[A-Za-z0-9_-]+$": {"$ref": "#/definitions/sensor_serial_number"}}
-        },
         "sensor": { 
             "description": "Basic sensor specification",
             "required": ["equipment", "responses_ordered", "seed_codes"],
@@ -37,11 +29,19 @@
                 "notes":              {"$ref": "definitions.schema.json#/note_list"},
                 "equipment":          {"$ref": "definitions.schema.json#/equipmentType"},
                 "responses_ordered":  {"$ref": "#/definitions/response_list"},
-                "configurations":     {"$ref": "#/definitions/sensor_configs_map"},
-                "serial_numbers":     {"$ref": "#/definitions/sensor_serial_numbers_map"},
-                "seed_codes":         {"$ref": "#/definitions/seed_codes"}
+                "seed_codes":         {"$ref": "#/definitions/seed_codes"},
+                "configuration_definitions": {"$ref": "#/definitions/sensor_configs_map"},
+                "serial_number_definitions": {"$ref": "#/definitions/sensor_serial_numbers_map"},
             },
             "additionalProperties": false
+        },
+        "sensor_configs_map": { 
+            "description": "Map of configuration names for a given sensor",
+            "patternProperties": {"^[A-Za-z0-9_-]+$": {"$ref": "#/definitions/sensor_config"}}
+        },
+        "sensor_serial_numbers_map": { 
+            "description": "Map of serial numbers for a given sensor",
+            "patternProperties": {"^[A-Za-z0-9_-]+$": {"$ref": "#/definitions/sensor_serial_number"}}
         },
         "sensor_config": { 
             "description": "Configuration-specific sensor properties",
@@ -50,7 +50,6 @@
                 "config_description": {"type": "string"},
                 "equipment":          {"$ref": "definitions.schema.json#/equipmentType_noRequired"},
                 "responses_ordered":  {"$ref": "#/definitions/response_list"},
-                "serial_numbers":     {"$ref": "#/definitions/sensor_serial_numbers_map"},
                 "seed_codes":         {"$ref": "#/definitions/seed_codes"}
             },
             "additionalProperties": false

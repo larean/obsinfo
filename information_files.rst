@@ -41,31 +41,38 @@ Files refer to other files "downstream" using
 
 Configuration
 ===================================
-Stations can be configured based on instrumentation/component serial numbers
-and/or configurations, or direct entry of values to modify.
+Stations can be configured using objects that duplicate the object they
+will modify, but containing only the fields to be modified.  The
+configurations can be specified directly at the station level, or they can
+be pre-defined in the instrumentation or instrument_component 
+using ``Configuration definitions``, which can then be referenced at the
+station level.
 
 1) **Configuration definitions**: specify possible configurations:
    
    - ``serial_number_definitions``: (differences between individual elements)
-   - ``config_definitions``:        (options for a given element)
+   - ``configuration_definitions``: (options for a given element)
   
 2) **Configuration specifications**: specify the configuration
    used by a given station and/or instrumentation:
 
-   - ``serial_number``
-   - ``config``
-   - or direct specification of the fields to change
+   - ``serial_number`` implements the corresponding ``serial_number_definition``
+   - ``config`` implements the corresponding ``config_definition``
+   - or direct configuration
    
-``config`` implements the corresponding ``config_definition`` and ``serial_number`` implements the corresponding ``serial_number_description`` AND sets the corresponding ``equipment:serial_number`` field.  The order of
-interpretation is ``serial_number``, then ``config``, then any direct specification.
-It is an error to specify a  ``config`` with no corresponding
-``config_deinition``, but not to specify a ``serial_number`` with no corresponding
-``serial_number_definition``.
+``serial_number`` also sets the corresponding ``equipment:serial_number``
+field.  Direct configuration overwrites any duplicated fields in ``config``,
+ which overwrites any duplicated fields in ``serial_number``.
+It is an error to specify a ``config`` with no corresponding
+``config_definition``, but it is ok to specify a ``serial_number`` with no
+corresponding ``serial_number_definition`` (it will simply set the
+``equipment:serial_number`` field).
 
-``serial_numberdefinition``, ``config_definition`` and direct specification objects
-use the same structure as the object they modify, but specify only the fields to be changed.
-For example, a Datalogger specified in the file "``LC2000.datalogger.yaml``" as::
-   
+As an example of how an object can modify an existing object, here is
+a (simplied) Datalogger specification.
+
+If the file LC2000.datalogger.yaml#datalogger contains::
+
    datalogger:
         equipment:
             model: "CS5321/22"
@@ -82,12 +89,12 @@ For example, a Datalogger specified in the file "``LC2000.datalogger.yaml``" as:
                     description: "Crazy 500sps config"
                 sample_rate: 500
     
-and instantiated as::
+and is instantiated as::
     
         base: $ref: "LC2000.datalogger.yaml#datalogger"
         config: "500sps"
 
-would return::
+the result would be::
 
         equipment:
             model: "CS5321/22"
@@ -95,12 +102,15 @@ would return::
         note: "I like to write things down"
         sample_rate: 500
     
-(*note: this is a simplifed datalogger object which would not validate*).
-Most configuration specifications are made in the ``Network`` file, although
-`Instrument Component Configuration`_ specifications can also be made in the
-``Instrumentation`` file (for example, to set the default amplifier gain).  Specifications
-made in a ``Network`` file will override any conflicting specifications in the
-``Instrumentation`` file (SRD).
+Most configuration specifications are made in the ``Network`` file,
+but `Instrument Component Configuration`_ specifications can also be made
+in the ``Instrumentation`` file (for example, to set the default
+preamplifier gain for a given instrumentation).  Specifications made
+"higher up" will override any conflicting specifications "lower down".
+For example, a specification given in an ``Instrumentation Configuration``_
+object have precedence over those given in the corresponding
+``Instrumentation``_ object)
+
 
 Objects
 ===================================
@@ -208,7 +218,7 @@ Configuration Specification Fields (all optional)
     :``by_orientation``/{ORIENTATION-CODE}: `Channel Configuration`_ applied to
       individual channels, keyed by their SEED orientation code
   
-    :``by_das``/{DAS-CODE}``: `Channel Configuration`_ applied to individual channels,
+    :``by_das``/{DAS-CODE}: `Channel Configuration`_ applied to individual channels,
       keyed by their data acquisition system (DAS) code.
       Use when a station has more than one channel with the same
       orientation code.

@@ -262,12 +262,10 @@ class Stage():
                 pz_transfer_function_type=filt.transfer_function_type,
                 normalization_frequency=filt.normalization_frequency,
                 zeros=[obspy_types.ComplexWithUncertainties(
-                    float(t[0]) + 1j * float(t[1]),
-                    lower_uncertainty=0.0, upper_uncertainty=0.0)\
+                    t, lower_uncertainty=0.0, upper_uncertainty=0.0)\
                     for t in filt.zeros],
                 poles=[obspy_types.ComplexWithUncertainties(
-                    float(t[0]) + 1j * float(t[1]),
-                    lower_uncertainty=0.0, upper_uncertainty=0.0)\
+                    t, lower_uncertainty=0.0, upper_uncertainty=0.0)\
                     for t in filt.poles],
                 normalization_factor=filt.calc_normalization_factor())
         elif isinstance(filt, FIR):

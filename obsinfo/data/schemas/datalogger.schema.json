@@ -23,11 +23,11 @@
     "definitions": {
         "datalogger" : {
             "description": "Basic datalogger specification",
-            "required": ["sample_rate","responses_ordered","equipment"],
+            "required": ["sample_rate","response_stages","equipment"],
             "properties": {
                 "notes":              {"$ref": "definitions.schema.json#/note_list"},
                 "equipment":          {"$ref": "definitions.schema.json#/equipmentType"},
-                "responses_ordered":  {"$ref": "#/definitions/response_list"},
+                "response_stages":    {"$ref": "response_stages.schema.json#/definitions/response_stages" },
                 "sample_rate":        {"type": "number", "minimum": 0},
                 "delay_correction":   {"$ref": "#/definitions/delay_correction"},
                 "serial_numbers":     {"$ref": "#/definitions/datalogger_serial_numbers_map"},
@@ -51,7 +51,7 @@
             "properties": {
                 "config_description": {"type": "string"},
                 "equipment":          {"$ref": "definitions.schema.json#/equipmentType"},
-                "responses_ordered":  {"$ref": "#/definitions/response_list"},
+                "response_stages":    {"$ref": "response_stages.schema.json#/definitions/response_stages" },
                 "sample_rate":        {"type": "number", "minimum": 0},
                 "delay_correction":   {"$ref": "#/definitions/delay_correction"},
                 "serial_numbers":     {"$ref": "#/definitions/datalogger_serial_numbers_map"}
@@ -62,16 +62,11 @@
             "description": "Serial_number-specific datalogger properties",
             "properties": {
                 "equipment":          {"$ref": "definitions.schema.json#/equipmentType"},
-                "responses_ordered":  {"$ref": "#/definitions/response_list"},
+                "response_stages":    {"$ref": "response_stages.schema.json#/definitions/response_stages" },
                 "sample_rate":        {"type": "number", "minimum": 0},
                 "delay_correction":   {"$ref": "#/definitions/delay_correction"}
             },
             "additionalProperties": false
-        },
-        "response_list" : {
-            "type" : "array",
-            "description": "list of response-stage files#keys in JSON Pointers format",
-            "items" : { "$ref": "response.schema.json#definitions/response"}
         },
         "delay_correction": {
             "anyOf" : [

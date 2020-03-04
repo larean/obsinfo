@@ -95,7 +95,7 @@
         },
         "instrument_component_modifs": {
             "type": "object",
-            "description": "left deliberately open-ended",
+            "description": "left open to allow element-wise change of values",
             "properties" : {
                 "serial_number": {"type": "string"}
             },
@@ -117,10 +117,16 @@
                 "datalogger" :         {"$ref": "datalogger.schema.json#/definitions/datalogger"},
                 "preamplifier":        {"$ref": "preamplifier.schema.json#/definitions/preamplifier"},
                 "sensor" :             {"$ref": "sensor.schema.json#/definitions/sensor"},
+                "datalogger_modifs" :  {"$ref": "#/definitions/instrument_component_modifs"},
+                "preamplifier_modifs": {"$ref": "#/definitions/instrument_component_modifs"},
+                "sensor_modifs" :      {"$ref": "#/definitions/instrument_component_modifs"},
                 "datalogger_config":   {"$ref": "#/definitions/component_config"},
                 "preamplifier_config": {"$ref": "#/definitions/component_config"},
-                "sensor_config":       {"$ref": "#/definitions/component_config"}
-            }
+                "sensor_config":       {"$ref": "#/definitions/component_config"},
+                "location_code":       {"type": "string"},
+	            "notes" :              {"$ref" : "definitions.schema.json#/comment_list"}
+            },
+            "additionalProperties": false
         },
         "das_channels_change_or_modify": { 
             "type": "object",
@@ -173,7 +179,8 @@
                 "model":            {"type": ["string","null"] },
                 "serial_number":    {"type": ["string","null"] },
                 "calibration_date": {"$ref" : "definitions.schema.json#/date-time-Z"}
-			}
+			},
+            "additionalProperties" : false
 		},
 		"equipmentType_noRequired": {
 			"type": "object",
@@ -185,7 +192,8 @@
                 "model":           {"type": "string" },
                 "serial_number":   {"type": ["string","null"] },
                 "calibration_date": {"$ref" : "definitions.schema.json#/date-time-Z"}
-			}
+			},
+            "additionalProperties" : false
         }
 	}
 }

@@ -9,11 +9,142 @@ from obspy.core.inventory.response import (PolesZerosResponseStage,
                                            FIRResponseStage,
                                            CoefficientsTypeResponseStage,
                                            ResponseListResponseStage)
+from obspy.core.inventory.response import Response as obspy_Response
+from obspy.core.inventory.response import InstrumentSensitivity\
+                                   as obspy_Sensitivity
 import obspy.core.util.obspy_types as obspy_types
 
 # Local modules
 from .filter import (Filter, PolesZeros, FIR, Coefficients, ResponseList,
                      Analog, Digital, AD_Conversion)
+
+
+class Response_Stages():
+    """
+    Reponse_Stages class
+
+    An ordered list of Stages
+    """
+    def __init__(self, stages):
+        self.stages = stages
+
+        # Add stage_sequence numbers to the stages
+        for i in range(len(self.stages)):
+            self.stages[i].stage_sequence_number = i+1
+
+    def __repr__(self):
+        s = f'Response_Stages([{len(self.stages):d}x{type(self.stages[0])}])'
+        return s
+
+    def __add__(self, other):
+        """
+        Add two Response_Stages objects together
+
+        The first object will have its stages before before the second's
+        """
+        # Verify that the units are compatible
+        assert self.stages[-1].output_units == other.stages[0].input_units,\
+            "Output units of 1st don't match input_units of 2nd"
+        # Verify that the sample rates are compatible
+        if self.output_sample_rate() and other.input_sample_rate():
+            assert self.output_sample_rate() == other.input_sample_rate(),\
+                "first object's outp samp_rate != 2nd objects' inp samp_rate"
+        stages = [s for s in self.stages]
+        stages.extend(other.stages)
+
+        return Response_Stages(stages)
+
+    def extend(self, other):
+        """
+        Extend one ResponseStages with another
+
+        Same as __add__
+        """
+        return self + other
+
+    @classmethod
+    def from_info_dict(cls, info_dict):
+        """
+        Create instance from an info_dict
+
+        info_dict is just a list of Stage()s in this case
+        """
+        obj = cls([Stage.from_info_dict(s) for s in info_dict])
+        return obj
+
+    def to_obspy(self):
+        """
+        Return equivalent obspy response class
+        """
+        obj = obspy_Response(response_stages=[s.to_obspy()
+                                              for s in self.stages])
+        obj = self._add_sensitivity(obj)
+        return obj
+
+    def _add_sensitivity(self, obspy_resp):
+        """
+        Adds sensitivity to an obspy Response object
+
+        Based on ..misc.obspy_routines.response_with_sensitivity
+        """
+
+        input_units = self.stages[0].input_units
+        true_input_units = self.stages[0].input_units
+        if "PA" in true_input_units.upper():
+            # MAKE OBSPY THINK ITS M/S TO CORRECTLY CALCULATE SENSITIVITY
+            input_units = "M/S"
+        gain_prod = 1.
+        for stage in self.stages:
+            gain_prod *= stage.gain
+        sensitivity = obspy_Sensitivity(
+            gain_prod,
+            self.stages[0].gain_frequency,
+            input_units=input_units,
+            output_units=self.stages[-1].output_units,
+            input_units_description=self.stages[0].input_units_description,
+            output_units_description=self.stages[-1].output_units_description
+            )
+        obspy_resp.instrument_sensitivity = sensitivity
+        print(sensitivity)
+        print(obspy_resp)
+        obspy_resp.recalculate_overall_sensitivity(sensitivity.frequency)
+        obspy_resp.instrument_sensitivity.input_units = true_input_units
+
+        return obspy_resp
+
+    def output_sample_rate(self):
+        """
+        Return the output sample rate
+
+        based on any defined sample rates and decimation
+        """
+        sample_rate = None
+        for stage in self.stages:
+            if stage.decimation_factor:
+                if sample_rate:
+                    sample_rate /= stage.decimation_factor
+            if stage.output_sample_rate:
+                if sample_rate:
+                    assert sample_rate == stage.output_sample_rate,\
+                        "stage sample rate {:g} != expected {:g}".format(
+                            stage.output_sample_rate, sample_rate)
+                else:
+                    sample_rate = stage.output_sample_rate
+        return sample_rate
+
+    def input_sample_rate(self):
+        """
+        Return the input sample rate
+
+        based on any defined sample rates and decimation
+        """
+        decimation_factor=1
+        for stage in self.stages:
+            if stage.decimation_factor:
+                decimation_factor *= stage.decimation_factor
+            if stage.output_sample_rate:
+                return stage.output_sample_rate * decimation_factor
+        return None
 
 
 class Stage():
@@ -93,7 +224,7 @@ class Stage():
         """
         Return equivalent obspy response stage
         """
-        #if input_sample_rate:
+        # if input_sample_rate:
         #    if not self.output_sample_rate:
         #        self.output_sample_rate = (input_sample_rate
         #                                   / self.decimation_factor)
@@ -111,9 +242,11 @@ class Stage():
         #                   format(stage_sequence_number))
 
         filt = self.filter
-        args=(self.stage_sequence_number, self.gain, self.gain_frequency,
-              self.input_units, self.output_units)
+        args = (self.stage_sequence_number, self.gain, self.gain_frequency,
+                self.input_units, self.output_units)
         if isinstance(filt, PolesZeros) or isinstance(filt, Analog):
+            if not filt.normalization_frequency:
+                filt.normalization_frequency = self.gain_frequency
             obj = PolesZerosResponseStage(
                 *args,
                 name=self.name,
@@ -136,7 +269,7 @@ class Stage():
                     float(t[0]) + 1j * float(t[1]),
                     lower_uncertainty=0.0, upper_uncertainty=0.0)\
                     for t in filt.poles],
-                normalization_factor=filt.normalization_factor)
+                normalization_factor=filt.calc_normalization_factor())
         elif isinstance(filt, FIR):
             obj = FIRResponseStage(
                 *args,

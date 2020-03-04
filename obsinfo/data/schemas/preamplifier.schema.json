@@ -28,7 +28,7 @@
                 "config_description": {"type": "string"},
                 "notes":              {"$ref": "definitions.schema.json#/note_list"},
                 "equipment":          {"$ref": "definitions.schema.json#/equipmentType" },
-                "responses_ordered":    {"$ref": "#/definitions/response_list" },
+                "response_stages":    {"$ref": "response_stages.schema.json#/definitions/response_stages" },
                 "configuration_definitions": {"$ref": "#/definitions/preamplifier_configs_map"},
                 "serial_number_definitions": {"$ref": "#/definitions/preamplifier_serial_numbers_map"}
             },
@@ -52,22 +52,17 @@
             "properties": {
                 "config_description": {"type": "string"},
                 "equipment":          {"$ref": "definitions.schema.json#/equipmentType_noRequired"},
-                "responses_ordered":    {"$ref": "#/definitions/response_list"}
+                "responses_ordered":    {"$ref": "response_stages.schema.json#/definitions/response_stages" }
             },
-            "additionalProperties": false
+            "response_stages": false
         },
         "preamplifier_serial_number" : {
             "description" : "Serial number-specific preamplifier properties",
             "properties": {
                 "equipment":       {"$ref": "definitions.schema.json#/equipmentType_noRequired"},
-                "responses_ordered": {"$ref": "#/definitions/response_list"}
+                "response_stages": {"$ref": "response_stages.schema.json#/definitions/response_stages" }
             },
             "additionalProperties": false
-        },
-        "response_list" : {
-            "type" : "array",
-            "description": "list of response-stage files#keys in JSON Pointers format",
-            "items" : { "$ref": "response.schema.json#/definitions/response"}
         }
     }
 }

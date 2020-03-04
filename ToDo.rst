@@ -13,11 +13,21 @@ ____________
 Major
 ____________
 
+- info_dict should also be able to drill down inside of lists
 - Only allow "$ref" as oneOf choice at network (and instrumentation?) level(s)
 - Only allow specification of configurations at network (and instrumentation?) levels
 - ?Specify more levels? (one per "class") to allow more file validations
 - **Have all levels below network (& instrumentation?) always do full jsonref read?**
     - or have validation provide a one-line error message for unresolvable jsonrefs
+- Replace ``response_ordered`` by ``response_stages`` (eliminates two levels)
+    - would have to remove decimation_info from ``datalogger:response``
+    - -: might be harder to auto-verify datalogger response files because there would be no
+         explicit statement of input and output sample rates (but could still verify chain
+         from start sample rate to output sample rate.
+    - might need to change name of CS5322 response files from, for example,
+      '*_125sps.response.yaml' to '*_decim256.response.yaml' (because output rate depends
+      on their input rate)
+    - or simply list all stages in datalogger.yaml file!
 - Put "file_fields" description in descriptions.schema.json
   - each schema file will open with 
 '''

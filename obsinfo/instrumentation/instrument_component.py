@@ -12,12 +12,14 @@ from obspy.core.inventory.util import Equipment as obspy_Equipment
 from obspy.core.util.obspy_types import FloatWithUncertaintiesAndUnit as\
     obspy_FloatWithUncertaintiesAndUnit
 
+from .response_stages import Response_Stages
+
 
 class InstrumentComponent(object):
     """
     InstrumentComponent superclass.  No obspy equivalent
     """
-    def __init__(self, equipment, responses_ordered=[],
+    def __init__(self, equipment, response_stages=[],
                  config_description=''):
         """
         Constructor
@@ -26,7 +28,7 @@ class InstrumentComponent(object):
         if config_description:
             self.equipment.description += ('[config: ' + config_description
                                            + ']')
-        self.responses_orderd = responses_ordered
+        self.response_stages = response_stages
 
     @staticmethod
     def from_info_dict(info_dict):
@@ -55,7 +57,7 @@ class Datalogger(InstrumentComponent):
     """
     Datalogger Instrument Component. No obspy equivalent
     """
-    def __init__(self, equipment, sample_rate, responses_ordered=[],
+    def __init__(self, equipment, sample_rate, response_stages=[],
                  config_description='', delay_correction=0):
         self.equipment = equipment
         if config_description:
@@ -63,20 +65,21 @@ class Datalogger(InstrumentComponent):
             self.equipment.description += ('[config: ' + config_description
                                            + ']')
         self.sample_rate = sample_rate
-        self.responses_ordered = responses_ordered
+        self.response_stages = response_stages
         self.delay_correction = delay_correction
 
     @classmethod
     def from_info_dict(cls, info_dict):
         """
-        Create PolesZeros instance from an info_dict
+        Create Datalogger instance from an info_dict
         """
         if not info_dict:
             return None
-        equipment=info_dict.get('equipment', None)
+        equipment = info_dict.get('equipment', None)
+        response_stages = info_dict.get('response_stages', None)
         obj = cls(Equipment.from_info_dict(equipment),
                   info_dict.get('sample_rate', None),
-                  info_dict.get('responses_ordered', []),
+                  Response_Stages.from_info_dict(response_stages),
                   info_dict.get('config_description', ''),
                   info_dict.get('delay_correction', 0))
         # print(obj)
@@ -84,8 +87,8 @@ class Datalogger(InstrumentComponent):
 
     def __repr__(self):
         s = f'Datalogger({type(self.equipment)}, {self.sample_rate:g}'
-        if self.responses_ordered:
-            s += f', {len(self.responses_ordered):d}xlist'
+        if self.response_stages:
+            s += f', {len(self.response_stages):d} x Stage'
         if self._config_description:
             s += f', config_description="{self._config_description}"'
         if self.delay_correction:
@@ -99,7 +102,7 @@ class Sensor(InstrumentComponent):
     Sensor Instrument Component. No obspy equivalent
     """
     def __init__(self, equipment, seed_band_base_code, seed_instrument_code,
-                 seed_orientations, responses_ordered=[],
+                 seed_orientations, response_stages=[],
                  config_description=''):
         """
         Constructor
@@ -125,7 +128,7 @@ class Sensor(InstrumentComponent):
         self.seed_band_base_code = seed_band_base_code
         self.seed_instrument_code = seed_instrument_code
         self.seed_orientations = seed_orientations  # dictionary
-        self.responses_ordered = responses_ordered
+        self.response_stages = response_stages
 
     @classmethod
     def from_info_dict(cls, info_dict):
@@ -136,23 +139,25 @@ class Sensor(InstrumentComponent):
             return None
         seed_dict = info_dict.get('seed_codes', {})
         orient_dict = seed_dict.get('orientation', {})
-        orients={key:Orientation.from_info_dict(value) for (key, value) in orient_dict.items()}
+        orients = {key: Orientation.from_info_dict(value)
+                   for (key, value) in orient_dict.items()}
+        response_stages = info_dict.get('response_stages', None)
         obj = cls(Equipment.from_info_dict(info_dict.get('equipment', None)),
                   seed_dict.get('band_base', None),
                   seed_dict.get('instrument', None),
                   orients,
-                  info_dict.get('responses_ordered', []),
+                  Response_Stages.from_info_dict(response_stages),
                   info_dict.get('config_description', '')
                   )
         return obj
 
     def __repr__(self):
-        s = f'Datalogger({type(self.equipment)}, "{self.seed_band_base_code}", '
-        s += f'"{self.seed_instrument_code}", '
-        s += f'{len(self.seed_orientations)}x'
-        s += f'{type(self.seed_orientations)}'
-        if self.responses_ordered:
-            s += f', {len(self.responses_ordered):d}xlist'
+        s = 'Datalogger({}, "{}", "{}", {}x{}'.format(
+            type(self.equipment), self.seed_band_base_code,
+            self.seed_instrument_code, len(self.seed_orientations),
+            type(self.seed_orientations))
+        if self.response_stages:
+            s += f', {len(self.response_stages):d} x list'
         if self.config_description:
             s += f', config_description={self.config_description}'
         s += ')'
@@ -169,16 +174,17 @@ class Preamplifier(InstrumentComponent):
         """
         if not info_dict:
             return None
+        response_stages = info_dict.get('response_stages', None)
         obj = cls(Equipment.from_info_dict(info_dict.get('equipment', None)),
-                  info_dict.get('responses_ordered', []),
+                  Response_Stages.from_info_dict(response_stages),
                   info_dict.get('config_description', '')
                   )
         return obj
 
     def __repr__(self):
         s = f'Preamplifier({type(self.equipment)}'
-        if self.responses_ordered:
-            s += f', {len(self.responses_ordered):d}xlist'
+        if self.response_stages:
+            s += f', {len(self.response_stages):d}xlist'
         if self.config_description:
             s += f', config_description={self.config_description}'
         s += ')'

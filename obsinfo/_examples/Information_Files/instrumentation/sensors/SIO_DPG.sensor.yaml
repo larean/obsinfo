@@ -22,17 +22,17 @@ sensor:
         orientation:
             "H": {azimuth.deg: [0,0], dip.deg: [90,0]}
             "F": {azimuth.deg: [0,0], dip.deg: [90,0]}
-    responses_ordered:
-        - $ref: "responses/SIO-LDEO_DPG_generic_theoretical.response.yaml#response"
+    response_stages:
+        - $ref: "responses/SIO-LDEO_DPG_generic_theoretical.stage.yaml#stage"
     serial_number_definitions:
         "5004": 
             equipment: {manufacturer: "SIO"}
-            responses_ordered: 
-                - $ref: "responses/SIO-LDEO_DPG_5004_calibrated.response.yaml#response"
+            response_stages: 
+                - $ref: "responses/SIO-LDEO_DPG_5004_calibrated.stage.yaml#stage"
         "5018":
             equipment: {manufacturer: "SIO"}
-            responses_ordered:
-                - $ref: "responses/SIO-LDEO_DPG_5018_calibrated.response.yaml#response"
+            response_stages:
+                - $ref: "responses/SIO-LDEO_DPG_5018_calibrated.stage.yaml#stage"
         "5027":
             equipment: {manufacturer: "SIO"}
         "IP004":

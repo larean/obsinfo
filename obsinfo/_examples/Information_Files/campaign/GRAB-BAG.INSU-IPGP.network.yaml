@@ -37,7 +37,7 @@ network:
                     datalogger_config: "62.5sps"
             locations:
                 "00":
-                    base: {$ref: '../location_bases/ACOUSTIC_SURVEY.location_base.yaml#location_base'}
+                    base: {$ref: 'location_bases/ACOUSTIC_SURVEY.location_base.yaml#location_base'}
                     position: {lon: -32.27909, lat: 37.31960, elev: -1798}
             processing:
                 - clock_correct_linear_drift:
@@ -59,7 +59,7 @@ network:
                     datalogger_config: "62.5sps"
             locations:
                 "00":
-                    base: {$ref: '../location_bases/BUC_DROP.location_base.yaml#location_base'}
+                    base: {$ref: 'location_bases/BUC_DROP.location_base.yaml#location_base'}
                     position: {lon: -32.29756, lat: 37.26049, elev: -1887}
             processing:
                 - clock_corrections:
@@ -100,16 +100,16 @@ network:
                                     serial_number: "9601"
             locations:
                 "00":
-                    base: {$ref: '../location_bases/BUC_DIRECT.location_base.yaml#location_base'}
+                    base: {$ref: 'location_bases/BUC_DIRECT.location_base.yaml#location_base'}
                     position: {lon: -32.29756, lat: 37.26049, elev: -1887}
                 "01":
-                    base: {$ref: '../location_bases/BUC_DIRECT.location_base.yaml#location_base'}
+                    base: {$ref: 'location_bases/BUC_DIRECT.location_base.yaml#location_base'}
                     position: {lon: -32.29756, lat: 37.26051, elev: -1885}
                 "02":
-                    base: {$ref: '../location_bases/BUC_DIRECT.location_base.yaml#location_base'}
+                    base: {$ref: 'location_bases/BUC_DIRECT.location_base.yaml#location_base'}
                     position: {lon: -32.29758, lat: 37.26049, elev: -1889}
                 "03":
-                    base: {$ref: '../location_bases/BUC_DIRECT.location_base.yaml#location_base'}
+                    base: {$ref: 'location_bases/BUC_DIRECT.location_base.yaml#location_base'}
                     position: {lon: -32.29756, lat: 37.26047, elev: -1877}
             processing:
                 - clock_correct_leapsecond:

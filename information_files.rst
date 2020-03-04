@@ -324,6 +324,18 @@ Fields:
 
 :``orientation_code``: SEED orientation code.
 
+:``location_code``: Channel location code, if different from station
+                    location code
+                    
+:``datalogger_modifs``: Modifications to the ``datalogger``: an object
+                        with the same structure as the ``datalogger``
+                        specification, but only the values to change 
+                        specified (not validated by schema)
+
+:``sensor_modifs``: Modifications to the ``sensor``: as above
+
+:``preamplifier_modifs``: Modifications to the ``preamplifier``: as above
+
 --------------------------------------------------------------------------------
 
 Instrument Component

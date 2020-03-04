@@ -23,12 +23,12 @@
     "definitions": {
         "sensor": { 
             "description": "Basic sensor specification",
-            "required": ["equipment", "responses_ordered", "seed_codes"],
+            "required": ["equipment", "response_stages", "seed_codes"],
             "properties": {
                 "config_description": {"type": "string"},
                 "notes":              {"$ref": "definitions.schema.json#/note_list"},
                 "equipment":          {"$ref": "definitions.schema.json#/equipmentType"},
-                "responses_ordered":  {"$ref": "#/definitions/response_list"},
+                "response_stages":    {"$ref": "response_stages.schema.json#/definitions/response_stages" },
                 "seed_codes":         {"$ref": "#/definitions/seed_codes"},
                 "configuration_definitions": {"$ref": "#/definitions/sensor_configs_map"},
                 "serial_number_definitions": {"$ref": "#/definitions/sensor_serial_numbers_map"},
@@ -49,7 +49,7 @@
             "properties": {
                 "config_description": {"type": "string"},
                 "equipment":          {"$ref": "definitions.schema.json#/equipmentType_noRequired"},
-                "responses_ordered":  {"$ref": "#/definitions/response_list"},
+                "response_stages":    {"$ref": "response_stages.schema.json#/definitions/response_stages" },
                 "seed_codes":         {"$ref": "#/definitions/seed_codes"}
             },
             "additionalProperties": false
@@ -58,15 +58,10 @@
             "description" : "Serial number-specific sensor properties",
             "properties": {
                 "equipment":         {"$ref": "definitions.schema.json#/equipmentType_noRequired"},
-                "responses_ordered": {"$ref": "#/definitions/response_list"},
+                "response_stages":    {"$ref": "response_stages.schema.json#/definitions/response_stages" },
                 "seed_codes":        {"$ref": "#/definitions/seed_codes"}
             },
             "additionalProperties": false
-        },
-        "response_list" : {
-            "type" : "array",
-            "description": "list of responses",
-            "items" : { "$ref": "response.schema.json#/definitions/response"}
         },
         "seed_codes" : {
             "description": "Seed codes, azimuths and dips associated with a sensor",

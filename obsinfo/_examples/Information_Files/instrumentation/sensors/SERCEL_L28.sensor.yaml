@@ -21,5 +21,5 @@ sensor:
             "3": {azimuth.deg: [0,0],    dip.deg: [90,0]}
             "1": {azimuth.deg: [0,180],  dip.deg: [0,0]}
             "2": {azimuth.deg: [90,180], dip.deg: [0,0]}
-    responses_ordered:
-        - $ref: "responses/Sercel_L28LB_LCHEAPO_theoretical.response.yaml#response"
+    response_stages:
+        - $ref: "responses/Sercel_L28LB_LCHEAPO_theoretical.stage.yaml#stage"

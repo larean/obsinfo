@@ -53,13 +53,16 @@ class PolesZeros(Filter):
     """
     def __init__(self, transfer_function_type='LAPLACE (RADIANS/SECOND)',
                  poles=[], zeros=[],
-                 normalization_frequency=0, normalization_factor=1.):
+                 normalization_frequency=1., normalization_factor=None):
         # self.type = 'PolesZeros'
         self.transfer_function_type = transfer_function_type
         self.poles = poles
         self.zeros = zeros
         self.normalization_frequency = normalization_frequency
-        self.normalization_factor = normalization_factor
+        if normalization_frequency and not normalization_factor:
+            self.normalization_factor=self.calc_normalization_factor()
+        else:
+            self.normalization_factor = normalization_factor
 
     @classmethod
     def from_info_dict(cls, info_dict):
@@ -70,8 +73,8 @@ class PolesZeros(Filter):
                                 'LAPLACE (RADIANS/SECOND)'),
                   info_dict.get('poles', []),
                   info_dict.get('zeros', []),
-                  info_dict.get('normalization_frequency', 0.),
-                  info_dict.get('normalization_factor', 1.))
+                  info_dict.get('normalization_frequency', 1.),
+                  info_dict.get('normalization_factor', None))
         return obj
 
     def __repr__(self):
@@ -82,6 +85,42 @@ class PolesZeros(Filter):
         s += f'{self.normalization_frequency:g}, '
         s += f'{self.normalization_factor:g})'
         return s
+        
+    def calc_normalization_factor(self, debug=False):
+    """
+    Calculate the normalization factor for give poles-zeros
+    
+    The norm factor A0 is calculated such that
+                       sequence_product_over_n(s - zero_n)
+            A0 * abs(------------------------------------------) === 1
+                       sequence_product_over_m(s - pole_m)
+    for s_f=i*2pi*f if the transfer function is in radians
+            i*f     if the transfer funtion is in Hertz
+    """
+    if not self.normalization_frequency:
+        return None
+    
+    A0 = 1.0 + (1j * 0.0)
+    if pz_type == "LAPLACE (HERTZ)":
+        s = 1j * self.normalization_frequency
+    elif pz_type == "LAPLACE (RADIANS/SECOND)":
+        s = 1j * 2 * m.pi * self.normalization_frequency
+    else:
+        print("Don't know how to calculate normalization factor "
+              "for z-transform poles and zeros!"))
+        return False
+    for p in self.poles:
+        A0 *= (s - p)
+    for z in self.zeros:
+        A0 /= (s - z)
+
+    if debug:
+        print("poles=", poles, ", zeros=", zeros, "s={:g}, A0={:g}".format(s, A0))
+
+    A0 = abs(A0)
+
+    return A0
+
 
 
 class FIR(Filter):

@@ -38,7 +38,7 @@ network:
                     datalogger_config: "62.5sps"
             locations:
                 "00":
-                    base: {$ref: '../location_bases/BUC_DIRECT.location_base.yaml#location_base'}
+                    base: {$ref: 'location_bases/BUC_DIRECT.location_base.yaml#location_base'}
                     position: {lon: -32.280, lat: 37.290, elev: -1760}
             processing:
                 - clock_correct_leapsecond:

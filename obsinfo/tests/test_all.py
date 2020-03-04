@@ -20,7 +20,7 @@ from obsinfo.misc.info_files import (validate, _read_json_yaml,
 from obsinfo.info_dict import InfoDict
 from obsinfo.instrumentation import (Instrumentation, InstrumentComponent,
                                      Datalogger, Preamplifier, Sensor, 
-                                     Response, Stage, Filter)
+                                     Response_Stages, Stage, Filter)
 
 
 class TestADDONSMethods(unittest.TestCase):
@@ -112,8 +112,6 @@ class TestADDONSMethods(unittest.TestCase):
     def test_stage(self):
         """
         Test reading a stage file.
-        
-        Have to force-feed sample rates, which are provided at Response level
         """
         A = read_info_file(os.path.join(
             self.infofiles_path, 
@@ -128,27 +126,27 @@ class TestADDONSMethods(unittest.TestCase):
 
     def test_response(self):
         """
-        Test reading and combining response files.
+        Test reading and combining response_stages.
         """
         A = read_info_file(os.path.join(
             self.infofiles_path, 
             "instrumentation",
             "sensors",
             "responses",
-            "Trillium_T240_SN400-singlesided_theoretical.response.yaml"))
+            "Trillium_T240_SN400-singlesided_theoretical.stage.yaml"))
         B = _read_json_yaml_ref(os.path.join(
             self.infofiles_path, 
             "instrumentation",
             "dataloggers",
             "responses",
-            "TexasInstruments_ADS1281_100sps-linear_theoretical.response.yaml"))
+            "TexasInstruments_ADS1281_100sps-linear_theoretical.response_stages.yaml"))
         
-        obj_A = Response.from_info_dict(A['response'])
-        obj_B = Response.from_info_dict(B['response'])
+        obj_A = Response_Stages([Stage.from_info_dict(A['stage'])])
+        obj_B = Response_Stages.from_info_dict(B['response_stages'])
         obj = obj_A + obj_B
         # print(obj)
         obs_obj = obj.to_obspy()
-        # print(obs_obj)
+        print(obs_obj)
 
     def test_datalogger(self):
         """

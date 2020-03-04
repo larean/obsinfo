@@ -35,7 +35,7 @@ network:
                     serial_number: "20"
             locations:
                 "00":
-                    base: {$ref: '../location_bases/SURFACE_DROP.location_base.yaml#location_base'}
+                    base: {$ref: 'location_bases/SURFACE_DROP.location_base.yaml#location_base'}
                     position: {lon: -32.32504, lat: 37.29744, elev: -2030}
             processing:
                 - clock_correction_linear_drift:
@@ -56,7 +56,7 @@ network:
                     serial_number: "12"
             locations:
                 "00":
-                    base: {$ref: '../location_bases/ACOUSTIC_SURVEY.location_base.yaml#location_base'}
+                    base: {$ref: 'location_bases/ACOUSTIC_SURVEY.location_base.yaml#location_base'}
                     position: {lon: -32.02504, lat: 37.25744, elev: -2130}
             processing:
                 - clock_correct_linear_drift:

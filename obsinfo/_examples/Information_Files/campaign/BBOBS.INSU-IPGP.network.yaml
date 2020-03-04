@@ -29,7 +29,7 @@ network:
                     serial_number: "07"
             locations:
                 "00":
-                    base: {$ref: '../location_bases/BUC_DROP.location_base.yaml#location_base'}
+                    base: {$ref: 'location_bases/BUC_DROP.location_base.yaml#location_base'}
                     position: {lon: -32.234, lat: 37.2806, elev: -1950}
             processing:
                 - clock_corrections:
@@ -57,7 +57,7 @@ network:
                             "H": {sensor: {serial_number : "IP007"}}
             locations:
                 "00":
-                    base: {$ref: '../location_bases/BUC_DROP.location_base.yaml#location_base'}
+                    base: {$ref: 'location_bases/BUC_DROP.location_base.yaml#location_base'}
                     position: {lon: -32.29756, lat: 37.26049, elev: -1887}
             processing:
                 - clock_correct_linear_drift:

@@ -4,7 +4,7 @@ notes:
     - "All instruments and configurations of the INSU-IPGP OBS park"
 yaml_anchors:
     location_defaults: &LOC_DEFAULTS
-        base: {$ref: "../location_bases/SURFACE_DROP.location_base.yaml#location_base"}
+        base: {$ref: "location_bases/SURFACE_DROP.location_base.yaml#location_base"}
         position: {lon: 45, lat: 45, elev: 0}
     station_defaults: &STATION_DEFAULTS
         start_date: "2015-01-01T00:00:00Z"

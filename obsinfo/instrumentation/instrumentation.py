@@ -66,10 +66,10 @@ class Instrument(object):
                                                orientation_code)
         self.orientation = sensor.seed_orientations[orientation_code]
         # Stack sensor, preamplifier and datalogger response stages
-        self.responses_ordered = sensor.responses_ordered
+        self.response_stages = sensor.response_stages
         if preamplifier:
-            self.responses_ordered.extend(preamplifier.responses_ordered)
-        self.responses_ordered.extend(datalogger.responses_ordered)
+            self.response_stages.extend(preamplifier.response_stages)
+        self.response_stages.extend(datalogger.response_stages)
 
     def __repr__(self):
         s = f'Instrument({self.datalogger}, {self.sensor}, '

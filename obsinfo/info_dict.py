@@ -20,7 +20,7 @@ class UpDict(dict):
     
     def update(self, update_dict, allow_overwrite=True):
         """
-        Update which only changes fields which are explicitly specfied
+        Update that only changes explicitly specfied fields
 
         Drills recursively through dicts inside the dict, only changing fields
         which are specified in update_dict
@@ -57,17 +57,14 @@ class UpDict(dict):
         """
         for key, value in update_dict.items():
             # print(f'{key}')
-            if key not in self:
-                # print(f'{key} : new')
+            if key not in self:  # Add new key and its value
                 if isinstance(value, (dict, UserDict)):
                     value = self.__class__(value)
                 self[key] = value
-            else:
+            else:  # Key exists in self:
                 if isinstance(self[key], (dict, UserDict)):
-                    # print(f'{key} : dict')
-                    # if the original value is itself a dictionary
+                    # if value is also a dictionary, update it
                     if isinstance(value,  (dict, UserDict)):
-                        # print(f'{key} : both dict, recursing')
                         # if replacement value is a dictionary, recurse
                         self[key].update(self.__class__(value))
                     else:
@@ -85,11 +82,22 @@ class UpDict(dict):
                                 f'replacement field "{key}" not inserted into '
                                 'original because original was a dict and '
                                 'replacement was not')
+                elif isinstance(self[key], list) and isinstance(value,  list):
+                    # if replacement value is a list, recurse on contents
+                    # Does not handle directly nested lists
+                    for i in range(len(value)):
+                        newitem = value[i]
+                        if newitem:
+                            if isinstance(newitem, (dict, UserDict)):
+                                self[key][i].update(__class__(newitem))
+                            else:
+                                self[key][i] = newitem
                 else:
-                    # print(f'{key} : not dict, replace directly')
+                    # Replace existing others
                     if isinstance(value, (dict, UserDict)):
                         value = self.__class__(value)
                     self[key] = value
+
 
     def propagate(self):
         """

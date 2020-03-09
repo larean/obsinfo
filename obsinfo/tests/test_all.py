@@ -191,6 +191,15 @@ class TestADDONSMethods(unittest.TestCase):
         self.assertTrue(A == InfoDict(a=1, b=dict(c=2, d=4, e=5)))
         
 
+    def test_InfoDict_update_list(self):
+        """
+        Test InfoDict.update() for a list
+        """
+        A = InfoDict(a=1, b=[1, 2, 3, 4, 5])
+        A.update(dict(b=[None,None,99]))
+        self.assertTrue(A == InfoDict(a=1, b=[1, 2, 99, 4, 5]))
+        
+
     def test_InfoDict_daschannels(self):
         """
         Test InfoDict.complete_das_channels()

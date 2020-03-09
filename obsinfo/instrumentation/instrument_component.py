@@ -12,7 +12,7 @@ from obspy.core.inventory.util import Equipment as obspy_Equipment
 from obspy.core.util.obspy_types import FloatWithUncertaintiesAndUnit as\
     obspy_FloatWithUncertaintiesAndUnit
 
-from .response_stages import Response_Stages
+from .response_stages import ResponseStages
 
 
 class InstrumentComponent(object):
@@ -79,7 +79,7 @@ class Datalogger(InstrumentComponent):
         response_stages = info_dict.get('response_stages', None)
         obj = cls(Equipment.from_info_dict(equipment),
                   info_dict.get('sample_rate', None),
-                  Response_Stages.from_info_dict(response_stages),
+                  ResponseStages.from_info_dict(response_stages),
                   info_dict.get('config_description', ''),
                   info_dict.get('delay_correction', 0))
         # print(obj)
@@ -146,7 +146,7 @@ class Sensor(InstrumentComponent):
                   seed_dict.get('band_base', None),
                   seed_dict.get('instrument', None),
                   orients,
-                  Response_Stages.from_info_dict(response_stages),
+                  ResponseStages.from_info_dict(response_stages),
                   info_dict.get('config_description', '')
                   )
         return obj
@@ -176,7 +176,7 @@ class Preamplifier(InstrumentComponent):
             return None
         response_stages = info_dict.get('response_stages', None)
         obj = cls(Equipment.from_info_dict(info_dict.get('equipment', None)),
-                  Response_Stages.from_info_dict(response_stages),
+                  ResponseStages.from_info_dict(response_stages),
                   info_dict.get('config_description', '')
                   )
         return obj

@@ -19,18 +19,15 @@ from .filter import (Filter, PolesZeros, FIR, Coefficients, ResponseList,
                      Analog, Digital, AD_Conversion)
 
 
-class Response_Stages():
+class ResponseStages():
     """
-    Reponse_Stages class
+    ReponseStages class
 
     An ordered list of Stages
     """
     def __init__(self, stages):
         self.stages = stages
-
-        # Add stage_sequence numbers to the stages
-        for i in range(len(self.stages)):
-            self.stages[i].stage_sequence_number = i+1
+        self._assure_continuity()
 
     def __repr__(self):
         s = f'Response_Stages([{len(self.stages):d}x{type(self.stages[0])}])'
@@ -42,17 +39,41 @@ class Response_Stages():
 
         The first object will have its stages before before the second's
         """
-        # Verify that the units are compatible
-        assert self.stages[-1].output_units == other.stages[0].input_units,\
-            "Output units of 1st don't match input_units of 2nd"
-        # Verify that the sample rates are compatible
-        if self.output_sample_rate() and other.input_sample_rate():
-            assert self.output_sample_rate() == other.input_sample_rate(),\
-                "first object's outp samp_rate != 2nd objects' inp samp_rate"
-        stages = [s for s in self.stages]
+        stages = self.stages.copy()
         stages.extend(other.stages)
+        return(ResponseStages(stages))
 
-        return Response_Stages(stages)
+    def _assure_continuity(self):
+        """
+        Number stages sequentially and verify/set units and sample rates
+        """
+        # Order the stage_sequence_numbers
+        for i in range(len(self.stages)):
+            self.stages[i].stage_sequence_number = i+1
+
+        stage = self.stages[0]
+        for next_stage in self.stages[1:]:
+            # Verify continuity of units
+            assert stage.output_units == next_stage.input_units,\
+                "Stage {:d} and {:d} units don't match".format(
+                    stage.stage_sequence_number,
+                    next_stage.stage_sequence_number)
+            # Verify continuity of sample rate
+            if stage.output_sample_rate:
+                assert next_stage.decimation_factor,\
+                    'No decimation_rate for stage {:d}'.format(
+                        next_stage.stage_sequence_number)
+                next_rate = (stage.output_sample_rate
+                             / next_stage.decimation_factor)
+                if next_stage.output_sample_rate:
+                    assert next_stage.output_sample_rate == next_rate,\
+                        'stage {:d} sample rate ({:g}) != expected ({:g})'.\
+                            format(next_stage.stage_sequence_number,
+                                   next_stage.output_sample_rate,
+                                   next_rate)
+                else:
+                    next_stage.output_sample_rate = next_rate
+            stage = next_stage
 
     def extend(self, other):
         """
@@ -105,46 +126,10 @@ class Response_Stages():
             output_units_description=self.stages[-1].output_units_description
             )
         obspy_resp.instrument_sensitivity = sensitivity
-        print(sensitivity)
-        print(obspy_resp)
         obspy_resp.recalculate_overall_sensitivity(sensitivity.frequency)
         obspy_resp.instrument_sensitivity.input_units = true_input_units
 
         return obspy_resp
-
-    def output_sample_rate(self):
-        """
-        Return the output sample rate
-
-        based on any defined sample rates and decimation
-        """
-        sample_rate = None
-        for stage in self.stages:
-            if stage.decimation_factor:
-                if sample_rate:
-                    sample_rate /= stage.decimation_factor
-            if stage.output_sample_rate:
-                if sample_rate:
-                    assert sample_rate == stage.output_sample_rate,\
-                        "stage sample rate {:g} != expected {:g}".format(
-                            stage.output_sample_rate, sample_rate)
-                else:
-                    sample_rate = stage.output_sample_rate
-        return sample_rate
-
-    def input_sample_rate(self):
-        """
-        Return the input sample rate
-
-        based on any defined sample rates and decimation
-        """
-        decimation_factor=1
-        for stage in self.stages:
-            if stage.decimation_factor:
-                decimation_factor *= stage.decimation_factor
-            if stage.output_sample_rate:
-                return stage.output_sample_rate * decimation_factor
-        return None
 
 
 class Stage():
@@ -172,6 +157,19 @@ class Stage():
         self.delay = delay
         self.correction = correction
         self.calibration_date = calibration_date
+
+    @property
+    def input_sample_rate(self):
+        if self.output_sample_rate and self.decimation_factor:
+            return self.output_sample_rate * self.decimation_factor
+        else:
+            return None
+
+    # @input_sample_rate.setter
+    # def input_sample_rate(self, x):
+    #     assert self.decimation_factor,\
+    #         'cannot set input_sample_rate without decimation_factor'
+    #     self.output_sample_rate = x/self.decimation_factor
 
     def __repr__(self):
         s = f'Stage("{self.name}", "{self.description}", '
@@ -224,22 +222,6 @@ class Stage():
         """
         Return equivalent obspy response stage
         """
-        # if input_sample_rate:
-        #    if not self.output_sample_rate:
-        #        self.output_sample_rate = (input_sample_rate
-        #                                   / self.decimation_factor)
-        #    elif not ((input_sample_rate / self.output_sample_rate)
-        #              == self.decimation_factor):
-        #        warnings.warn('input_sample_rate/output_sample_rate does not'
-        #                      + ' equal decimation_factor')
-        if self.output_sample_rate:
-            input_sample_rate = (self.output_sample_rate
-                                 * self.decimation_factor)
-        else:
-            input_sample_rate = None
-        # else:
-        #     warnings.warn('no output_sample_rate specified for stage {:d}'.
-        #                   format(stage_sequence_number))
 
         filt = self.filter
         args = (self.stage_sequence_number, self.gain, self.gain_frequency,
@@ -253,7 +235,7 @@ class Stage():
                 input_units_description=self.input_units_description,
                 output_units_description=self.output_units_description,
                 description=self.description,
-                decimation_input_sample_rate=input_sample_rate,
+                decimation_input_sample_rate=self.input_sample_rate,
                 decimation_factor=self.decimation_factor,
                 decimation_offset=self.offset,
                 decimation_delay=self.delay,
@@ -275,7 +257,7 @@ class Stage():
                 input_units_description=self.input_units_description,
                 output_units_description=self.output_units_description,
                 description=self.description,
-                decimation_input_sample_rate=input_sample_rate,
+                decimation_input_sample_rate=self.input_sample_rate,
                 decimation_factor=self.decimation_factor,
                 decimation_offset=self.offset,
                 decimation_delay=self.delay,
@@ -294,7 +276,7 @@ class Stage():
                 input_units_description=self.input_units_description,
                 output_units_description=self.output_units_description,
                 description=self.description,
-                decimation_input_sample_rate=input_sample_rate,
+                decimation_input_sample_rate=self.input_sample_rate,
                 decimation_factor=self.decimation_factor,
                 decimation_offset=self.offset,
                 decimation_delay=self.delay,
@@ -315,7 +297,7 @@ class Stage():
                 input_units_description=self.input_units_description,
                 output_units_description=self.output_units_description,
                 description=self.description,
-                decimation_input_sample_rate=input_sample_rate,
+                decimation_input_sample_rate=self.input_sample_rate,
                 decimation_factor=self.decimation_factor,
                 decimation_offset=self.offset,
                 decimation_delay=self.delay,

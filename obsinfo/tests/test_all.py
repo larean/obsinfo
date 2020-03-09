@@ -11,16 +11,16 @@ import os
 import glob
 import unittest
 import inspect
-from pprint import pprint
-import xml.etree.ElementTree as ET
-from CompareXMLTree import XmlTree
+# from pprint import pprint
+# import xml.etree.ElementTree as ET
+# from CompareXMLTree import XmlTree
 # from obsinfo.network.network import _make_stationXML_script
 from obsinfo.misc.info_files import (validate, _read_json_yaml,
                                      _read_json_yaml_ref, read_info_file)
 from obsinfo.info_dict import InfoDict
 from obsinfo.instrumentation import (Instrumentation, InstrumentComponent,
-                                     Datalogger, Preamplifier, Sensor, 
-                                     Response_Stages, Stage, Filter)
+                                     Datalogger, Preamplifier, Sensor,
+                                     ResponseStages, Stage, Filter)
 
 
 class TestADDONSMethods(unittest.TestCase):
@@ -59,32 +59,35 @@ class TestADDONSMethods(unittest.TestCase):
         Test JSONref using a JSON file.
         """
         fname_A = os.path.join(self.testing_path, "jsonref_A.json")
-        # print(fname_A)
         A = _read_json_yaml_ref(fname_A)
-        AB = _read_json_yaml_ref(os.path.join(self.testing_path, "jsonref_AB.json"))
-        self.assertTrue(A==AB)
-        
+        AB = _read_json_yaml_ref(os.path.join(self.testing_path,
+                                              "jsonref_AB.json"))
+        self.assertTrue(A == AB)
+
     def test_readJSONREF_yaml(self):
         """
         Test JSONref using a YAML file.
         """
-        A = _read_json_yaml_ref(os.path.join(self.testing_path, "jsonref_A.yaml"))
-        AB = _read_json_yaml_ref(os.path.join(self.testing_path, "jsonref_AB.yaml"))
-        self.assertTrue(A==AB)
-        
+        A = _read_json_yaml_ref(os.path.join(self.testing_path,
+                                             "jsonref_A.yaml"))
+        AB = _read_json_yaml_ref(os.path.join(self.testing_path,
+                                              "jsonref_AB.yaml"))
+        self.assertTrue(A == AB)
+
     def test_validate_json(self):
         """
         Test validation on a YAML file.
-        
+
         The test file as an $ref to a file that doesn't exist, a field that
-        is not specified in the the schema, and lacks a field required in 
+        is not specified in the the schema, and lacks a field required in
         the schema
         """
         test_file = os.path.join(self.testing_path, 'json_testschema.json')
         test_schema = os.path.join(self.testing_path,
                                    'json_testschema.schema.json')
-        # self.assertFalse(validate(test_file, schema_file=test_schema, quiet=True))
-        
+        # self.assertFalse(validate(test_file, schema_file=test_schema,
+        #                           quiet=True))
+
         # Run the code
         cmd = f'obsinfo-validate -s {test_schema} {test_file} > temp'
         os.system(cmd)
@@ -100,15 +103,15 @@ class TestADDONSMethods(unittest.TestCase):
         """
         Test reading a filter file.
         """
-        A = read_info_file(os.path.join(self.infofiles_path, 
+        A = read_info_file(os.path.join(
+            self.infofiles_path,
             "instrumentation",
             "sensors",
             "responses",
             "PolesZeros",
             "Sercel_L22D_C510-S2000_generic.filter.yaml"))
         obj = Filter.from_info_dict(A['filter'])
-        # print(obj)
-        
+
     def test_stage(self):
         """
         Test reading a stage file.
@@ -120,9 +123,7 @@ class TestADDONSMethods(unittest.TestCase):
             "responses",
             "TI_ADS1281_FIR1.stage.yaml"))
         obj = Stage.from_info_dict(A['stage'])
-        # print(obj)
         obs_obj = obj.to_obspy()
-        # print(obs_obj)
 
     def test_response(self):
         """
@@ -140,13 +141,10 @@ class TestADDONSMethods(unittest.TestCase):
             "dataloggers",
             "responses",
             "TexasInstruments_ADS1281_100sps-linear_theoretical.response_stages.yaml"))
-        
-        obj_A = Response_Stages([Stage.from_info_dict(A['stage'])])
-        obj_B = Response_Stages.from_info_dict(B['response_stages'])
+        obj_A = ResponseStages([Stage.from_info_dict(A['stage'])])
+        obj_B = ResponseStages.from_info_dict(B['response_stages'])
         obj = obj_A + obj_B
-        # print(obj)
         obs_obj = obj.to_obspy()
-        print(obs_obj)
 
     def test_datalogger(self):
         """
@@ -157,12 +155,9 @@ class TestADDONSMethods(unittest.TestCase):
             "instrumentation",
             "dataloggers",
             "LC2000.datalogger.yaml"))
-        
         obj = InstrumentComponent.from_info_dict(A)
         obj = InstrumentComponent.from_info_dict(A['datalogger'])
         obj = Datalogger.from_info_dict(A['datalogger'])
-        # print(obj)
-        # print(obj.equipment)
 
     def test_sensor(self):
         """
@@ -173,12 +168,9 @@ class TestADDONSMethods(unittest.TestCase):
             "instrumentation",
             "sensors",
             "NANOMETRICS_T240_SINGLESIDED.sensor.yaml"))
-        
         obj = InstrumentComponent.from_info_dict(A)
         obj = InstrumentComponent.from_info_dict(A['sensor'])
         obj = Sensor.from_info_dict(A['sensor'])
-        # print(obj)
-        # print(obj.equipment)
 
     def test_instrumentation(self):
         """
@@ -206,7 +198,6 @@ class TestADDONSMethods(unittest.TestCase):
         A = InfoDict(base_channel=dict(a=1, b=dict(c=2, d=3)),
                      das_channels={'1': dict(b=dict(c=5)), '2': dict(a=4)})
         A.complete_das_channels()
-        # print(A)
         self.assertTrue(
             A == InfoDict(
                 das_channels={'1': dict(a=1, b=dict(c=5, d=3)),
@@ -329,7 +320,7 @@ class TestADDONSMethods(unittest.TestCase):
                                                 "responses",
                                                 ftype,
                                                 "*.filter.yaml")):
-                self.assertTrue(validate(fname,quiet=True))
+                self.assertTrue(validate(fname, quiet=True))
 
     def test_validate_responses(self):
         """
@@ -340,7 +331,7 @@ class TestADDONSMethods(unittest.TestCase):
                                      component_dir, "responses",
                                      "*.response.yaml")
             for fname in glob.glob(glob_name):
-                self.assertTrue(validate(fname,quiet=True))
+                self.assertTrue(validate(fname, quiet=True))
 
     def test_validate_components(self):
         """
@@ -350,7 +341,7 @@ class TestADDONSMethods(unittest.TestCase):
             glob_name = os.path.join(self.infofiles_path, "instrumentation",
                                      component+'s', f"*.{component}.yaml")
             for fname in glob.glob(glob_name):
-                self.assertTrue(validate(fname,quiet=True))
+                self.assertTrue(validate(fname, quiet=True))
 
     def test_validate_instrumentation(self):
         """
@@ -359,7 +350,7 @@ class TestADDONSMethods(unittest.TestCase):
         for fname in glob.glob(os.path.join(self.infofiles_path,
                                             "instrumentation",
                                             "*.instrumentation.yaml")):
-            self.assertTrue(validate(fname,quiet=True))
+            self.assertTrue(validate(fname, quiet=True))
 
     def test_validate_networks(self):
         """
@@ -368,7 +359,7 @@ class TestADDONSMethods(unittest.TestCase):
         for fname in glob.glob(os.path.join(self.infofiles_path,
                                             "campaign",
                                             "*.network.yaml")):
-            self.assertTrue(validate(fname,quiet=True))
+            self.assertTrue(validate(fname, quiet=True))
 
 
 def suite():

@@ -104,10 +104,6 @@
         "minItems": 0,
         "items": {"type": "string", "minLength": 1 }
     },
-    "extras": {
-        "type" : "object",
-        "description" : "open structure for values and fields that do not contribute to (current) FDSN data or metadata"
-    },
     "phone": {
         "anyOf":[
             {

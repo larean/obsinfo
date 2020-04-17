@@ -14,6 +14,7 @@ Major
 ____________
 
 - Allow info_dict to drill down inside nested lists
+- Change "station" to include code (and "network" to have list of stations)?
 - Only allow "$ref" as oneOf choice at network (and instrumentation?) level(s)
 - Only allow specification of configurations at network (and instrumentation?) levels
 - ?json-schema more levels? (one per "class") to allow more file validations

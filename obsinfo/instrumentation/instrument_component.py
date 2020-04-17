@@ -24,7 +24,7 @@ class InstrumentComponent(object):
         """
         Constructor
         """
-        self.equipement = equipment
+        self.equipment = equipment
         if config_description:
             self.equipment.description += ('[config: ' + config_description
                                            + ']')
@@ -118,7 +118,7 @@ class Sensor(InstrumentComponent):
         :type seed_instrument_code: str (len 1)
         :param seed_orientations: SEED orientation codes and corresponding
                                       azimuths and dips
-        :type seed_orientation: dict
+        :type seed_orientations: dict
 
         """
         self.equipment = equipment
@@ -168,7 +168,7 @@ class Preamplifier(InstrumentComponent):
     """
     Preamplifier Instrument Component. No obspy equivalent
     """
-    def from_info_dict(cls, info_dict):
+    def from_info_dict(cls, info_dict=None):
         """
         Create Sensor instance from an info_dict
         """

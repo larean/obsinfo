@@ -138,12 +138,8 @@ class InfoDict(UpDict):
         >>> A
         {'das_channels': {'1': {'a': 7, 'b': 6}, '2': {'a': 5, 'b': 0}}}
         """
-        if 'das_channels' not in self:
-            warnings.warn("No top-level 'das_channels' key")
-            return
-        if 'base_channel' not in self:
-            warnings.warn("No top-level 'base_channel' key")
-            return
+        assert 'das_channels'  in self, f"No 'das_channels' key in {self.keys()}"
+        assert 'base_channel' in self, f"No 'base_channel' key in {self.keys()}"
         for key, value in self['das_channels'].items():
             # print(f'"{key}"')
             temp = InfoDict(value)

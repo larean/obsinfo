@@ -6,7 +6,7 @@ Station class
 # Non-standard modules
 
 # obsinfo modules
-from ..instrumentation import (Instrumentation)
+from ..instrumentation import (Instrumentation, Instrument)
 
 
 class Station(object):
@@ -18,7 +18,7 @@ class Station(object):
                  restricted_status='unknown'):
         """
         Constructor
-        
+
         :param site: site description
         :kind site: str
         :param start_date: station start date
@@ -35,21 +35,42 @@ class Station(object):
         :kind processing: dict (maybe should have class?)
         :param restricted_status: "open", "closed", "partial", or "unknown"
         :kind restricted_status: str
-        
         """
         self.site = site
         self.start_date = start_date
         self.end_date = end_date
         self.location_code = location_code
         self.locations = locations
-        self.instruments = instrument_list
+        self.instruments = instruments
         self.processing = processing
         self.restricted_status = restricted_status
 
+    @classmethod
+    def from_info_dict(cls, info_dict):
+        """
+        Create Station instance from an info_dict
+        """
+        insts = info_dict['instruments']
+        obj = cls(info_dict['site'],
+                  info_dict['start_date'],
+                  info_dict['end_date'],
+                  info_dict['location_code'],
+                  {c: Location.from_info_dict(v)
+                   for c, v in info_dict['locations'].items()},
+                  [Instrumentation.from_info_dict(x) for x in insts],
+                   
+                   
+                  Processing.from_info_dict(info_dict.get('processing',
+                                                          None)),
+                  info_dict.get('restricted_status', None)
+                  )
+        return obj
+
     def __repr__(self):
         s = f'Station({self.site}, {self.start_date}, {self.end_date}, '
-        s += f'{self.location_code}, {len(self.locations)} {type(Location}s, '
-        s += f'{len(self.instruments)} {type(Instrumentation}s'
+        s += f'{self.location_code}, '
+        s += f'{len(self.locations)} {type(Location)}s, '
+        s += f'{len(self.instruments)} {type(Instrumentation)}s'
         if self.processing:
             s += f', {len(self.processing)} processing-steps'
         if not self.restricted_stations == "unknown":
@@ -57,149 +78,127 @@ class Station(object):
         s += ')'
         return s
 
+    # def to_obspy(self):
+
+
+class Location(object):
+    """
+    Location Class.
+    """
+    def __init__(self, latitude, longitude, elevation, uncertainties_m,
+                 depth_m=None, geology='unknown', vault='',
+                 localisation_method=''):
+        """
+        :param latitude: station latitude (degrees N)
+        :type latitude: float
+        :param longitude: station longitude (degrees E)
+        :type longitude: float
+        :param elevation: station elevation (meters above sea level)
+        :type elevation: float
+        :param uncertainties_m: uncertainties of [lat, lon, elev] in METERS
+        :type uncertainties_m: list
+        :param geology: site geology
+        :type geology: str
+        :param vault: vault type
+        :type vault: str
+        :param depth_m: depth of station beneath surface (meters)
+        :type depth_m: float
+        :param localisation_method: method used to determine position
+        :type localisation_method: str
+        """
+        self.latitude = latitude
+        self.longitude = longitude
+        self.elevation = elevation
+        self.uncertainties_m = uncertainties_m
+        self.geology = geology
+        self.vault = vault
+        self.depth_m = depth_m
+        self.localisation_method = localisation_method
+
     @classmethod
     def from_info_dict(cls, info_dict):
         """
-        Create Station instance from an info_dict
+        Create instance from an info_dict
+
+        :param info_dict: info_dict at station:locations:{code} level
+        :type info_dict: dict
         """
-        info_dict.complete_das_channels()
-        info_das = info_dict.get('das_channels', {})
-        obj = cls(info_dict['site'],
-                  info_dict['start_date'],
-                  info_dict['end_date'],
-                  info_dict['location_code'],
-                  Locations.from_info_dict(info_dict['locations']),
-                  [Instruments.from_info_dict(i)
-                    for i in info_dict['instruments']],
-                  Processing.from_info_dict(info_dict.get('processing',None)),
-                  info_dict.get('restricted_status', None)
+        assert 'base' in info_dict, 'No base in location'
+        assert 'position' in info_dict, 'No position in location'
+        position = info_dict['position']
+        base = info_dict['base']
+        obj = cls(position['lat'],
+                  position['lon'],
+                  position['elev'],
+                  base['uncertainties.m'],
+                  base.get('geology', ''),
+                  base.get('vault', ''),
+                  base.get('depth.m', None),
+                  base.get('localisation_method', '')
                   )
-                  [Instrument.from_info_dict(k, v)
-                   for k, v in info_das.items()])
         return obj
 
-    def to_obspy(self):
-
-
-class Locations(object):
-    """
-    Instrument Class.
-
-    Corresponds to StationXML/obspy Channel without location or start/end date
-    """
-    def __init__(self, das_channel, datalogger, sensor, orientation_code,
-                 preamplifier=None):
-        self.das_channel = das_channel
-        self.equipment_datalogger = datalogger.equipment
-        if preamplifier:
-            self.equipment_preamplifier = preamplifier.equipment
-        else:
-            self.equipment_preamplifier = None
-        self.equipement_sensor = sensor.equipment
-        self.sample_rate = datalogger.sample_rate
-        self.delay_correction = datalogger.delay_correction
-        self.channel_code = _make_channel_code(self.sample_rate,
-                                               sensor.seed_band_base_code,
-                                               sensor.seed_instrument_code,
-                                               orientation_code)
-        self.orientation = sensor.seed_orientations[orientation_code]
-        # Stack sensor, preamplifier and datalogger response stages
-        self.responses_ordered = sensor.responses_ordered
-        if preamplifier:
-            self.responses_ordered.extend(preamplifier.responses_ordered)
-        self.responses_ordered.extend(datalogger.responses_ordered)
-
     def __repr__(self):
-        s = f'Instrument({self.datalogger}, {self.sensor}, '
-        s += f'"{self.orientation_code}"'
-        if self.preamplifier:
-            s += f', {self.preamplifier}'
+        discontinuous = False
+        s = f'Location({self.latitude:g}, {self.longitude:g}, '
+        s += f'{self.elevation:g}, {self.uncertainties_m}'
+        if not self.geology == 'unknown':
+            s += f', "{self.geology}"'
+        else:
+            discontinuous = True
+        if self.vault:
+            if discontinuous:
+                s += f', vault="{self.vault}"'
+            else:
+                s += f', "{self.vault}"'
+        else:
+            discontinuous = True
+        if self.depth_m:
+            if discontinuous:
+                s += f', depth_m={self.depth_m:g}'
+            else:
+                s += f', {self.depth_m}'
+        else:
+            discontinuous = True
+        if self.localisation_method:
+            if discontinuous:
+                s += f', localisation_method="{self.localisation_method}"'
+            else:
+                s += f', "{self.localisation_method}"'
+        else:
+            discontinuous = True
         s += ')'
         return s
 
+
+class Processing(object):
+    """
+    Processing Class.
+
+    Saves a list of Processing steps
+    For now, just stores the list
+    """
+    def __init__(self, the_list):
+        """
+        :param the_list: list of processing steps
+        :type list: list
+        """
+        self.list = the_list
+
     @classmethod
-    def from_info_dict(cls, das_channel, info_dict):
+    def from_info_dict(cls, info_dict):
         """
         Create instance from an info_dict
 
-        :param das_channel: das channel name
-        :type das_channel: str
-        :param info_dict: information dictionary at das_channels:{das_channel}
-                          level
+        Currently just passes the list that should be at this level
+        :param info_dict: info_dict at station:processing level
         :type info_dict: dict
         """
-        assert 'datalogger' in info_dict, 'No datalogger in instrumentation'
-        assert 'sensor' in info_dict, 'No sensor in instrumentation'
-        assert 'orientation_code' in info_dict,\
-            'No orientation_code in instrumentation'
-        if 'preamplifer' in info_dict:
-            obj = cls(das_channel,
-                      Datalogger.from_info_dict(info_dict['datalogger']),
-                      Sensor.from_info_dict(info_dict['sensor']),
-                      info_dict['orientation_code'],
-                      Preamplifier.from_info_dict(info_dict['preamplifier'])
-                      )
-        else:
-            obj = cls(das_channel,
-                      Datalogger.from_info_dict(info_dict['datalogger']),
-                      Sensor.from_info_dict(info_dict['sensor']),
-                      info_dict['orientation_code']
-                      )
+        if not isinstance(info_dict, list):
+            return None
+        obj = cls(info_dict)
         return obj
 
-
-def _make_channel_code(sample_rate, band_base_code, instrument_code,
-                       orientation_code):
-    """
-    Make a channel code from base_code and sample rate
-
-    :param sample_rate: sample rate (sps)
-    :param band_base_code: "B" (broadband) or "S" (short period)
-    :param instrument code: instrument code
-    :param orientation code: orientation code
-    """
-    assert len(band_base_code) == 1,\
-        f'Band code "{band_base_code}" is not a single letter'
-    assert len(instrument_code) == 1,\
-        f'Instrument code "{instrument_code}" is not a single letter'
-    assert len(orientation_code) == 1,\
-        f'Orientation code "{orientation_code}" is not a single letter'
-    if band_base_code in "FCHBMLVURPTQ":
-        if sample_rate >= 1000:
-            band_code = "F"
-        elif sample_rate >= 250:
-            band_code = "C"
-        elif sample_rate >= 80:
-            band_code = "H"
-        elif sample_rate >= 10:
-            band_code = "B"
-        elif sample_rate > 1:
-            band_code = "M"
-        elif sample_rate > 0.3:
-            band_code = "L"
-        elif sample_rate > 0.03:
-            band_code = "V"
-        elif sample_rate > 0.003:
-            band_code = "U"
-        elif sample_rate >= 0.0001:
-            band_code = "R"
-        elif sample_rate >= 0.00001:
-            band_code = "P"
-        elif sample_rate >= 0.000001:
-            band_code = "T"
-        else:
-            band_code = "Q"
-    elif band_base_code in "GDES":
-        if sample_rate >= 1000:
-            band_code = "G"
-        elif sample_rate >= 250:
-            band_code = "D"
-        elif sample_rate >= 80:
-            band_code = "E"
-        elif sample_rate >= 10:
-            band_code = "S"
-        else:
-            raise ValueError("Short period instrument sample rate < 10 sps")
-    else:
-        raise NameError("Unknown band base code: {}".format(band_base_code))
-    return band_code + instrument_code + orientation_code
+    def __repr__(self):
+        s = f'Processing({self.list})'
+        return s

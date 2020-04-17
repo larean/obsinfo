@@ -22,6 +22,7 @@ VALID_FORMATS = ["JSON", "YAML"]
 VALID_TYPES = [
     "campaign",
     "network",
+    "station",
     "instrumentation",
     "datalogger",
     "preamplifier",

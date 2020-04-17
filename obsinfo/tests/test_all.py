@@ -21,6 +21,7 @@ from obsinfo.info_dict import InfoDict
 from obsinfo.instrumentation import (Instrumentation, InstrumentComponent,
                                      Datalogger, Preamplifier, Sensor,
                                      ResponseStages, Stage, Filter)
+from obsinfo.network import (Station)
 
 
 class TestADDONSMethods(unittest.TestCase):
@@ -181,6 +182,18 @@ class TestADDONSMethods(unittest.TestCase):
             "instrumentation",
             "SPOBS2.instrumentation.yaml"))
         obj = Instrumentation.from_info_dict(A['instrumentation'])
+
+    def test_station(self):
+        """
+        Test reading a station.
+        """
+        A = read_info_file(os.path.join(
+            self.infofiles_path, 
+            "campaign",
+            "TEST.station.yaml"))
+        # print(A['station'])
+        obj = Station.from_info_dict(A['station'])
+        # obs_obj = obs.to_obspy()
 
     def test_InfoDict_update(self):
         """
@@ -368,6 +381,15 @@ class TestADDONSMethods(unittest.TestCase):
         for fname in glob.glob(os.path.join(self.infofiles_path,
                                             "campaign",
                                             "*.network.yaml")):
+            self.assertTrue(validate(fname, quiet=True))
+
+    def test_validate_station(self):
+        """
+        Test validate network files
+        """
+        for fname in glob.glob(os.path.join(self.infofiles_path,
+                                            "campaign",
+                                            "*.station.yaml")):
             self.assertTrue(validate(fname, quiet=True))
 
 

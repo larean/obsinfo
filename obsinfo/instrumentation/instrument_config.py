@@ -125,3 +125,19 @@ class ChannelMods(object):
             pass
         elif self.by_chan_loc:
             pass
+
+class ChannelConfiguration(object):
+    """
+    Channel modifications and deployment-specific information
+
+    values are kept as InfoDict, so that they can be directly applied
+    to the base Instrumetation InfoDict
+    """
+
+class InstrumentComponentConfiguration(object):
+    """
+    Instrument Component modifications
+
+    values are kept as InfoDict, so that they can be directly applied
+    to the base Instrumetation InfoDict
+    """

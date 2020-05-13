@@ -12,7 +12,7 @@ import warnings
 
 class UpDict(dict):
     """
-    dict with improved upgrade() function
+    dict with improved update() function
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

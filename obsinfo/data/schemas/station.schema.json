@@ -119,16 +119,6 @@
                 "channel_mods":             {"$ref": "#/definitions/channel_mods"}
             }
         },
-        "instrumentation_modifs":
-        {
-            "type": "object",
-            "description": "Instrumentation modifiers",
-            "properties" : {
-                "datalogger":        {"type": "object"},
-                "preamplifier":      {"type": "object"},
-                "sensor":            {"type": "object"}
-            }
-        },
         "channel_mods": {
             "type": "object",
             "description": "modifications to instrument channels.  'by_das', 'by_chan_mod' or 'by_orientation' add to the 'base_channel_mod' values.  Only use one '*_by_*', usually 'by_orientation' unless more than one channel has the same orientation code",

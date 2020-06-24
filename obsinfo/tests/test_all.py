@@ -11,6 +11,7 @@ import os
 import glob
 import unittest
 import inspect
+import difflib
 # from pprint import pprint
 # import xml.etree.ElementTree as ET
 # from CompareXMLTree import XmlTree
@@ -191,7 +192,8 @@ class TestADDONSMethods(unittest.TestCase):
             self.infofiles_path, 
             "campaign",
             "TEST.station.yaml"))
-        # print(A['station'])
+        x = A['station']
+        print(f"THIS IS A STATION {x}")
         obj = Station.from_info_dict(A['station'])
         # obs_obj = obs.to_obspy()
 

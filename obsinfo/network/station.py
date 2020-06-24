@@ -6,16 +6,14 @@ Station class
 # Non-standard modules
 
 # obsinfo modules
-from ..instrumentation import (Instrumentation, Instrument)
+"""from ..instrumentation import (Instrumentation, Instrument)"""
 
 
 class Station(object):
     """
     Station. Equivalent to obspy/StationXML Station
     """
-    def __init__(self, site, start_date, end_date, location_code,
-                 locations, instruments, processing=None,
-                 restricted_status='unknown'):
+    def __init__(self, attributes_dict):
         """
         Constructor
 
@@ -36,14 +34,14 @@ class Station(object):
         :param restricted_status: "open", "closed", "partial", or "unknown"
         :kind restricted_status: str
         """
-        self.site = site
-        self.start_date = start_date
-        self.end_date = end_date
-        self.location_code = location_code
-        self.locations = locations
-        self.instruments = instruments
-        self.processing = processing
-        self.restricted_status = restricted_status
+        self.site = attributes_dict.get("site", None)
+        self.start_date = attributes_dict.get("start_date", None)
+        self.end_date = attributes_dict.get("end_date", None)
+        self.location_code = attributes_dict.get("location_code", None)
+        self.locations = attributes_dict.get("locations", None)
+        self.instruments = attributes_dict.get("instruments", None)
+        self.processing = attributes_dict.get("processing", None)
+        self.restricted_status = attributes_dict.get("restricted_status", 'unknown')
 
     @classmethod
     def from_info_dict(cls, info_dict):

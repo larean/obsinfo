@@ -133,9 +133,9 @@ class InfoDict(UpDict):
         Fields must be at the top level.
         'base_channel' is deleted
 
-        >>> A = InfoDict(base_channel={'a': 5, 'b':6}, das_channels={'1': {'a': 7}, '2': {'b':0}})
-        >>> A.complete_das_channels()
-        >>> A
+        A = InfoDict(base_channel={'a': 5, 'b':6}, das_channels={'1': {'a': 7}, '2': {'b':0}})
+        A.complete_das_channels()
+        A
         {'das_channels': {'1': {'a': 7, 'b': 6}, '2': {'a': 5, 'b': 0}}}
         """
         assert 'das_channels'  in self, f"No 'das_channels' key in {self.keys()}"

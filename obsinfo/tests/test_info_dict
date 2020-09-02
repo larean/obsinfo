@@ -1,0 +1,31 @@
+"""
+    def test_InfoDict_update(self):
+        
+        Test InfoDict.update()
+        
+        A = InfoDict(a=1, b=dict(c=2, d=3))
+        A.update(dict(b=dict(d=4, e=5)))
+        self.assertTrue(A == InfoDict(a=1, b=dict(c=2, d=4, e=5)))
+        
+
+    def test_InfoDict_update_list(self):
+        
+        Test InfoDict.update() for a list
+        
+        A = InfoDict(a=1, b=[1, 2, 3, 4, 5])
+        A.update(dict(b=[None,None,99]))
+        self.assertTrue(A == InfoDict(a=1, b=[1, 2, 99, 4, 5]))
+        
+
+    def test_InfoDict_daschannels(self):
+        
+        Test InfoDict.complete_das_channels()
+        
+        A = InfoDict(base_channel=dict(a=1, b=dict(c=2, d=3)),
+                     das_channels={'1': dict(b=dict(c=5)), '2': dict(a=4)})
+        A.complete_das_channels()
+        self.assertTrue(
+            A == InfoDict(
+                das_channels={'1': dict(a=1, b=dict(c=5, d=3)),
+                              '2': dict(a=4, b=dict(c=2, d=3))}))
+    

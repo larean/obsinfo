@@ -37,7 +37,7 @@ class Network(ObsMetadata):
         self.description = network_info.get("description", None)
         print(self.end_date) 
         
-        #self.facility = Facility(attributes_dict.get("facility", None))                
+        self.facility = Facility(attributes_dict.get("facility", None))                
         #self.stations = Stations(attributes_dict.get("stations", None))"""     
           
 

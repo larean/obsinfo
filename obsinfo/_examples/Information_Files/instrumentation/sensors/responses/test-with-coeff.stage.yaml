@@ -1,0 +1,16 @@
+---
+format_version: "0.107"
+stage:
+  description : "SENSOR - DPG 5018" 
+  input_units :  {name: "Pa", description: "PRESSURE"}
+  output_units : {name: "V", description: "VOLTS"}
+  calibration_date: "2007-01-01"
+  gain : 
+    value: 4.38e-4
+    frequency: 1
+  filter:
+    type: "Coefficients"
+    numerator_coefficients:
+         [1, 0.1, -0.3, 0.6]
+    denominator_coefficients:
+         [-0.2, 0.8, 0.4, -0.3]

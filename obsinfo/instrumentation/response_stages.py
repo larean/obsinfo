@@ -25,8 +25,8 @@ class ResponseStages():
 
     An ordered list of Stages
     """
-    def __init__(self, stages):
-        self.stages = stages
+    def __init__(self, info_dict):
+        self.stages = [Stage(s) for s in info_dict]
         self._assure_continuity()
 
     def __repr__(self):
@@ -37,7 +37,7 @@ class ResponseStages():
         """
         Add two Response_Stages objects together
 
-        The first object will have its stages before before the second's
+        The first object will have its stages before the second's
         """
         stages = self.stages.copy()
         stages.extend(other.stages)
@@ -52,6 +52,7 @@ class ResponseStages():
             self.stages[i].stage_sequence_number = i+1
 
         stage = self.stages[0]
+
         for next_stage in self.stages[1:]:
             # Verify continuity of units
             assert stage.output_units == next_stage.input_units,\
@@ -136,28 +137,28 @@ class Stage():
     """
     Stage class
     """
-    def __init__(self, name, description, input_units, output_units, gain,
-                 gain_frequency, filter, stage_sequence_number=-1,
-                 input_units_description=None, output_units_description=None,
-                 output_sample_rate=None, decimation_factor=1.,
-                 offset=0, delay=0., correction=0., calibration_date=None):
-        self.name = name
-        self.description = description
-        self.input_units = input_units
-        self.output_units = output_units
-        self.gain = gain
-        self.gain_frequency = gain_frequency
-        self.filter = filter
-        self.stage_sequence_number = stage_sequence_number
-        self.input_units_description = input_units_description
-        self.output_units_description = output_units_description
-        self.output_sample_rate = output_sample_rate
-        self.decimation_factor = decimation_factor
-        self.offset = offset
-        self.delay = delay
-        self.correction = correction
-        self.calibration_date = calibration_date
-
+    def __init__(self, info_dict):
+        self.name = info_dict.get('name', '')
+        self.description = info_dict.get('description', '')
+        self.input_units = info_dict.get('input_units', None).get('name', None)
+        self.output_units = info_dict.get('output_units', None).get('name', None)
+        gain_dict = info_dict.get('gain', {})
+        self.gain = gain_dict.get('value', 1.0)             
+        self.gain_frequency = gain_dict.get('frequency', 0.0)
+        self.filter = Filter.dynamic_class_constructor(info_dict.get('filter', None))
+        self.stage_sequence_number = -1
+        self.input_units_description = input_units_description=info_dict.get(
+                    'input_units', None).get('description', None)
+        self.output_units_description = output_units_description=info_dict.get(
+                    'output_units', None).get('description', None)
+        self.output_sample_rate = info_dict.get('output_sample_rate', None)
+        self.decimation_factor = info_dict.get('decimation_factor', 1)
+        self.offset = 0
+        self.delay = info_dict.get('delay', 0)
+        self.correction = 0
+        self.calibration_date = info_dict.get('calibration_date', None)
+                        
+                  
     @property
     def input_sample_rate(self):
         if self.output_sample_rate and self.decimation_factor:
@@ -226,7 +227,8 @@ class Stage():
         filt = self.filter
         args = (self.stage_sequence_number, self.gain, self.gain_frequency,
                 self.input_units, self.output_units)
-        if isinstance(filt, PolesZeros) or isinstance(filt, Analog):
+        if (isinstance(filt, PolesZeros) 
+                or isinstance(filt, Analog)):
             if not filt.normalization_frequency:
                 filt.normalization_frequency = self.gain_frequency
             obj = PolesZerosResponseStage(
@@ -281,7 +283,6 @@ class Stage():
                 decimation_offset=self.offset,
                 decimation_delay=self.delay,
                 decimation_correction=self.correction,
-                # FIR-specific
                 # CF-specific
                 cf_transfer_function_type=filt.transfer_function_type,
                 numerator=[obspy_types.FloatWithUncertaintiesAndUnit(
@@ -306,4 +307,5 @@ class Stage():
                 response_list_elements=filt.response_list)
         else:
             warnings.warn(f'Unhandled response stage type: "{filt.type}"')
+        
         return obj

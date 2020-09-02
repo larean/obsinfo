@@ -97,7 +97,7 @@
             "type": "object",
             "description": "left open to allow element-wise change of values",
             "properties" : {
-                "serial_number": {"type": "string"}
+                "number": {"type": "string"}
             },
             "additionalProperties": true
         },
@@ -154,7 +154,7 @@
             "patternProperties": {
                 "^[A-Za-z0-9]+$": {
                     "type": "object",
-                    "description": "the pattern is a serial number or serial number",
+                    "description": "the pattern is a serial number or configuration id",
                     "required": [
                     ],
                     "properties" : {
@@ -177,7 +177,7 @@
                 "manufacturer":     {"type": ["string","null"] },
                 "vendor":           {"type": ["string","null"] },
                 "model":            {"type": ["string","null"] },
-                "serial_number":    {"type": ["string","null"] },
+                "number":    {"type": ["string","null"] },
                 "calibration_date": {"$ref" : "definitions.schema.json#/date-time-Z"}
 			},
             "additionalProperties" : false
@@ -190,7 +190,7 @@
                 "manufacturer":    {"type": ["string","null"] },
                 "vendor":          {"type": ["string","null"] },
                 "model":           {"type": "string" },
-                "serial_number":   {"type": ["string","null"] },
+                "number":   {"type": ["string","null"] },
                 "calibration_date": {"$ref" : "definitions.schema.json#/date-time-Z"}
 			},
             "additionalProperties" : false

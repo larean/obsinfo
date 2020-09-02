@@ -21,18 +21,34 @@ class Instrumentation(object):
     """
     One or more Instruments. Part of an obspy/StationXML Station
     """
-    def __init__(self, equipment, channels):
+    def __init__(self, info_dict):
         """
         Constructor
+        info_dict may contain a configuration_selection or serial_number for the instrumentation and the corresponding configs or SN 
+        for the components: datalogger, preamplifier and sensor
 
         :param equipment: equipment description
         :type equipment: ~class `Equipment`
         :param channels: list of channels
         :type channels: list of ~class `Channel`
         """
-        self.equipment = equipment
-        self.channels = channels
-
+        config_dict = info_dict.get('configuration_definitions', None)
+        sn_dict = info_dict.get('serial_number_definitions', None)
+        config_selector = info_dict.get('configuration_selection', None)
+        sn_selector = info_dict.get('serial_number_selection', None)
+        
+        if config_selector:
+            selected_config = config_dict.get(config_selector)
+        if sn_selector:
+            selected_sn = config_dict.get(sn_selector)
+            
+        self.equipment = Equipment(info_dict.get('equipment', None))
+        das_channels = info_dict.get('das_channels', {})
+        base_channel = info_dict.get('base_channel', {})
+        #v here is the info_dict of each das_channel
+        self.channels = [Channel(k, v, base_channel, selected_config, selected_sn)
+                   for k, v in das_channels.items()]
+        
     @classmethod
     def from_info_dict(cls, info_dict):
         """
@@ -54,12 +70,11 @@ class Instrumentation(object):
 
 class Channel(object):
     """
-    Channnel Class.
+    Channel Class.
 
     Corresponds to StationXML/obspy Channel, plus das_channel code
     """
-    def __init__(self, instrument, das_channel, orientation_code,
-                 location=None, startdate=None, enddate=None):
+    def __init__(self, channel_label, info_dict, base_channel=None, selected_config=None, selected_sn=None):
         """
         :param instrument: instrument description
         :type instrument: ~class `Instrument`
@@ -74,13 +89,43 @@ class Channel(object):
         :param enddate: channel enddate (if different from network)
         :type enddate: str, opt
         """
-        self.instrument = instrument
-        self.das_channel = das_channel
-        self.orientation_code = orientation_code
-        self.orientation = instrument.seed_orientations[orientation_code]
-        self.location_code = location
-        self.startdate = startdate
-        self.enddate = enddate
+        #Complete das channel fields with base fields
+        self.das_channel = self.complete_das_channel(info_dict, base_channel)
+        
+        self.instrument = Instrument(info_dict, selected_config, selected_sn)
+        self.orientation_code = info_dict.get('orientation_code', None)
+        #self.orientation = instrument.seed_orientations[orientation_code] #OJO. Not good. Seed orientations are not there
+        self.location_code = reconfigure_channel('location_code', selected_config, selected_sn, None)
+        self.startdate = reconfigure_channel('startdate', selected_config, selected_sn, None)
+        self.enddate = reconfigure_channel('enddate', selected_config, selected_sn, None)
+
+    def complete_das_channel(self, das_channel, base_channel):
+        """
+        Take all the fields defined for each das channel and complement them with the base_channel fields
+        If das_channel key exists, leave the value. If not, add base_channel key/value
+        """
+        #If there are no modifications, use default
+        if not das_channel:
+            return base_channel
+        
+        for k, v in base_channel.items():
+            if k not in das_channel:    
+               das_channel[k] = v
+        
+        return das_channel
+    
+    def reconfigure_channel(self, key, info_dict, selected_config=None, selected_sn=None, default=None):
+        """
+        Reconfigure possible values of channel fields. Configuration takes precedence over serial number
+        """
+        #Implement priority 1    
+        if selected_config:
+            return instrumentation_selected_config.get(key, default)  
+        #Implement priority 2
+        elif selected_sn:
+            return instrumentation_selected_sn.get(key, default)
+        else:
+            return info_dict.get(key, default)
 
     @classmethod
     def from_info_dict(cls, info_dict, das_channel=None):
@@ -91,18 +136,13 @@ class Channel(object):
                           instrument:das_channels level
         :type info_dict: dict
         """
-        # print({'datalogger': info_dict['datalogger'],
-        #        'sensor': info_dict['sensor'],
-        #        'preamplifier': info_dict.get('preamplifier', None)})
-        # print(InfoDict(datalogger=info_dict['datalogger'],
-        #                      sensor=info_dict['sensor'],
-        #                      preamplifier=info_dict.get('preamplifier', None))
+
         obj = cls(Instrument.from_info_dict(
                     {'datalogger': info_dict['datalogger'],
                      'sensor': info_dict['sensor'],
                      'preamplifier': info_dict.get('preamplifier', None)}),
                   das_channel,
-                  info_dict['orientation_code'],
+                  info_dict.get('orientation_code', None),
                   info_dict.get('location_code', None),
                   info_dict.get('startdate', None),
                   info_dict.get('enddate', None))
@@ -200,11 +240,11 @@ class Channel(object):
             raise NameError(f'Unknown band base code: "{bbc}"')
 
 
-class Instrument(object):
+class Instrument(Channel):
     """
     Instrument Class.
     """
-    def __init__(self, datalogger, sensor, preamplifier=None):
+    def __init__(self, info_dict, selected_config=None, selected_sn=None):
         """
         :param datalogger: datalogger information
         :type datalogger: ~class `Datalogger`
@@ -213,30 +253,56 @@ class Instrument(object):
         :param preamplifier: preamplifier information
         :type preamplifier: ~class `Preamplifier`, opt
         """
+        assert 'datalogger' in info_dict, 'No datalogger specified'
+        assert 'sensor' in info_dict, 'No sensor specified'
+        
+        datalogger_dict = self.reconfigure_channel('datalogger', info_dict, selected_config, selected_sn, None)
+        sensor_dict = self.reconfigure_channel('sensor', info_dict, selected_config, selected_sn, None)
+        preamplifier_dict = self.reconfigure_channel('preamplifier', info_dict, selected_config, selected_sn, None)
         # Set equipment parameters
-        self.equipment_datalogger = datalogger.equipment
-        self.equipment_sensor = sensor.equipment
-        self.equipment_preamplifier = None
-        if preamplifier:
-            self.equipment_preamplifier = preamplifier.equipment
-        # Stack response stages
-        self.response_stages = sensor.response_stages
-        if preamplifier:
-            self.response_stages.extend(preamplifier.response_stages)
-        self.response_stages.extend(datalogger.response_stages)
-        # Assemble component-specific values
-        self.sample_rate = datalogger.sample_rate
-        self.delay_correction = datalogger.delay_correction
-        self.seed_band_base_code = sensor.seed_band_base_code
-        self.seed_instrument_code = sensor.seed_instrument_code
-        self.seed_orientations = sensor.seed_orientations
-
+        self.datalogger = InstrumentComponent.dynamic_class_constructor('datalogger', datalogger_dict, selected_config, selected_sn)
+        self.sensor = InstrumentComponent.dynamic_class_constructor('sensor', sensor_dict, selected_config, selected_sn)
+        self.preamplifier = InstrumentComponent.dynamic_class_constructor('preamplifier', preamplifier_dict, 
+                                                                          selected_config, selected_sn) if preamplifier_dict else None 
+    
     def __repr__(self):
         s = f'Instrument({self.datalogger}, {self.sensor}'
         if self.preamplifier:
             s += f', {self.preamplifier}'
         s += ')'
         return s
+    
+    @property
+    def equipment_datalogger(self):
+        return self.datalogger.equipment
+    @property
+    def equipment_sensor(self):
+        return self.sensor.equipment
+    @property
+    def equipment_sensor(self):
+        return self.preamplifier.equipment
+    @property
+    def response_stages(self):    
+    # Stack response stages
+        response_stages = self.sensor.response_stages
+        if self.preamplifier:
+            response_stages += self.preamplifier.response_stages
+        return response_stages + self.datalogger.response_stages
+    @property
+    def sample_rate(self):    
+        return self.datalogger.sample_rate
+    @property
+    def delay_correction(self):  
+        return self.datalogger.delay_correction  
+    @property
+    def seed_band_base_code(self):    
+        return self.sensor.seed_band_base_code
+    @property
+    def seed_instrument_code(self): 
+        return self.sensor.seed_instrument_code   
+    @property
+    def seed_orientation(self):    
+        return self.sensor.seed_orientation
 
     @classmethod
     def from_info_dict(cls, info_dict):
@@ -247,8 +313,11 @@ class Instrument(object):
                           sensor, and optionally preamplifier keys
         :type info_dict: InfoDict
         """
+       
         assert 'datalogger' in info_dict, 'No datalogger specified'
         assert 'sensor' in info_dict, 'No sensor specified'
+        
+        
         obj = cls(Datalogger.from_info_dict(info_dict['datalogger']),
                   Sensor.from_info_dict(info_dict['sensor']),
                   Preamplifier.from_info_dict(info_dict.get('preamplifier',

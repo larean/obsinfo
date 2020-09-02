@@ -11,9 +11,9 @@ preamplifier:
         description: "SIO gain/filter card, hydro channel"
         manufacturer: "SIO or IPGP"
         vendor: ~
-
-    config_description: "64x gain"
-   	response_stages:
+    configuration_default:
+    	config_description: "64x gain"
+   		response_stages:
         	- $ref: "responses/Scripps_SPOBS_HydroL22x64_theoretical.stage.yaml#stage"
     configuration_definitions:
         "16x":

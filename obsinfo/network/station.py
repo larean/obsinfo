@@ -55,9 +55,7 @@ class Station(object):
                   info_dict['location_code'],
                   {c: Location.from_info_dict(v)
                    for c, v in info_dict['locations'].items()},
-                  [Instrumentation.from_info_dict(x) for x in insts],
-                   
-                   
+                  [Instrumentation.from_info_dict(x) for x in insts],  
                   Processing.from_info_dict(info_dict.get('processing',
                                                           None)),
                   info_dict.get('restricted_status', None)

@@ -1,0 +1,25 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Test Schema",
+    "description": "Simple schema to test obsinfo_validate",
+    "type": "object",
+    "required": ["level_b","string_a", "string_b", "string_c" ],
+    "properties": {
+        "level_a":  {"$ref": "#/definitions/stringlevel"},
+        "level_b":  {"$ref": "#/definitions/stringlevel"},
+        "string_a": {"type": "string"},
+        "string_b": {"type": "string"},
+        "string_c": {"type": "string"},
+    },
+    "additionalProperties" : false,
+    "definitions" : {
+        "stringlevel": {
+            "type": "object",
+            "required": ["somestring"],
+            "properties": {
+                "somestring":          {"type": "string"},
+            },
+            "additionalProperties" : false
+        }
+    }
+}

@@ -1,0 +1,66 @@
+---
+format_version: "0.107"
+yaml_anchors:
+    obs_clock_correction_linear_defaults: &LINEAR_CLOCK_DEFAULTS
+        time_base: "Seascan MCXO, ~1e-8 nominal drift"
+        reference: "GPS"
+        start_sync_instrument: 0
+revision:
+    authors:
+        - $ref: '../authors/Wayne_Crawford.author.yaml#author'
+    date: "2017-10-04"
+network:
+    facility:
+        reference_name: "INSU-IPGP"
+        full_name: "INSU-IPGP OBS Park"
+    campaign_ref_name: "SPOBS"
+    network_info:
+        code: "4G"
+        name: "Short period OBSs"
+        start_date: "2007-07-01"
+        end_date: "2025-12-31"
+        description: "Short period OBS network example"
+        comments: ["Lucky Strike Volcano, North Mid-Atlantic Ridge"]
+    stations:
+        "LSVW":
+            site: "Lucky Strike Volcano West"
+            start_date: "2015-04-22T12:00:00Z"
+            end_date: "2016-05-28T21:01:00Z"
+            location_code: "00"
+            instruments:
+                -
+                    base:
+                        $ref: "../instrumentation/SPOBS2.instrumentation.yaml#instrumentation"
+                    datalogger_config: "125sps"
+                    serial_number: "20"
+            locations:
+                "00":
+                    base: {$ref: 'location_bases/SURFACE_DROP.location_base.yaml#location_base'}
+                    position: {lon: -32.32504, lat: 37.29744, elev: -2030}
+            processing:
+                - clock_correction_linear_drift:
+                    <<: *LINEAR_CLOCK_DEFAULTS
+                    start_sync_reference: "2015-04-21T21:06:00Z"
+                    end_sync_reference: "2016-05-28T20:59:00.32Z"
+                    end_sync_instrument: "2016-05-28T20:59:03Z"
+        "LSVE":
+            site: "Lucky Strike Volcano East"
+            start_date: "2015-04-22T12:00:00Z"
+            end_date: "2016-05-28T21:01:00Z"
+            location_code: "00"
+            instruments:
+                -
+                    base:
+                        $ref: "../instrumentation/SPOBS2.instrumentation.yaml#instrumentation"
+                    datalogger_config: "125sps"
+                    serial_number: "12"
+            locations:
+                "00":
+                    base: {$ref: 'location_bases/ACOUSTIC_SURVEY.location_base.yaml#location_base'}
+                    position: {lon: -32.02504, lat: 37.25744, elev: -2130}
+            processing:
+                - clock_correct_linear_drift:
+                    <<: *LINEAR_CLOCK_DEFAULTS
+                    start_sync_reference: "2015-04-21T21:06:00Z"
+                    end_sync_reference: "2016-05-28T20:59:00.32Z"
+                    end_sync_instrument: "2016-05-28T20:59:01Z"

@@ -1,0 +1,25 @@
+<urlopen error [WinError 3] Le chemin d’accès spécifié est introuvable: '\\instrumentation\\SPOBS2.instrumentation.yaml'>
+THIS IS A STATION {'site': 'Lucky Strike Volcano West', 'start_date': '2015-04-22T12:00:00Z', 'end_date': '2016-05-28T21:01:00Z', 'location_code': '00', 'instruments': [{'base': None, 'datalogger_config': '125sps', 'serial_number': '20'}], 'locations': {'00': {'base': {'depth.m': 0, 'geology': 'unknown', 'vault': 'Sea floor', 'uncertainties.m': {'lon': 200, 'lat': 200, 'elev': 20}, 'localisation_method': 'Sea surface release point'}, 'position': {'lon': -32.32504, 'lat': 37.29744, 'elev': -2030}}}, 'processing': [{'clock_correction_linear_drift': {'time_base': 'Seascan MCXO, ~1e-8 nominal drift', 'reference': 'GPS', 'start_sync_instrument': 0, 'start_sync_reference': '2015-04-21T21:06:00Z', 'end_sync_reference': '2016-05-28T20:59:00.32Z', 'end_sync_instrument': '2016-05-28T20:59:03Z'}}]}
+<urlopen error [WinError 3] Le chemin d’accès spécifié est introuvable: '\\authors\\Wayne_Crawford.author.yaml'>
+instance = C:\Users\BBEES_3\obsinfo\obsinfo\_examples\Information_Files\instrumentation\sensors\HITECH_HTI04-PLC-ULF.sensor.yaml
+		['revision']: {'date': '2017-11-30', 'authors': [None]} is not valid under any of the given schemas
+	FAILED
+<urlopen error [WinError 3] Le chemin d’accès spécifié est introuvable: '\\authors\\Wayne_Crawford.author.yaml'>
+<urlopen error [WinError 3] Le chemin d’accès spécifié est introuvable: '\\authors\\Romuald_Daniel.author.yaml'>
+instance = C:\Users\BBEES_3\obsinfo\obsinfo\_examples\Information_Files\instrumentation\BBOBS1_2012+.instrumentation.yaml
+		['revision']: {'date': '2019-12-19', 'authors': [None, None]} is not valid under any of the given schemas
+	FAILED
+<urlopen error [WinError 3] Le chemin d’accès spécifié est introuvable: '\\authors\\Wayne_Crawford.author.yaml'>
+instance = C:\Users\BBEES_3\obsinfo\obsinfo\_examples\Information_Files\campaign\BBOBS.INSU-IPGP.network.yaml
+<urlopen error [WinError 3] Le chemin d’accès spécifié est introuvable: '\\instrumentation\\BBOBS1_2012+.instrumentation.yaml'>
+<urlopen error [WinError 3] Le chemin d’accès spécifié est introuvable: '\\instrumentation\\BBOBS1_2012+.instrumentation.yaml'>
+		['network']['stations']['BB_1']['instruments']['0']['base']: None is not of type 'object'
+		['network']['stations']['BB_2']['instruments']['0']['base']: None is not of type 'object'
+		['revision']: {'authors': [None], 'date': '2019-12-19'} is not valid under any of the given schemas
+	FAILED
+<urlopen error [WinError 3] Le chemin d’accès spécifié est introuvable: '\\authors\\Wayne_Crawford.author.yaml'>
+instance = C:\Users\BBEES_3\obsinfo\obsinfo\_examples\Information_Files\campaign\TEST.station.yaml
+<urlopen error [WinError 3] Le chemin d’accès spécifié est introuvable: '\\instrumentation\\SPOBS2.instrumentation.yaml'>
+		['station']['instruments']['0']['base']: None is not of type 'object'
+		['revision']: {'authors': [None], 'date': '2020-03-10'} is not valid under any of the given schemas
+	FAILED

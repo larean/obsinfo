@@ -1,0 +1,124 @@
+---
+format_version: "0.107"
+notes:
+    - "Oddball instruments and examples of specifying different localisation methods"
+yaml_anchors:
+    obs_clock_correction_linear_defaults: &LINEAR_CLOCK_DEFAULTS
+        time_base: "Seascan MCXO, ~1e-8 nominal drift"
+        reference: "GPS"
+        start_sync_instrument: 0
+revision:
+    authors:
+        - {$ref: "../authors/Wayne_Crawford.author.yaml#author"}
+    date: "2017-10-04"
+network:
+    facility:
+        reference_name: "INSU-IPGP"
+        full_name: "INSU-IPGP OBS Park"
+    campaign_ref_name: "GRAB-BAG"
+    network_info:
+        code: "4G"
+        name: "GRAB BAG"
+        start_date: "2007-07-01"
+        end_date: "2025-12-31"
+        description: "Selection of old and odd instruments"
+    stations:
+        "SP_1":
+            notes: ["Old SPOBS(TWO CHANNELS)"]
+            site: "Lucky Strike Volcano North"
+            start_date: "2015-04-23T10:00:00Z"
+            end_date: "2016-05-26T23:00:00Z"
+            location_code: "00"
+            instruments:
+                -
+                    base:
+                        $ref: "../instrumentation/SPOBS1.instrumentation.yaml#instrumentation"
+                    serial_number: "13"
+                    datalogger_config: "62.5sps"
+            locations:
+                "00":
+                    base: {$ref: 'location_bases/ACOUSTIC_SURVEY.location_base.yaml#location_base'}
+                    position: {lon: -32.27909, lat: 37.31960, elev: -1798}
+            processing:
+                - clock_correct_linear_drift:
+                        <<: *LINEAR_CLOCK_DEFAULTS
+                        start_sync_reference: "2015-04-22T09:21:00Z"
+                        end_sync_reference: "2016-05-28T22:59:00.1843Z"
+                        end_sync_instrument: "2016-05-28T22:59:02Z"
+        "BBOBS1":
+            notes: ["Pre-2012 BBOBS configuration"]
+            site: "Lucky Strike Volcano Fake BBOBS"
+            start_date: "2015-04-23T10:00:00Z"
+            end_date: "2016-05-28T15:37:00Z"
+            location_code: "00"
+            instruments:
+                -
+                    base:
+                        $ref: "../instrumentation/BBOBS1_pre2012.instrumentation.yaml#instrumentation"
+                    serial_number: "02"
+                    datalogger_config: "62.5sps"
+            locations:
+                "00":
+                    base: {$ref: 'location_bases/BUC_DROP.location_base.yaml#location_base'}
+                    position: {lon: -32.29756, lat: 37.26049, elev: -1887}
+            processing:
+                - clock_corrections:
+                    linear_drift:
+                        <<: *LINEAR_CLOCK_DEFAULTS
+                        start_sync_reference: "2015-04-22T12:24:00Z"
+                        end_sync_reference: "2016-05-28T15:35:00.3660Z"
+                        end_sync_instrument: "2016-05-28T15:35:02Z"
+        "HOCT":
+            notes: ["HYDROCTOPUS, MULTIPLE SENSORS WITH SAME CHANNEL CODE"]
+            site: "Lucky Strike Volcano Fake HydroOctopus"
+            start_date: "2015-04-23T10:00:00Z"
+            end_date: "2016-05-28T15:37:00Z"
+            location_code: "00"
+            instruments:
+                -
+                    base:
+                        $ref: "../instrumentation/HYDROCT1.instrumentation.yaml#instrumentation"
+                    serial_number: "01"
+                    datalogger_config: "250sps"
+                    channel_mods:
+                        base:
+                            sensor: {base: {$ref: "../instrumentation/sensors/HITECH_HTI04-PLC-ULF.sensor.yaml#sensor"}}
+                        by_das:
+                            "1":
+                                location_code: "00"
+                                sensor: {serial_number: "4500"}
+                            "2":
+                                location_code: "01"
+                                sensor: {serial_number: "4501"}
+                            "3":
+                                location_code: "02"
+                                sensor: {serial_number: "4502"}
+                            "4":
+                                location_code: "03"
+                                sensor:
+                                    base: {$ref: "../instrumentation/sensors/HITECH_HTI90U.sensor.yaml#sensor"}
+                                    serial_number: "9601"
+            locations:
+                "00":
+                    base: {$ref: 'location_bases/BUC_DIRECT.location_base.yaml#location_base'}
+                    position: {lon: -32.29756, lat: 37.26049, elev: -1887}
+                "01":
+                    base: {$ref: 'location_bases/BUC_DIRECT.location_base.yaml#location_base'}
+                    position: {lon: -32.29756, lat: 37.26051, elev: -1885}
+                "02":
+                    base: {$ref: 'location_bases/BUC_DIRECT.location_base.yaml#location_base'}
+                    position: {lon: -32.29758, lat: 37.26049, elev: -1889}
+                "03":
+                    base: {$ref: 'location_bases/BUC_DIRECT.location_base.yaml#location_base'}
+                    position: {lon: -32.29756, lat: 37.26047, elev: -1877}
+            processing:
+                - clock_correct_leapsecond:
+                    time: "2016-12-31T23:59:60Z"
+                    type: "+"
+                    description: "Positive leapsecond (a 61-second minute)"
+                    corrected_in_end_sync: Yes
+                - clock_correct_linear_drift:
+                    <<: *LINEAR_CLOCK_DEFAULTS
+                    start_sync_reference: "2015-04-22T12:24:00"
+                    end_sync_reference: "2016-05-28T15:35:00.3660"
+                    end_sync_instrument: "2016-05-28T15:35:02"

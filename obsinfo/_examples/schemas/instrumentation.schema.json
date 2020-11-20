@@ -1,0 +1,201 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"title": "Instrumentation",
+	"description": "OBS facility instruments and their components",
+	"type": "object",
+	"required": ["format_version", "revision", "instrumentation"],
+	"properties": {
+	    "format_version" : {"$ref" : "#/format_version"},
+	    "revision" :       {"$ref" : "definitions.schema.json#/revision"},
+        "yaml_anchors" :   {"$ref" : "definitions.schema.json#/yaml_anchors"},
+	    "notes" :          {"$ref" : "definitions.schema.json#/comment_list"},
+		"extras":          {"$ref" : "definitions.schema.json#/extras"},
+		"instrumentation": {"$ref" : "#/definitions/instrumentation" }
+	},
+    "additionalProperties" : false,
+    "format_version" : {
+        "anyOf": [
+            {"$ref" : "definitions.schema.json#/format_version"},
+            {"type": "string","pattern": "^0\\.107$","comment":"version of last change to this schema"}
+        ]
+    },
+	"definitions": {
+        "instrumentation" : {
+            "description" : "Generic instrument description",
+            "type": "object",
+            "required": [
+                "equipment",
+                "channel_template"
+            ],
+            "properties": {
+		        "facility":       {"$ref" : "#/definitions/facility" },
+                "equipment":      {"$ref": "#/definitions/equipmentType"},
+                "channel_template":   {"$ref": "#/definitions/channel_template"},
+                "das_channels":   {"$ref": "#/definitions/das_channels"},
+                "configuration_definitions": {"$ref": "#/definitions/instrument_by_config"}
+            },
+            "additionalProperties" : false
+        },
+        "facility": { 
+            "type": "object",
+            "description": "OBS facility information",
+            "required": [
+                "reference_name",
+                "full_name", 
+                "email"
+            ],
+            "properties": {
+                "reference_name": {"$ref" : "definitions.schema.json#/reference_name"},
+                "full_name":      { "type": "string"},
+                "email":          { "$ref" : "definitions.schema.json#/email"},
+                "website":        { "$ref" : "definitions.schema.json#/website" },
+                "phone_number":   { "$ref": "definitions.schema.json#/phone" }
+            },
+            "additionalProperties" : false
+        },
+        "channel_template": { 
+            "type": "object",
+            "description": "Base logger channel, applied to all channels then overwritten by specific das_channel compoents",
+            "required": [ "datalogger", "sensor"],
+            "properties" : {
+                "datalogger" :         {"$ref": "datalogger.schema.json#/definitions/datalogger"},
+                "preamplifier":        {"$ref": "preamplifier.schema.json#/definitions/preamplifier"},
+                "sensor" :             {"$ref": "sensor.schema.json#/definitions/sensor"},
+                "selections":   	   {"$ref": "#/definitions/config_selection"}
+            },
+            "additionalProperties" : false
+        },
+        "config_selection": {
+        	"datalogger" :         {
+        		"type": "string",
+            	"description": "configuration selector for datalogger, preamplifier or sensor"
+        	},
+            "preamplifier":        {
+        		"type": "string",
+            	"description": "configuration selector for datalogger, preamplifier or sensor"
+        	},
+            "sensor" :             {
+        		"type": "string",
+            	"description": "configuration selector for datalogger, preamplifier or sensor"
+        	}
+        },
+        "channel_template_change_or_modify": { 
+            "type": "object",
+            "description": "Base logger channel base and/or modifs",
+            "required": [],
+            "properties" : {
+                "base" :  { "$ref": "#/definitions/channel_template"},
+                "modifs": { "$ref": "#/definitions/channel_template_modifs"}
+            },
+            "additionalProperties" : false
+        },
+        "channel_template_modifs": { 
+            "type": "object",
+            "description": "modifications to channel template",
+            "required": [],
+            "properties" : {
+                "datalogger" :  { "$ref": "#/definitions/instrument_component_modifs"},
+                "preamplifier": { "$ref": "#/definitions/instrument_component_modifs"},
+                "sensor" :      { "$ref": "#/definitions/instrument_component_modifs"}
+            },
+            "additionalProperties" : false
+        },
+        "instrument_component_modifs": {
+            "type": "object",
+            "description": "left open to allow element-wise change of values",
+            "properties" : {
+                "number": {"type": "string"}
+            },
+            "additionalProperties": true
+        },
+        "das_channels": { 
+            "type": "object",
+            "description": "individual measurement s specified by das component (channel on a given das) and possibly separate connector named as component_connector)",
+            "patternProperties": {
+                "^[A-Za-z0-9]+$": { "$ref": "#/definitions/das_channel"}
+            }
+        },
+        "das_channel": {
+            "type": "object",
+            "description": "Description of one DAS channel (overwrites corresponding channel_template for that channel)",
+            "required": ["orientation_code"],
+            "properties" : {
+                "orientation_code" :   {"$ref": "#/definitions/orientation_code"},
+                "datalogger" :         {"$ref": "datalogger.schema.json#/definitions/datalogger"},
+                "preamplifier":        {"$ref": "preamplifier.schema.json#/definitions/preamplifier"},
+                "sensor" :             {"$ref": "sensor.schema.json#/definitions/sensor"},
+                "selections":   	   {"$ref": "#/definitions/config_selection"},
+                "location_code":       {"type": "string"},
+	            "notes" :              {"$ref" : "definitions.schema.json#/comment_list"}
+            },
+            "additionalProperties": false
+        },
+        "das_channels_change_or_modify": { 
+            "type": "object",
+            "description": "DAS channel change and/or modify",
+            "properties" : {
+                "base" :  { "$ref": "#/definitions/das_channel"},
+                "modifs": { "$ref": "#/definitions/das_channel_modifs"}
+            },
+            "additionalProperties" : false
+        },
+        "das_channel_modifs": { 
+            "type": "object",
+            "description": "DAS channel, modifications",
+            "properties" : {
+                "orientation_code": {"$ref": "#/definitions/orientation_code"},
+                "datalogger" :      {"$ref": "#/definitions/instrument_component_modifs"},
+                "preamplifier":     {"$ref": "#/definitions/instrument_component_modifs"},
+                "sensor" :          {"$ref": "#/definitions/instrument_component_modifs"}
+            },
+            "additionalProperties" : true
+        },
+        "instrument_by_config": { 
+            "type": "object",
+            "description": "Overwrite or modify specific instrument characteristics",
+            "patternProperties": {
+                "^[A-Za-z0-9]+$": {
+                    "type": "object",
+                    "description": "the pattern is a configuration id",
+                    "required": [
+                    ],
+                    "properties" : {
+                        "channel_template":  {"$ref": "#/definitions/channel_template_change_or_modify"},
+                        "das_channels:": {"$ref": "#/definitions/das_channels_change_or_modify"}
+                    }
+                }
+            }
+        },
+        "orientation_code" : {
+            "type" : "string",
+            "pattern" : "^[A-Z0-9]$"
+        },
+		"equipmentType": {
+			"type": "object",
+			"required": ["type", "description", "manufacturer", "model"],
+			"properties": {
+                "type":             {"type": ["string","null"] },
+                "description":      {"type": ["string","null"] },
+                "manufacturer":     {"type": ["string","null"] },
+                "vendor":           {"type": ["string","null"] },
+                "model":            {"type": ["string","null"] },
+                "number":    		{"type": ["string","null"] },
+                "calibration_date": {"$ref" : "definitions.schema.json#/date-time-Z"}
+			},
+            "additionalProperties" : false
+		},
+		"equipmentType_noRequired": {
+			"type": "object",
+			"properties": {
+                "type":            {"type": ["string","null"] },
+                "description":     {"type": ["string","null"] },
+                "manufacturer":    {"type": ["string","null"] },
+                "vendor":          {"type": ["string","null"] },
+                "model":           {"type": "string" },
+                "number":   	   {"type": ["string","null"] },
+                "calibration_date": {"$ref" : "definitions.schema.json#/date-time-Z"}
+			},
+            "additionalProperties" : false
+        }
+	}
+}

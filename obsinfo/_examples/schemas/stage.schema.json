@@ -1,0 +1,104 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"title": "Response",
+	"description": "OBS instrument/stage response files. Stages will be ordered sensor -> ana_filter -> datalogger",
+	"type": "object",
+	"required": [ "response","format_version" ],
+	"properties": {
+	    "format_version": {"$ref" : "#/format_version"},
+	    "revision":       {"$ref" : "definitions.schema.json#/revision"},
+        "yaml_anchors":   {"$ref" : "definitions.schema.json#/yaml_anchors"},
+	    "notes":          {"$ref" : "definitions.schema.json#/note_list"},
+	    "extras":         {"$ref" : "definitions.schema.json#/extras"},
+	    "stage":          {"$ref" : "#/definitions/stage"}
+	},
+	"additionalProperties" : false,
+    "format_version" : {
+        "anyOf": [
+            {"$ref" : "definitions.schema.json#/format_version"},
+            {"type": "string","pattern": "^0\\.107$","comment":"version of last change to this schema"}
+        ]
+    },
+	"definitions": {
+        "stage": {
+            "type" : "object",
+            "description" : "Response type",
+            "required" : [
+                "input_units",
+                "output_units",
+                "gain",
+                "input_sample_rate"
+            ],
+            "properties": {
+                "input_units":        { "$ref" : "#/definitions/stage_io_units" },
+                "output_units":       { "$ref" : "#/definitions/stage_io_units" },
+                "gain" :              { "$ref" : "#/definitions/gain" },
+                "name":               { "type" : "string",  "description": "BaseFilterType:name"},
+                "description":        { "type" : "string",  "description": "BaseFilterType:Description"},
+                "decimation_factor":  { "type" : "integer", "description": "DecimationType:Factor"},
+                "input_sample_rate" : { "type" : "number",  "description": "DecimationType:InputSampleRate"},
+                "delay" :             { "type" : "number",  "description": "DecimationType:Delay"},
+                "filter" :            { "$ref" : "#/definitions/filter"},
+                "calibration_date" :  { "$ref" : "definitions.schema.json#/date"},
+                "notes" :             {"$ref" : "definitions.schema.json#/note_list"},
+                "extras":             {"$ref" : "#/definitions/extras"}
+            },
+            "additionalProperties" : true
+        },
+        "filter": {
+            "anyOf" : [
+                {   "type": "object",
+                    "description" : "JSON pointer file reference",
+                    "required" :    [ "$ref" ],
+                    "properties" : {
+                        "$ref": {"type":"string","format":"uri"}
+                    },
+                    "additionalProperties" : false
+                },
+                { "$ref" : "filter.schema.json#/definitions/filter"}
+            ]
+        },      
+        "stage_io_units": { 
+            "type" : "object",
+            "description": "units entering or exiting a stage",
+            "required" : [
+                "name",
+                "description"
+            ],
+            "properties": {
+                "name":               { "type" : "string",  "$ref": "iris_units.json#/iris_units", "description": "BaseFilterType:name"},
+                "description":        { "type" : "string",  "pattern": "[A-Z/*12-]+", "description": "BaseFilterType:description"}
+            },
+		    "additionalProperties" : false
+        },
+        "gain" : { 
+            "type" : "object",
+            "description": "output units / input unit.  (Called sensitivity in DBIRD)",
+            "required" : ["value", "frequency"],
+            "properties" : {
+                "value" : {"type" : "number"},
+                "frequency" : {
+                    "type" : "number",
+                    "description": "Hz",
+                    "default": 0
+                }
+            },
+		    "additionalProperties" : false
+        },
+        "extras":             {
+            "anyOf": [
+                {"$ref" : "definitions.schema.json#/extras"},
+                {"$ref" : "#/definitions/DBIRD_response_type"},
+                {"$ref" : "#/definitions/documentation"}
+            ]
+        },
+        "DBIRD_response_type": {
+            "type" : "string",
+            "description": "examples: 'THEORETICAL', 'CALIBRATION'"
+        },
+        "documentation": {
+            "type" : "string",
+            "description": "hyperlink to documentation"
+        }
+    }
+}

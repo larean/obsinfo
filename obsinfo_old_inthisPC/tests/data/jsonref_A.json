@@ -1,0 +1,8 @@
+{
+	"level_a": {
+		"level_b": {
+			"$ref": "file:jsonref_B.json"
+		},
+		"string_b": "My string B"
+	}
+}

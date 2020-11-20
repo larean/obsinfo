@@ -1,0 +1,30 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"title": "Response",
+	"description": "OBS instrument_component response stages",
+	"type": "object",
+	"required": [ "response","format_version" ],
+	"properties": {
+	    "format_version":  {"$ref" : "#/format_version"},
+	    "revision":        {"$ref" : "definitions.schema.json#/revision"},
+        "yaml_anchors":    {"$ref" : "definitions.schema.json#/yaml_anchors"},
+	    "notes":           {"$ref" : "definitions.schema.json#/note_list"},
+	    "extras":          {"$ref" : "definitions.schema.json#/extras"},
+	    "response_stages": {"$ref" : "#/definitions/response_stages" }
+	},
+	"additionalProperties" : false,
+    "format_version" : {
+        "anyOf": [
+            {"$ref" : "definitions.schema.json#/format_version"},
+            {"type": "string","pattern": "^0\\.107$","comment":"version of last change to this schema"}
+        ]
+    },
+	"definitions": {
+	    "response_stages" : {
+	        "type" : "array",
+	        "minItems": 1,
+	        "description" : "list of response stages",
+	        "items" : { "$ref" : "stage.schema.json#/definitions/stage" }
+	    }
+    }
+}

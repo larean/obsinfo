@@ -1,0 +1,12 @@
+---
+format_version: "0.107"
+revision: 
+    date: "2018-06-01"
+    authors:
+        - $ref: "Wayne_Crawford.author.yaml#author"
+location_base:
+    depth.m: 0
+    geology: "unknown"
+    vault: "Sea floor"
+    uncertainties.m: {lon: 20, lat: 20, elev: 20}
+    localisation_method: "Short baseline transponder, near-seafloor release"

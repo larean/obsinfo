@@ -1,0 +1,53 @@
+---
+format_version: "0.107"
+notes:
+    - "Leapsecond correction example"
+yaml_anchors:
+    obs_clock_correction_linear_defaults: &LINEAR_CLOCK_DEFAULTS
+        time_base: "Seascan MCXO, ~1e-8 nominal drift"
+        reference: "GPS"
+        start_sync_instrument: 0
+revision:
+    authors:
+        - $ref: '../authors/Wayne_Crawford.author.yaml#author'
+    date: "2017-10-04"
+network:
+    facility:
+        reference_name: "INSU-IPGP"
+        full_name: "INSU-IPGP OBS Park"
+    campaign_ref_name: "MYCAMPAIGN"
+    network_info:
+        code: "4G"
+        name: "LEAP-SECOND-TEST"
+        start_date: "2007-07-01"
+        end_date: "2025-12-31"
+        description: "Test leap second handling"
+        comments: ["Lucky Strike Volcano, North Mid-Atlantic Ridge"]
+    stations:
+        "LPSCD":
+            site: "Lucky Strike Volcano Center"
+            notes: [ "original station name = LSJ4"]
+            start_date: "2016-07-01T12:00:00"
+            end_date: ~
+            location_code: "00"
+            instruments:
+                -
+                    base:
+                        $ref: "../instrumentation/SPOBS2.instrumentation.yaml#instrumentation"
+                    serial_number: "Station01"
+                    datalogger_config: "62.5sps"
+            locations:
+                "00":
+                    base: {$ref: 'location_bases/BUC_DIRECT.location_base.yaml#location_base'}
+                    position: {lon: -32.280, lat: 37.290, elev: -1760}
+            processing:
+                - clock_correct_leapsecond:
+                    time: "2016-12-31T23:59:60"
+                    type: "+"
+                    description: "Positive leapsecond (a 61-second minute)"
+                    corrected_in_end_sync: Yes
+                - clock_correct_linear_drift:
+                    <<: *LINEAR_CLOCK_DEFAULTS
+                    start_sync_reference: "2016-07-01T16:00:00Z"
+                    end_sync_reference:   "2017-07-01T15:35:00.555Z"
+                    end_sync_instrument:  "2017-07-01T15:35:00Z"

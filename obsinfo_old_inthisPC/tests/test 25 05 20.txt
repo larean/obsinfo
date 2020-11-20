@@ -1,0 +1,16 @@
+                "datalogger_modifs" :  {"$ref": "#/definitions/instrument_component_modifs"},
+                "preamplifier_modifs": {"$ref": "#/definitions/instrument_component_modifs"},
+                "sensor_modifs" :      {"$ref": "#/definitions/instrument_component_modifs"},
+                "datalogger_config":   {"$ref": "#/definitions/component_config"},
+                "preamplifier_config": {"$ref": "#/definitions/component_config"},
+                "sensor_config":       {"$ref": "#/definitions/component_config"},
+                "location_code":       {"type": "string"},
+	            "notes" :  
+
+type":             {"type": ["string","null"] },
+                "description":      {"type": ["string","null"] },
+                "manufacturer":     {"type": ["string","null"] },
+                "vendor":           {"type": ["string","null"] },
+                "model":            {"type": ["string","null"] },
+                "serial_number":    {"type": ["string","null"] },
+                "calibration_date": {"$ref" : "definitions.schema.json#/date-time-Z"}

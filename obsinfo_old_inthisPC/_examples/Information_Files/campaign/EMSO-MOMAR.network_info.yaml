@@ -1,0 +1,14 @@
+---
+format_version: "0.107"
+revision:
+    authors:
+        - {$ref: "../authors/Wayne_Crawford.author.yaml#author"}
+    date: "2019-12-19"
+network_info:
+    code: "4G"
+    name: "EMSO-MOMAR"
+    start_date: "2007-07-01"
+    end_date: "2025-12-31"
+    description: "EMSO-MOMAR"
+    comments: 
+        - "Lucky Strike Volcano, North Mid-Atlantic Ridge"

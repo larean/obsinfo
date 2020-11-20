@@ -1,0 +1,5 @@
+---
+my_string: 'howdy'
+my_obj:
+    obj_string: 'hello'
+    obj_num: 209

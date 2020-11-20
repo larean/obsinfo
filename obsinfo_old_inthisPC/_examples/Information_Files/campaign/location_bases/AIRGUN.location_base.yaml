@@ -1,0 +1,11 @@
+---
+format_version: "0.107"
+revision: 
+    date: "2018-06-01"
+    authors:
+        - $ref: "Wayne_Crawford.author.yaml#author"
+location_base:
+    depth.m: 0
+    geology: "unknown"
+    vault: "Sea floor"
+    localisation_method: "Airgun survey"

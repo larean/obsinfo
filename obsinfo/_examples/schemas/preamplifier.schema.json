@@ -1,0 +1,53 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Instrument Components",
+    "description": "OBS facility instrument components",
+    "type": "object",
+    "required": ["format_version", "preamplifier"],
+    "properties": {
+        "format_version": {"$ref": "#/format_version"},
+        "revision":       {"$ref": "definitions.schema.json#/revision"},
+        "yaml_anchors":   {"$ref": "definitions.schema.json#/yaml_anchors"},
+        "notes":          {"$ref": "definitions.schema.json#/note_list"},
+        "extras":         {"$ref": "definitions.schema.json#/extras"},
+        "preamplifier":   {"$ref": "#/definitions/preamplifier" }
+    },
+    "additionalProperties" : false,
+    "format_version" : {
+        "anyOf": [
+            {"$ref" : "definitions.schema.json#/format_version"},
+            {"type": "string","pattern": "^0\\.107$",
+             "comment":"version of last change to this schema"}
+        ]
+    },
+    "definitions": {
+        "preamplifier" : {
+            "description": "Basic preamplifier specification",
+            "required": ["equipment"],
+            "properties": {
+                "configuration_default": {"type": "string"},
+                "notes":              {"$ref": "definitions.schema.json#/note_list"},
+                "equipment":          {"$ref": "definitions.schema.json#/equipmentType" },
+                "response_stages":    {"$ref": "response_stages.schema.json#/definitions/response_stages" },
+                "configuration_definitions": {"$ref": "#/definitions/preamplifier_configs_map"}
+            },
+            "additionalProperties": false
+        },
+        "preamplifier_configs_map": {
+            "description": "Map of configuration names for a given  preamplifier",
+            "patternProperties": {
+                "^[A-Za-z0-9_-]+$": {"$ref": "#/definitions/preamplifier_config"}
+            }
+        },
+        "preamplifier_config" : {
+            "description" : "Configuration-specific preamplifier properties",
+            "required": ["config_description"],
+            "properties": {
+                "config_description": {"type": "string"},
+                "equipment":          {"$ref": "definitions.schema.json#/equipmentType_noRequired"},
+                "responses_ordered":    {"$ref": "response_stages.schema.json#/definitions/response_stages" }
+            },
+            "response_stages": false
+        }
+    }
+}

@@ -1,0 +1,8 @@
+---
+preambule: 'This is ignored'
+D:
+    my_string: 'konichiwa'
+    my_obj:
+        my_obj_string: "bonjour"
+        my_obj_num: 17
+        my_obj_obj: {$ref: "refdir/ref_E.yaml#my_obj"}

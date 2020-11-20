@@ -1,0 +1,28 @@
+---
+format_version: "0.107"
+revision: 
+    date: "2019-12-20"
+    authors: 
+        - $ref: '../../authors/Wayne_Crawford.author.yaml#author'
+notes: 
+    - "Delay correction is hard-coded to 29 samples in LCHEAPO software"
+datalogger:
+    equipment:
+        model: "CS5321/22"
+        type: "delta-sigma A/D converter + digital filter"
+        description: "CS5321/22 delta-sigma A/D converter + FIR digital filter"
+        manufacturer: "Cirrus Logic"
+        vendor: "various"
+    config_description: "125 sps"
+    response_stages:
+        - $ref: "responses/CS5321_FIR1.stage.yaml#stage"
+        - $ref: "responses/CS5322_FIR2.stage.yaml#stage"
+        - $ref: "responses/CS5322_FIR2.stage.yaml#stage"
+        - $ref: "responses/CS5322_FIR2.stage.yaml#stage"
+        - $ref: "responses/CS5322_FIR2.stage.yaml#stage"
+        - $ref: "responses/CS5322_FIR2.stage.yaml#stage"
+        - $ref: "responses/CS5322_FIR2.stage.yaml#stage"
+        - $ref: "responses/CS5322_FIR2.stage.yaml#stage"
+        - $ref: "responses/CS5322_FIR3.stage.yaml#stage"
+    sample_rate: 125
+    delay_correction: 0.232

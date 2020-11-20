@@ -1,0 +1,7 @@
+---
+format_version: "0.107"
+filter:
+    type : "AD_CONVERSION"
+    input_full_scale : 5 #  = VREFP - VREFN
+    output_full_scale : 4294967292 #  7FFFFFFEh@Vref/2 and 80000001@-Vref/2
+    

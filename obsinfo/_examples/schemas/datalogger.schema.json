@@ -1,0 +1,58 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Instrument Components",
+    "description": "OBS facility instrument components",
+    "type": "object",
+    "required": ["format_version", "datalogger"],
+    "properties": {
+        "format_version" :       {"$ref": "#/format_version"},
+        "revision" :             {"$ref": "definitions.schema.json#/revision"},
+        "yaml_anchors" :         {"$ref": "definitions.schema.json#/yaml_anchors"},
+        "notes" :                {"$ref": "definitions.schema.json#/note_list"},
+        "datalogger":            {"$ref": "#/definitions/datalogger" },
+        "extras" :               {"$ref": "definitions.schema.json#/extras"}
+    },
+    "additionalProperties" : false,
+    "format_version" : {
+        "anyOf": [
+            {"$ref" : "definitions.schema.json#/format_version"},
+            {"type": "string","pattern": "^0\\.107$",
+             "comment":"version of last change to this schema"}
+        ]
+    },
+    "definitions": {
+        "datalogger" : {
+            "description": "Basic datalogger specification",
+            "required": ["sample_rate","response_stages","equipment"],
+            "properties": {
+                "notes":              {"$ref": "definitions.schema.json#/note_list"},
+                "equipment":          {"$ref": "definitions.schema.json#/equipmentType"},
+                "response_stages":    {"$ref": "response_stages.schema.json#/definitions/response_stages" },
+                "sample_rate":        {"type": "number", "minimum": 0},
+                "delay_correction":   {"$ref": "#/definitions/delay_correction"},
+                "configuration_default": {"type": "string"},
+                "configuration_definitions": {"$ref": "#/definitions/datalogger_configs_map"}
+            },
+            "additionalProperties": false
+        },
+        "datalogger_configs_map": {
+            "description": "Map of configuration names for a given datalogger",
+            "patternProperties": {"^[A-Za-z0-9_-]+$": {"$ref": "#/definitions/datalogger_config" }}
+        },
+        "datalogger_config" : { 
+            "description": "Configuration-specific datalogger properties",
+            "required": ["config_description"],
+            "properties": {
+                "configuration_description":{"type": "string"},
+                "equipment":          		{"$ref": "definitions.schema.json#/equipmentType"},
+                "response_stages":    		{"$ref": "response_stages.schema.json#/definitions/response_stages" },
+                "delay_correction":   		{"$ref": "#/definitions/delay_correction"}
+            },
+            "additionalProperties": false
+        },
+        "delay_correction": {
+			"type" : "number",
+            "description": "If boolean is True ignore all filter (stage) delays, set them to zero and make this total delay in last filter (stage)"  
+        }
+      }
+}

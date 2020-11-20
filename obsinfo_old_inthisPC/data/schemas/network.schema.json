@@ -1,0 +1,81 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Network",
+    "description": "Network of stations deployed by an OBS facility  $comment: No $id (or id) yet: should be set to a URL at a domain we control (e.g. http://www.ipgp.fr/~crawford/json-schemas/network.schema.json",
+    "type": "object",
+    "required": ["format_version","network" ],
+    "properties": {
+        "format_version": {"$ref": "#/format_version"},
+        "revision":       {"$ref": "definitions.schema.json#/revision"},
+        "yaml_anchors":   {"$ref": "definitions.schema.json#/yaml_anchors"},
+        "notes":          {"$ref": "definitions.schema.json#/note_list"},
+        "extras":         {"$ref": "definitions.schema.json#/extras"},
+        "network":        {"$ref": "#/definitions/network"}
+    },
+    "additionalProperties" : false,
+    "format_version" : {
+        "anyOf": [
+            {"$ref": "definitions.schema.json#/format_version"},
+            {"type": "string","pattern": "^0\\.107$","comment":"version of last change to this schema"}
+        ]
+    },
+    "definitions" : {
+        "network": {
+            "type": "object",
+            "required": [
+                "facility",
+                "campaign_ref_name",
+                "network_info",
+                "stations"
+            ],
+            "properties": {
+                "facility":          {"$ref": "#/definitions/facility"},
+                "campaign_ref_name": {"$ref": "definitions.schema.json#/reference_name"},
+                "network_info":      {"$ref": "#/definitions/network_info"},
+                "stations":          {"$ref": "#/definitions/stations_map"},
+                "notes":             {"$ref": "definitions.schema.json#/note_list"},
+                "extras":            {"$ref": "definitions.schema.json#/extras" }
+            },
+            "additionalProperties" : false
+        },
+        "facility" : {
+            "description": "Facility information",
+            "type": "object",
+            "required" : [ "reference_name" ],
+            "properties" : {
+                "reference_name":  {"$ref": "definitions.schema.json#/reference_name"},
+                "full_name": {"type": "string" ,  "description": "Full facility name"}
+            },
+            "additionalProperties" : false
+        },
+        "network_info" : {
+            "description": "Network information in FDSN nomenclature",
+            "type": "object",
+            "required" : [
+                "code",
+                "name",
+                "start_date",
+                "end_date",
+                "description"
+            ],
+            "properties" : {
+                "code" :       {"type": "string" ,  "description": "FDSN network code or 'XX'"},
+                "name" :       {"type": "string" ,  "description": "FDSN network name"},
+                "start_date":  {"$ref": "definitions.schema.json#/any_date" },
+                "end_date":    {"$ref": "definitions.schema.json#/any_date" },
+                "description": {"type": "string" , "description": "Should use FDSN 'network name'"},
+                "comments" :   {"$ref": "definitions.schema.json#/comment_list" }
+            },
+            "additionalProperties" : false
+        },
+        "stations_map" : {
+            "type": "object",
+            "description": "Seafloor seismological stations, keys are station names",
+            "$comment": "If we use draft-06, 'patternProperties' should probably be replaced by 'propertyNames':{'pattern':}",
+            "patternProperties": {
+                "^[A-Za-z0-9_-]+$": {"$ref": "station.schema.json#/definitions/station" }
+            },
+            "additionalProperties": false
+        }
+    }
+}

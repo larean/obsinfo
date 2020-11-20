@@ -1,0 +1,13 @@
+{
+	"level_a": {
+		"level_b": {
+			"level_c": {
+				"string_c": "My string C",
+				"level_d": {
+					"num_d": 14
+				}
+			}
+		},
+		"string_b": "My string B"
+	}
+}

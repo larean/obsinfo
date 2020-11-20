@@ -1,0 +1,289 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Station",
+    "description": "A seismological station",
+    "type": "object",
+    "required": ["format_version","station" ],
+    "properties": {
+        "format_version": {"$ref": "#/format_version"},
+        "revision":       {"$ref": "definitions.schema.json#/revision"},
+        "yaml_anchors":   {"$ref": "definitions.schema.json#/yaml_anchors"},
+        "notes":          {"$ref": "definitions.schema.json#/note_list"},
+        "extras":         {"$ref": "definitions.schema.json#/extras"},
+        "station":        {"$ref": "#/definitions/station"}
+    },
+    "additionalProperties" : false,
+    "format_version" : {
+        "anyOf": [
+            {"$ref": "definitions.schema.json#/format_version"},
+            {"type": "string","pattern": "^0\\.107$","comment":"version of last change to this schema"}
+        ]
+    },
+    "definitions" : {
+        "station" : {
+            "type" : "object",
+            "description" : "OBS station",
+            "required": [
+                "site",
+                "start_date",
+                "end_date",
+                "instruments",
+                "locations",
+                "location_code"
+            ],
+            "properties": {
+                "notes":             {"$ref": "definitions.schema.json#/note_list"},
+                "comments":          {"$ref": "definitions.schema.json#/comment_list"},
+                "site":              {"type": "string", "minLength" : 1 },
+                "start_date":        {"$ref": "definitions.schema.json#/date-time-Z" },
+                "end_date":          {"$ref": "definitions.schema.json#/date-time-Z" },
+                "location_code":     {"$ref": "#/definitions/location_code"},
+                "locations":         {"$ref": "#/definitions/locations_map" },
+                "instruments":       {"$ref": "#/definitions/instrumentation_list" },
+                "processing":        {"$ref": "#/definitions/processing_list"},
+                "extras":            {"$ref": "definitions.schema.json#/extras"},
+                "restricted_status": {
+                                      "type": "string",
+                                      "enum": ["open", "closed", "partial", "unknown"]
+                                     }
+            },
+            "additionalProperties": false
+        },
+        "location_code" : {
+            "type" : "string",
+            "description" : "SEED location code",
+            "pattern" : "^[0-9]{2}$"
+        },
+        "locations_map" : {
+            "type" : "object",
+            "description" : "sensor position by location code (two digits)",
+            "patternProperties": {
+                "^[0-9]{2}$": { "$ref": "#/definitions/location_specification" }
+            }
+        },
+         "location_specification": {
+            "type" : "object",
+            "required": [
+                "base",
+                "position"
+            ],
+            "properties": {
+                "base":      {"$ref": "#/definitions/location_base"},
+                "position" : {"$ref": "#/definitions/GeoJSON" }
+            },
+            "additionalProperties" : false
+        },
+         "location_base": {
+            "type" : "object",
+            "required": [
+                "uncertainties.m",
+                "depth.m",
+                "geology",
+                "vault"
+            ],
+            "properties": {
+                "uncertainties.m" : {"$ref": "#/definitions/GeoJSON_m" },
+                "depth.m" :         {"type": "number", "description" : "depth beneath the seafloor (m)"},
+                "geology" :         {"type": "string", "default" : "unknown"},
+                "vault" :           {"type": "string", "default" : "Sea floor"},
+                "localisation_method" : {
+                    "type": "string", 
+                    "description" : "method used to locate instrument. Examples : 'Short baseline transponder, seafloor release',  'Ship position at deployment', or 'Acoustic (pinger) survey'"
+                }
+            },
+            "additionalProperties" : false
+        },
+       "instrumentation_list": {
+           "type": "array",
+           "description":" list of instrumentation",
+           "minItems" : 1,
+           "items" : { 
+                "$ref": "#/definitions/instrumentation_object"
+            }
+        },
+        "instrumentation_object":
+        {
+            "type": "object",
+            "description": "Instrumentation descriptor",
+            "required": [ "base" ],
+            "properties" : {
+                "base":                     {"$ref": "instrumentation.schema.json#/definitions/instrumentation"},
+                "config":                   {"type": "string"},
+                "serial_number":            {"type": "string"},
+                "datalogger_config":        {"type": "string"},
+                "datalogger_serial_number": {"type": "string"},
+                "sensor_config":            {"type": "string"},
+                "sensor_serial_number":     {"type": "string"},
+                "preamplifier_config":      {"type": "string"},
+                "preamplifier_serial_number": {"type": "string"},
+                "channel_mods":             {"$ref": "#/definitions/channel_mods"}
+            }
+        },
+        "channel_mods": {
+            "type": "object",
+            "description": "modifications to instrument channels.  'by_das', 'by_chan_mod' or 'by_orientation' add to the 'base_channel_mod' values.  Only use one '*_by_*', usually 'by_orientation' unless more than one channel has the same orientation code",
+            "properties": {
+                "base":           {"$ref": "#/definitions/base_channel_mod"},
+                "by_das":         {"$ref": "#/definitions/channel_mods_map"},
+                "by_orientation": {"$ref": "#/definitions/channel_mods_map"},
+                "by_chan_loc":    {"$ref": "#/definitions/channel_mods_map"}
+            },
+            "additionalProperties": false
+        },
+        "channel_mods_map": {
+            "type" : "object",
+            "description" : "channel modifications specified by orientation code or by das_channel",
+            "patternProperties": {
+                "^[A-Z]{3}_[0-9]{2}$": { "$ref": "#/definitions/channel_mod"} 
+            }
+        },
+       "channel_mod" : {
+            "type": "object",
+            "description": "spec/modification of one channel's properties",
+            "properties" : {
+                "datalogger":    {"$ref": "#/definitions/datalogger_struct"},
+                "sensor":        {"$ref": "#/definitions/sensor_struct"},
+                "preamplifier":  {"$ref": "#/definitions/preamplifier_struct"},
+                "location_code": {"$ref": "#/definitions/location_code"},
+                "start_date":    {"$ref": "definitions.schema.json#/date-time-Z" },
+                "end_date":      {"$ref": "definitions.schema.json#/date-time-Z" }
+            },
+            "additionalProperties" : false
+        },
+       "base_channel_mod" : { "$ref": "#/definitions/channel_mod"},
+        "datalogger_struct" : {  
+            "type": "object",
+            "description": "same as in instrumentation file, except 'code' not required",
+            "properties" : {
+                "base":          {"$ref": "datalogger.schema.json#/definitions/datalogger"},
+                "config":        {"type": "string"},
+                "serial_number": {"type": "string"}
+            },
+            "additionalProperties" : false
+        },
+        "sensor_struct" : {  
+            "type": "object",
+            "description": "same as in instrumentation file, except 'code' not required",
+            "properties" : {
+                "base":          {"$ref": "sensor.schema.json#/definitions/sensor"},
+                "config":        {"type": "string"},
+                "serial_number": {"type": "string"}
+            },
+            "additionalProperties" : false
+        },
+        "preamplifier_struct" : {  
+            "type": "object",
+            "description": "same as in instrumentation file, except 'code' not required",
+            "properties" : {
+                "base":          {"$ref": "preamplifier.schema.json#/definitions/preamplifier"},
+                "config":        {"type": "string"},
+                "serial_number": {"type": "string"}
+            },
+            "additionalProperties" : false
+        },
+        "processing_list": {
+            "type": "array",
+            "description": "other information",
+            "items": {
+                "type": "object",
+                "description": "other informations that will be appear as comments ",
+                "properties": {
+                    "clock_correct_linear_drift": {"$ref": "#/definitions/clock_correction_linear"},
+                    "clock_correct_leapsecond":   {"$ref": "#/definitions/clock_correction_leapsecond"}
+                },
+                "additionalProperties" : true
+            }
+        },
+        "clock_correction_linear": {
+            "type" : "object",
+            "description" : "Linear clock drift observed and any correction applied",
+            "required" : [
+                "time_base",
+                "reference",
+                "start_sync_reference",
+                "start_sync_instrument",
+                "end_sync_reference",
+                "end_sync_instrument"
+            ],
+            "properties" : {
+                "time_base" :             {"type": "string","description" : "time base used in OBS"},
+                "reference" :             {"$ref": "#/definitions/synchronization_reference"},
+                "start_sync_reference" :  {"$ref": "definitions.schema.json#/date-time-Z" },
+                "start_sync_instrument" : {"$ref": "#/definitions/start_sync_instrument" },
+                "end_sync_reference" :    {"$ref": "definitions.schema.json#/date-time-Z" },
+                "end_sync_instrument" :   {"$ref": "definitions.schema.json#/date-time-Z" }
+            },
+            "additionalProperties" : false
+        },
+        "clock_correction_leapsecond" : {
+                "type" : "object",
+                "description" : "Leap-second information",
+                "required" : ["time", "type", "corrected_in_end_sync"],
+                "properties" : {
+                    "time" :                 {"$ref": "definitions.schema.json#/date-time-Z" },
+                    "type" :                 {"$ref": "#/definitions/lpsec_type"},
+                    "description" :          {"$ref": "#/definitions/lpsec_description" },
+                    "corrected_in_end_sync": {"$ref": "#/definitions/lpsec_corrected_in_end_sync"},
+                    "corrected_in_data":     {"$ref": "#/definitions/lpsec_corrected_in_data" }
+                },
+                "additionalProperties": false
+        },
+        "synchronization_reference":  {
+            "type": "string",
+            "description": "time reference used for synchronization (for example: 'GNSS', or 'ambient noise correlation')"
+        },
+        "start_sync_instrument": {
+            "anyOf": [
+                {"$ref": "definitions.schema.json#/date-time-Z"},
+                {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 0,
+                    "description": "sets start_sync_instrument equal to to start_sync_reference"
+                }
+            ]
+        },
+       "lpsec_type" : {
+            "type" : "string",
+            "description" : "Leapsecond direction",
+            "enum" : ["+","-"]
+        },
+        "lpsec_description" : {
+            "type": "string",
+            "enum": [
+                "Positive leapsecond (a 61-second minute)",
+                "Negative leapsecond (a 59-second minute)"
+            ]
+        },
+        "lpsec_corrected_in_end_sync" : {
+            "type": "boolean",
+            "description": "True if end_sync_instrument was corrected for the leap second (subtracted one second if positive leapsecond, added one if negative)"
+        },
+        "lpsec_corrected_in_data" : {
+            "type": "boolean",
+            "description": "True if basic miniseed data is already corrected for the leap second"
+        },
+        "GeoJSON": {
+            "type": "object",
+            "description": "Object position: lat and lon in deg, elevation in m",
+            "required": ["lat","lon","elev"],
+            "properties": {
+                "lat":  {"type": "number"},
+                "lon":  {"type": "number"},
+                "elev": {"type" :"number"}
+            },
+            "additionalProperties" : false
+        },
+        "GeoJSON_m": {
+            "type": "object",
+            "description": "Object uncertainties in meters",
+            "required": ["lat","lon","elev"],
+            "properties": {
+                "lat":  {"type": "number"},
+                "lon":  {"type": "number"},
+                "elev": {"type" :"number"}
+            },
+            "additionalProperties" : false
+        }
+    }
+}

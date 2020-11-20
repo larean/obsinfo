@@ -1,0 +1,8 @@
+{
+	"level_a": {
+		"$ref": "json_testschema_string.json"
+	},
+	"string_b": "My string B",
+	"string_c": 10,
+	"string_d": "Undeclared string type"
+}

@@ -1,0 +1,23 @@
+---
+format_version: "0.108"
+revision: 
+    date: "2018-06-01"
+    authors:
+        - {$ref: "../authors/Wayne_Crawford.author.yaml#author"}
+
+stage:
+  description : "SENSOR - TRILLIUM 240 SN400+ (SINGLE-SIDED)" # optionel
+  input_units :  {name: "m/s", description: "VELOCITY"}
+  output_units : {name: "V", description: "VOLTS"}
+  gain : 
+    value: 594.5
+    frequency: 1.
+  filter:
+    $ref: "PolesZeros/Trillium_T240_SN400-_generic.filter.yaml#filter"
+  delay: 0
+    
+  notes:
+    - étape avec un Trillium T240 no de serie 400+
+
+  extras:
+    DBIRD_response_type : "THEORETICAL" # optionel

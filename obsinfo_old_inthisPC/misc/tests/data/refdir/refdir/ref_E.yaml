@@ -1,0 +1,5 @@
+---
+my_string: 'bongiorno'
+my_obj:
+    my_obj_string: "gday"
+    my_obj_num: -99

@@ -1,0 +1,65 @@
+Bonjour Rima
+
+Avant de partir pendant deux semaines, je voulais t'indiquer quelques autres choses qui me gene par rapport au format actuelle des fichiers information, pour savoir si vous aviez remarqué les memes choses et si vous avez des suggestions de solutions:
+
+1) Declaration de nom des voies dans le fichier network.
+Actuallement les fichiers network declarent explicitement le channel code correspondant a une voie, ce qui laisse la possibilité d'une fausse declaration par l'utilisateur (band code ou instrument code incompatible avec le taux d'echantillonage ou type d'instrument, par exemple).  Au minimum, le code doit etre un peu plus explicite quand la code specifié n'est pas possible.  Autrement, serait-il possible/desirable que l'utilisateur n'exprime que l'orientation code? Passant de:
+                channel_codes_locations:
+                    "BDH_00" : {datalogger_config: "62"}
+                    "BHZ_00" : {datalogger_config: "62"}
+                    "BH1_00" : {datalogger_config: "62"}
+                    "BH2_00" : {datalogger_config: "62"}
+à 
+                channel_codes_locations:
+                    "H_00" : {datalogger_config: "62"}
+                    "Z_00" : {datalogger_config: "62"}
+                    "1_00" : {datalogger_config: "62"}
+                    "2_00" : {datalogger_config: "62"}
+?
+
+2) Je me demande s'il ne faut pas standardiser plus les references vers les informations dans un autre fichier/section.  Par exemple, dans network.yaml:
+
+network:
+    references:
+        instrumentation:
+            $ref: ...
+        stations:
+            CODE:
+                instrumentation:
+                    reference_code: ...
+
+puis dans instrumentation.yaml:
+instrumentation:
+    references:
+        instrument_components:
+            $ref: ...
+    instruments:
+        generic:
+            CODE:
+                das_components:
+                    "1":
+                        orientation_code:
+                        datalogger: {"reference_code":...}
+                        preamplifier: {"reference_code":...}
+                        sensor:     {"reference_code":...}
+ou carrément:
+instrumentation:
+    references:
+        dataloggers:
+            $ref: ...
+        preamplifiers:
+            $ref: ...
+        sensors:
+            $ref: ...
+    instruments:
+        generic:
+            CODE:
+                das_components:
+                    "1":
+                        orientation_code:
+                        datalogger: {"reference_code":...}
+                        preamplifier: {"reference_code":...}
+                        sensor:     {"reference_code":...}
+
+3) The delay correction could be a problem: In OBSs, the delay correction is applied by the code after the signal is received, not at each stage.  This is why I include a delay_correction_samples value in instrument_components:datalogger.  However, StationXML puts delay correction applied at each stage, which is why I also put a delay_corrected Boolean field in the response stages.  These two are contradictory, unless the code calculates the overall and uncorrected filter delay from the response stages, then, if delay_correction_samples is provided, adds a correction factor in the last stage if the uncorrected filter delay is different from this (requires the
+  user to have set delay_corrected=False in the individual stages).  Or is there a better way to handle this?

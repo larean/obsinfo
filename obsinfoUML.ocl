@@ -1,0 +1,32 @@
+/*
+	 * Not implemented yet
+	 */
+import obsinfoUML : 'obsinfoUML.uml#_zklzIJ5vEeqB4YrK5tu4Dg'
+
+/*
+	 * Not implemented yet
+	 */
+
+package obsinfoUML
+
+	context LocationBase::geology : String
+
+	derive : '"Unknown"'
+
+	context LocationBase::vault : String
+
+	derive : '"Sea Floor"'
+
+	context PolesZeros::transfer_function_type : obsinfoUML::pz_units
+
+	derive : 'LAPLACE (RADIANS/SECOND)'
+
+	context FIR::symmetry : obsinfoUML::symmetry
+
+	derive : 'NONE'
+
+	context coefficients::transfer_function_type : obsinfoUML::pz_units
+
+	derive : 'LAPLACE (RADIANS/SECOND)'
+
+endpackage

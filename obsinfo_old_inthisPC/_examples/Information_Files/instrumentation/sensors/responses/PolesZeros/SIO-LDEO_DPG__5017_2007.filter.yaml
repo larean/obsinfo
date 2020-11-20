@@ -1,0 +1,13 @@
+---
+format_version: "0.107"
+filter:
+    type: "PolesZeros"
+    transfer_function_type: "LAPLACE (RADIANS/SECOND)"
+    zeros : 
+        - [0.0, 0.0]
+        - [0.0, 0.0]
+    poles :
+        - [-0.0138, 0.000]
+        - [-0.063,  0.000]
+notes:
+    - " Copied from 2007 DPG 5018 calibration on logger 22"

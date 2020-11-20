@@ -1,0 +1,15 @@
+---
+format_version: "0.107"
+revision: 
+    date: "2018-06-01"
+    authors:
+        - 
+            first_name: "Wayne"
+            last_name: "Crawford"
+            email: "crawford@ipgp.fr"
+location_base:
+    depth.m: 0
+    geology: "unknown"
+    vault: "Sea floor"
+    uncertainties.m: {lon: 200, lat: 200, elev: 100}
+    localisation_method: "Unspecified"

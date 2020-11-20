@@ -86,9 +86,10 @@ class InstrumentComponent(object):
         #Implement priority 4
         elif component_selected_sn_value:
             return component_selected_sn_value
+        #Implement priority 5
         else:
             return info_dict.get(key, default)
-        #Implement priority 5
+       
         
         
     def select_actual_component(self, nfo_dict, selected_config, selected_sn):
@@ -124,7 +125,8 @@ class Datalogger(InstrumentComponent):
                  config_description='', delay_correction=0):
         
         self.sample_rate = sample_rate
-        self.delay_correction = delay_correction
+        self.delay_correction = delay_correction if delay_correction else None
+         
         super().__init__(equipment, response_stages, config_description)
 
     @classmethod
@@ -140,9 +142,16 @@ class Datalogger(InstrumentComponent):
         response_stages = reconfigure_component('response_stages', info_dict, selected_config, selected_sn, None)
         sample_rate = reconfigure_component('sample_rate', info_dict, selected_config, selected_sn, None)
         config_description = reconfigure_component('config_description', info_dict, selected_config, selected_sn, '')
-        delay_correction = reconfigure_component('delay_correction', info_dict, selected_config, selected_sn, 0)
+        delay_correction = reconfigure_component('delay_correction', info_dict, selected_config, selected_sn, False)
+                
+        if not delay_correction:
+            delay_correction = None #This will not change the delays in filters
+        else:
+            delay_correction = reconfigure_component('delay_correction', info_dict, selected_config, selected_sn, None)
         
-        response_stages = ResponseStages(response_stages)
+        response_stages = ResponseStages(response_stages, delay_correction)
+        #Apply total correction if delay_correction
+        response_stages[len(response_stages) - 1].filter.delay = delay_correction
         
         obj = cls(Equipment.dynamic_class_constructor(equipment),
                   sample_rate,

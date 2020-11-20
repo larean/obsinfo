@@ -1,0 +1,68 @@
+---
+format_version: "0.107"
+yaml_anchors:
+    obs_clock_correction_linear_defaults: &LINEAR_CLOCK_DEFAULTS
+        time_base: "Seascan MCXO, ~1e-8 nominal drift"
+        reference: "GPS"
+        start_sync_instrument: 0
+revision:
+    authors:
+        - {$ref: "../authors/Wayne_Crawford.author.yaml#author"}
+    date: "2019-12-19"
+network:
+    facility:
+        reference_name: "INSU-IPGP"
+        full_name: "INSU-IPGP OBS Park"
+    campaign_ref_name: "MYCAMPAIGN"
+    network_info:
+        $ref: "EMSO-MOMAR.network_info.yaml#network_info"
+    stations:
+        "BB_1":
+            site: "My favorite site"
+            start_date: "2015-04-23T10:00:00"
+            end_date: "2016-05-28T15:37:00"
+            location_code: "00"
+            instruments:
+                -
+                    base: {$ref: "../instrumentation/BBOBS1_2012+.instrumentation.yaml#instrumentation"}
+                    datalogger_config: "62.5sps"
+                    serial_number: "07"
+            locations:
+                "00":
+                    base: {$ref: 'location_bases/BUC_DROP.location_base.yaml#location_base'}
+                    position: {lon: -32.234, lat: 37.2806, elev: -1950}
+            processing:
+                - clock_corrections:
+                    linear_drift:
+                        <<: *LINEAR_CLOCK_DEFAULTS
+                        start_sync_reference: "2015-04-23T11:20:00"
+                        start_sync_instrument: 0
+                        end_sync_reference: "2016-05-27T14:00:00.2450"
+                        end_sync_instrument: "22016-05-27T14:00:00"
+        "BB_2":
+            notes: ["An example of changing the sensor"]
+            site: "My other favorite site"
+            start_date: "2015-04-23T10:00:00Z"
+            end_date: "2016-05-28T15:37:00Z"
+            location_code: "00"
+            instruments:
+                -
+                    base: {$ref: "../instrumentation/BBOBS1_2012+.instrumentation.yaml#instrumentation"}
+                    datalogger_config: "62.5sps"
+                    serial_number: "07"
+                    channel_mods:
+                        base:
+                            sensor: {serial_number: "Sphere06"}
+                        by_orientation:
+                            "H": {sensor: {serial_number : "IP007"}}
+            locations:
+                "00":
+                    base: {$ref: 'location_bases/BUC_DROP.location_base.yaml#location_base'}
+                    position: {lon: -32.29756, lat: 37.26049, elev: -1887}
+            processing:
+                - clock_correct_linear_drift:
+                        <<: *LINEAR_CLOCK_DEFAULTS
+                        start_sync_reference: "2015-04-22T12:24:00"
+                        start_sync_instrument: 0
+                        end_sync_reference: "2016-05-28T15:35:00.3660"
+                        end_sync_instrument: "2016-05-28T15:35:02"

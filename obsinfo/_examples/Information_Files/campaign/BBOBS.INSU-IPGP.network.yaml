@@ -1,5 +1,5 @@
 ---
-format_version: "0.107"
+format_version: "0.108"
 yaml_anchors:
     obs_clock_correction_linear_defaults: &LINEAR_CLOCK_DEFAULTS
         time_base: "Seascan MCXO, ~1e-8 nominal drift"

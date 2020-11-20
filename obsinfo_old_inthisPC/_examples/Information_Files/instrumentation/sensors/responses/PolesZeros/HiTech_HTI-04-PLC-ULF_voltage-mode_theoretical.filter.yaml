@@ -1,0 +1,11 @@
+---
+format_version: "0.107"
+filter:
+    type: "PolesZeros"
+    transfer_function_type: "LAPLACE (RADIANS/SECOND)"
+    zeros:
+        - [0.0, 0.0]
+    poles:
+        - [0.093928, 0.000]
+notes:
+    - "From German (DEPAS) Station XML files (I still don't have better)"

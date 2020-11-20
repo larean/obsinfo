@@ -1,0 +1,25 @@
+---
+format_version: "0.108"
+revision: 
+    date: "2017-11-30"
+    authors: 
+        - {$ref: "../../authors/Wayne_Crawford.author.yaml#author"}
+
+stage:
+    description : "PREAMPLIFIER: SPOBS hydrophone or L22 x16"
+    input_units : {name: "V", description: "VOLTS"}
+    output_units : {name: "V", description: "VOLTS"}
+    gain :
+        value : 16
+        frequency : 10
+    filter :
+        type : "PolesZeros"
+        transfer_function_type: "LAPLACE (RADIANS/SECOND)"
+        zeros : 
+            - [0, 0]
+        poles :
+            - [-6.667, 0]
+    delay: 0
+    
+    extras:
+        DBIRD_response_type : "THEORETICAL" 

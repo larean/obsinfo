@@ -1,0 +1,41 @@
+---
+format_version: "0.106"
+yaml_anchors:
+    # From CS5322_Filter.pdf
+    base: &base
+        decimation_factor : 2
+        gain :         {value: 1, frequency: 0}
+        input_units :  { name : "counts", description: "Digital Counts"}
+        output_units : { name : "counts", description: "Digital Counts"}
+        extras:
+            DBIRD_response_type : "THEORETICAL" 
+    fir2: &fir2
+        <<: *base
+        description : "DECIMATION - CS5322 FIR2" 
+        filter: 
+            $ref: "../_filters/FIR/CirrusLogic_CS5322_FIR2.filter.yaml#filter"
+    fir3: &fir3
+        <<: *base
+        description : "DECIMATION - CS5322 FIR3 (linear phase)" 
+        filter: 
+            $ref: "../_filters/FIR/CirrusLogic_CS5322_FIR3.filter.yaml#filter"
+response:
+    decimation_info:
+        input_sample_rate: 32000
+        output_sample_rate: 500
+        delay_correction: 0.058
+        notes: 
+            - "Delay correction is hard-coded to 29 samples in LCHEAPO software"
+    stages: 
+        - 
+            <<: *fir2
+        -
+            <<: *fir2
+        -
+            <<: *fir2
+        -
+            <<: *fir2
+        -
+            <<: *fir2
+        -
+            <<: *fir3
